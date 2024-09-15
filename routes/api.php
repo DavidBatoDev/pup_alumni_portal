@@ -2,14 +2,16 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AlumniController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Authentication routes
+Route::post('login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
 
-Route::get('/users', [UserController::class, 'index']);
-Route::get('/users/{id}', [UserController::class, 'show']);
-Route::post('/users', [UserController::class, 'store']);
-Route::put('/users/{id}', [UserController::class, 'update']);
-Route::delete('/users/{id}', [UserController::class, 'destroy']);
+// Protected routes (Require JWT Authentication)
+Route::group(['middleware' => ['auth:api']], function () {
+    Route::get('/profile', [AlumniController::class, 'profile']);
+    Route::post('/update-profile', [AlumniController::class, 'updateProfile']);
+});
