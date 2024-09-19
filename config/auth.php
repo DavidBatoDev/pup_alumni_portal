@@ -1,5 +1,5 @@
 <?php
-
+// config/auth.php
 return [
 
     /*
@@ -13,9 +13,14 @@ return [
     |
     */
 
+    // 'defaults' => [
+    //     'guard' => env('AUTH_GUARD', 'web'),
+    //     'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
+    // ],
+
     'defaults' => [
-        'guard' => env('AUTH_GUARD', 'web'),
-        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
+        'guard' => 'api', // Set the default guard to 'api'
+        'passwords' => 'alumni', // Use alumni provider for password resets if needed
     ],
 
     /*
@@ -40,6 +45,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'alumni',
+            'hash' => false,
+        ]
     ],
 
     /*
@@ -60,15 +70,10 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'alumni' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\Alumni::class),
+            'model' => App\Models\Alumni::class,  // Make sure this path is correct
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*

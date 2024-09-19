@@ -1,5 +1,5 @@
 <?php
-
+// app/Http/Controllers/AuthController.php
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -62,7 +62,7 @@ class AuthController extends Controller
 
         // Create the corresponding address record
         Address::create([
-            'alumni_id' => $alumni->id, // Reference to the newly created alumni
+            'alumni_id' => $alumni->alumni_id, // Reference to the newly created alumni
             'street' => $request->street,
             'city' => $request->city,
             'state' => $request->state,
