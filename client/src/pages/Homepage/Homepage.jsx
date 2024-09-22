@@ -5,7 +5,8 @@ import Banner from '../../components/Banner/Banner';
 import EventsSection from '../../components/EventsSection/EventsSection';
 import FeaturesSection from '../../components/FeaturesSection/FeaturesSection';
 import AboutUsSection from '../../components/AboutUsSection/AboutUsSection';
-import AlumniTestimonialSection from '../../components/AlumniTestimonialSection/AlumniTestimonialSection'; // Import the Alumni Testimonial Section
+import AlumniTestimonialSection from '../../components/AlumniTestimonialSection/AlumniTestimonialSection';
+import HomePageFooter from '../../components/HomePageFooter/HomePageFooter'; // Import the Footer
 import './Homepage.css';
 
 const Homepage = () => {
@@ -17,6 +18,7 @@ const Homepage = () => {
       <FeaturesSection />
       <AboutUsSection />
       <AlumniTestimonialSection />
+      <HomePageFooter />
     </div>
   );
 };
