@@ -1,0 +1,68 @@
+/* src/components/AlumniTestimonialSection/AlumniTestimonialSection.css */
+.alumni-testimonial-section {
+    padding: 50px 0;
+    background: rgba(255, 255, 255, 0.50);
+    backdrop-filter: blur(19.399999618530273px);
+  }
+  
+  .section-title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: left;
+    color: #1e1e1e;
+  }
+  
+  .testimonials-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .testimonial-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    max-width: 30%;
+    transition: transform 0.3s ease;
+  }
+  
+  .testimonial-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .quote {
+    font-style: italic;
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #555;
+  }
+  
+  .name {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #1e1e1e;
+  }
+  
+  .class {
+    font-size: 14px;
+    color: #888;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .testimonials-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .testimonial-card {
+      max-width: 100%;
+      margin-bottom: 20px;
+    }
+  }
+  

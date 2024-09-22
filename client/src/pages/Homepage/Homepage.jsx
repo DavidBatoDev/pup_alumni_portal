@@ -4,7 +4,8 @@ import Navbar from '../../components/Navbar/Navbar';
 import Banner from '../../components/Banner/Banner';
 import EventsSection from '../../components/EventsSection/EventsSection';
 import FeaturesSection from '../../components/FeaturesSection/FeaturesSection';
-import AboutUsSection from '../../components/AboutUsSection/AboutUsSection'; // Import the About Us Section
+import AboutUsSection from '../../components/AboutUsSection/AboutUsSection';
+import AlumniTestimonialSection from '../../components/AlumniTestimonialSection/AlumniTestimonialSection'; // Import the Alumni Testimonial Section
 import './Homepage.css';
 
 const Homepage = () => {
@@ -14,7 +15,8 @@ const Homepage = () => {
       <Banner />
       <EventsSection />
       <FeaturesSection />
-      <AboutUsSection /> 
+      <AboutUsSection />
+      <AlumniTestimonialSection />
     </div>
   );
 };
