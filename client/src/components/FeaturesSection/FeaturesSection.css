@@ -1,0 +1,66 @@
+/* src/components/FeaturesSection/FeaturesSection.css */
+.features-section {
+    padding: 50px 0;
+    background-color: #f5f5f5; /* Light grey background */
+  }
+  
+  .section-title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    text-align: center;
+    color: #1E1E1E;
+  }
+  
+  .features-grid {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .feature-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    flex: 1 1 23%; /* Adjusts the card width */
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-5px); /* Adds a subtle hover effect */
+  }
+  
+  .feature-icon {
+    height: 60px;
+    margin-bottom: 20px;
+  }
+  
+  .feature-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #1E1E1E;
+  }
+  
+  .feature-description {
+    text-align: justify;
+    font-size: 16px;
+    color: #555555;
+    line-height: 1.5;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .features-grid {
+      flex-direction: column;
+      gap: 30px;
+    }
+  
+    .feature-card {
+      flex: 1 1 100%; /* Full width on mobile */
+    }
+  }
+  

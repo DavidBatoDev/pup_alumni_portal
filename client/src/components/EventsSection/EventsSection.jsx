@@ -41,7 +41,7 @@ const EventsSection = () => {
         <h2 className="section-title">EVENTS</h2>
         <div className="row">
           {eventsData.map((event) => (
-            <div key={event.id} className="col-lg-3 col-md-4 col-sm-6 col-6"> {/* Added col-6 for mobile view */}
+            <div key={event.id} className="col-lg-3 col-md-4 col-sm-6 col-"> {/* Added col-6 for mobile view */}
               <div className="event-card">
                 <img src={event.image} alt={event.title} className="event-image" />
                 <div className="event-info">
