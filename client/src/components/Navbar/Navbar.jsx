@@ -1,7 +1,7 @@
 // src/components/Navbar/Navbar.jsx
 import React from 'react';
 import './Navbar.css';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // Optional, if needed for other internal routing
 
 // import the logos
 import PupLogo from '../../assets/images/pup-logo.png';
@@ -54,19 +54,20 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/">Home</Link>
+              {/* Use anchor links that correspond to the section IDs */}
+              <a className="nav-link" href="#home">Home</a>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/events">Events</Link>
+              <a className="nav-link" href="#events">Events</a>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/features">Features</Link>
+              <a className="nav-link" href="#features">Features</a>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/about">About Us</Link>
+              <a className="nav-link" href="#about">About Us</a>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/contact">Contact</Link>
+              <a className="nav-link" href="#contact">Contact</a>
             </li>
           </ul>
           <button className="btn btn-nav-signin ms-3">Sign In</button>

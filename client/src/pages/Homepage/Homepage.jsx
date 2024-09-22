@@ -5,20 +5,38 @@ import Banner from '../../components/Banner/Banner';
 import EventsSection from '../../components/EventsSection/EventsSection';
 import FeaturesSection from '../../components/FeaturesSection/FeaturesSection';
 import AboutUsSection from '../../components/AboutUsSection/AboutUsSection';
-import AlumniTestimonialSection from '../../components/AlumniTestimonialSection/AlumniTestimonialSection';
-import HomePageFooter from '../../components/HomePageFooter/HomePageFooter'; // Import the Footer
+import HomePageFooter from '../../components/HomePageFooter/HomePageFooter';
 import './Homepage.css';
 
 const Homepage = () => {
   return (
     <div className="homepage">
       <Navbar />
-      <Banner />
-      <EventsSection />
-      <FeaturesSection />
-      <AboutUsSection />
-      <AlumniTestimonialSection />
-      <HomePageFooter />
+
+      {/* Home section */}
+      <section id="home">
+        <Banner />
+      </section>
+
+      {/* Events section */}
+      <section id="events">
+        <EventsSection />
+      </section>
+
+      {/* Features section */}
+      <section id="features">
+        <FeaturesSection />
+      </section>
+
+      {/* About Us section */}
+      <section id="about">
+        <AboutUsSection />
+      </section>
+
+      {/* Contact section */}
+      <section id="contact">
+        <HomePageFooter />
+      </section>
     </div>
   );
 };
