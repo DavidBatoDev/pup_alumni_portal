@@ -17,7 +17,10 @@ This is a Laravel project. Follow the steps below to install and run it locally.
 
 2. Navigate to the project folder:
     ```bash
-    cd your-repository-name
+    cd pup_alumni_portal
+    cd client
+    npm install
+    cd ../server
     ```
 
 3. Install dependencies:
@@ -42,14 +45,19 @@ This is a Laravel project. Follow the steps below to install and run it locally.
     php artisan migrate
     ```
 
-8. (Optional) Install front-end dependencies and compile assets:
+8. Install dependencies and compile assets:
     ```bash
     npm install
-    npm run dev
     ```
 
 9. Serve the application:
     ```bash
+    Frontend:
+    cd client
+    npm run dev
+
+    Backend:
+    cd server
     php artisan serve
     ```
 
