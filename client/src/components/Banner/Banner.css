@@ -6,7 +6,7 @@
   background-image: url('../../assets/images/pup-landing-banner.png'); /* Replace with actual image */
   background-size: cover;
   background-position: center;
-  height: 100vh; /* Full viewport height */
+  height: 584px; /* Full viewport height */
   padding: 128px; /* Default padding */
   color: white;
   display: flex;

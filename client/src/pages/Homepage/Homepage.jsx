@@ -2,13 +2,15 @@
 import React from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import Banner from '../../components/Banner/Banner';
+import EventsSection from '../../components/EventsSection/EventsSection';
 import './Homepage.css';
 
 const Homepage = () => {
   return (
-    <div className='homepage'>
+    <div className="homepage">
       <Navbar />
       <Banner />
+      <EventsSection />
     </div>
   );
 };
