@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'; // Optional, if needed for other intern
 
 // import the logos
 import PupLogo from '../../assets/images/pup-logo.png';
-import OtherLogo from '../../assets/images/graduate-logo.png'; 
+import OtherLogo from '../../assets/images/graduate-logo.png';
 
 const Navbar = () => {
   return (
@@ -32,10 +32,10 @@ const Navbar = () => {
           </div>
           {/* Title text */}
           <div className="header-title-container ms-3">
-            <span className="header-title fw-bold">
+            <span className="header-title fw-bold cinzel">
               Polytechnic University of the Philippines
             </span>
-            <span className="header-title fw-bold">
+            <span className="header-title fw-bold cinzel">
               Graduate School Alumni Portal .Dev
             </span>
           </div>

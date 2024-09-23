@@ -9,36 +9,38 @@ import HomePageFooter from '../../components/HomePageFooter/HomePageFooter';
 import './Homepage.css';
 
 const Homepage = () => {
-  return (
-    <div className="homepage">
-      <Navbar />
+    return (
+        <div className="homepage">
+            <div className='homepage-background'></div>
 
-      {/* Home section */}
-      <section id="home">
-        <Banner />
-      </section>
+            <Navbar />
 
-      {/* Events section */}
-      <section id="events">
-        <EventsSection />
-      </section>
+            {/* Home section */}
+            <section id="home">
+                <Banner />
+            </section>
 
-      {/* Features section */}
-      <section id="features">
-        <FeaturesSection />
-      </section>
+            {/* Events section */}
+            <section id="events">
+                <EventsSection />
+            </section>
 
-      {/* About Us section */}
-      <section id="about">
-        <AboutUsSection />
-      </section>
+            {/* Features section */}
+            <section id="features">
+                <FeaturesSection />
+            </section>
 
-      {/* Contact section */}
-      <section id="contact">
-        <HomePageFooter />
-      </section>
-    </div>
-  );
+            {/* About Us section */}
+            <section id="about">
+                <AboutUsSection />
+            </section>
+
+            {/* Contact section */}
+            <section id="contact">
+                <HomePageFooter />
+            </section>
+        </div>
+    );
 };
 
 export default Homepage;

@@ -22,7 +22,7 @@ const testimonials = [
 
 const AlumniTestimonialSection = () => {
   return (
-    <div className="alumni-testimonial-section">
+    <div className="alumni-testimonial-section glass">
       <div className="container">
         <h2 className="section-title">WHAT OUR ALUMNI SAY</h2>
         <div className="testimonials-container">

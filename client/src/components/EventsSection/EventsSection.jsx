@@ -36,7 +36,7 @@ const eventsData = [
 
 const EventsSection = () => {
   return (
-    <div className="events-section">
+    <div className="events-section glass">
       <div className="container">
         <h2 className="section-title">EVENTS</h2>
         <div className="row">

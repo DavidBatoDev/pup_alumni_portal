@@ -1,10 +1,9 @@
 /* src/components/AboutUsSection/AboutUsSection.css */
 .about-us-section {
     padding: 50px 0;
-    background: rgba(255, 255, 255, 0.80);
-    backdrop-filter: blur(19.399999618530273px);
-  }
-  
+    background-color: rgb(255, 255, 255, 0.9) !important;
+}
+
   .about-us-container {
     display: flex;
     justify-content: space-between;
@@ -12,18 +11,18 @@
     flex-wrap: wrap;
     gap: 20px;
   }
-  
+
   .about-us-text {
     flex: 1 1 45%; /* Take 45% width */
   }
-  
+
   .about-us-text h2 {
     font-size: 32px;
     font-weight: bold;
     margin-bottom: 20px;
     color: #1e1e1e;
   }
-  
+
   .about-us-text p {
     font-size: 16px;
     color: #555555;
@@ -31,7 +30,7 @@
     margin-bottom: 20px;
     text-align: justify;
   }
-  
+
   .learn-more-btn {
     background-color: #800000; /* Dark red button */
     color: white;
@@ -42,39 +41,38 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
-  
+
   .learn-more-btn:hover {
     background-color: #a52436;
   }
-  
+
   .about-us-image {
     flex: 1 1 45%; /* Take 45% width */
   }
-  
+
   .about-us-image img {
     width: 100%;
     border-radius: 10px;
   }
-  
+
   /* Responsive styling for smaller screens */
   @media (max-width: 768px) {
     .about-us-container {
       flex-direction: column;
     }
-  
+
     .about-us-text,
     .about-us-image {
       flex: 1 1 100%; /* Full width on smaller screens */
       text-align: center; /* Center-align text */
     }
-  
+
     .about-us-text h2 {
       text-align: center;
     }
-  
+
     .about-us-image img {
       max-width: 90%; /* Shrink the image a bit on mobile */
       margin: 0 auto; /* Center the image */
     }
   }
-  

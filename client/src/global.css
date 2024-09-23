@@ -1,0 +1,9 @@
+.glass {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background-color: rgb(255, 255, 255, 0.7);
+}
+
+.cinzel {
+    font-family: 'Cinzel', serif;
+}

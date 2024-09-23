@@ -1,18 +1,17 @@
 /* src/components/EventsSection/EventsSection.css */
 .events-section {
     padding: 50px 0;
-    background: rgba(255, 255, 255, 0.50);
-    backdrop-filter: blur(19.4px);
-  }
-  
+    background: rgba(255, 255, 255, 0.9) !important;
+}
+
   .section-title {
     font-size: 32px;
     font-weight: bold;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     color: #1E1E1E;
     text-align: left;
   }
-  
+
   .event-card {
     position: relative;
     border-radius: 10px;
@@ -23,17 +22,17 @@
     height: 370px;
     width: 100%; /* Ensure width fills the column */
   }
-  
+
   .event-card:hover {
     transform: translateY(-5px);
   }
-  
+
   .event-image {
     height: 370px;
     width: 100%;
     object-fit: cover;
   }
-  
+
   .event-info {
     position: absolute;
     width: 100%;
@@ -43,34 +42,33 @@
     padding: 15px;
     text-align: left;
   }
-  
+
   .event-date {
     font-size: 20px;
     font-weight: bold;
     color: #800000;
     margin-bottom: 10px;
   }
-  
+
   .event-title {
     font-size: 16px;
     font-weight: 700;
     color: #1E1E1E;
   }
-  
+
   /* Mobile view: 2 cards per row */
   @media (max-width: 768px) {
     .section-title {
       font-size: 28px;
       text-align: center;
     }
-  
+
     .row {
       justify-content: space-between;
     }
-  
+
     .event-card {
       height: auto; /* Let the height adjust for mobile */
       margin-bottom: 20px;
     }
   }
-  
