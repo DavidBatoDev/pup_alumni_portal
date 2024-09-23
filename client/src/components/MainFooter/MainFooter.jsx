@@ -1,8 +1,8 @@
-// src/components/HomePageFooter/HomePageFooter.jsx
+// src/components/HomePageFooter/MainFooter.jsx
 import React from 'react';
-import './HomePageFooter.css';
+import './MainFooter.css';
 
-const HomePageFooter = () => {
+const MainFooter = () => {
   return (
     <footer className="homepage-footer">
       <div className="container">
@@ -45,4 +45,4 @@ const HomePageFooter = () => {
   );
 };
 
-export default HomePageFooter;
+export default MainFooter;

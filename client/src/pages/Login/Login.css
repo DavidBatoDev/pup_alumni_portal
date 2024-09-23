@@ -1,0 +1,126 @@
+/* src/pages/Login/Login.css */
+
+/* Page styling */
+.login-page {
+    background-image: url('../../assets/images/pup-login-banner.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .banner-section {
+    background-image: url('../../assets/images/pup-login-banner.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .login-title {
+    font-size: 48px;
+    color: #ffffff;
+    font-weight: bold;
+  }
+  
+  .glass-container {
+    margin-top: -100px;
+    padding: 40px 0;
+  }
+  
+  .login-box {
+    background-color: #ffffff;
+    border: 2px solid #dc3545; /* Red border */
+    border-radius: 8px;
+  }
+  
+  .welcome-text {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .login-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+  
+  .login-form .form-control {
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .login-form .input-group-text {
+    border-radius: 4px 0 0 4px;
+    border: 1px solid #ced4da;
+    border-right: none;
+  }
+  
+  .forgot-password-link {
+    color: #a50000;
+    font-weight: bold;
+  }
+  
+  .forgot-password-link:hover {
+    text-decoration: underline;
+    color: #870000;
+  }
+  
+  .btn {
+    font-weight: bold;
+    border-radius: 25px;
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  .btn-danger {
+    background-color: #a50000;
+  }
+  
+  .btn-danger:hover {
+    background-color: #870000;
+  }
+  
+  .sign-up-box {
+    border-left: 1px solid #ccc;
+    padding-left: 40px;
+    text-align: center;
+  }
+  
+  .sign-up-box h2 {
+    font-size: 22px;
+    font-weight: bold;
+  }
+  
+  .sign-up-box p {
+    font-size: 14px;
+    margin: 15px 0;
+  }
+  
+  .btn-outline-danger {
+    border-color: #a50000;
+    color: #a50000;
+    font-weight: bold;
+    padding: 10px 20px;
+  }
+  
+  .btn-outline-danger:hover {
+    background-color: #a50000;
+    color: #fff;
+  }
+  
+  .contact-support {
+    font-size: 12px;
+    margin-top: 20px;
+  }
+  
+  .contact-support a {
+    color: #a50000;
+    font-weight: bold;
+  }
+  
+  

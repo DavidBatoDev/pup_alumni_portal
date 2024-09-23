@@ -1,6 +1,7 @@
 // src/components/Navbar/Navbar.jsx
 import React from 'react';
 import './Navbar.css';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom'; // Optional, if needed for other internal routing
 
 // import the logos
@@ -8,6 +9,7 @@ import PupLogo from '../../assets/images/pup-logo.png';
 import OtherLogo from '../../assets/images/graduate-logo.png';
 
 const Navbar = () => {
+  const navigate = useNavigate()
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light py-0 shadow-sm">
       <div className="container d-flex justify-content-between align-items-center">
@@ -70,7 +72,7 @@ const Navbar = () => {
               <a className="nav-link" href="#contact">Contact</a>
             </li>
           </ul>
-          <button className="btn btn-nav-signin ms-3">Sign In</button>
+          <button onClick={() => navigate('/login')} className="btn btn-nav-signin ms-3">Sign In</button>
         </div>
       </div>
     </nav>

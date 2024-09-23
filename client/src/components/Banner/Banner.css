@@ -3,8 +3,7 @@
 
 /* Banner container */
 .banner {
-  min-height: 100vh; /* Ensure the banner spans the full viewport height */
-  height: 584px; /* Full viewport height */
+  height: 700px; /* Full viewport height */
   padding: 128px; /* Default padding */
   color: white;
   display: flex;
@@ -31,6 +30,7 @@
 .banner-content {
   z-index: 2; /* Ensure it appears above the background */
   margin-top: 90px;
+  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: flex-start; /* Left-align text */
@@ -98,6 +98,7 @@
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .banner {
+    min-height: 584px; /* Full viewport height */
     padding: 20px; /* Reduce padding */
     height: auto; /* Allow banner height to adapt */
     align-items: center; /* Center content */
