@@ -1,34 +1,31 @@
 /* src/components/Navbar/Navbar.css */
   /* Use a custom font for the header */
-  .cinzel {
-    font-family: 'Cinzel', serif;
-  }
-  
+
   /* Navbar container */
   .navbar {
     height: 70px; /* Fixed height to match design */
     padding: 0;
   }
-  
+
   .navbar-brand {
     display: flex;
     align-items: center;
     text-decoration: none;
   }
-  
+
   .navbar-logo {
     width: 65px;
     height: 65px;
     margin-right: 10px;
   }
-  
+
   /* Title and subtitle styling */
   .header-title-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
-  
+
   .header-title {
     font-size: 14px;
     color: #000;
@@ -37,16 +34,17 @@
 
   /* Navbar link styling */
   .navbar-nav .nav-link {
-    font-size: 16px;
+    font-size: 14px;
+    font-style: normal;
     margin-right: 20px;
     color: #000;
-    font-weight: 500;
+    font-weight: 400;
   }
-  
+
   .navbar-nav .nav-link:hover {
     color: #dc3545;
   }
-  
+
   /* Sign-In button styling */
   .btn-nav-signin {
     background-color: #a50000;
@@ -56,33 +54,32 @@
     font-weight: 600;
     border: none;
   }
-  
+
   .btn-nav-signin:hover {
     background-color: #870000;
     color: white;
   }
-  
+
   /* Responsive adjustments for smaller screens */
   @media (max-width: 768px) {
     .navbar {
       height: auto; /* Auto height for mobile */
     }
-  
+
     .navbar-logo {
       width: 40px;
       height: 40px;
     }
-  
+
     .header-title {
       font-size: 12px;
     }
-  
+
     .header-subtitle {
       font-size: 12px;
     }
-  
+
     .btn-signin {
       padding: 5px 15px;
     }
   }
-  
