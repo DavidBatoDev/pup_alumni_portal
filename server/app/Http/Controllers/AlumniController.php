@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Alumni;
+use App\Models\Address;
+use App\Models\EmploymentHistory;
+use App\Models\EducationHistory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -20,8 +23,8 @@ class AlumniController extends Controller
         // Get authenticated alumni
         $alumni = Auth::user();
 
-        // Load address relationship if needed
-        $alumni->load('address');
+        // Load address, employment, and education relationships
+        $alumni->load(['address', 'employmentHistory', 'educationHistory']);
 
         return response()->json([
             'success' => true,
@@ -55,11 +58,6 @@ class AlumniController extends Controller
             'current_employer' => 'nullable|string|max:255',
             'linkedin_profile' => 'nullable|url|max:255',
             'profile_picture' => 'nullable|string|max:255',
-            'street' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:255',
-            'state' => 'nullable|string|max:255',
-            'postal_code' => 'nullable|string|max:20',
-            'country' => 'nullable|string|max:100',
             'password' => 'nullable|string|min:8|confirmed',
         ]);
     
@@ -84,25 +82,225 @@ class AlumniController extends Controller
                 'password' => Hash::make($request->password)
             ]);
         }
-    
-        // Update address if provided
-        if ($request->filled(['street', 'city', 'state', 'postal_code', 'country'])) {
-            $alumni->address()->updateOrCreate(
-                ['alumni_id' => $alumni->id],
-                [
-                    'street' => $request->street,
-                    'city' => $request->city,
-                    'state' => $request->state,
-                    'postal_code' => $request->postal_code,
-                    'country' => $request->country
-                ]
-            );
-        }
-    
+
         return response()->json([
             'success' => true,
             'message' => 'Profile updated successfully',
-            'data' => $alumni->load('address')
+            'data' => $alumni
+        ], 200);
+    }
+
+
+    /**
+     * Add a new address for the authenticated alumni.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function addAddress(Request $request)
+    {
+        // Validate the input
+        $validator = Validator::make($request->all(), [
+            'street' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'state' => 'required|string|max:255',
+            'postal_code' => 'required|string|max:20',
+            'country' => 'required|string|max:100',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()
+            ], 422);
+        }
+
+        // Create a new address for the authenticated alumni
+        $address = Auth::user()->address()->create($request->all());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Address added successfully',
+            'data' => $address
+        ], 201);
+    }
+
+    /**
+     * Update an existing address for the authenticated alumni.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateAddress(Request $request, $id)
+    {
+        $address = Address::where('alumni_id', Auth::id())->findOrFail($id);
+
+        // Validate the input
+        $validator = Validator::make($request->all(), [
+            'street' => 'sometimes|string|max:255',
+            'city' => 'sometimes|string|max:255',
+            'state' => 'sometimes|string|max:255',
+            'postal_code' => 'sometimes|string|max:20',
+            'country' => 'sometimes|string|max:100',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()
+            ], 422);
+        }
+
+        // Update the address
+        $address->update($request->all());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Address updated successfully',
+            'data' => $address
+        ], 200);
+    }
+
+    /**
+     * Add employment history for the authenticated alumni.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function addEmploymentHistory(Request $request)
+    {
+        // Validate input
+        $validator = Validator::make($request->all(), [
+            'company' => 'required|string|max:255',
+            'job_title' => 'required|string|max:255',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date',
+            'description' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors(),
+            ], 422);
+        }
+
+        // Create employment history for the authenticated alumni
+        $employmentHistory = Auth::user()->employmentHistory()->create($request->all());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Employment history added successfully',
+            'data' => $employmentHistory,
+        ], 201);
+    }
+
+    /**
+     * Update an existing employment history.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateEmploymentHistory(Request $request, $id)
+    {
+        $employmentHistory = EmploymentHistory::where('alumni_id', Auth::id())->findOrFail($id);
+
+        // Validate input
+        $validator = Validator::make($request->all(), [
+            'company' => 'sometimes|string|max:255',
+            'job_title' => 'sometimes|string|max:255',
+            'start_date' => 'sometimes|date',
+            'end_date' => 'nullable|date',
+            'description' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors(),
+            ], 422);
+        }
+
+        // Update employment history
+        $employmentHistory->update($request->all());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Employment history updated successfully',
+            'data' => $employmentHistory,
+        ], 200);
+    }
+
+    /**
+     * Add education history for the authenticated alumni.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function addEducationHistory(Request $request)
+    {
+        // Validate input
+        $validator = Validator::make($request->all(), [
+            'institution' => 'required|string|max:255',
+            'degree' => 'required|string|max:255',
+            'field_of_study' => 'required|string|max:255',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors(),
+            ], 422);
+        }
+
+        // Create education history for the authenticated alumni
+        $educationHistory = Auth::user()->educationHistory()->create($request->all());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Education history added successfully',
+            'data' => $educationHistory,
+        ], 201);
+    }
+
+    /**
+     * Update an existing education history.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateEducationHistory(Request $request, $id)
+    {
+        $educationHistory = EducationHistory::where('alumni_id', Auth::id())->findOrFail($id);
+
+        // Validate input
+        $validator = Validator::make($request->all(), [
+            'institution' => 'sometimes|string|max:255',
+            'degree' => 'sometimes|string|max:255',
+            'field_of_study' => 'sometimes|string|max:255',
+            'start_date' => 'sometimes|date',
+            'end_date' => 'nullable|date',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors(),
+            ], 422);
+        }
+
+        // Update education history
+        $educationHistory->update($request->all());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Education history updated successfully',
+            'data' => $educationHistory,
         ], 200);
     }
 }
