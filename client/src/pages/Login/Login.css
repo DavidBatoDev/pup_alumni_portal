@@ -8,6 +8,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow-x: hidden;
   }
   
   .banner-section {
@@ -69,7 +70,10 @@
     text-decoration: underline;
     color: #870000;
   }
-  
+
+  .txt-danger{
+    color: #870000;
+  }
   .btn {
     font-weight: bold;
     border-radius: 25px;
