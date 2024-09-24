@@ -1,0 +1,170 @@
+/* Signup Page Styling */
+.signup-page {
+    background-image: url('../../assets/images/pup-login-banner.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-x: hidden;
+  }
+  
+  .banner-section {
+    background-image: url('../../assets/images/pup-login-banner.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+
+  }
+  
+  .signup-header {
+    font-size: 48px;
+    font-weight: bold;
+    padding: 0px 128px;
+    max-width: 1486px;
+  }
+
+  .signup-title{
+    font-size: 36px;
+    font-weight: bold;
+  }
+  
+  .signup-description {
+    font-size: 20px;
+    font-weight: lighter;
+  }
+  
+  .glass-container {
+    margin-top: -50px;
+    padding: 40px 0;
+  }
+  
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+  
+  .form-section {
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #800000;
+    background: rgba(255, 255, 255, 0.80);
+  }
+
+  .form-section:nth-child(1){
+    width: 487px;
+  }
+  
+  .section-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #800000;
+  }
+
+  .important-txt{
+    color: #800000;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    gap: 10px;
+  }
+
+
+  .name-fields {
+    display: flex;
+    gap: 10px;
+  }
+  
+  input[type="text"], input[type="email"], input[type="password"], input[type="date"],
+  select {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%;
+  }
+  
+  .form-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #800000;
+    background: rgba(255, 255, 255, 0.80);
+  }
+
+  .input-with-icon {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+  }
+  
+  .input-icon {
+    padding: 10px;
+    border-right: 1px solid #ccc;
+  }
+  
+  .input-with-icon input {
+    border: none;
+    padding: 10px;
+    flex-grow: 1;
+  }
+  
+  .input-with-icon input:focus {
+    outline: none;
+  }
+  
+  .input-icon i {
+    font-size: 15px;
+    color: #333;
+  }
+  
+  .checkbox-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .checkbox-section input[type="checkbox"] {
+    margin: 0;
+  }
+  
+  .checkbox-section label {
+    font-size: 14px;
+  }
+  
+  .checkbox-section a {
+    color: #800000;
+    text-decoration: underline;
+  }
+  
+  .form-submit button {
+    align-self: flex-end;
+    padding: 10px 20px;
+    background-color: #800000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+   
+}
+  
+  .form-submit button:hover {
+    background-color: #a00000;
+  }
+  
+  

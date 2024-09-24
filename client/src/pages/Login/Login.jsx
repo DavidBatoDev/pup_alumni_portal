@@ -30,7 +30,7 @@ const Login = () => {
                   <form className="login-form">
                     <div className="mb-3">
                       <label htmlFor="email" className="form-label">
-                        Student Number or Personal Email <span className="text-danger">*</span>
+                        Student Number or Personal Email <span className="txt-danger">*</span>
                       </label>
                       <div className="input-group">
                         <span className="input-group-text bg-white">
@@ -40,13 +40,13 @@ const Login = () => {
                           type="text"
                           className="form-control"
                           id="email"
-                          placeholder="200X-MN-XXXX-X or johndoe@gmail.com"
+                          placeholder="20XX-MN-XXXX-X or johndoe@gmail.com"
                         />
                       </div>
                     </div>
 
                     <div className="mb-3">
-                      <label htmlFor="password" className="form-label">Password <span className="text-danger">*</span></label>
+                      <label htmlFor="password" className="form-label">Password <span className="txt-danger">*</span></label>
                       <div className="input-group">
                         <span className="input-group-text bg-white">
                           <i className="fas fa-lock"></i>
@@ -71,12 +71,12 @@ const Login = () => {
                 </div>
 
                 {/* Right Column: Sign Up Section */}
-                <div className="col-md-6 d-flex flex-column align-items-center justify-content-center sign-up-box">
-                  <h2 className="text-danger">Doesn't have an account yet?</h2>
+                <div className="col-md-6 g-5 d-flex flex-column align-items-center justify-content-center sign-up-box">
+                  <h2 className="txt-danger">Doesn't have an account yet?</h2>
                   <p className="text-center">
                     PUP Alumni Students, you can create an account here:
                   </p>
-                  <Link to="#" className="btn btn-outline-danger">Sign Up</Link>
+                  <Link to="/signup" className="btn btn-outline-danger">Sign Up</Link>
                   <p className="contact-support mt-3">
                     For questions/comments, please email <a href="mailto:help@pupalumniportal.dev">help@pupalumniportal.dev</a>
                   </p>
