@@ -49,7 +49,12 @@ return [
             'driver' => 'jwt',
             'provider' => 'alumni',
             'hash' => false,
-        ]
+        ],
+        'admin' => [ // Add an admin guard
+            'driver' => 'jwt',
+            'provider' => 'admins', // Specify the provider for admins
+            'hash' => false,
+        ],
     ],
 
     /*
@@ -73,6 +78,10 @@ return [
         'alumni' => [
             'driver' => 'eloquent',
             'model' => App\Models\Alumni::class,  // Make sure this path is correct
+        ],
+        'admins' => [ // Add an admin provider
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class, // Ensure this is the correct path for the Admin model
         ],
     ],
 
@@ -99,6 +108,18 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'alumni' => [ // Password reset options for alumni, if needed
+            'provider' => 'alumni',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'admins' => [ // Password reset options for admins, if needed
+            'provider' => 'admins',
+            'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
         ],
