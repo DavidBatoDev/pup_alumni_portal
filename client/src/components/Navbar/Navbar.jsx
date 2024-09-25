@@ -57,19 +57,19 @@ const Navbar = () => {
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
               {/* Use anchor links that correspond to the section IDs */}
-              <a className="nav-link" href="#home">Home</a>
+              <Link className="nav-link" to="/#home">Home</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#events">Events</a>
+              <Link className="nav-link" to="/#events">Events</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#features">Features</a>
+              <Link className="nav-link" to="/#features">Features</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#about">About Us</a>
+              <Link className="nav-link" to="/#about">About Us</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#contact">Contact</a>
+              <Link className="nav-link" to="/#contact">Contact</Link>
             </li>
           </ul>
           <button onClick={() => navigate('/login')} className="btn btn-nav-signin ms-3">Sign In</button>
