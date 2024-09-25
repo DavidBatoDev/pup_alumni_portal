@@ -1,6 +1,7 @@
 // src/components/Banner/Banner.jsx
 import React from 'react';
 import './Banner.css';
+import { Link } from 'react-router-dom';
 
 const Banner = () => {
   return (
@@ -9,8 +10,8 @@ const Banner = () => {
             <h1>PUP ALUMNI</h1>
             <p>Welcome to PUP Alumni Portal.<br />Connect, Share, and Grow with our PUP Alumni Community</p>
             <div className="banner-buttons">
-                <button className="btn btn-register me-3">Register Now</button>
-                <button className="btn btn-signin">Sign In</button>
+                <Link to="/signup" className="btn btn-register me-3">Register Now</Link>
+                <Link to="/login" className="btn btn-signin">Sign In</Link>
             </div>
         </div>
     </div>

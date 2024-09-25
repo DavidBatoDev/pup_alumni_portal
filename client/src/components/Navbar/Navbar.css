@@ -38,11 +38,11 @@
     font-style: normal;
     margin-right: 20px;
     color: #000;
-    font-weight: 400;
+    font-weight: 500;
   }
 
   .navbar-nav .nav-link:hover {
-    color: #dc3545;
+    color: #870000;
   }
 
   /* Sign-In button styling */
