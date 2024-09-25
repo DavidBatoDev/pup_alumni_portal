@@ -15,7 +15,7 @@ class CreateSurveyTable extends Migration
             $table->text('description')->nullable();
             $table->date('creation_date');
             $table->date('start_date');
-            $table->date('end_date');
+            $table->date('end_date')->nullable();
             $table->timestamps();
         });
     }

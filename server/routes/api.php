@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\SurveyController;
 
 // Authentication routes for alumni
 Route::post('login', [AuthController::class, 'login']);
@@ -33,9 +34,14 @@ Route::group(['middleware' => ['auth:api']], function () {
 
 // Protected admin routes (Require JWT Authentication for admin)
 // You can define admin-specific routes here that only admin users can access.
-Route::group(['middleware' => ['auth:api']], function () {
-    // Example admin routes:
-    Route::get('/admin/dashboard', function () {
-        return response()->json(['message' => 'Welcome to the admin dashboard']);
-    });
+Route::group(['middleware' => ['auth:admin']], function () {;
+    Route::post('/admin/survey', [SurveyController::class, 'createSurvey']);
+    Route::post('/admin/survey/{surveyId}/question', [SurveyController::class, 'addQuestion']);
+    Route::post('/admin/question/{questionId}/option', [SurveyController::class, 'addOption']);
+
+    // Route to fetch survey with questions and options
+     Route::get('/admin/survey/{surveyId}', [SurveyController::class, 'getSurveyWithQuestions']);
+
+    // Route to fetch all surveys
+    Route::get('/admin/surveys', [SurveyController::class, 'getAllSurveys']);
 });
