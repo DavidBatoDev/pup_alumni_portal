@@ -8,6 +8,7 @@ use App\Models\Alumni;
 use App\Models\Address; // Import the Address model
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -83,16 +84,46 @@ class AuthController extends Controller
     // Login the alumni
     public function login(Request $request)
     {
+        // Validate the input data
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ], [
+            'email.required' => 'The email field is required.',
+            'email.email' => 'The email must be a valid email address.',
+            'password.required' => 'The password field is required.',
+            'password.min' => 'The password must be at least 6 characters long.'
+        ]);
+    
+        // If validation fails, return the validation errors
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation errors',
+                'errors' => $validator->errors()
+            ], 422); 
+        }
+    
         // Retrieve the credentials from the request
         $credentials = $request->only('email', 'password');
     
         // Attempt to authenticate using JWT
         if (!$token = JWTAuth::attempt($credentials)) {
-            return response()->json(['error' => 'Invalid credentials'], 401);
+            return response()->json([
+                'success' => false,
+                'message' => 'Wrong email or password',
+            ], 401);
         }
     
-        // If authentication passes, return the token
-        return response()->json(compact('token'));
+        $user = auth()->user();
+    
+        // If authentication passes, return the token and user data
+        return response()->json([
+            'success' => true,
+            'message' => 'Login successful',
+            'token' => $token,
+            'user' => $user
+        ]);
     }
 
     // Logout the alumni (invalidate the token)
