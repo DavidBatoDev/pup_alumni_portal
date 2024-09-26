@@ -5,8 +5,10 @@ import Navbar from '../../components/Navbar/Navbar';
 import './Login.css';
 import '../../global.css';
 import MainFooter from '../../components/MainFooter/MainFooter';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const navigate = useNavigate();
   return (
     <>
       <Navbar />
@@ -66,7 +68,7 @@ const Login = () => {
                       </Link>
                     </div>
 
-                    <button type="submit" className="btn btn-danger w-100">Sign In</button>
+                    <button onClick={() => navigate('/event')} type="submit" className="btn btn-danger w-100">Sign In</button>
                   </form>
                 </div>
 
