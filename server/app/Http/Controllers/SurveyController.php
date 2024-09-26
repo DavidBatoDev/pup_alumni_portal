@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class SurveyController extends Controller
 {
+    ///////////////////////////////Creating Surveys////////////////////////////////////
     public function createSurvey(Request $request)
     {
         $survey = Survey::create([
@@ -43,6 +44,74 @@ class SurveyController extends Controller
 
         return response()->json($option, 201);
     }
+
+
+    /**
+     * Edit a survey question.
+     * If the question type is changed to 'open-ended', delete all associated options.
+     *
+     * @param Request $request
+     * @param int $questionId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function editQuestion(Request $request, $questionId)
+    {
+        // Find the question by ID
+        $question = SurveyQuestion::find($questionId);
+
+        // If question not found, return an error
+        if (!$question) {
+            return response()->json(['error' => 'Question not found'], 404);
+        }
+
+        // Update the question text
+        $question->question_text = $request->input('question_text', $question->question_text);
+
+        // If question type changes to 'Open-ended', delete all associated options
+        if ($request->has('question_type') && $request->question_type === 'Open-ended') {
+            // Delete options associated with the question
+            SurveyOption::where('question_id', $questionId)->delete();
+        }
+
+        // Update the question type
+        $question->question_type = $request->input('question_type', $question->question_type);
+
+        // Save the changes
+        $question->save();
+
+        return response()->json(['message' => 'Question updated successfully', 'question' => $question], 200);
+    }
+
+    /**
+     * Edit a specific option for a question.
+     *
+     * @param Request $request
+     * @param int $optionId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function editOption(Request $request, $optionId)
+    {
+        // Find the option by ID
+        $option = SurveyOption::find($optionId);
+
+        // If option not found, return an error
+        if (!$option) {
+            return response()->json(['error' => 'Option not found'], 404);
+        }
+
+        // Update the option text and value
+        $option->option_text = $request->input('option_text', $option->option_text);
+        $option->option_value = $request->input('option_value', $option->option_value);
+
+        // Save the changes
+        $option->save();
+
+        return response()->json(['message' => 'Option updated successfully', 'option' => $option], 200);
+    }
+
+
+
+    ///////////////////////////////Fetching Surveys////////////////////////////////////
 
     /**
      * Get a survey along with its questions and options.
