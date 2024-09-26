@@ -8,16 +8,16 @@ use App\Http\Controllers\SurveyController;
 
 // Authentication routes for alumni
 Route::post('login', [AuthController::class, 'login']);
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
+Route::post('register', [AuthController::class, 'register']);
+Route::post('logout', [AuthController::class, 'logout'])->middleware('jwt.verify');
 
 // Admin authentication routes
 Route::post('admin/login', [AdminAuthController::class, 'login']);
 Route::post('admin/register', [AdminAuthController::class, 'register']);
-Route::post('admin/logout', [AdminAuthController::class, 'logout'])->middleware('auth:api');
+Route::post('admin/logout', [AdminAuthController::class, 'logout'])->middleware('jwt.verify');
 
 // Protected alumni routes (Require JWT Authentication)
-Route::group(['middleware' => ['auth:api']], function () {
+Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('/profile', [AlumniController::class, 'profile']);
     Route::post('/update-profile', [AlumniController::class, 'updateProfile']);
 
@@ -33,22 +33,18 @@ Route::group(['middleware' => ['auth:api']], function () {
 });
 
 // Protected admin routes (Require JWT Authentication for admin)
-// You can define admin-specific routes here that only admin users can access.
-Route::group(['middleware' => ['auth:admin']], function () {
-    // Route to create a survey
+Route::group(['middleware' => ['jwt.verify']], function () {
+    // Admin-specific routes
     Route::post('/admin/survey', [SurveyController::class, 'createSurvey']);
     Route::post('/admin/survey/{surveyId}/question', [SurveyController::class, 'addQuestion']);
     Route::post('/admin/question/{questionId}/option', [SurveyController::class, 'addOption']);
 
-    // Route to edit a question
+    // Routes to edit a question or option
     Route::put('/admin/question/{questionId}', [SurveyController::class, 'editQuestion']);
-
-    // Route to edit an option
     Route::put('/admin/option/{optionId}', [SurveyController::class, 'editOption']); 
 
-    // Route to fetch survey with questions and options
+    // Fetch surveys and related data
     Route::get('/admin/survey/{surveyId}', [SurveyController::class, 'getSurveyWithQuestions']);
-
-    // Route to fetch all surveys
     Route::get('/admin/surveys', [SurveyController::class, 'getAllSurveys']);
 });
+
