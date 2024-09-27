@@ -8,8 +8,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   // Manage form state
   const [formData, setFormData] = useState({
     student_number: '',
@@ -187,7 +187,7 @@ const Signup = () => {
                   Name <span className="important-txt">*</span>
                 </label>
                 <div className="row g-1">
-                  <div className="col-12 col-md-4">
+                  <div className="col-lg-6 col-md-6">
                     <div className="input-with-icon">
                       <span className="input-icon">
                         <i className="fas fa-user"></i>
@@ -216,7 +216,7 @@ const Signup = () => {
                       />
                     </div>
                   </div> */}
-                  <div className="col-12 col-md-4">
+                  <div className="col-lg-6 col-md-6">
                     <div className="input-with-icon">
                       <span className="input-icon">
                         <i className="fas fa-user"></i>

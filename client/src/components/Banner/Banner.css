@@ -30,7 +30,9 @@
 .banner-content {
   z-index: 2; /* Ensure it appears above the background */
   margin-top: 90px;
-  position: absolute;
+  width: 1296px;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start; /* Left-align text */
