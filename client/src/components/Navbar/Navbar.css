@@ -60,19 +60,112 @@
     color: white;
   }
 
+  /* Drawer styling */
+  /* Drawer styling */
+.drawer {
+  position: fixed;
+  top: 0;
+  right: -100%; /* Hidden by default */
+  height: 100vh;
+  width: 300px;
+  background-color: #fff; /* White background */
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3); /* Slightly larger shadow */
+  z-index: 1050;
+  transition: right 0.4s ease-in-out; /* Smooth transition */
+  padding-top: 20px; /* Spacing at the top */
+}
+
+/* Drawer header with close button */
+.drawer-close-btn {
+  background: none;
+  border: none;
+  font-size: 30px;
+  font-weight: bold;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  cursor: pointer;
+  color: #870000;
+}
+
+/* When drawer is open */
+.drawer-open {
+  right: 0;
+  display: none;
+}
+
+/* Drawer overlay */
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+  z-index: 1049; /* Below the drawer */
+}
+
+/* Drawer nav styles */
+.drawer-nav {
+  padding: 50px 20px; /* Space between links */
+  list-style: none;
+}
+
+/* Drawer item styles */
+.drawer-item {
+  margin-bottom: 20px;
+}
+
+/* Drawer link styles */
+.drawer-link {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #333;
+  text-align: left;
+  width: 100%;
+  padding: 15px 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f1f1;
+  transition: background 0.3s, color 0.3s;
+}
+
+.drawer-link:hover {
+  background-color: #f8f8f8;
+  color: #a50000;
+}
+
+.drawer .btn-nav-signin {
+  width: 100%;
+}
+
   /* Responsive adjustments for smaller screens */
   @media (max-width: 768px) {
     .navbar {
       height: auto; /* Auto height for mobile */
     }
-
+  
     .navbar-logo {
       width: 40px;
       height: 40px;
     }
-
+  
     .header-title {
+      display: none;
       font-size: 12px;
+    }
+  
+    .drawer {
+      width: 50%;
+      display: block;
+    }
+  
+    .drawer-link {
+      font-size: 18px;
+    }
+  
+    .drawer-close-btn {
+      font-size: 24px;
     }
 
     .header-subtitle {
@@ -83,3 +176,5 @@
       padding: 5px 15px;
     }
   }
+
+

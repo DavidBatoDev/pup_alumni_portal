@@ -1,18 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Navbar.css';
 import { useNavigate } from 'react-router-dom';
-import { Link, useLocation } from 'react-router-dom'; // Import useLocation to track current page
-
+import { Link, useLocation } from 'react-router-dom';
 import PupLogo from '../../assets/images/pup-logo.png';
 import OtherLogo from '../../assets/images/graduate-logo.png';
 
 const Navbar = () => {
-
-  // Use useNavigate to navigate to a different page
   const navigate = useNavigate();
   const location = useLocation();
 
+  // State to track the drawer visibility
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // Handle drawer toggle
+  const toggleDrawer = () => {
+    setDrawerOpen((prev) => !prev);
+  };
+
+  // Handle link click and close drawer
   const handleNavLinkClick = (sectionId) => {
+    setDrawerOpen(false); // Close drawer on link click
+
     if (location.pathname !== '/') {
       navigate('/');
     }
@@ -22,7 +30,7 @@ const Navbar = () => {
       if (section) {
         section.scrollIntoView({ behavior: 'smooth' });
       }
-    }, 100); // small delay to allow the page to navigate to the homepage
+    }, 100); // Small delay to allow the page to navigate to the homepage
   };
 
   return (
@@ -54,18 +62,12 @@ const Navbar = () => {
             </span>
           </div>
         </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        {/* Hamburger button for mobile view */}
+        <button className="navbar-toggler" type="button" aria-label="Toggle navigation" onClick={toggleDrawer}>
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
+        {/* Desktop menu */}
+        <div className="collapse navbar-collapse d-none d-lg-block" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
               <button className="nav-link" onClick={() => handleNavLinkClick('home')}>Home</button>
@@ -86,6 +88,35 @@ const Navbar = () => {
           <button onClick={() => navigate('/login')} className="btn btn-nav-signin ms-3">Sign In</button>
         </div>
       </div>
+
+      {/* Sidebar drawer for mobile view */}
+      <div className={`drawer ${drawerOpen ? 'drawer-open' : 'none'}`}>
+        {/* Close button inside the drawer */}
+        <button className="drawer-close-btn" aria-label="Close Drawer" onClick={toggleDrawer}>
+          &times;
+        </button>
+        <ul className="drawer-nav">
+          <li className="drawer-item">
+            <button className="drawer-link" onClick={() => handleNavLinkClick('home')}>Home</button>
+          </li>
+          <li className="drawer-item">
+            <button className="drawer-link" onClick={() => handleNavLinkClick('events')}>Events</button>
+          </li>
+          <li className="drawer-item">
+            <button className="drawer-link" onClick={() => handleNavLinkClick('features')}>Features</button>
+          </li>
+          <li className="drawer-item">
+            <button className="drawer-link" onClick={() => handleNavLinkClick('about')}>About Us</button>
+          </li>
+          <li className="drawer-item">
+            <button className="drawer-link" onClick={() => handleNavLinkClick('contact')}>Contact</button>
+          </li>
+          <button onClick={() => { setDrawerOpen(false); navigate('/login'); }} className="btn btn-nav-signin mt-3">Sign In</button>
+        </ul>
+      </div>
+
+      {/* Overlay to close drawer when clicking outside */}
+      {drawerOpen && <div className="drawer-overlay" onClick={() => setDrawerOpen(false)} />}
     </nav>
   );
 };
