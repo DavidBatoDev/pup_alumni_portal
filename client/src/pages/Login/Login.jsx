@@ -7,6 +7,8 @@ import Navbar from '../../components/Navbar/Navbar';
 import './Login.css';
 import '../../global.css';
 import MainFooter from '../../components/MainFooter/MainFooter';
+import BannerSmall from '../../components/Banner/BannerSmall';
+import bannerImage from '../../assets/images/pup-login-banner.jpg';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -70,9 +72,10 @@ const Login = () => {
       <div className = "background login-background"></div>
       <div className="login-page">
         {/* Banner area */}
-        <div className="banner-section">
-          <h1 className="login-title">Login</h1>
-        </div>
+        <BannerSmall
+            bannerTitle={"Login"}
+            bannerImage={bannerImage}
+        />
 
         {/* Login Box with two columns */}
         <div className="sign-in-glass-container glass">

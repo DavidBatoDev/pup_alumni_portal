@@ -1,9 +1,20 @@
-import React from 'react'
+import React from 'react';
+import BannerSmall from '../../components/Banner/BannerSmall';
+import Banner from '../../components/Banner/Banner';
+
+import bannerImage from '../../assets/images/eventbanner.png';
 
 const Events = () => {
   return (
     <div>
-      <h1>Events Page</h1>
+      <BannerSmall
+        bannerTitle={"Events Page"}
+        bannerImage={bannerImage}
+        breadcrumbs={[
+          { label: 'Home', link: '/' },
+          { label: 'Events', link: '/event' },
+        ]}
+        />
     </div>
   )
 }

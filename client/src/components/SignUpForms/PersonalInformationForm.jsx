@@ -1,7 +1,7 @@
 import "./signUpForms.css";
 
 import React from 'react';
-import PropTypes from 'prop-types';
+
 const PersonalInformationForm = ({ nextStep, prevStep, formData, handleChange }) => {
     return (
         <div className="form-section">

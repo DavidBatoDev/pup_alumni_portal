@@ -5,13 +5,19 @@
 .banner {
   height: 700px; /* Full viewport height */
   padding: 128px; /* Default padding */
-  color: white;
   display: flex;
   align-items: flex-start; /* Align text to top-left */
   justify-content: flex-start;
   flex-direction: column;
   position: relative;
   font-family: 'Crimson Text', serif; /* Applying Crimson Text font */
+}
+
+.banner-small {
+    height: 240px;
+    position: relative;
+    background-size: cover;
+    background-position: center;
 }
 
 /* Apply gradient background */
@@ -26,8 +32,19 @@
   z-index: 1;
 }
 
+.banner-small::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #FFF 0%, rgba(0, 0, 0, 0.00) 15%, rgba(0, 0, 0, 0.00) 85%, #FFF 100%);
+    z-index: 1;
+}
+
 /* Banner content */
-.banner-content {
+.banner .banner-content {
   z-index: 2; /* Ensure it appears above the background */
   margin-top: 90px;
   width: 1296px;
@@ -39,8 +56,21 @@
   align-items: flex-start;
 }
 
+.banner-small .banner-content {
+    height: 240px;
+    display: flex;
+    align-items: flex-start;
+    z-index: 2;
+
+    padding: 25px 128px 0 128px;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    flex-shrink: 0;
+}
+
 /* Adjust heading size and alignment */
-.banner-content h1 {
+.banner-content .banner-hero-title {
   color: #1E1E1E;
   font-size: 128px; /* Large heading size */
   font-weight: 700;
@@ -48,7 +78,7 @@
 }
 
 /* Adjust paragraph size and alignment */
-.banner-content p {
+.banner-content .banner-hero-motto {
   color: #1E1E1E;
   text-align: left;
   font-family: "Crimson Text";
@@ -56,6 +86,43 @@
   font-weight: 700;
   line-height: 1.22;
   max-width: 90%;
+}
+
+.banner-content .banner-small-title {
+    color: #FFF;
+    font-family: "Crimson Text";
+    font-size: 128px;
+    font-style: normal;
+    font-weight: 700;
+    z-index: 2;
+}
+
+.banner-small .breadcrumb {
+    z-index: 3;
+    background: transparent;
+    position: relative;
+}
+
+.banner-small .breadcrumb .breadcrumb-item a {
+    color: #FFF;
+    font-family: "Raleway", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-decoration: none;
+}
+
+.banner-small .breadcrumb .breadcrumb-item a:hover {
+    color: #FFF;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: #FFF;
+}
+
+.banner-small .breadcrumb .breadcrumb-item.active {
+    color: #FFF;
 }
 
 /* Button styles */
@@ -105,6 +172,10 @@
     height: auto; /* Allow banner height to adapt */
     align-items: center; /* Center content */
     justify-content: center;
+  }
+
+  .banner-small {
+    display: none;
   }
 
   .banner-content {
