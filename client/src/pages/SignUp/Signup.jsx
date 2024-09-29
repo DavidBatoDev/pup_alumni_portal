@@ -7,7 +7,6 @@ import "./Signup.css";
 import AccountDetailsForm from '../../components/SignUpForms/AccountDetailsForm';
 import PersonalInformationForm from '../../components/SignUpForms/PersonalInformationForm';
 import EducationForm from '../../components/SignUpForms/EducationForm';
-
 import "../../global.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";

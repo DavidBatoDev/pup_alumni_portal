@@ -2,24 +2,7 @@ import "./signUpForms.css";
 
 import React from 'react';
 import PropTypes from 'prop-types';
-const AccountDetailsForm = ({ nextStep, prevStep, formData, handleChange }) => {
-    AccountDetailsForm.propTypes = {
-        nextStep: PropTypes.func.isRequired,
-        prevStep: PropTypes.func.isRequired,
-        formData: PropTypes.shape({
-            first_name: PropTypes.string.isRequired,
-            last_name: PropTypes.string.isRequired,
-            gender: PropTypes.string.isRequired,
-            birthday: PropTypes.string.isRequired,
-            street: PropTypes.string.isRequired,
-            city: PropTypes.string.isRequired,
-            state: PropTypes.string.isRequired,
-            postal_code: PropTypes.string.isRequired,
-            country: PropTypes.string.isRequired,
-        }).isRequired,
-        handleChange: PropTypes.func.isRequired,
-    };
-
+const PersonalInformationForm = ({ nextStep, prevStep, formData, handleChange }) => {
     return (
         <div className="form-section">
             <h3 className="section-title">ALUMNI DETAILS</h3>
@@ -184,4 +167,4 @@ const AccountDetailsForm = ({ nextStep, prevStep, formData, handleChange }) => {
     );
 }
 
-export default AccountDetailsForm;
+export default PersonalInformationForm;

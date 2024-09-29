@@ -4,17 +4,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const AccountDetailsForm = ({ nextStep, prevStep, formData, handleChange }) => {
-  AccountDetailsForm.propTypes = {
-    nextStep: PropTypes.func.isRequired,
-    prevStep: PropTypes.func.isRequired,
-    formData: PropTypes.shape({
-      student_number: PropTypes.string.isRequired,
-      email: PropTypes.string.isRequired,
-      password: PropTypes.string.isRequired,
-      password_confirmation: PropTypes.string.isRequired,
-    }).isRequired,
-    handleChange: PropTypes.func.isRequired,
-  };
 return (
     <div className="form-section">
             <h3 className="section-title">ACCOUNT DETAILS</h3>
