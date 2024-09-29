@@ -11,7 +11,7 @@ import './Homepage.css';
 const Homepage = () => {
     return (
         <div className="homepage">
-            <div className='homepage-background'></div>
+            <div className='background homepage-background'></div>
 
             <Navbar />
 

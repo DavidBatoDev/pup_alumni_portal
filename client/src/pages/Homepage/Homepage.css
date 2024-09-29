@@ -8,13 +8,4 @@ section {
 
 .homepage-background {
     background-image: url('../../assets/images/pup-landing-banner.png'); /* Replace with actual image */
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-    z-index: -1;
-    position:absolute; /* Ensure the banner is behind the content */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
 }

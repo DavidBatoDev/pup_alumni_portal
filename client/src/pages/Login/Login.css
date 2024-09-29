@@ -2,129 +2,144 @@
 
 /* Page styling */
 .login-page {
-    background-image: url('../../assets/images/pup-login-banner.jpg');
-    background-size: cover;
-    background-position: center;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     overflow-x: hidden;
-  }
-  
-  .banner-section {
+}
+
+.login-background {
+    background-image: url('../../assets/images/pup-login-banner.jpg');
+}
+
+.login-page .banner-section {
     background-image: url('../../assets/images/pup-login-banner.jpg');
     background-size: cover;
     background-position: center;
     height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .login-title {
-    font-size: 48px;
-    color: #ffffff;
-    font-weight: bold;
-  }
-  
-  .glass-container {
+    padding: 40px 128px;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    flex-shrink: 0;
+}
+
+.banner-section p {
+    color: #1E1E1E;
+    text-align: left;
+    font-family: "Crimson Text";
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.22;
+    max-width: 90%;
+}
+
+.login-title {
+    color: #FFF;
+    font-family: "Crimson Text";
+    font-size: 128px;
+    font-style: normal;
+    font-weight: 700;
+}
+
+.glass-container {
     margin-top: -100px;
     padding: 40px 0;
-  }
-  
-  .login-box {
+}
+
+.login-box {
     background-color: #ffffff;
-    border: 2px solid #dc3545; /* Red border */
-    border-radius: 8px;
-  }
-  
-  .welcome-text {
+    border: 2px solid #dc3545;
+    /* Red border */
+    border-radius: 10px;
+}
+
+.welcome-text {
     font-size: 24px;
     font-weight: bold;
-  }
-  
-  .login-description {
+}
+
+.login-description {
     font-size: 14px;
     color: #666;
     margin-bottom: 30px;
     line-height: 1.6;
-  }
-  
-  .login-form .form-control {
-    border-radius: 4px;
+}
+
+.login-form .form-control {
+    border-radius: 100px;
     font-size: 14px;
-  }
-  
-  .login-form .input-group-text {
-    border-radius: 4px 0 0 4px;
+}
+
+.login-form .input-group-text {
+    border-radius: 100px 0 0 100px;
     border: 1px solid #ced4da;
     border-right: none;
-  }
-  
-  .forgot-password-link {
+}
+
+.forgot-password-link {
     color: #a50000;
     font-weight: bold;
-  }
-  
-  .forgot-password-link:hover {
+}
+
+.forgot-password-link:hover {
     text-decoration: underline;
     color: #870000;
-  }
+}
 
-  .txt-danger{
+.txt-danger {
     color: #870000;
-  }
-  .btn {
+}
+
+.btn {
     font-weight: bold;
     border-radius: 25px;
     padding: 10px;
     font-size: 16px;
-  }
-  
-  .btn-danger {
+}
+
+.btn-danger {
     background-color: #a50000;
-  }
-  
-  .btn-danger:hover {
+}
+
+.btn-danger:hover {
     background-color: #870000;
-  }
-  
-  .sign-up-box {
+}
+
+.sign-up-box {
     border-left: 1px solid #ccc;
     padding-left: 40px;
     text-align: center;
-  }
-  
-  .sign-up-box h2 {
+}
+
+.sign-up-box h2 {
     font-size: 22px;
     font-weight: bold;
-  }
-  
-  .sign-up-box p {
+}
+
+.sign-up-box p {
     font-size: 14px;
     margin: 15px 0;
-  }
-  
-  .btn-outline-danger {
+}
+
+.btn-outline-danger {
     border-color: #a50000;
     color: #a50000;
     font-weight: bold;
     padding: 10px 20px;
-  }
-  
-  .btn-outline-danger:hover {
+}
+
+.btn-outline-danger:hover {
     background-color: #a50000;
     color: #fff;
-  }
-  
-  .contact-support {
+}
+
+.contact-support {
     font-size: 12px;
     margin-top: 20px;
-  }
-  
-  .contact-support a {
+}
+
+.contact-support a {
     color: #a50000;
     font-weight: bold;
-  }
-  
-  
+}

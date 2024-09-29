@@ -67,6 +67,7 @@ const Login = () => {
   return (
     <>
       <Navbar />
+      <div className = "background login-background"></div>
       <div className="login-page">
         {/* Banner area */}
         <div className="banner-section">
