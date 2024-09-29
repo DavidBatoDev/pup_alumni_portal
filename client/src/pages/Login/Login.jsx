@@ -75,7 +75,7 @@ const Login = () => {
         </div>
 
         {/* Login Box with two columns */}
-        <div className="glass-container glass">
+        <div className="sign-in-glass-container glass">
           <div className="row justify-content-center">
             <div className="col-md-10 login-box p-5">
               <div className="row">

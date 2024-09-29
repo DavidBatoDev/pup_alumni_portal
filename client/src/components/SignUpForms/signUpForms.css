@@ -1,40 +1,18 @@
-/* src/pages/Login/Signup.css */
-
-/* Signup Page Styling */
-.signup-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow-x: hidden;
-    position: relative
-}
-
-.sign-in-link {
-    color: #a50000;
-    font-weight: bold;
-}
-
-.sign-in-link:hover {
-    text-decoration: underline;
-    color: #870000;
-}
-
+/* General Styles for Form Section */
 .form-section {
     padding: 20px;
     border-radius: 10px;
     border: 1px solid #800000;
     background: rgba(255, 255, 255, 0.80);
-    min-width: fit-content;
-}
-
-.form-section:nth-child(1) {
-    width: 487px;
+    width: 100%;
+    max-width: 700px; /* Limit the form width for large screens */
 }
 
 .section-title {
     font-size: 24px;
     margin-bottom: 20px;
     color: #800000;
+    text-align: center; /* Center the section title */
 }
 
 .important-txt {
@@ -48,12 +26,12 @@
     gap: 10px;
 }
 
-
 .name-fields {
     display: flex;
     gap: 10px;
 }
 
+/* Input Field Styles */
 input[type="text"],
 input[type="email"],
 input[type="password"],
@@ -73,8 +51,8 @@ select {
     align-items: flex-start;
 }
 
-
-input.form-control, select.form-control {
+input.form-control, 
+select.form-control {
     height: 45px;
     padding: 10px 15px;
     border-radius: 100px;
@@ -86,23 +64,6 @@ input.form-control, select.form-control {
     border: 1px solid #ced4da;
     border-right: none;
 }
-
-/* input.form-control,
-select.form-control {
-    border: none;
-    padding: 10px;
-    flex-grow: 1;
-}
-
-input.form-control:focus,
-select.form-control:focus {
-    outline: none;
-}
-
-.input-group-text i {
-    font-size: 15px;
-    color: #333;
-} */
 
 .checkbox-section {
     display: flex;
@@ -123,6 +84,7 @@ select.form-control:focus {
     text-decoration: underline;
 }
 
+/* Submit Button Styles */
 .form-submit button {
     align-self: flex-end;
     padding: 10px 20px;
@@ -131,7 +93,8 @@ select.form-control:focus {
     border: none;
     border-radius: 100px;
     cursor: pointer;
-
+    width: 100%;
+    max-width: 200px; /* Set max width for larger screens */
 }
 
 .form-submit button:hover {
@@ -145,4 +108,64 @@ select.form-control:focus {
     gap: 10px;
 }
 
+/* Media Queries for Different Screen Sizes */
+@media (max-width: 768px) {
+    /* Smaller font size for section title on tablets */
+    .section-title {
+        font-size: 20px;
+    }
 
+    /* Reduce padding for form fields */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="date"],
+    select {
+        padding: 8px;
+    }
+
+    /* Adjust button width for smaller screens */
+    .form-submit button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Adjustments for mobile screens */
+    .form-section {
+        padding: 14px;
+        border-radius: 8px;
+        max-width: 440px;
+    }
+
+    .section-title {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    /* Smaller padding and font size for form controls */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="date"],
+    select {
+        padding: 6px;
+        font-size: 14px;
+    }
+
+    .input-group-text {
+        padding: 8px;
+    }
+
+    /* Center-align the submit button */
+    .form-submit button {
+        width: 100%;
+        max-width: none;
+        border-radius: 50px;
+        font-size: 16px;
+    }
+
+    .checkbox-section label {
+        font-size: 12px;
+    }
+}

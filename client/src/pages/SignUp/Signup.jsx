@@ -105,7 +105,7 @@ const Signup = () => {
                 </div>
 
                 {/* Signup Form */}
-                <div className="glass-container glass">
+                <div className="sign-up-glass-container glass">
                     {/* Header Section */}
                     <div className="row justify-content-center">
                         <div className="signup-header">
