@@ -4,9 +4,9 @@ import Navbar from "../../components/Navbar/Navbar";
 import MainFooter from "../../components/MainFooter/MainFooter";
 import "./Signup.css";
 
-import AccountDetailsForm from '../../components/Forms/AccountDetailsForm';
-import PersonalInformationForm from '../../components/Forms/PersonalInformationForm';
-import EducationForm from '../../components/Forms/EducationForm';
+import AccountDetailsForm from '../../components/SignUpForms/AccountDetailsForm';
+import PersonalInformationForm from '../../components/SignUpForms/PersonalInformationForm';
+import EducationForm from '../../components/SignUpForms/EducationForm';
 
 import "../../global.css";
 import axios from "axios";

@@ -1,22 +1,8 @@
-import "./Forms.css";
+import "./signUpForms.css";
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 const EducationForm = ({ nextStep, prevStep, formData, handleChange }) => {
-    EducationForm.propTypes = {
-        nextStep: PropTypes.func.isRequired,
-        prevStep: PropTypes.func.isRequired,
-        formData: PropTypes.shape({
-            graduation_year: PropTypes.string.isRequired,
-            degree: PropTypes.string.isRequired,
-            major: PropTypes.string.isRequired,
-            current_job_title: PropTypes.string,
-            current_employer: PropTypes.string,
-            linkedin_profile: PropTypes.string,
-        }).isRequired,
-        handleChange: PropTypes.func.isRequired,
-    };
 
     return (
         <div className="form-section w-auto">
