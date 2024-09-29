@@ -143,3 +143,26 @@
     color: #a50000;
     font-weight: bold;
 }
+
+@media screen and (max-width: 768px) {
+    .login-page {
+        background-image: none;
+    }
+
+    .banner-section {
+        display: none;
+    }
+
+    .glass-container {
+        margin-top: 0;
+    }
+
+    .login-box {
+        border: none;
+    }
+
+    .sign-up-box {
+        border-left: none;
+        padding-left: 0;
+    }
+}
