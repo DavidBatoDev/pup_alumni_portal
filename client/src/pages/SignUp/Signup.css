@@ -53,6 +53,13 @@
     padding-top: 0px;
 }
 
+.forms-container{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100vw;
+}
+
 .form-section {
     padding: 20px;
     border-radius: 10px;

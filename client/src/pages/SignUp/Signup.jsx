@@ -123,7 +123,7 @@ const Signup = () => {
                             {/* Form Container */}
                             <div className="container d-flex justify-content-center">
                                 {/* Form Content based on Current Step */}
-                                <div className="row align-items-center w-auto">
+                                <div className="forms-container">
                                     {currentStep === 1 && (
                                         <AccountDetailsForm
                                             nextStep={nextStep}

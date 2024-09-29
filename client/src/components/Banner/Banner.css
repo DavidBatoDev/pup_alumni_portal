@@ -108,6 +108,7 @@
   }
 
   .banner-content {
+    width: 100%;
     margin: 70px 0; /* Adjust top margin */
     align-items: center; /* Center text */
     text-align: center; /* Center text on mobile */
