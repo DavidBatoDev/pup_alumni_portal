@@ -3,7 +3,7 @@ import "./Forms.css";
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function EducationForm({ nextStep, prevStep, formData, handleChange }) {
+const EducationForm = ({ nextStep, prevStep, formData, handleChange }) => {
     EducationForm.propTypes = {
         nextStep: PropTypes.func.isRequired,
         prevStep: PropTypes.func.isRequired,

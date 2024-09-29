@@ -2,7 +2,7 @@ import "./Forms.css";
 
 import React from 'react';
 import PropTypes from 'prop-types';
-function AccountDetailsForm({ nextStep, prevStep, formData, handleChange }) {
+const AccountDetailsForm = ({ nextStep, prevStep, formData, handleChange }) => {
     AccountDetailsForm.propTypes = {
         nextStep: PropTypes.func.isRequired,
         prevStep: PropTypes.func.isRequired,
