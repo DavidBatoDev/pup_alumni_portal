@@ -30,6 +30,10 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     // Routes for managing multiple addresses
     Route::post('/add-address', [AlumniController::class, 'addAddress']);
     Route::put('/update-address/{id}', [AlumniController::class, 'updateAddress']);
+
+    // Routes for alumni to participate in surveys
+    Route::post('/survey/{surveyId}/submit', [SurveyController::class, 'submitSurveyResponse']);
+    Route::get('/survey/{surveyId}/questions', [SurveyController::class, 'getSurveyQuestions']);
 });
 
 // Protected admin routes (Require JWT Authentication for admin)
@@ -46,5 +50,8 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     // Fetch surveys and related data
     Route::get('/admin/survey/{surveyId}', [SurveyController::class, 'getSurveyWithQuestions']);
     Route::get('/admin/surveys', [SurveyController::class, 'getAllSurveys']);
+
+    // Admin-specific route to get responses for a specific survey along with alumni details
+    Route::get('/admin/survey/{surveyId}/responses', [SurveyController::class, 'getSurveyResponses']);
 });
 

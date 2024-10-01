@@ -2,10 +2,13 @@
 // server/app/Http/Controllers/SurveyController.php
 namespace App\Http\Controllers;
 
-use App\Models\Survey;
-use App\Models\SurveyQuestion;
-use App\Models\SurveyOption;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Survey; 
+use App\Models\SurveyQuestion;
+use App\Models\SurveyOption; 
+use App\Models\FeedbackResponse; 
+use App\Models\QuestionResponse; 
 
 class SurveyController extends Controller
 {
@@ -174,5 +177,106 @@ class SurveyController extends Controller
             'success' => true,
             'surveys' => $surveys
         ], 200);
+    }
+
+    ///////////////////////////////Survey Participation////////////////////////////////////
+
+    /**
+     * Get questions for a given survey.
+     *
+     * @param int $surveyId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getSurveyQuestions($surveyId)
+    {
+        $survey = Survey::with('questions.options')->find($surveyId);
+
+        if (!$survey) {
+            return response()->json(['error' => 'Survey not found'], 404);
+        }
+
+        return response()->json($survey->questions, 200);
+    }
+
+    /**
+     * Submit survey response by an alumni.
+     *
+     * @param Request $request
+     * @param int $surveyId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function submitSurveyResponse(Request $request, $surveyId)
+    {
+        $alumniId = Auth::id(); // Get the authenticated alumni ID
+
+        // Validate the request payload
+        $validatedData = $request->validate([
+            'responses' => 'required|array',
+            'responses.*.question_id' => 'required|exists:survey_questions,question_id',
+            'responses.*.option_id' => 'nullable|exists:survey_options,option_id', // Nullable for open-ended responses
+            'responses.*.response_text' => 'nullable|string' // Text response if option_id is not selected
+        ]);
+
+        // Create a feedback response record
+        $feedbackResponse = FeedbackResponse::create([
+            'survey_id' => $surveyId,
+            'alumni_id' => $alumniId,
+            'response_date' => now()
+        ]);
+
+        // Save individual question responses
+        foreach ($validatedData['responses'] as $response) {
+            QuestionResponse::create([
+                'response_id' => $feedbackResponse->response_id,
+                'question_id' => $response['question_id'],
+                'option_id' => $response['option_id'] ?? null,
+                'response_text' => $response['response_text'] ?? null,
+            ]);
+        }
+
+        return response()->json(['message' => 'Survey responses submitted successfully.'], 201);
+    }
+
+    /**
+     * Get all alumni responses for a specific survey along with their details.
+     *
+     * @param int $surveyId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getSurveyResponses($surveyId)
+    {
+        // Fetch all feedback responses for the given survey along with related alumni information
+        $responses = FeedbackResponse::with([
+            'alumni' => function ($query) {
+                // Select the appropriate fields and primary key column from the alumni table
+                $query->select('alumni_id', 'email', 'first_name', 'last_name');
+            },
+            'questionResponses',
+            'survey'
+        ])
+        ->where('survey_id', $surveyId) // Filter by specific survey ID
+        ->get()
+        ->map(function ($response) {
+            return [
+                'response_id' => $response->response_id,
+                'survey_id' => $response->survey_id,
+                'survey_title' => $response->survey->title,
+                'alumni_id' => $response->alumni_id,
+                'alumni_email' => $response->alumni->email,
+                'alumni_first_name' => $response->alumni->first_name,
+                'alumni_last_name' => $response->alumni->last_name,
+                'response_date' => $response->response_date,
+                'question_responses' => $response->questionResponses->map(function ($questionResponse) {
+                    return [
+                        'question_id' => $questionResponse->question_id,
+                        'response_text' => $questionResponse->response_text,
+                        'option_id' => $questionResponse->option_id,
+                    ];
+                }),
+            ];
+        });
+    
+        // Return the formatted response
+        return response()->json(['success' => true, 'data' => $responses], 200);
     }
 }
