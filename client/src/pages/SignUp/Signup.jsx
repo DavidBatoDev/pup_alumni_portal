@@ -1,5 +1,5 @@
 // src/pages/SignUp/signup.jsx
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import MainFooter from "../../components/MainFooter/MainFooter";
 import "./Signup.css";
@@ -10,10 +10,13 @@ import EducationForm from '../../components/SignUpForms/EducationForm';
 import "../../global.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import BannerSmall from "../../components/Banner/BannerSmall";
+import bannerImage from '../../assets/images/pup-login-banner.jpg';
 
 const Signup = () => {
 
     const navigate = useNavigate();
+
     // Manage form state
     const [formData, setFormData] = useState({
         student_number: '',
@@ -41,15 +44,27 @@ const Signup = () => {
 
     // Step state to track the current form step
     const [currentStep, setCurrentStep] = useState(1);
+    const formContainerRef = useRef(null);
 
-    // Function to go to the next step
+    useEffect(() => {
+        scrollToFormContainer();
+      }, [currentStep]);
+
     const nextStep = () => {
-        setCurrentStep((prevStep) => prevStep + 1);
+    setCurrentStep((prevStep) => prevStep + 1);
     };
 
-    // Function to go to the previous step
     const prevStep = () => {
-        setCurrentStep((prevStep) => prevStep - 1);
+    setCurrentStep((prevStep) => prevStep - 1);
+    };
+
+    const scrollToFormContainer = () => {
+        if (formContainerRef.current) {
+          formContainerRef.current.scrollIntoView({
+            behavior: 'smooth', // Ensures smooth scrolling
+            block: 'start', // Aligns to the top of the container
+          });
+        }
     };
 
     // Handle form changes
@@ -100,12 +115,13 @@ const Signup = () => {
             <div className="signup-page">
                 <div className="background login-background"></div>
                 {/* Banner area */}
-                <div className="banner-section">
-                    <h1 className="signup-title">Register</h1>
-                </div>
+                <BannerSmall
+                    bannerTitle={"Register"}
+                    bannerImage={bannerImage}
+                />
 
                 {/* Signup Form */}
-                <div className="sign-up-glass-container glass">
+                <div className="sign-up-glass-container glass" ref={formContainerRef}>
                     {/* Header Section */}
                     <div className="row justify-content-center">
                         <div className="signup-header">

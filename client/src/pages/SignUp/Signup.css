@@ -48,7 +48,6 @@
 }
 
 .sign-up-glass-container {
-    margin-top: -50px;
     padding-bottom: 40px;
     padding-top: 0px;
 }
@@ -175,6 +174,7 @@ select {
         /* remove */
         display: none;
     }
+
     .signup-header {
     margin-top: 20px;
         font-size: 20px;

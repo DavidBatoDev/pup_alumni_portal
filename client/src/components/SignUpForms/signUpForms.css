@@ -10,6 +10,8 @@
 
 .section-title {
     font-size: 24px;
+    font-family: "Crimson Text", "Times New Roman", Times, serif;
+    font-weight: 700;
     margin-bottom: 20px;
     color: #800000;
     text-align: center; /* Center the section title */
@@ -24,6 +26,24 @@
     flex-direction: column;
     margin-bottom: 20px;
     gap: 10px;
+}
+
+.sign-in-link {
+    color: #a50000;
+    font-weight: bold;
+}
+.sign-in-link:hover {
+    text-decoration: underline;
+    color: #870000;
+}
+
+.form-group label {
+    color: #1E1E1E;
+    font-family: "Raleway";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 }
 
 .name-fields {
@@ -51,7 +71,7 @@ select {
     align-items: flex-start;
 }
 
-input.form-control, 
+input.form-control,
 select.form-control {
     height: 45px;
     padding: 10px 15px;
