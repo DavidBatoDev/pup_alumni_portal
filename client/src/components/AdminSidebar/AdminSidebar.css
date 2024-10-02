@@ -1,0 +1,118 @@
+/* AdminSidebar.css */
+
+.as-navbar {
+  background: #a52436; /* Dark grey background for navbar */
+  padding: 10px;
+}
+
+.as-navbar-logo {
+  width: 50px; /* Adjusted logo size */
+}
+
+/* Mobile Sidebar */
+.as-sidebar.mobile-sidebar {
+  width: 100%;
+  height: 0; /* Start with height 0 */
+  overflow: hidden; /* Hide overflow during the transition */
+  background: #a52436; /* Sidebar background color */
+  position: relative; /* Ensure it doesn't overlap other elements */
+  display: flex; /* Ensures flex display to control items inside */
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease, height 0.3s ease, opacity 0.3s ease; /* Add transform transition */
+  transform: translateY(-100%); /* Start off-screen */
+  opacity: 0; /* Start with opacity 0 */
+}
+
+.collapse.show .as-sidebar.mobile-sidebar {
+  height: auto; /* Auto height to expand */
+  transform: translateY(0); /* Slide down into view */
+  opacity: 1; /* Full opacity */
+}
+
+/* Regular Desktop Sidebar */
+.as-sidebar {
+  width: 250px;
+  background: #a52436; /* Background for the sidebar */
+  color: #fff; /* Text color */
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  transition: width 0.3s ease;
+}
+
+.as-sidebar-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.as-sidebar-logo {
+  width: 100px;
+}
+
+/* Sidebar Menu */
+.as-sidebar-menu {
+  list-style: none;
+  padding: 0;
+}
+
+.as-sidebar-menu-item {
+  margin: 10px 0;
+}
+
+.as-sidebar-menu-item .nav-link {
+  color: #fff; /* Link text color */
+  text-decoration: none;
+  background: transparent; /* Remove background from links */
+  padding: 10px 0; /* Add some padding for better spacing */
+  display: block; /* Make the link block-level for easier click area */
+}
+
+.as-sidebar-menu-item .nav-link:hover {
+  color: #fff; /* Change color on hover for better visibility */
+  text-decoration: underline; /* Underline on hover to indicate interaction */
+}
+
+.as-sidebar-menu-item.active .nav-link {
+  font-weight: bold;
+  color: #fff; /* Active link color */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .as-sidebar {
+    display: none; /* Hide desktop sidebar on small screens */
+  }
+
+  .as-sidebar.mobile-sidebar {
+    display: flex; /* Ensure it's displayed */
+  }
+
+  .as-sidebar-menu-item {
+    text-align: center; /* Center align menu items */
+  }
+
+  .navbar-toggler {
+    border: none;
+    background: transparent;
+  }
+
+  .navbar-toggler:focus {
+    outline: none;
+  }
+
+  .navbar-collapse.show {
+    display: flex; /* Ensure the collapsible menu displays correctly */
+    flex-direction: column;
+    align-items: center; /* Center align items */
+  }
+
+  .collapse.navbar-collapse {
+    width: 100%;
+  }
+}

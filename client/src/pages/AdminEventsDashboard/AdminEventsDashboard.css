@@ -1,0 +1,85 @@
+.admin-dashboard {
+  display: flex;
+}
+
+.admin-dashboard-content {
+  margin-left: 250px; /* Sidebar width */
+  padding: 20px;
+  width: 100%;
+}
+
+/* Header Styling */
+.admin-dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Search Input Styling */
+.admin-dashboard-search {
+  width: 50%; /* Adjust width as needed */
+  padding: 10px;
+  border: 1px solid #ddd; /* Light border */
+  border-radius: 5px;
+  font-size: 16px;
+  margin-right: 20px; /* Space between search and button */
+}
+
+.admin-dashboard-search:focus {
+  outline: none; /* Remove default outline */
+  border-color: #a52436; /* Highlight border on focus */
+}
+
+/* Button Styling */
+.admin-dashboard-btn {
+  background-color: #a52436;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.admin-dashboard-btn:hover {
+  background-color: #e65a50;
+}
+
+/* Container for the Entire Event List */
+.admin-dashboard-events-container {
+  border-radius: 15px; /* Rounded corners */
+  background: rgba(255, 255, 255, 0.60); /* Transparent white background */
+  padding: 30px; /* Padding around the entire container */
+}
+
+/* Event Cards List Container */
+.admin-dashboard-events-list {
+  display: flex;
+  flex-direction: column; /* Stack events vertically */
+  gap: 20px; /* Space between each event */
+}
+
+/* Responsive Design: Mobile */
+@media (max-width: 768px) {
+  .admin-dashboard {
+    flex-direction: column;
+  }
+
+  .admin-dashboard-content {
+    margin-left: 0;
+    padding: 10px;
+  }
+
+  .admin-dashboard-events-container {
+    padding: 20px; /* Adjust padding for mobile */
+  }
+
+  .admin-dashboard-search {
+    width: 100%; /* Full width for mobile */
+    margin-bottom: 10px; /* Margin below search input */
+  }
+
+  .admin-dashboard-btn {
+    width: 100%; /* Full width for button */
+  }
+}

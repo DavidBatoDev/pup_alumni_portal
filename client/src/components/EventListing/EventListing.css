@@ -1,0 +1,191 @@
+/* EventListing.css */
+
+/* Container for Each Event */
+.event-listing {
+  display: flex;
+  align-items: flex-start; /* Align items to the start */
+  background-color: transparent; /* Remove any background color */
+  border-bottom: 1px solid #ddd; /* Use border to separate events */
+  padding: 20px 0;
+  transition: box-shadow 0.3s ease;
+  position: relative;
+}
+
+.event-listing:hover {
+  box-shadow: none; /* Remove shadow effect */
+}
+
+/* Date Section Styling */
+.event-date-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 70px; /* Width for date section */
+  margin-right: 20px; /* Spacing between date and content */
+  font-size: 18px;
+  color: #a50000; /* Date color */
+}
+
+.event-date-month {
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.event-date-day {
+  font-size: 28px; /* Bigger font for the day */
+  font-weight: bold;
+}
+
+/* Image and Details Container */
+.event-image-and-details {
+  display: flex;
+  align-items: center; /* Center align image and text */
+  flex: 1;
+}
+
+/* Event Image Styling */
+.event-image-container {
+  flex: 0 0 180px; /* Adjust width for the image */
+  height: 110px; /* Adjust height to control the aspect ratio */
+  margin-right: 20px;
+}
+
+.event-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: cover; /* Ensure image covers the entire container */
+}
+
+/* Event Details */
+.event-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center text vertically */
+  flex: 1;
+}
+
+.event-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  margin: 0 0 5px; /* Adjust margin for better spacing */
+}
+
+/* Updated .event-info-listing Class */
+.event-info-listing {
+  font-size: 16px; /* Consistent font size */
+  color: #555; /* Text color for better readability */
+  margin-bottom: 10px; /* Spacing below the info */
+  display: flex; /* Flex container */
+  flex-wrap: wrap; /* Wrap content if necessary */
+  align-items: center; /* Center vertically */
+}
+
+.event-info-listing strong {
+  font-weight: 600; /* Make the location bold */
+  margin-right: 5px; /* Spacing between location and date */
+}
+
+/* Event Description */
+.event-description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+/* Right-Aligned Content */
+.event-additional-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  text-align: right;
+}
+
+.event-type {
+  font-size: 14px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.edit-icon {
+  font-size: 18px;
+  cursor: pointer;
+  color: #a50000;
+  transition: color 0.3s ease;
+}
+
+.edit-icon:hover {
+  color: #870000;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 768px) {
+  .event-listing {
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd; /* Add border for better separation */
+  }
+
+  .event-date-section {
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+  }
+
+  .event-image-and-details {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .event-image-container {
+    width: 100%;
+    margin-bottom: 15px;
+    height: auto; /* Allow image height to adjust for mobile */
+  }
+
+  .event-image {
+    height: auto;
+  }
+
+  .event-details {
+    text-align: center;
+  }
+
+  .event-title {
+    font-size: 18px; /* Smaller font for mobile */
+  }
+
+  .event-info-listing,
+  .event-description {
+    font-size: 14px;
+    text-align: center; /* Center text for mobile */
+  }
+
+  .event-info-listing strong {
+    margin: 0 auto; /* Center the bold text */
+  }
+
+  .event-additional-info {
+    position: static;
+    align-items: center;
+    margin-top: 15px;
+    text-align: center;
+  }
+
+  .edit-icon {
+    margin-top: 10px;
+  }
+}

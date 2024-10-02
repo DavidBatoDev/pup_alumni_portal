@@ -9,6 +9,7 @@ import './App.css';
 import './global.css';
 import Events from './pages/Events/Events';
 import AdminLogin from './pages/AdminLogin/AdminLogin';
+import AdminEventsDashboard from './pages/AdminEventsDashboard/AdminEventsDashboard';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/events" element={<AdminEventsDashboard />} />
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
