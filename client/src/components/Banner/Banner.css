@@ -14,7 +14,7 @@
 }
 
 .banner-small {
-    height: 240px;
+    height: 190px;
     position: relative;
     background-size: cover;
     background-position: center;
@@ -57,7 +57,7 @@
 }
 
 .banner-small .banner-content {
-    height: 240px;
+    height: 190px;
     display: flex;
     align-items: flex-start;
     z-index: 2;

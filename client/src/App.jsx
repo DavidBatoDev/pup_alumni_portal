@@ -8,6 +8,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 import './global.css';
 import Events from './pages/Events/Events';
+import AdminLogin from './pages/AdminLogin/AdminLogin';
 
 function App() {
   return (
@@ -17,7 +18,9 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
 
+        {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route path="/event" element={<Events />} />
         </Route>
