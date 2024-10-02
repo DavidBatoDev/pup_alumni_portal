@@ -164,33 +164,29 @@
   color: #a50000;
 }
 
-/* Mobile responsiveness */
 @media (max-width: 768px) {
+  /* Default Banner */
   .banner {
-    min-height: 584px; /* Full viewport height */
+    min-height: 490px; /* Full viewport height */
     padding: 20px; /* Reduce padding */
     height: auto; /* Allow banner height to adapt */
     align-items: center; /* Center content */
     justify-content: center;
   }
 
-  .banner-small {
-    display: none;
-  }
-
-  .banner-content {
+  .banner .banner-content {
     width: 100%;
     margin: 70px 0; /* Adjust top margin */
     align-items: center; /* Center text */
     text-align: center; /* Center text on mobile */
   }
 
-  .banner-content h1 {
-    font-size: 58px; /* Reduce heading size */
+  .banner-content .banner-hero-title {
+    font-size: 68px; /* Reduce heading size */
     line-height: 1;
   }
 
-  .banner-content p {
+  .banner-content .banner-hero-motto {
     font-size: 18px; /* Reduce paragraph size */
     text-align: center;
     max-width: 90%; /* Adjust width for better fit */
@@ -205,6 +201,11 @@
   .banner-buttons .btn {
     padding: 10px 30px; /* Adjust button padding */
     width: 100%; /* Full width buttons on mobile */
+  }
+
+  /* Small Banner */
+  .banner-small{
+    display: none;
   }
 }
 
