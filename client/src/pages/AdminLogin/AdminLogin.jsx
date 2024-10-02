@@ -7,13 +7,15 @@ import Navbar from '../../components/Navbar/Navbar';
 import MainFooter from '../../components/MainFooter/MainFooter';
 import BannerSmall from '../../components/Banner/BannerSmall';
 import bannerImage from '../../assets/images/pup-login-banner.jpg';
-import './AdminLogin.css'; // Create a separate CSS file for styling AdminLogin
+import './AdminLogin.css';
+import CircularLoader from '../../components/CircularLoader/CircularLoader';
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [validationErrors, setValidationErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,6 +26,7 @@ const AdminLogin = () => {
     try {
       setError('');
       setValidationErrors({});
+      setLoading(true);
 
       // Send a POST request to the backend for authentication
       const response = await axios.post('/api/admin/login', {
@@ -38,8 +41,10 @@ const AdminLogin = () => {
       localStorage.setItem('user', JSON.stringify(user));
 
       // Redirect to the admin dashboard
-      navigate('/admin/dashboard');
+      navigate('/admin/events');
+      setLoading(false);
     } catch (err) {
+      setLoading(false);
       if (err.response) {
         if (err.response.status === 422) {
           setValidationErrors(err.response.data.errors);
@@ -145,6 +150,7 @@ const AdminLogin = () => {
         </div>
       </div>
       <MainFooter />
+      {loading && <CircularLoader />}
     </>
   );
 };

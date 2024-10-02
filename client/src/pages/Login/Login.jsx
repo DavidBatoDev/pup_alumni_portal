@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -9,15 +9,24 @@ import '../../global.css';
 import MainFooter from '../../components/MainFooter/MainFooter';
 import BannerSmall from '../../components/Banner/BannerSmall';
 import bannerImage from '../../assets/images/pup-login-banner.jpg';
+import CircularLoader from '../../components/CircularLoader/CircularLoader';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [validationErrors, setValidationErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      setLoading(false);
+    };
+  }, [navigate]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,6 +35,7 @@ const Login = () => {
       // Clear previous errors
       setError('');
       setValidationErrors({});
+      setLoading(true);
 
       // Send a POST request to the backend for authentication
       const response = await axios.post('/api/login', {
@@ -47,9 +57,10 @@ const Login = () => {
 
       // Redirect to the events page
       navigate('/event');
+      setLoading(false);
     } catch (err) {
       console.log(err);
-
+      setLoading(false);
       if (err.response) {
         // If there are validation errors from Laravel
         if (err.response.status === 422) {
@@ -179,6 +190,7 @@ const Login = () => {
         </div>
       </div>
       <MainFooter />
+      {loading && <CircularLoader />}
     </>
   );
 };

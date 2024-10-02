@@ -1,9 +1,11 @@
-// EventListing.jsx
+// src/components/EventListing/EventListing.jsx
+
 import React from 'react';
+import PropTypes from 'prop-types';
 import './EventListing.css';
 import eventImg from '../../assets/images/eventimage2.jpg'; // Update with the appropriate image path
 
-const EventListing = ({ eventData }) => {
+const EventListing = ({ eventData, onEdit }) => {
   // Extract date information to display it in a specific format
   const eventDate = new Date(eventData.event_date);
   const day = eventDate.getDate();
@@ -32,7 +34,7 @@ const EventListing = ({ eventData }) => {
         <div className="event-details">
           <h5 className="event-title">{eventData.event_name}</h5>
           <p className="event-info-listing">
-            <strong>{eventData.location}</strong> - {eventData.event_date}
+            <strong>{eventData.location}</strong> - {eventDate.toDateString()} {/* Readable date format */}
           </p>
           <p className="event-description">{eventData.description}</p>
         </div>
@@ -41,11 +43,17 @@ const EventListing = ({ eventData }) => {
       {/* Right-Aligned Content */}
       <div className="event-additional-info">
         <span className="event-type">Face-to-Face</span> {/* Placeholder event type */}
-        {/* Placeholder for Edit Icon */}
-        <span className="edit-icon">✎</span>
+        {/* Edit Icon with Click Handler */}
+        <span className="edit-icon" onClick={() => onEdit(eventData.event_id)}>✎</span>
       </div>
     </div>
   );
+};
+
+// PropTypes validation for the component props
+EventListing.propTypes = {
+  eventData: PropTypes.object.isRequired, // Event data should be an object
+  onEdit: PropTypes.func.isRequired,      // onEdit should be a function to handle editing
 };
 
 export default EventListing;

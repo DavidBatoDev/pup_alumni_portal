@@ -8,15 +8,11 @@ const AdminSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const menuItems = [
-    { name: 'Dashboard (Analytics)', path: '/admin/dashboard' },
-    { name: 'Content Management', path: '/admin/content-management' },
     { name: 'Event Management', path: '/admin/events' },
+    { name: 'Survey & Feedback', path: '/admin/survey-feedback' },
     { name: 'Career Support', path: '/admin/career-support' },
     { name: 'Chat & Discussions', path: '/admin/chat-discussions' },
-    { name: 'Survey & Feedback', path: '/admin/survey-feedback' },
-    { name: 'User Management', path: '/admin/user-management' },
     { name: 'Volunteer & Donation', path: '/admin/volunteer-donation' },
-    { name: 'Data Analytics & Reporting', path: '/admin/analytics-reporting' },
     { name: 'Settings', path: '/admin/settings' },
   ];
 

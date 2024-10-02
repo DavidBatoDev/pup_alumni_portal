@@ -177,7 +177,8 @@ class EventController extends Controller
      */
     public function getEvents()
     {
-        $events = Event::all();
+        // Fetch all events, ordered by the event date
+        $events = Event::orderBy('event_date', 'desc')->get();
         return response()->json(['success' => true, 'events' => $events], 200);
     }
 
