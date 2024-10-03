@@ -13,72 +13,155 @@ use App\Models\QuestionResponse;
 class SurveyController extends Controller
 {
     ///////////////////////////////Creating Surveys////////////////////////////////////
-    public function saveSurvey(Request $request)
+    public function createSurvey(Request $request)
     {
-        try {
-            // Validate the request payload
-            $validatedData = $request->validate([
-                'title' => 'required|string|max:255',
-                'description' => 'nullable|string',
-                'start_date' => 'required|date',
-                'end_date' => 'required|date',
-                'questions' => 'required|array',
-                'questions.*.question_text' => 'required|string|max:255',
-                'questions.*.question_type' => 'required|string|in:Multiple Choice,Open-ended',
-                'questions.*.options' => 'array|required_if:questions.*.question_type,Multiple Choice',
-                'questions.*.options.*.option_text' => 'required_with:questions.*.options|string|max:255',
-                'questions.*.options.*.option_value' => 'nullable|integer', // Ensure option_value is an integer as per schema
-            ]);
-    
-            // Create the survey and reference 'survey_id'
-            $survey = Survey::create([
-                'title' => $validatedData['title'],
-                'description' => $validatedData['description'],
-                'creation_date' => now(),
-                'start_date' => $validatedData['start_date'],
-                'end_date' => $validatedData['end_date']
-            ]);
-    
-            // Check if the survey was successfully created and ID is valid
-            if (!$survey || !$survey->survey_id) {
-                return response()->json(['error' => 'Failed to create survey. Survey ID is null.'], 500);
-            }
-    
-            // Loop through each question and create it with associated options if applicable
-            foreach ($validatedData['questions'] as $questionData) {
-                $question = SurveyQuestion::create([
-                    'survey_id' => $survey->survey_id,  // Use $survey->survey_id as foreign key
-                    'question_text' => $questionData['question_text'],
-                    'question_type' => $questionData['question_type'],
-                ]);
-    
-                // If the question type is 'Multiple Choice', add the options
-                if ($questionData['question_type'] === 'Multiple Choice' && isset($questionData['options'])) {
-                    foreach ($questionData['options'] as $optionData) {
-                        SurveyOption::create([
-                            'question_id' => $question->question_id,  // Use $question->question_id as foreign key
-                            'option_text' => $optionData['option_text'],
-                            'option_value' => $optionData['option_value'],  // Ensure option_value is stored as integer
-                        ]);
-                    }
-                }
-            }
-    
-            return response()->json(['message' => 'Survey and its details saved successfully.', 'survey' => $survey], 201);
-    
-        } catch (\Exception $e) {
-            // Log the exception and return an error response
-            \Log::error('Error in saveSurvey: ' . $e->getMessage());
-    
-            // Return detailed error message with stack trace for debugging (optional)
-            return response()->json([
-                'error' => 'An error occurred while saving the survey.',
-                'message' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ], 500);
-        }
+        $survey = Survey::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'creation_date' => now(),
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date
+        ]);
+
+        return response()->json($survey, 201);
     }
+
+    public function addQuestion(Request $request, $surveyId)
+    {
+        $question = SurveyQuestion::create([
+            'survey_id' => $surveyId,
+            'question_text' => $request->question_text,
+            'question_type' => $request->question_type,
+        ]);
+
+        return response()->json($question, 201);
+    }
+
+    public function addOption(Request $request, $questionId)
+    {
+        $option = SurveyOption::create([
+            'question_id' => $questionId,
+            'option_text' => $request->option_text,
+            'option_value' => $request->option_value,
+        ]);
+
+        return response()->json($option, 201);
+    }
+
+    ///////////////////////////////Editing Surveys////////////////////////////////////
+    /**
+     * Edit a survey question.
+     * If the question type is changed to 'open-ended', delete all associated options.
+     *
+     * @param Request $request
+     * @param int $questionId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function editQuestion(Request $request, $questionId)
+    {
+        // Find the question by ID
+        $question = SurveyQuestion::find($questionId);
+
+        // If question not found, return an error
+        if (!$question) {
+            return response()->json(['error' => 'Question not found'], 404);
+        }
+
+        // Update the question text
+        $question->question_text = $request->input('question_text', $question->question_text);
+
+        // If question type changes to 'Open-ended', delete all associated options
+        if ($request->has('question_type') && $request->question_type === 'Open-ended') {
+            // Delete options associated with the question
+            SurveyOption::where('question_id', $questionId)->delete();
+        }
+
+        // Update the question type
+        $question->question_type = $request->input('question_type', $question->question_type);
+
+        // Save the changes
+        $question->save();
+
+        return response()->json(['message' => 'Question updated successfully', 'question' => $question], 200);
+    }
+
+    /**
+     * Edit a specific option for a question.
+     *
+     * @param Request $request
+     * @param int $optionId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function editOption(Request $request, $optionId)
+    {
+        // Find the option by ID
+        $option = SurveyOption::find($optionId);
+
+        // If option not found, return an error
+        if (!$option) {
+            return response()->json(['error' => 'Option not found'], 404);
+        }
+
+        // Update the option text and value
+        $option->option_text = $request->input('option_text', $option->option_text);
+        $option->option_value = $request->input('option_value', $option->option_value);
+
+        // Save the changes
+        $option->save();
+
+        return response()->json(['message' => 'Option updated successfully', 'option' => $option], 200);
+    }
+
+    ///////////////////////////////Deleting Question & Option////////////////////////////////////
+    /**
+     * Delete a specific question by its ID.
+     *
+     * @param int $questionId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteQuestion($questionId)
+    {
+        // Find the question by ID
+        $question = SurveyQuestion::find($questionId);
     
+        // Check if the question exists
+        if (!$question) {
+            return response()->json(['error' => 'Question not found'], 404);
+        }
+    
+        // If the question type is 'Multiple Choice', delete all associated options
+        if ($question->question_type === 'Multiple Choice') {
+            SurveyOption::where('question_id', $questionId)->delete();
+        }
+    
+        // Delete the question itself
+        $question->delete();
+    
+        return response()->json(['message' => 'Question deleted successfully'], 200);
+    }
+
+    /**
+     * Delete a specific option by its ID.
+     *
+     * @param int $optionId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteOption($optionId)
+    {
+        // Find the option by ID
+        $option = SurveyOption::find($optionId);
+
+        // Check if the option exists
+        if (!$option) {
+            return response()->json(['error' => 'Option not found'], 404);
+        }
+
+        // Delete the option
+        $option->delete();
+
+        return response()->json(['message' => 'Option deleted successfully'], 200);
+    }
+
 
     ///////////////////////////////Deleting Surveys////////////////////////////////////
     /**
@@ -111,6 +194,8 @@ class SurveyController extends Controller
 
         return response()->json(['message' => 'Survey and its associated questions and options deleted successfully'], 200);
     }
+
+
 
 
     ///////////////////////////////Fetching Surveys////////////////////////////////////

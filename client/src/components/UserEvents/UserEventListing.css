@@ -109,6 +109,7 @@
   right: 20px;
   top: 20px;
   text-align: right;
+  
 }
 
 .event-type {
@@ -128,6 +129,19 @@
 .edit-icon:hover {
   color: #870000;
 }
+
+.more-info{
+  background-color: #a50000;
+  color: #ddd;
+  font-size: small;
+}
+
+.more-info:hover{
+  background-color: #870000;
+  color: #ddd;
+}
+
+
 
 /* Responsive Design for Mobile */
 @media (max-width: 768px) {

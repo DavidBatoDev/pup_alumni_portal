@@ -1,0 +1,99 @@
+/* src/components/SurveyListing/SurveyListing.css */
+
+/* General styling for the survey card */
+.survey-listing-card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #ffffff; /* White background */
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+  transition: box-shadow 0.3s ease;
+  border: 1px solid #e5e5e5; /* Light border for the card */
+}
+
+/* Card hover effect */
+.survey-listing-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Header section of the card */
+.survey-listing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Survey Title */
+.survey-listing-title {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #333; /* Dark color for the title */
+  margin: 0;
+}
+
+/* Survey Date */
+.survey-listing-date {
+  color: #888; /* Lighter color for the date */
+  font-size: 0.9em;
+}
+
+/* Description Section */
+.survey-listing-description {
+  margin: 10px 0;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Survey Details Section */
+.survey-listing-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #e5e5e5;
+  padding-top: 15px;
+}
+
+/* Date Range Styling */
+.survey-listing-date-range {
+  font-size: 0.9em;
+  color: #777;
+}
+
+/* Responses Styling */
+.survey-listing-responses {
+  font-size: 0.9em;
+  color: #777;
+}
+
+/* Status Styling */
+.survey-listing-status {
+  display: flex;
+  align-items: center;
+}
+
+/* Status Indicator Circle */
+.survey-status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+/* Status Text */
+.survey-status-text {
+  font-size: 0.9em;
+  color: #555;
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+  .survey-listing-details {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}

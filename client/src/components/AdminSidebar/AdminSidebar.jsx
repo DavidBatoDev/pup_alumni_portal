@@ -8,12 +8,12 @@ const AdminSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const menuItems = [
-    { name: 'Event Management', path: '/admin/events' },
-    { name: 'Survey & Feedback', path: '/admin/survey-feedback' },
-    { name: 'Career Support', path: '/admin/career-support' },
-    { name: 'Chat & Discussions', path: '/admin/chat-discussions' },
-    { name: 'Volunteer & Donation', path: '/admin/volunteer-donation' },
-    { name: 'Settings', path: '/admin/settings' },
+    { name: 'Event Management', path: '/admin/events', icon: 'fa-calendar-alt' },
+    { name: 'Survey & Feedback', path: '/admin/survey-feedback', icon: 'fa-poll' },
+    { name: 'Career Support', path: '/admin/career-support', icon: 'fa-briefcase' },
+    { name: 'Chat & Discussions', path: '/admin/chat-discussions', icon: 'fa-comments' },
+    { name: 'Volunteer & Donation', path: '/admin/volunteer-donation', icon: 'fa-hand-holding-heart' },
+    { name: 'Settings', path: '/admin/settings', icon: 'fa-cog' },
   ];
 
   const toggleSidebar = () => setIsOpen(!isOpen);
@@ -47,6 +47,7 @@ const AdminSidebar = () => {
                   className={`as-sidebar-menu-item nav-item ${location.pathname === item.path ? 'active' : ''}`}
                 >
                   <Link to={item.path} className="nav-link" onClick={toggleSidebar}>
+                    <i className={`fas ${item.icon} me-2`}></i>
                     {item.name}
                   </Link>
                 </li>
@@ -67,7 +68,10 @@ const AdminSidebar = () => {
               key={item.name}
               className={`as-sidebar-menu-item nav-item ${location.pathname === item.path ? 'active' : ''}`}
             >
-              <Link to={item.path} className="nav-link">{item.name}</Link>
+              <Link to={item.path} className="nav-link">
+                <i className={`fas ${item.icon} me-2`}></i>
+                {item.name}
+              </Link>
             </li>
           ))}
         </ul>

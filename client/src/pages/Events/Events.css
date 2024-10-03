@@ -1,0 +1,51 @@
+.event-section {
+    background-image: url(../../assets/images/eventbanner.png);
+    padding: 50px 0;
+    background-size: cover; /* Cover the entire section with the image */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    position: relative; /* Establish a positioning context for the pseudo-element */
+    font-family: "Crimson Text";
+    font-size: 128px;
+    font-style: normal;
+    font-weight: 700;
+    z-index: 2;
+    height: 100%;
+}
+
+/* Add a pseudo-element for the greyish blur effect */
+.event-section::before {
+    content: ""; /* Empty content for the pseudo-element */
+    position: absolute; /* Position it absolutely */
+    top: 0; /* Align to the top */
+    left: 0; /* Align to the left */
+    right: 0; /* Stretch to the right */
+    bottom: 0; /* Stretch to the bottom */
+    background: rgba(255, 255, 255, 0.79);
+    backdrop-filter: blur(19.399999618530273px);
+    z-index: 1; /* Place it above the background but below the content */
+}
+
+.event-header{
+    margin-bottom: 32px;
+}
+
+.event-header h2{
+    color: #1E1E1E;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: left;
+    color: #1E1E1E;
+}
+
+.event-header h5{
+    color: #1E1E1E;
+    font-size: 20px;
+
+}
+
+.container {
+    position: relative; /* Ensure the content is above the blur effect */
+    z-index: 2; /* Higher z-index to be above the pseudo-element */
+}
+

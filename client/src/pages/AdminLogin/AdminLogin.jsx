@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -9,16 +9,21 @@ import BannerSmall from '../../components/Banner/BannerSmall';
 import bannerImage from '../../assets/images/pup-login-banner.jpg';
 import './AdminLogin.css';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
+import CustomAlert from '../../components/CustomAlert/CustomAlert';
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [validationErrors, setValidationErrors] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); 
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => setLoading(false);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,6 +39,12 @@ const AdminLogin = () => {
         password,
       });
 
+      if (response.status !== 200) {
+        const errorMessage = response.data.error
+        console.log(errorMessage);
+        setError(errorMessage);
+      } 
+
       const { token, user } = response.data;
 
       dispatch(login(user));
@@ -46,10 +57,14 @@ const AdminLogin = () => {
     } catch (err) {
       setLoading(false);
       if (err.response) {
+        console.log(err.response);
         if (err.response.status === 422) {
           setValidationErrors(err.response.data.errors);
         } else if (err.response.status === 401) {
-          setError(err.response.data.message);
+          setError(err.response.data.error);
+        }
+        else if (err.response.status === 500) {
+          setError(err.response.data.error);
         } else {
           setError('Something went wrong, please try again.');
         }
@@ -61,6 +76,7 @@ const AdminLogin = () => {
 
   return (
     <>
+      {error && <CustomAlert severity="error" message={error} onClose={() => setError("")} />}
       <Navbar />
       <div className="background admin-login-background"></div>
       <div className="login-page">
@@ -75,8 +91,6 @@ const AdminLogin = () => {
                   <p className="admin-login-description">
                     Please log in to access the administrative features and manage the platform effectively.
                   </p>
-
-                  {error && <p className="text-danger">{error}</p>}
 
                   <form className="login-form" onSubmit={handleSubmit}>
                     <div className="mb-3">

@@ -8,8 +8,13 @@ import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 import './global.css';
 import Events from './pages/Events/Events';
+
 import AdminLogin from './pages/AdminLogin/AdminLogin';
 import AdminEventsDashboard from './pages/AdminEventsDashboard/AdminEventsDashboard';
+import AdminSurveyDashboard from './pages/AdminSurveyDashboard/AdminSurveyDashboard';
+import SurveyInformationResponses from './pages/SurveyInformationResponses/SurveyInformationResponses';
+import CreateSurvey from './pages/CreateSurvey/CreateSurvey';
+
 import Profile from './pages/Profile/Profile';
 import ProfileLayout from './components/ProfileLayout/ProfileLayout';
 import ProfileOverview from './pages/Profile/ProfileOverview';
@@ -17,7 +22,6 @@ import ProfileSettings from './pages/Profile/ProfileSettings';
 import ProfilePasswordSecurity from './pages/Profile/ProfilePasswordSecurity';
 import ProfileNotificationPreferences from './pages/Profile/ProfileNotificationPreferences';
 import ProfilePrivacySettings from './pages/Profile/ProfilePrivacySettings';
-
 
 function App() {
   return (
@@ -29,9 +33,12 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/events" element={<AdminEventsDashboard />} />
+        <Route path="/admin/survey-feedback" element={<AdminSurveyDashboard />} />
+        <Route path="/admin/survey/:surveyId" element={<SurveyInformationResponses />} />
+        <Route path="/admin/create-survey" element={<CreateSurvey />} /> 
 
-        {/* Protected Routes */}
-        <Route element={<ProtectedRoute />}>
+        {/* Protected Routes  element={<ProtectedRoute />} */}
+        <Route>
           <Route path="/event" element={<Events />} />
           <Route path="/old-profile" element={<Profile />} />
 

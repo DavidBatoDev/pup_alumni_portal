@@ -1,0 +1,90 @@
+/* src/pages/AdminSurveyDashboard/AdminSurveyDashboard.css */
+
+/* General styling for the entire survey dashboard */
+.admin-survey-dashboard {
+    display: flex;
+  }
+  
+  /* Main content styling */
+  .admin-survey-dashboard-content {
+    margin-left: 250px; /* Adjust to match the width of your sidebar */
+    padding: 20px;
+    width: 100%;
+  }
+  
+  /* Header Styling */
+  .admin-survey-dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Search Input Styling */
+  .admin-survey-dashboard-search {
+    width: 50%; /* Adjust width as needed */
+    padding: 10px;
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 20px;
+    font-size: 16px;
+    margin-right: 20px; /* Space between search and button */
+  }
+  
+  .admin-survey-dashboard-search:focus {
+    outline: none; /* Remove default outline */
+    border-color: #a52436; /* Highlight border on focus */
+  }
+  
+  /* Button Styling */
+  .admin-survey-dashboard-btn {
+    background-color: #a52436;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .admin-survey-dashboard-btn:hover {
+    background-color: #861924; /* Darker shade on hover */
+  }
+  
+  /* Container for the entire survey list */
+  .admin-survey-dashboard-surveys-container {
+    border-radius: 15px; /* Rounded corners */
+    background: rgba(255, 255, 255, 0.60); /* Transparent white background */
+    padding: 30px; /* Padding around the entire container */
+  }
+  
+  /* Survey Cards List Container */
+  .admin-survey-dashboard-surveys-list {
+    display: flex;
+    flex-direction: column; /* Stack surveys vertically */
+    gap: 20px; /* Space between each survey */
+  }
+  
+  /* Responsive Design: Mobile */
+  @media (max-width: 768px) {
+    .admin-survey-dashboard {
+      flex-direction: column;
+    }
+  
+    .admin-survey-dashboard-content {
+      margin-left: 0;
+      padding: 10px;
+    }
+  
+    .admin-survey-dashboard-surveys-container {
+      padding: 20px; /* Adjust padding for mobile */
+    }
+  
+    .admin-survey-dashboard-search {
+      width: 100%; /* Full width for mobile */
+      margin-bottom: 10px; /* Margin below search input */
+    }
+  
+    .admin-survey-dashboard-btn {
+      width: 100%; /* Full width for button */
+    }
+  }
+  

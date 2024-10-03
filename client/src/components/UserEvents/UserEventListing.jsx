@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import './EventListing.css';
+import './UserEventListing.css';
 import eventImg from '../../assets/images/eventimage2.jpg'; // Replace with actual path
 
 const EventListing = ({ eventData, onEdit }) => {
@@ -10,8 +10,6 @@ const EventListing = ({ eventData, onEdit }) => {
   const eventDate = new Date(eventData.event_date);
   const day = eventDate.getDate();
   const month = eventDate.toLocaleString('default', { month: 'short' });
-
-  console.log('eventData:', eventData);
 
   return (
     <div className="event-listing">
@@ -34,18 +32,18 @@ const EventListing = ({ eventData, onEdit }) => {
 
         {/* Event Information */}
         <div className="event-details">
-          <h5 className="event-title">{eventData.event_name}</h5>
+          <h5 className="event-title">{eventData.title}</h5>
           <p className="event-info-listing">
             <strong>{eventData.venue}</strong> | {eventDate.toDateString()} {/* Readable date format */}
           </p>
-          <p className="event-description">{eventData.description}</p>
+          <p className="event-description">{eventData.details}</p>
         </div>
       </div>
 
       {/* Right-Aligned Content */}
       <div className="event-additional-info">
         <span className="event-type">{eventData.type}</span>
-        <span className="edit-icon" onClick={() => onEdit(eventData.event_id)}>✎</span>
+        <button className="btn more-info">More Info</button>
       </div>
     </div>
   );
