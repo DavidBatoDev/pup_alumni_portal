@@ -1,0 +1,91 @@
+.filter-section{
+    font-family: "Crimson Text";
+    font-size: 128px;
+    font-style: normal;
+    font-weight: 700;
+    z-index: 2;
+}
+
+.filter-section label{
+    font-family: "Crimson Text";
+}
+
+.filter-title{
+    font-weight: bold;
+}
+
+.filter-label{
+    font-size: 20px;
+}
+
+.filter-group{
+    font-size: 15px;
+}
+
+.filter-icon{
+    height: 30px;
+    width:30px;
+}
+
+.box-header{
+    justify-content: space-between;
+}
+
+.date-picker{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 20px;
+}
+
+.date-box {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.date-box h3 {
+    margin: 0;
+    font-size: 36px;
+}
+
+.date-box p {
+    margin: 0;
+    font-size: 18px;
+}
+
+.form-check-group {
+    margin-left: 20px;
+    font-weight: 600;
+    display: block;
+}
+
+.form-check input[type="checkbox"], .form-check label {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #1E1E1E;
+  
+}
+
+.form-check input[type="checkbox"] {
+    border: 1px solid #1E1E1E;
+    color: #1E1E1E;
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+    margin-top: 0;
+}
+
+.form-check input[type="checkbox"]:checked {
+    background-color: #a50000;
+}
+
+.form-group input[type="text"], .date-picker input[type="date"] {
+    background-color: #DEDEDE;
+    font-size: medium;
+}
+
+.form-group input[type="text"]::placeholder{
+    color: #b1b1b1;
+}

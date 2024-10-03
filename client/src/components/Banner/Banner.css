@@ -14,10 +14,12 @@
 }
 
 .banner-small {
-    height: 190px;
+    height: 250px;
     position: relative;
     background-size: cover;
     background-position: center;
+    display: flex;
+    align-items: center;
 }
 
 /* Apply gradient background */
@@ -61,8 +63,7 @@
     display: flex;
     align-items: flex-start;
     z-index: 2;
-
-    padding: 25px 128px 0 128px;
+    padding: 0 128px 0 128px;
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-start;

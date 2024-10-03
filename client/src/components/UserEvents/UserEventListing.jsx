@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import './EventListing.css';
+import './UserEventListing.css';
 import eventImg from '../../assets/images/eventimage2.jpg'; // Replace with actual path
 
 const EventListing = ({ eventData, onEdit }) => {
@@ -43,7 +43,7 @@ const EventListing = ({ eventData, onEdit }) => {
       {/* Right-Aligned Content */}
       <div className="event-additional-info">
         <span className="event-type">{eventData.type}</span>
-        <span className="edit-icon" onClick={() => onEdit(eventData.event_id)}>✎</span>
+        <button className="btn more-info">More Info</button>
       </div>
     </div>
   );
