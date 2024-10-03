@@ -49,3 +49,33 @@
     z-index: 2; /* Higher z-index to be above the pseudo-element */
 }
 
+/* Default - Desktop */
+.events-container {
+    display: flex;
+    justify-content: space-between; /* Ensure items are spaced well */
+  }
+  
+  /* Mobile View */
+  @media (max-width: 768px) {
+    /* Stack the Filter and Event sections vertically */
+    .events-container {
+      flex-direction: column; /* Switch to column direction */
+      align-items: center; /* Center-align the items */
+    }
+  
+    /* Ensure both sections take full width */
+    .events-container .event-auth {
+      width: 100%; /* Full width for both sections */
+    }
+
+    .event-header{
+        flex-direction: column;
+        margin-bottom: 0;
+    }
+  
+    /* Optional: Center the text inside the event headers and content */
+    .event-header h2, .event-header h5 {
+      text-align: center;
+    }
+  }
+  
