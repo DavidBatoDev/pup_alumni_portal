@@ -1,0 +1,135 @@
+/* src/pages/SurveyInformationResponses/SurveyInformationResponses.css */
+
+/* Container for the entire Survey Information and Responses Page */
+.survey-info-responses-container {
+    display: flex;
+  }
+  
+  /* Sidebar visibility */
+  .survey-info-responses-container.mobile .admin-sidebar {
+    display: none; /* Hide sidebar in mobile view */
+  }
+  
+  /* Content area styling */
+  .survey-info-content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #f8f9fa; /* Light gray background */
+    margin-left: 250px; /* Adjust to match sidebar width */
+  }
+  
+  .survey-info-content.mobile-content {
+    margin-left: 0; /* Remove left margin for mobile */
+    padding: 10px; /* Adjust padding for mobile view */
+  }
+  
+  /* Survey title styling */
+  .survey-info-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  
+  /* Survey description styling */
+  .survey-info-description {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #666;
+  }
+  
+  /* Survey date styling */
+  .survey-info-dates {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 30px;
+  }
+  
+  /* Survey dates for mobile view */
+  .survey-info-dates.mobile-dates {
+    flex-direction: column;
+    gap: 5px; /* Add some gap between items */
+  }
+  
+  /* Subtitle styling for questions and responses sections */
+  .survey-info-subtitle {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 30px;
+    margin-bottom: 15px;
+  }
+  
+  /* Individual survey question styling */
+  .survey-question {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+  }
+  
+  /* Mobile-specific styles for survey questions */
+  .survey-question.mobile-question {
+    padding: 10px;
+  }
+  
+  /* Table Responsive Wrapper */
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto; /* Enable horizontal scroll */
+  }
+  
+  .table {
+    width: 100%; /* Make table take full width */
+  }
+  
+  .table thead th {
+    background-color: #e9ecef; /* Light gray header background */
+    color: #333;
+  }
+  
+  .table-bordered {
+    border: 1px solid #ddd;
+  }
+  
+  .table-hover tbody tr:hover {
+    background-color: #f1f1f1; /* Light hover effect */
+  }
+  
+  /* Loading spinner */
+  .loading {
+    font-size: 24px;
+    text-align: center;
+    padding: 50px;
+  }
+  
+  /* Responsive Design for Mobile */
+  @media (max-width: 768px) {
+    .survey-info-responses-container {
+      flex-direction: column;
+    }
+  
+    .survey-info-content {
+      margin-left: 0;
+      padding: 10px;
+    }
+  
+    .survey-info-dates {
+      flex-direction: column;
+      gap: 5px;
+    }
+  
+    .survey-info-title {
+      font-size: 22px;
+    }
+  
+    .survey-info-subtitle {
+      font-size: 18px;
+    }
+  
+    .survey-question {
+      padding: 10px;
+    }
+  }
+  

@@ -1,0 +1,15 @@
+.profile-layout {
+    position: relative;
+
+    font-family: "Crimson Text", serif;
+    line-height: normal;
+}
+
+.profile-layout-background {
+    background-image: url('../../assets/images/pup-login-banner.jpg');
+}
+
+.profile-layout-content {
+    padding: 42px 128px;
+    gap: 30px;
+}

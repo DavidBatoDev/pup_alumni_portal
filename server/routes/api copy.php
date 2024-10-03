@@ -1,5 +1,5 @@
 <?php
-// server/routes/api.php
+// app/Http/Controllers/AuthController.php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AlumniController;
@@ -45,14 +45,27 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     // Route to register for an event
     Route::post('/event/{eventId}/register', [EventController::class, 'registerAlumniToEvent']);
 
-    Route::get('/surveys', [SurveyController::class, 'getAllSurveys']);
-
 });
 
 // Protected admin routes (Require JWT Authentication for admin)
 Route::group(['middleware' => ['jwt.verify']], function () {
     // Admin-specific routes
     Route::post('/admin/save-survey', [SurveyController::class, 'saveSurvey']);
+
+    // Route::post('/admin/survey', [SurveyController::class, 'createSurvey']);
+    // Route::post('/admin/survey/{surveyId}/question', [SurveyController::class, 'addQuestion']);
+    // Route::post('/admin/question/{questionId}/option', [SurveyController::class, 'addOption']);
+
+    // // Routes to edit a question or option
+    // Route::put('/admin/question/{questionId}', [SurveyController::class, 'editQuestion']);
+    // Route::put('/admin/option/{optionId}', [SurveyController::class, 'editOption']); 
+
+    // // Route to delete a question or option
+    // Route::delete('/admin/question/{questionId}', [SurveyController::class, 'deleteQuestion']);
+    // Route::delete('/admin/option/{optionId}', [SurveyController::class, 'deleteOption']);
+
+    // // Route to delete a survey
+    // Route::delete('/admin/survey/{surveyId}', [SurveyController::class, 'deleteSurvey']);
 
     // Fetch surveys and related data
     Route::get('/admin/survey/{surveyId}', [SurveyController::class, 'getSurveyWithQuestions']);

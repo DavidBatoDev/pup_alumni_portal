@@ -1,0 +1,99 @@
+/* Prefix styles with .survey- to prevent conflicts */
+.survey-list-container {
+  width: 100%;
+}
+
+/* General styling for the survey card container */
+.survey-card-container {
+  background: #ffffff;
+  border-radius: 16px; /* More rounded corners for a modern look */
+  border: 1px solid #e0e0e0;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Softer shadow */
+}
+
+/* Styling for survey card grid */
+.survey-card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Space between each card */
+  justify-content: center; /* Center the cards within the container */
+}
+
+/* Each survey card item styling */
+.survey-card-item {
+  background: linear-gradient(145deg, #f9f9f9, #ffffff); /* Subtle gradient background */
+  border-radius: 16px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Slightly deeper shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 320px; /* Increase width for better layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px;
+  margin: 0 auto;
+  position: relative; /* Allow better control over child elements */
+  height: 320px;
+}
+
+.survey-card-item:hover {
+  transform: translateY(-5px); /* Subtle lift effect */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12); /* Enhanced shadow on hover */
+}
+
+/* Survey information inside each card */
+.survey-information {
+  margin-bottom: 20px;
+}
+
+.survey-title {
+  font-size: 22px; /* Slightly larger font */
+  font-weight: 700; /* Bolder for better emphasis */
+  color: #2c3e50; /* Darker color */
+  margin-bottom: 10px;
+}
+
+.survey-description {
+  font-size: 16px;
+  color: #7f8c8d; /* Muted color for description */
+  margin-bottom: 20px; /* More space before button */
+}
+
+/* Button styling */
+.survey-btn-primary {
+  background-color: #a52436;
+  border: none;
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.survey-btn-primary:hover {
+  background-color: #c62828;
+  transform: scale(1.05); /* Slightly larger on hover */
+}
+
+/* Additional styles for better spacing and container management */
+.survey-card-item + .survey-card-item {
+  margin-top: 15px;
+}
+
+.survey-input-group {
+  width: 100%;
+}
+
+.survey-text-muted {
+  font-size: 18px;
+}
+
+.survey-text-danger {
+  font-size: 20px;
+  font-weight: 700;
+}
+

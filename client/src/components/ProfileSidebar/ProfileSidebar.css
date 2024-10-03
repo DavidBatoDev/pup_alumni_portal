@@ -1,0 +1,134 @@
+/* ProfileSidebar.css - Sidebar for Profile Page  */
+
+.profile-sidebar {
+    position: sticky;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.70);
+    backdrop-filter: blur(10px);
+    width: 100%;
+    height: calc(100vh - 40px);
+    overflow: hidden;
+    position: relative;
+
+
+    font-family: "Crimson Text", serif;
+    line-height: normal;
+}
+
+.profile-sidebar-header {
+    background: linear-gradient(90deg, rgba(89, 115, 147, 0.04) 0%, rgba(12, 65, 198, 0.51) 44.5%, rgba(69, 81, 132, 0.21) 100%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 75px;
+    flex-shrink: 0;
+    width: 224px;
+    z-index: 0;
+}
+
+.profile-sidebar-content {
+    display: flex;
+    padding: 30px 15px 15px 15px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+/* Sidebar Profile Image Styling */
+.profile-sidebar-image img {
+    width: 80px;
+    height: 80px;
+    border: 2px solid #ddd;
+    padding: 3px;
+    background: #fff;
+}
+
+.profile-sidebar-account {
+    z-index: 1;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.profile-sidebar-name {
+    color: #1E1E1E;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 900;
+    margin: 0;
+}
+
+.profile-sidebar-id {
+    color: #6D6D6D;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    margin: 0;
+}
+
+.profile-sidebar-menu {
+    margin: 0;
+    width: 100%;
+}
+
+.profile-sidebar-menu ul {
+    padding-left: 0;
+}
+
+.profile-sidebar-menu li {
+    margin-bottom: 10px;
+}
+
+.sidebar-divider {
+    border-bottom: 2px solid #e0e0e0;
+    width: 100%;
+}
+
+.profile-sidebar-menu a {
+    display: flex;
+    padding: 8px 10px;
+    justify-content: start;
+    align-items: center;
+    text-decoration: none;
+    width: 100%;
+
+    color: #1E1E1E;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+    border-radius: 100px;
+}
+
+.profile-sidebar-menu a:hover {
+    background: #F5F5F5;
+}
+
+.profile-sidebar-menu a.active {
+    background: #fff;
+    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
+}
+
+button.btn-link {
+    background: #800000;
+    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);text-decoration: none;
+    border-radius: 100px;
+    border: none;
+    padding: 8px 10px;
+    font-size: 1rem;
+    cursor: pointer;
+
+    text-decoration: none;
+    color: #FFF;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.logout-container {
+    display: flex;
+    justify-content: center;
+}

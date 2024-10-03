@@ -22,7 +22,7 @@
   /* Custom circular loader animation */
   .custom-loader {
     border: 8px solid rgba(0, 0, 0, 0.1); /* Light grey border */
-    border-top: 8px solid #3498db; /* Blue color for the top border */
+    border-top: 8px solid #a52436; /* Blue color for the top border */
     border-radius: 50%; /* Circular shape */
     width: 60px; /* Width of the loader */
     height: 60px; /* Height of the loader */

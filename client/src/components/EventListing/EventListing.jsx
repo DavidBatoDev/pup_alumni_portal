@@ -11,6 +11,8 @@ const EventListing = ({ eventData, onEdit }) => {
   const day = eventDate.getDate();
   const month = eventDate.toLocaleString('default', { month: 'short' });
 
+  console.log('eventData:', eventData);
+
   return (
     <div className="event-listing">
       {/* Left-Aligned Date Section */}
@@ -32,11 +34,11 @@ const EventListing = ({ eventData, onEdit }) => {
 
         {/* Event Information */}
         <div className="event-details">
-          <h5 className="event-title">{eventData.title}</h5>
+          <h5 className="event-title">{eventData.event_name}</h5>
           <p className="event-info-listing">
             <strong>{eventData.venue}</strong> | {eventDate.toDateString()} {/* Readable date format */}
           </p>
-          <p className="event-description">{eventData.details}</p>
+          <p className="event-description">{eventData.description}</p>
         </div>
       </div>
 
