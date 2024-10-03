@@ -31,7 +31,7 @@ class JwtMiddleware
             return response()->json(['error' => 'Token is invalid'], 401);
         } catch (Exception $e) {
             // If no token is provided or other issues arise
-            return response()->json(['error' => 'Token not found or provided'], 401);
+            return response()->json(['error' => $e], 401);
         }
 
         // If the token is valid, proceed with the request

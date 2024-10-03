@@ -21,18 +21,7 @@ const Navbar = () => {
 
   // Handle link click and close drawer
   const handleNavLinkClick = (sectionId) => {
-    setDrawerOpen(false); // Close drawer on link click
-
-    if (location.pathname !== '/') {
-      navigate('/');
-    }
-
-    setTimeout(() => {
-      const section = document.getElementById(sectionId);
-      if (section) {
-        section.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 100); // Small delay to allow the page to navigate to the homepage
+    navigate(`/${sectionId}`);
   };
 
   return (
@@ -72,10 +61,10 @@ const Navbar = () => {
         <div className="collapse navbar-collapse d-none d-lg-block" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <button className="nav-link" onClick={() => handleNavLinkClick('home')}>Home</button>
+              <button className="nav-link" onClick={() => handleNavLinkClick('event')}>Events</button>
             </li>
             <li className="nav-item">
-              <button className="nav-link" onClick={() => handleNavLinkClick('events')}>Events</button>
+              <button className="nav-link" onClick={() => handleNavLinkClick('surveys')}>Surveys</button>
             </li>
             <li className="nav-item">
               <button className="nav-link" onClick={() => handleNavLinkClick('career')}>Career</button>

@@ -1,0 +1,135 @@
+/* Prefix styles with .answer-survey to prevent conflicts */
+.answer-survey-container {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 30px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Survey information styling */
+.survey-info {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.survey-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.survey-description {
+  font-size: 18px;
+  color: #555;
+  margin-top: 5px;
+}
+
+/* Survey questions section */
+.survey-questions {
+  margin-top: 20px;
+}
+
+.survey-questions-header {
+  font-size: 24px;
+  font-weight: 600;
+  color: #424242;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Survey question card styling */
+.survey-question-card {
+  background: #fefefe;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.survey-question-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.question-top-bar {
+  height: 6px;
+  background-color: #a52436;
+  border-radius: 10px 10px 0 0;
+  margin-bottom: 20px;
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.question-index {
+  font-size: 20px;
+  font-weight: bold;
+  color: #424242;
+}
+
+.question-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Multiple choice options styling */
+.multiple-choice-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-left: 15px;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.option-item input[type="radio"] {
+  width: 18px;
+  height: 18px;
+}
+
+.option-item label {
+  font-size: 18px;
+  color: #555;
+}
+
+/* Submit button styling */
+.submit-survey {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.submit-survey .btn {
+  background-color: #a52436;
+  color: white;
+  padding: 14px 28px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-survey .btn:hover {
+  background-color: #c62828;
+}
+
+/* Loading indicator styling */
+.loading {
+  text-align: center;
+  font-size: 20px;
+  color: #888;
+}

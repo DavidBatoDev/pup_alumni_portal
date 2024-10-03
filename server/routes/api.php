@@ -45,6 +45,8 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     // Route to register for an event
     Route::post('/event/{eventId}/register', [EventController::class, 'registerAlumniToEvent']);
 
+    Route::get('/surveys', [SurveyController::class, 'getAllSurveys']);
+
 });
 
 // Protected admin routes (Require JWT Authentication for admin)

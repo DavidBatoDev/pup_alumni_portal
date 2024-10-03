@@ -13,6 +13,8 @@ import AdminEventsDashboard from './pages/AdminEventsDashboard/AdminEventsDashbo
 import AdminSurveyDashboard from './pages/AdminSurveyDashboard/AdminSurveyDashboard';
 import SurveyInformationResponses from './pages/SurveyInformationResponses/SurveyInformationResponses';
 import CreateSurvey from './pages/CreateSurvey/CreateSurvey';
+import Surveys from './pages/Surveys/Surveys';
+import AnswerSurvey from './pages/AnswerSurvey/AnswerSurvey';
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         <Route path="/admin/survey-feedback" element={<AdminSurveyDashboard />} />
         <Route path="/admin/survey/:surveyId" element={<SurveyInformationResponses />} />
         <Route path="/admin/create-survey" element={<CreateSurvey />} /> 
+        <Route path="/surveys" element={<Surveys />} />
+        <Route path="/survey/:surveyId" element={<AnswerSurvey />} />
 
         {/* Protected Routes  element={<ProtectedRoute />} */}
         <Route>
