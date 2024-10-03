@@ -10,6 +10,14 @@ import './global.css';
 import Events from './pages/Events/Events';
 import AdminLogin from './pages/AdminLogin/AdminLogin';
 import AdminEventsDashboard from './pages/AdminEventsDashboard/AdminEventsDashboard';
+import Profile from './pages/Profile/Profile';
+import ProfileLayout from './components/ProfileLayout/ProfileLayout';
+import ProfileOverview from './pages/Profile/ProfileOverview';
+import ProfileSettings from './pages/Profile/ProfileSettings';
+import ProfilePasswordSecurity from './pages/Profile/ProfilePasswordSecurity';
+import ProfileNotificationPreferences from './pages/Profile/ProfileNotificationPreferences';
+import ProfilePrivacySettings from './pages/Profile/ProfilePrivacySettings';
+
 
 function App() {
   return (
@@ -25,7 +33,19 @@ function App() {
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route path="/event" element={<Events />} />
+          <Route path="/old-profile" element={<Profile />} />
+
+          <Route path="profile" element={<ProfileLayout />}>
+            {/* Nested Routes */}
+            <Route index element={<ProfileOverview />} />
+            <Route path="settings" element={<ProfileSettings />} />
+            <Route path="security" element={<ProfilePasswordSecurity />} />
+            <Route path="notifications" element={<ProfileNotificationPreferences />} />
+            <Route path="privacy" element={<ProfilePrivacySettings />} />
+          </Route>
+
         </Route>
+
 
       </Routes>
     </Router>
