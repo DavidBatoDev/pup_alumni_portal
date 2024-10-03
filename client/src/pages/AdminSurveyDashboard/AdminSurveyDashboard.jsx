@@ -67,7 +67,7 @@ const AdminSurveyDashboard = () => {
           <div className="admin-survey-dashboard-surveys-list">
             {filteredSurveys.length > 0 ? (
               filteredSurveys.map((survey) => (
-                <SurveyListing key={survey.id} surveyData={survey} />
+                <SurveyListing key={survey.survey_id} surveyData={survey} />
               ))
             ) : (
               <p>No surveys found matching your search. Click "Add Survey" to create one.</p>

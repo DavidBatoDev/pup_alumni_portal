@@ -2,9 +2,11 @@
 
 import React from 'react';
 import './SurveyListing.css'; // Import the CSS file for styling
+import { useNavigate } from 'react-router-dom';
 
 const SurveyListing = ({ surveyData }) => {
-  const { title, description, creation_date, start_date, end_date, responses, status } = surveyData;
+  const navigate = useNavigate();
+  const { survey_id, title, description, creation_date, start_date, end_date, responses, status } = surveyData;
 
   // Utility function to format dates
   const formatDate = (dateString) => {
@@ -26,8 +28,13 @@ const SurveyListing = ({ surveyData }) => {
     }
   };
 
+  // Function to navigate to the survey responses page
+  const handleSurveyClick = () => {
+    navigate(`/admin/survey/${survey_id}`);
+  };
+
   return (
-    <div className="survey-listing-card">
+    <div className="survey-listing-card" onClick={handleSurveyClick}>
       {/* Survey Header Section */}
       <div className="survey-listing-header">
         <h2 className="survey-listing-title">{title}</h2>

@@ -112,7 +112,7 @@ class SurveyController extends Controller
         return response()->json(['message' => 'Option updated successfully', 'option' => $option], 200);
     }
 
-    ///////////////////////////////Deleting Question////////////////////////////////////
+    ///////////////////////////////Deleting Question & Option////////////////////////////////////
     /**
      * Delete a specific question by its ID.
      *
