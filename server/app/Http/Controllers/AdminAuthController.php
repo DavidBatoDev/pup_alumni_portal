@@ -46,14 +46,29 @@ class AdminAuthController extends Controller
     // Login the admin
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        try {
+            $credentials = $request->only('email', 'password');
     
-        // Attempt to authenticate using the 'admin' guard
-        if (!$token = auth('admin')->attempt($credentials)) {
-            return response()->json(['error' => 'Invalid credentials'], 401);
+            // Attempt to authenticate using the 'admin' guard
+            if (!$token = auth('admin')->attempt($credentials)) {
+                return response()->json(['error' => 'Invalid credentials'], 401);
+            }
+    
+            // Get the authenticated admin's email
+            $adminEmail = auth('admin')->user()->email;
+    
+            // Include the email in the response along with the token
+            return response()->json([
+                'token' => $token,
+                'email' => $adminEmail,
+            ], 200);
+        } catch (\Exception $e) {
+            // Log the exception for debugging purposes
+            \Log::error('Login error: '.$e->getMessage());
+    
+            // Return a generic error message
+            return response()->json(['error' => 'An error occurred while trying to log in. Please try again later.'], 500);
         }
-    
-        return response()->json(compact('token'));
     }
     
 
