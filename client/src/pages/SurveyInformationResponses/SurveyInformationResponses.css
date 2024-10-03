@@ -5,12 +5,22 @@
     display: flex;
   }
   
+  /* Sidebar visibility */
+  .survey-info-responses-container.mobile .admin-sidebar {
+    display: none; /* Hide sidebar in mobile view */
+  }
+  
   /* Content area styling */
   .survey-info-content {
     flex-grow: 1;
     padding: 20px;
     background-color: #f8f9fa; /* Light gray background */
     margin-left: 250px; /* Adjust to match sidebar width */
+  }
+  
+  .survey-info-content.mobile-content {
+    margin-left: 0; /* Remove left margin for mobile */
+    padding: 10px; /* Adjust padding for mobile view */
   }
   
   /* Survey title styling */
@@ -36,6 +46,12 @@
     margin-bottom: 30px;
   }
   
+  /* Survey dates for mobile view */
+  .survey-info-dates.mobile-dates {
+    flex-direction: column;
+    gap: 5px; /* Add some gap between items */
+  }
+  
   /* Subtitle styling for questions and responses sections */
   .survey-info-subtitle {
     font-size: 22px;
@@ -53,9 +69,19 @@
     margin-bottom: 15px;
   }
   
-  /* Bootstrap Table Styling Overrides */
+  /* Mobile-specific styles for survey questions */
+  .survey-question.mobile-question {
+    padding: 10px;
+  }
+  
+  /* Table Responsive Wrapper */
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto; /* Enable horizontal scroll */
+  }
+  
   .table {
-    background-color: #ffffff; /* White background for the table */
+    width: 100%; /* Make table take full width */
   }
   
   .table thead th {
@@ -71,9 +97,39 @@
     background-color: #f1f1f1; /* Light hover effect */
   }
   
+  /* Loading spinner */
   .loading {
     font-size: 24px;
     text-align: center;
     padding: 50px;
+  }
+  
+  /* Responsive Design for Mobile */
+  @media (max-width: 768px) {
+    .survey-info-responses-container {
+      flex-direction: column;
+    }
+  
+    .survey-info-content {
+      margin-left: 0;
+      padding: 10px;
+    }
+  
+    .survey-info-dates {
+      flex-direction: column;
+      gap: 5px;
+    }
+  
+    .survey-info-title {
+      font-size: 22px;
+    }
+  
+    .survey-info-subtitle {
+      font-size: 18px;
+    }
+  
+    .survey-question {
+      padding: 10px;
+    }
   }
   

@@ -6,8 +6,10 @@ import AdminSidebar from '../../components/AdminSidebar/AdminSidebar';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 import SurveyListing from '../../components/SurveyListing/SurveyListing';
 import './AdminSurveyDashboard.css';
+import { useNavigate } from 'react-router-dom';
 
 const AdminSurveyDashboard = () => {
+  const navigate = useNavigate();
   const [surveysList, setSurveysList] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
@@ -57,7 +59,7 @@ const AdminSurveyDashboard = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button className="admin-survey-dashboard-btn">
+          <button className="admin-survey-dashboard-btn" onClick={() => navigate('/admin/create-survey')}>
             + Add Survey
           </button>
         </div>
