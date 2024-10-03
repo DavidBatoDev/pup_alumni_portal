@@ -16,7 +16,6 @@ import SurveyInformationResponses from './pages/SurveyInformationResponses/Surve
 import CreateSurvey from './pages/CreateSurvey/CreateSurvey';
 import Surveys from './pages/Surveys/Surveys';
 import AnswerSurvey from './pages/AnswerSurvey/AnswerSurvey';
-
 import Profile from './pages/Profile/Profile';
 import ProfileLayout from './components/ProfileLayout/ProfileLayout';
 import ProfileOverview from './pages/Profile/ProfileOverview';
@@ -24,6 +23,8 @@ import ProfileSettings from './pages/Profile/ProfileSettings';
 import ProfilePasswordSecurity from './pages/Profile/ProfilePasswordSecurity';
 import ProfileNotificationPreferences from './pages/Profile/ProfileNotificationPreferences';
 import ProfilePrivacySettings from './pages/Profile/ProfilePrivacySettings';
+import SpecificEvent from './pages/SpecificEvent/Specificevent'; // Ensure the path is correct
+
 
 function App() {
   return (
@@ -41,9 +42,8 @@ function App() {
         <Route path="/surveys" element={<Surveys />} />
         <Route path="/survey/:surveyId" element={<AnswerSurvey />} />
 
-        {/* Protected Routes  element={<ProtectedRoute />} */}
-        <Route>
-          <Route path="/event" element={<Events />} />
+        {/* Protected Routes (Wrap with your ProtectedRoute logic if needed) */}
+        <Route path="/event" element={<Events />} />
           <Route path="/old-profile" element={<Profile />} />
 
           <Route path="profile" element={<ProfileLayout />}>
@@ -55,8 +55,9 @@ function App() {
             <Route path="privacy" element={<ProfilePrivacySettings />} />
           </Route>
 
-        </Route>
 
+        {/* Specific Event Route */}
+        <Route path="/events/:eventTitle" element={<SpecificEvent />} />
 
       </Routes>
     </Router>

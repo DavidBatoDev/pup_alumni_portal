@@ -1,0 +1,36 @@
+/* src/pages/SpecificEvent/SpecificEvent.css */
+.specific-event-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .specific-event-details {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .specific-event-details h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .specific-event-details img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  .specific-event-details p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  
+  .specific-event-description {
+    margin-top: 20px;
+    white-space: pre-line; /* Preserves newlines in event description */
+  }
+  
