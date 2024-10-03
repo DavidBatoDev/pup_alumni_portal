@@ -22,8 +22,8 @@ function App() {
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/events" element={<AdminEventsDashboard />} />
 
-        {/* Protected Routes */}
-        <Route element={<ProtectedRoute />}>
+        {/* Protected Routes  element={<ProtectedRoute />} */}
+        <Route>
           <Route path="/event" element={<Events />} />
         </Route>
 
