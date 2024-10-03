@@ -14,5 +14,11 @@
     font-family: "Crimson Text";
 }
 
-
+@media (max-width: 768px) {
+    .event-header{
+        flex-direction: column;
+        gap:20px;
+    }
+    
+}
   

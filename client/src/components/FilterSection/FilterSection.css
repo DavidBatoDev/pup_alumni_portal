@@ -89,3 +89,17 @@
 .form-group input[type="text"]::placeholder{
     color: #b1b1b1;
 }
+
+@media (max-width: 768px) {
+
+    .filter-container{
+        width: 517px;
+    }
+}
+
+@media (max-width: 500px) {
+    .filter-container{
+        width: 417px;
+    }
+    
+}
