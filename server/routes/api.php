@@ -58,6 +58,13 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::put('/admin/question/{questionId}', [SurveyController::class, 'editQuestion']);
     Route::put('/admin/option/{optionId}', [SurveyController::class, 'editOption']); 
 
+    // Route to delete a question or option
+    Route::delete('/admin/question/{questionId}', [SurveyController::class, 'deleteQuestion']);
+    Route::delete('/admin/option/{optionId}', [SurveyController::class, 'deleteOption']);
+
+    // Route to delete a survey
+    Route::delete('/admin/survey/{surveyId}', [SurveyController::class, 'deleteSurvey']);
+
     // Fetch surveys and related data
     Route::get('/admin/survey/{surveyId}', [SurveyController::class, 'getSurveyWithQuestions']);
     Route::get('/admin/surveys', [SurveyController::class, 'getAllSurveys']);

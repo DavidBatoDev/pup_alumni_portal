@@ -10,6 +10,7 @@ import './global.css';
 import Events from './pages/Events/Events';
 import AdminLogin from './pages/AdminLogin/AdminLogin';
 import AdminEventsDashboard from './pages/AdminEventsDashboard/AdminEventsDashboard';
+import AdminSurveyDashboard from './pages/AdminSurveyDashboard/AdminSurveyDashboard';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/events" element={<AdminEventsDashboard />} />
+        <Route path="/admin/survey-feedback" element={<AdminSurveyDashboard />} />
 
         {/* Protected Routes  element={<ProtectedRoute />} */}
         <Route>

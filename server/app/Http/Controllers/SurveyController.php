@@ -48,7 +48,7 @@ class SurveyController extends Controller
         return response()->json($option, 201);
     }
 
-
+    ///////////////////////////////Editing Surveys////////////////////////////////////
     /**
      * Edit a survey question.
      * If the question type is changed to 'open-ended', delete all associated options.
@@ -111,6 +111,90 @@ class SurveyController extends Controller
 
         return response()->json(['message' => 'Option updated successfully', 'option' => $option], 200);
     }
+
+    ///////////////////////////////Deleting Question////////////////////////////////////
+    /**
+     * Delete a specific question by its ID.
+     *
+     * @param int $questionId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteQuestion($questionId)
+    {
+        // Find the question by ID
+        $question = SurveyQuestion::find($questionId);
+    
+        // Check if the question exists
+        if (!$question) {
+            return response()->json(['error' => 'Question not found'], 404);
+        }
+    
+        // If the question type is 'Multiple Choice', delete all associated options
+        if ($question->question_type === 'Multiple Choice') {
+            SurveyOption::where('question_id', $questionId)->delete();
+        }
+    
+        // Delete the question itself
+        $question->delete();
+    
+        return response()->json(['message' => 'Question deleted successfully'], 200);
+    }
+
+    /**
+     * Delete a specific option by its ID.
+     *
+     * @param int $optionId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteOption($optionId)
+    {
+        // Find the option by ID
+        $option = SurveyOption::find($optionId);
+
+        // Check if the option exists
+        if (!$option) {
+            return response()->json(['error' => 'Option not found'], 404);
+        }
+
+        // Delete the option
+        $option->delete();
+
+        return response()->json(['message' => 'Option deleted successfully'], 200);
+    }
+
+
+    ///////////////////////////////Deleting Surveys////////////////////////////////////
+    /**
+     * Delete a specific survey along with its questions and options.
+     *
+     * @param int $surveyId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteSurvey($surveyId)
+    {
+        // Find the survey by ID
+        $survey = Survey::find($surveyId);
+
+        // Check if the survey exists
+        if (!$survey) {
+            return response()->json(['error' => 'Survey not found'], 404);
+        }
+
+        // Get all questions associated with the survey
+        $questions = SurveyQuestion::where('survey_id', $surveyId)->get();
+
+        // Loop through each question and delete associated options
+        foreach ($questions as $question) {
+            SurveyOption::where('question_id', $question->question_id)->delete();
+            $question->delete(); // Delete the question itself
+        }
+
+        // Delete the survey itself
+        $survey->delete();
+
+        return response()->json(['message' => 'Survey and its associated questions and options deleted successfully'], 200);
+    }
+
 
 
 
