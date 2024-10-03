@@ -1,0 +1,131 @@
+/* Profile Overview Styles */
+.profile-page {
+    position: relative;
+    
+    font-family: "Crimson Text", serif;
+    line-height: normal;
+}
+
+.profile-background {
+    background-image: url('../../assets/images/pup-login-banner.jpg');
+}
+
+.profile-content {
+    padding: 42px 128px;
+    gap: 30px;
+}
+
+.row {
+    display: flex;
+}
+
+/* Profile Overview Card Styles */
+.profile-overview {
+    border-radius: 10px;
+    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.profile-overview-container {
+    padding: 35px;
+    display: flex;
+    flex: 1 0 0;
+    align-items: center;
+    height: fit-content;
+    justify-content: space-between;
+}
+
+.profile-image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.profile-image {
+width: 100px;
+height: 100px;
+border-radius: 50%;
+border: 4px solid #fff; /* White border around the image */
+}
+
+/* Profile Details Styling */
+.profile-details {
+padding: 20px;
+flex: 1; /* Take up available space */
+}
+
+.profile-details h2 {
+font-size: 1.75rem;
+margin: 0 0 10px 0;
+}
+
+.profile-details .card-subtitle {
+font-size: 1rem;
+color: #777;
+}
+
+.profile-details .profile-contacts {
+    border-top: 1px solid #ccc;
+}
+
+.profile-details .card-text {
+margin: 5px 0;
+color: #555;
+}
+
+/* LinkedIn Button Styling */
+.linkedin a {
+display: inline-block;
+margin-top: 20px;
+text-decoration: none;
+color: #0A66C2;
+border: 1px solid #0A66C2;
+border-radius: 25px;
+padding: 8px 20px;
+font-weight: 500;
+transition: all 0.2s ease-in-out;
+}
+
+.linkedin a:hover {
+background-color: #0A66C2;
+color: #fff;
+}
+
+/* Flexbox layout for LinkedIn button to match style */
+.linkedin {
+display: flex;
+justify-content: flex-end;
+}
+
+
+.profile-image img {
+    width: 100px;
+    height: 100px;
+}
+
+/* Custom Section Title */
+.profile-section-title {
+    font-size: 1.5rem;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Professional Experience and Education Cards */
+.profile-section {
+    background-color: #ffffff;
+    padding: 35px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-experience,
+.profile-education {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.profile-experience .card-body,
+.profile-education .card-body {
+    padding: 20px;
+}
+

@@ -9,8 +9,8 @@ const Filter = () => {
         <div>
             <div className="filter-section row mt-5">
             {/* Filter Section */}
-            <div className="col-md-12">
-              <div className="card shadow-sm p-4 mb-5 bg-white rounded">
+            <div className="col-md-12 filter-container">
+              <div className="card shadow-sm p-4 bg-white rounded">
 
                 <div className="box-header d-flex">
                   <h4 className="filter-title mb-3">FILTER</h4>

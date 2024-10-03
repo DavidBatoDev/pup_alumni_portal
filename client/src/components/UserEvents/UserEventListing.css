@@ -143,65 +143,77 @@
 
 
 
-/* Responsive Design for Mobile */
+/* Mobile Responsive Design */
 @media (max-width: 768px) {
+  /* Event Listing: Change flex to column */
   .event-listing {
-    flex-direction: column;
+    flex-direction: column; /* Stack content vertically */
     align-items: center;
     padding: 15px 0;
-    border-bottom: 1px solid #ddd; /* Add border for better separation */
+    border-bottom: 1px solid #ddd;
   }
 
+  /* Date Section: Ensure it stretches across the width */
   .event-date-section {
     flex-direction: row;
-    justify-content: space-around;
-    width: 100%;
+    justify-content: space-between; /* Spread out month and day */
+    width: 100%; /* Full width to make it appear as a block */
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
     margin-bottom: 10px;
   }
 
+  /* Image and Details: Make image and details stack vertically */
   .event-image-and-details {
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: 100%; /* Full width for a stacked look */
   }
 
+  /* Event Image: Adjust to take full width, remove fixed height */
   .event-image-container {
-    width: 100%;
-    margin-bottom: 15px;
-    height: auto; /* Allow image height to adjust for mobile */
+    width: 100%; /* Full width */
+    margin-bottom: 15px; /* Add spacing below image */
+    height: auto; /* Allow the height to adjust automatically */
   }
 
+  /* Image within the container */
   .event-image {
-    height: auto;
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
   }
 
+  /* Event Details: Center the text */
   .event-details {
     text-align: center;
   }
 
+  /* Event Title: Slightly smaller for mobile */
   .event-title {
-    font-size: 18px; /* Smaller font for mobile */
+    font-size: 18px;
   }
 
+  /* Event Info and Description: Adjust to be centered and smaller */
   .event-info-listing,
   .event-description {
-    font-size: 14px;
-    text-align: center; /* Center text for mobile */
+    font-size: 14px; /* Smaller font for mobile */
+    text-align: center; /* Center text */
   }
 
+  /* Event Info List: Ensure center alignment for venue and date */
   .event-info-listing strong {
-    margin: 0 auto; /* Center the bold text */
+    margin: 0 auto; /* Center bold text */
   }
 
+  /* Additional Info: Position at the bottom, center-aligned */
   .event-additional-info {
-    position: static;
+    position: static; /* Remove absolute positioning */
     align-items: center;
     margin-top: 15px;
-    text-align: center;
+    text-align: center; /* Center button and text */
   }
 
+  /* Edit Icon: Add some space at the top for mobile view */
   .edit-icon {
     margin-top: 10px;
   }

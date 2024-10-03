@@ -64,7 +64,7 @@ const EventAuth = () => {
     <div className="container my-5">
       {/* Search Bar and Upcoming Events */}
       <div className="events-card-container card p-4 shadow-sm">
-        <div className="d-flex justify-content-between align-items-center mb-4">
+        <div className="d-flex justify-content-between align-items-center mb-4 event-header">
           <div className="input-group" style={{ maxWidth: '400px' }}>
             <input
               type="text"
