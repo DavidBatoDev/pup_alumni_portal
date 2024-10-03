@@ -21,6 +21,8 @@ const AdminEventsDashboard = () => {
     description: '',
   });
 
+  console.log('eventsList:', eventsList);
+
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
   useEffect(() => {
