@@ -10,6 +10,7 @@ import './global.css';
 import Events from './pages/Events/Events';
 import AdminLogin from './pages/AdminLogin/AdminLogin';
 import AdminEventsDashboard from './pages/AdminEventsDashboard/AdminEventsDashboard';
+import SpecificEvent from './pages/SpecificEvent/Specificevent'; // Ensure the path is correct
 
 function App() {
   return (
@@ -22,11 +23,11 @@ function App() {
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/events" element={<AdminEventsDashboard />} />
 
-        {/* Protected Routes  element={<ProtectedRoute />} */}
-        <Route>
-          <Route path="/event" element={<Events />} />
-        </Route>
+        {/* Protected Routes (Wrap with your ProtectedRoute logic if needed) */}
+        <Route path="/event" element={<Events />} />
 
+        {/* Specific Event Route */}
+        <Route path="/events/:eventTitle" element={<SpecificEvent />} />
       </Routes>
     </Router>
   );

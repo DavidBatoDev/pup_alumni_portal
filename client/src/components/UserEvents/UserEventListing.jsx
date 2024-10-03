@@ -4,12 +4,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './UserEventListing.css';
 import eventImg from '../../assets/images/eventimage2.jpg'; // Replace with actual path
+import { Link } from 'react-router-dom';
 
 const EventListing = ({ eventData, onEdit }) => {
   // Extract date information to display it in a specific format
   const eventDate = new Date(eventData.event_date);
   const day = eventDate.getDate();
   const month = eventDate.toLocaleString('default', { month: 'short' });
+
+  // Create a URL-friendly version of the event title
+  const formattedTitle = eventData.title.replace(/\s+/g, '-'); // Replace spaces with hyphens
 
   return (
     <div className="event-listing">
@@ -43,7 +47,13 @@ const EventListing = ({ eventData, onEdit }) => {
       {/* Right-Aligned Content */}
       <div className="event-additional-info">
         <span className="event-type">{eventData.type}</span>
-        <button className="btn more-info">More Info</button>
+        {/* Link to a dynamic URL based on formatted event title */}
+        <Link 
+          to={`/events/${formattedTitle}`} 
+          className="btn more-info" 
+        >
+          More Info
+        </Link>
       </div>
     </div>
   );
