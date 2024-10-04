@@ -77,15 +77,17 @@ const SpecificEvent = () => {
           { label: event.title.replace(/-/g, ' '), link: `/events/${event.title}` }
         ]}
       />
-      <div className="specific-event-container">
-        {/* Event Details */}
-        <div className="specific-event-details">
-          <h1>{event.title.replace(/-/g, ' ')}</h1> {/* Replace hyphens with spaces for display */}
-          <img src={event.image} alt={event.title} className="specific-event-image" />
-          <p><strong>Date:</strong> {event.date}</p>
-          <p><strong>Location:</strong> {event.venue}</p>
-          <p><strong>Type:</strong> {event.type}</p>
-          <p className="specific-event-description">{event.details}</p>
+      <div className="specific-event-section">
+        <div className="specific-event-container">
+          {/* Event Details */}
+          <div className="specific-event-details">
+            <h1>{event.title.replace(/-/g, ' ')}</h1> {/* Replace hyphens with spaces for display */}
+            <img src={event.image} alt={event.title} className="specific-event-image" />
+            <p><strong>Date:</strong> {event.date}</p>
+            <p><strong>Location:</strong> {event.venue}</p>
+            <p><strong>Type:</strong> {event.type}</p>
+            <p className="specific-event-description">{event.details}</p>
+          </div>
         </div>
       </div>
     </div>

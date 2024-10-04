@@ -1,36 +1,103 @@
 /* src/pages/SpecificEvent/SpecificEvent.css */
+
+/* Updated styling for the entire event section */
+.specific-event-section {
+  position: relative; /* Establish a positioning context */
+  background-image: url(../../assets/images/eventbanner.png);
+  background-size: cover; /* Cover the entire section with the image */
+  background-position: center; /* Center the background image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  padding: 50px 0;
+}
+
+/* Add a pseudo-element for the greyish blur effect */
+.specific-event-section::before {
+  content: ""; /* Empty content for the pseudo-element */
+  position: absolute; /* Position it absolutely */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  right: 0; /* Stretch to the right */
+  bottom: 0; /* Stretch to the bottom */
+  background: rgba(255, 255, 255, 0.79); /* Greyish semi-transparent background */
+  backdrop-filter: blur(20px); /* Apply blur effect */
+  z-index: 1; /* Place it above the background but below the content */
+}
+
+/* Ensure the specific-event-container and its contents are properly layered */
 .specific-event-container {
-    padding: 20px;
-    background-color: #f9f9f9;
+  position: relative; /* Keep content above the pseudo-element */
+  z-index: 2; /* Higher than the pseudo-element */
+  padding: 20px;
+
+}
+
+.specific-event-details {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.specific-event-details h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.specific-event-details img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.specific-event-details p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.specific-event-description {
+  margin-top: 20px;
+  white-space: pre-line; /* Preserves newlines in event description */
+}
+
+/* Override banner-small styles */
+.banner-small {
+  height: 500px;
+}
+
+.banner-small .banner-content {
+  height: auto;
+  flex-shrink: 1;
+  text-align: center;
+  width: auto;
+  display: flex;
+  flex-direction: column; /* Arrange content vertically */
+  justify-content: center; /* Center all content vertically */
+  text-align: center; /* Center text alignment */
+  height: 100%; /* Make sure it occupies full height */
+}
+
+.banner-content .banner-small-title {
+  font-size: 100px;
+}
+
+/* Center the breadcrumb list within its container */
+.banner-small .breadcrumb {
+  display: flex;
+  justify-content: center; /* Centers the breadcrumb horizontally */
+  align-items: center; /* Centers the breadcrumb vertically */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+}
+
+/* Additional styling for the breadcrumb list items */
+.breadcrumb li {
+  display: inline; /* Ensure breadcrumb items are displayed inline */
+}
+
+@media (max-width: 1400px) {
+  .banner-small .banner-content {
+    align-items: center;
   }
-  
-  .specific-event-details {
-    max-width: 800px;
-    margin: auto;
-    padding: 20px;
-    background: #fff;
-    border: 1px solid #ddd;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .specific-event-details h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-  
-  .specific-event-details img {
-    width: 100%;
-    height: auto;
-    margin-bottom: 20px;
-  }
-  
-  .specific-event-details p {
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-  
-  .specific-event-description {
-    margin-top: 20px;
-    white-space: pre-line; /* Preserves newlines in event description */
-  }
-  
+}

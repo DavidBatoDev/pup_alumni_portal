@@ -8,7 +8,6 @@ import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 import './global.css';
 import Events from './pages/Events/Events';
-
 import AdminLogin from './pages/AdminLogin/AdminLogin';
 import AdminEventsDashboard from './pages/AdminEventsDashboard/AdminEventsDashboard';
 import AdminSurveyDashboard from './pages/AdminSurveyDashboard/AdminSurveyDashboard';
@@ -44,8 +43,11 @@ function App() {
 
         {/* Protected Routes (Wrap with your ProtectedRoute logic if needed) */}
         <Route path="/event" element={<Events />} />
-          <Route path="/old-profile" element={<Profile />} />
+          
+        {/* Specific Event Route */}
+        <Route path="/events/:eventTitle" element={<SpecificEvent />} />
 
+        <Route path="/old-profile" element={<Profile />} />
           <Route path="profile" element={<ProfileLayout />}>
             {/* Nested Routes */}
             <Route index element={<ProfileOverview />} />
@@ -55,9 +57,6 @@ function App() {
             <Route path="privacy" element={<ProfilePrivacySettings />} />
           </Route>
 
-
-        {/* Specific Event Route */}
-        <Route path="/events/:eventTitle" element={<SpecificEvent />} />
 
       </Routes>
     </Router>
