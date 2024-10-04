@@ -18,8 +18,8 @@ const events = [
     date: "September 18, 2024",
     venue: "PUP Sta. Mesa, Manila Campus",
     details: `
-      Join us for the PUP Alumni Homecoming 2024, a night of celebration, reconnection, and nostalgia! This annual event is 
-      an opportunity for alumni from all graduating classes to come together and reminisce about their time at Polytechnic 
+      Join us for the PUP Alumni Homecoming 2024, a night of celebration, reconnection, and nostalgia! This annual event is
+      an opportunity for alumni from all graduating classes to come together and reminisce about their time at Polytechnic
       University of the Philippines. Reconnect with old friends, make new connections, and celebrate the achievements of our alumni community.
     `,
     image: eventImage1, // Use static import instead of require
@@ -30,8 +30,8 @@ const events = [
     date: "September 18, 2024",
     venue: "PUP Sta. Mesa, Manila Campus",
     details: `
-      Experience the vibrant culture of PUP at our annual Cultural Night event! Featuring a variety of performances, art displays, 
-      and interactive activities, this event showcases the diverse talents and traditions of our university community. Join us for 
+      Experience the vibrant culture of PUP at our annual Cultural Night event! Featuring a variety of performances, art displays,
+      and interactive activities, this event showcases the diverse talents and traditions of our university community. Join us for
       an evening of celebration, creativity, and fun!
     `,
     image: eventImage2, // Use static import instead of require
@@ -65,7 +65,7 @@ const SpecificEvent = () => {
   }
 
   return (
-    <div>
+    <div className="specific-event-page">
       <NavAuthenticated />
       {/* Updated BannerSmall component with dynamic event data */}
       <BannerSmall

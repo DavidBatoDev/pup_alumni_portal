@@ -62,7 +62,7 @@
 }
 
 /* Override banner-small styles */
-.banner-small {
+.specific-event-page .banner-small {
   height: 500px;
 }
 
