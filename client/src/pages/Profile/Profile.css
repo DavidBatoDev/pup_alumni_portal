@@ -1,7 +1,7 @@
 /* Profile Overview Styles */
 .profile-page {
     position: relative;
-    
+
     font-family: "Crimson Text", serif;
     line-height: normal;
 }
@@ -129,3 +129,11 @@ justify-content: flex-end;
     padding: 20px;
 }
 
+
+
+.profile-settings-section {
+    background-color: #ffffff;
+    padding: 35px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

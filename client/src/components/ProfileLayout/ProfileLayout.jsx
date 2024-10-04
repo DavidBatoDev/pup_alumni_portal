@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import axios from 'axios';
 import { Outlet } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
-import Navbar from '../../components/Navbar/Navbar';
+import NavAuthenticated from '../../components/NavAuthenticated/NavAuthenticated';
 import MainFooter from '../../components/MainFooter/MainFooter';
 import BannerSmall from '../../components/Banner/BannerSmall';
 import bannerImage from '../../assets/images/pup-login-banner.jpg';
@@ -46,14 +45,16 @@ const ProfileLayout = () => {
 
   return (
     <div className="profile-layout">
-      <Navbar />
+      <NavAuthenticated />
       <BannerSmall bannerTitle="Profile Overview" bannerImage={bannerImage} />
       <div className='background profile-layout-background'></div>
 
-      <div className="container-fluid profile-content glass">
-        <div className="row">
+      <div className="container-fluid profile-layout-content glass">
+
+        <div className="row profile-layout-row">
+
           {/* Profile Sidebar */}
-          <div className="col-md-auto">
+          <div className="col-md-auto profile-sidebar-container">
             <ProfileSidebar />
           </div>
 
@@ -62,7 +63,9 @@ const ProfileLayout = () => {
             {/* Render child components like Overview, Settings, etc. */}
             <Outlet context={{ profile, address, employmentHistory, educationHistory }} />
           </div>
+
         </div>
+
       </div>
 
       <MainFooter />

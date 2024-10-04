@@ -1,7 +1,7 @@
 /* ProfileSidebar.css - Sidebar for Profile Page  */
 
 .profile-sidebar {
-    position: sticky;
+    position: relative;
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.70);
     backdrop-filter: blur(10px);

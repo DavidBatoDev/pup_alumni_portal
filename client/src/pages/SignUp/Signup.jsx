@@ -46,9 +46,9 @@ const Signup = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const formContainerRef = useRef(null);
 
-    // useEffect(() => {
-    //     scrollToFormContainer();
-    //   }, [currentStep]);
+    useEffect(() => {
+        scrollToFormContainer();
+      }, [currentStep]);
 
     const nextStep = () => {
     setCurrentStep((prevStep) => prevStep + 1);

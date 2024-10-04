@@ -13,3 +13,34 @@
     padding: 42px 128px;
     gap: 30px;
 }
+
+.profile-layout-row {
+    display: flex;
+    flex-wrap: nowrap;
+    min-height: 100vh; /* Ensure full viewport height */
+    height: 100%;
+    position: relative;
+    overflow-y: auto;
+}
+
+.profile-sidebar-container {
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+
+}
+
+/* Smooth Scroll for Sidebar */
+.profile-sidebar-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.profile-sidebar-container::-webkit-scrollbar-thumb {
+background-color: #b3b3b3;
+border-radius: 10px;
+}
+
+.profile-sidebar-container {
+scrollbar-width: thin;
+scrollbar-color: #b3b3b3 transparent;
+}
