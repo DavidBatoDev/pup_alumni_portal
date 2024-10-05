@@ -1,3 +1,12 @@
+/*
+WARNING: THIS PAGE IS DEPRECATED AND MAY BE REMOVED IN THE FUTURE
+This page is deprecated and will be removed in the future.
+Unless this page is being used for viewing other users' profiles,
+it is recommended to use the ProfileLayout component instead for personal profiles.
+The Profile Page is now a component under components/ProfileLayout/Profile.jsx
+While individual pages are under pages/Profile/ProfileOverview.jsx, ProfileSettings.jsx, etc.
+*/
+
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';

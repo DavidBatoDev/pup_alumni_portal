@@ -26,7 +26,7 @@ const ProfileSidebar = () => {
             />
           </div>
           <div className="d-flex flex-column justify-content-center h-auto w-auto">
-            <h4 className="profile-sidebar-name">Juan Dela Cruz</h4>
+            <h4 className="profile-sidebar-name">{`${user?.user?.first_name} ${user?.user?.last_name}`}</h4>
             <p className="profile-sidebar-id">{user?.user?.alumni_id}</p>
           </div>
         </div>
@@ -38,7 +38,7 @@ const ProfileSidebar = () => {
             <li>
               <NavLink
                 to="/profile"
-                end 
+                end
                 className={({ isActive }) => (isActive ? 'active' : '')}
               >
                 Profile Overview

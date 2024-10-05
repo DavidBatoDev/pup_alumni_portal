@@ -1,139 +1,320 @@
-/* Profile Overview Styles */
-.profile-page {
-    position: relative;
-
-    font-family: "Crimson Text", serif;
-    line-height: normal;
-}
-
-.profile-background {
-    background-image: url('../../assets/images/pup-login-banner.jpg');
-}
-
-.profile-content {
-    padding: 42px 128px;
-    gap: 30px;
-}
-
-.row {
-    display: flex;
-}
-
 /* Profile Overview Card Styles */
-.profile-overview {
-    border-radius: 10px;
-    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+/* Professional Experience and Education Cards */
+.profile-section {
+    background-color: #ffffff;
+    padding: 2.0rem 2.1875rem;
+    border-radius: 0.625rem;
+    box-shadow: 0 0.25rem 0.5rem #0000001a;
 }
+
+    /* Profile Section Text Styling */
+    .profile-section > .card-title {
+        font-size: 1.5rem;
+        border-bottom: 0.125rem solid #e0e0e0;
+        padding-bottom: 0.625rem;
+        margin-bottom: 1.25rem;
+        font-weight: 700;
+        color: #1E1E1E;
+    }
+
+    .profile-section
+    .card-text {
+        font-size: 0.875rem;
+    }
+
+    .profile-section
+    .profile-description {
+        font-size: 1rem;
+    }
+
+    .profile-section
+    .card-subtitle {
+        font-size: 0.875rem;
+        color: #777;
+    }
+
+    .profile-section
+    .form-label {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #1E1E1E;
+        margin: 0;
+    }
+
+    .profile-section
+    .btn {
+        font-size: 0.875rem;
+        font-weight: 700;
+        font-family: "Raleway", sans-serif;
+    }
+
+    .profile-section
+    .input-group-text {
+        font-size: 0.875rem;
+        font-weight: 700;
+        font-family: "Raleway", sans-serif;
+    }
+
+    .profile-overview-header {
+        background: linear-gradient(90deg, rgba(89, 115, 147, 0.04) 0%, rgba(12, 65, 198, 0.51) 44.5%, rgba(69, 81, 132, 0.21) 100%);
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 4.6875rem;
+        flex-shrink: 0;
+        width: 100%;
+        z-index: 0;
+    }
 
 .profile-overview-container {
-    padding: 35px;
     display: flex;
-    flex: 1 0 0;
-    align-items: center;
+    z-index: 1;
+    flex-direction: column;
+    align-items: flex-start;
     height: fit-content;
-    justify-content: space-between;
+    justify-content: flex-start
 }
 
 .profile-image-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
 }
 
-.profile-image {
-width: 100px;
-height: 100px;
-border-radius: 50%;
-border: 4px solid #fff; /* White border around the image */
-}
+    .profile-image {
+        width: 8rem;
+        height: 8rem;
+        border-radius: 50%;
+        border: 0.125rem solid #ddd;
+        padding: 0.1875rem;
+        background: #fff;
+        margin: 0rem;
+    }
 
 /* Profile Details Styling */
 .profile-details {
-padding: 20px;
-flex: 1; /* Take up available space */
+    padding: 1.25rem;
+    flex: 1; /* Take up available space */
 }
 
-.profile-details h2 {
-font-size: 1.75rem;
-margin: 0 0 10px 0;
-}
+    .profile-details h2 {
+        font-size: 1.75rem;
+        margin: 0 0 0.625rem 0;
+        font-weight: 700;
+    }
 
-.profile-details .card-subtitle {
-font-size: 1rem;
-color: #777;
-}
+    .profile-details .profile-contacts {
+        border-top: 0.0625rem solid #ccc;
+    }
 
-.profile-details .profile-contacts {
-    border-top: 1px solid #ccc;
-}
+    .profile-details .card-text {
+    margin: 0.3125rem 0;
+    color: #555;
+    }
 
-.profile-details .card-text {
-margin: 5px 0;
-color: #555;
-}
+    .profile-details-flex {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
 
-/* LinkedIn Button Styling */
-.linkedin a {
-display: inline-block;
-margin-top: 20px;
-text-decoration: none;
-color: #0A66C2;
-border: 1px solid #0A66C2;
-border-radius: 25px;
-padding: 8px 20px;
-font-weight: 500;
-transition: all 0.2s ease-in-out;
-}
+    .profile-details-flex * {
+        min-width: fit-content;
+    }
 
-.linkedin a:hover {
-background-color: #0A66C2;
-color: #fff;
-}
+    /* LinkedIn Button Styling */
+    .linkedin {
+        text-decoration-line: underline;
+        line-height: normal;
+        height: fit-content;
+        color: #6D6D6D;
+        font-weight: 500;
+        font-size: 0.875rem;
+        transition: all 0.2s ease-in-out;
+    }
 
-/* Flexbox layout for LinkedIn button to match style */
-.linkedin {
-display: flex;
-justify-content: flex-end;
-}
-
-
-.profile-image img {
-    width: 100px;
-    height: 100px;
-}
-
-/* Custom Section Title */
-.profile-section-title {
-    font-size: 1.5rem;
-    border-bottom: 2px solid #e0e0e0;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-}
-
-/* Professional Experience and Education Cards */
-.profile-section {
-    background-color: #ffffff;
-    padding: 35px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+    .linkedin:hover {
+        color: #0A66C2;
+    }
 
 .profile-experience,
 .profile-education {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
 }
 
 .profile-experience .card-body,
 .profile-education .card-body {
-    padding: 20px;
+    padding: 1.25rem;
+    display:flex;
+    flex-direction: column;
+    gap: 0.625rem;
+}
+
+/* Experience and Education Card Stylings */
+.profile-experience .card-title,
+.profile-education .card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    color: #1E1E1E;
+}
+
+.profile-experience .card-text,
+.profile-education .card-text {
+    font-weight: normal;
+    margin: 0;
+}
+
+.profile-section
+.btn {
+    box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
+    border-radius: 6.25rem;
+    backdrop-filter: blur(0.625rem);
+    padding: 0.5rem 0.625rem;
+    font-family: "Raleway";
+    border: none;
 }
 
 
+.profile-section
+.btn:hover {
+    transition: all 0.1s ease-in-out;
+}
 
-.profile-settings-section {
-    background-color: #ffffff;
-    padding: 35px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.profile-section
+.btn:active {
+    transform: translateY(0.10rem);
+}
+
+.profile-section
+.btn-outline-secondary {
+    background: rgba(255, 255, 255, 0.70);
+    border: none;
+    color: #1E1E1E;
+    transition: all 0.2s ease-in-out;
+}
+
+.profile-section
+.btn-outline-secondary:hover {
+    background: #e3e3e3;
+}
+
+.profile-section
+.btn-outline-danger {
+    border: 0.125rem solid #800000;
+    color: #800000;
+    transition: all 0.2s ease-in-out;
+}
+
+.profile-section
+.btn-outline-danger:hover {
+    border: 0.125rem solid #800000;
+    color: #ffffff;
+}
+
+.profile-section
+.btn-primary {
+    background-color: rgb(128, 0, 0);
+    color: #ffffff;
+    transition: all 0.2s ease-in-out;
+}
+.profile-section
+.btn-primary:hover {
+    background-color: #fff;
+    color: #1E1E1E;
+}
+
+@media only screen and (max-width: 1024px) {
+    .profile-details-container {
+        flex-direction: column;
+    }
+    .profile-overview-container {
+        flex-direction: row;
+        padding: 1rem;
+        display: flex;
+        flex: 1 0 0;
+        align-items: center;
+        height: fit-content;
+        justify-content: space-between;
+    }
+
+    .profile-overview-header {
+        background: linear-gradient(0deg, rgba(89, 115, 147, 0.04) 0%, rgba(12, 65, 198, 0.51) 44.5%, rgba(69, 81, 132, 0.21) 100%);
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        flex-shrink: 0;
+        width: 15%;
+        z-index: 0;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .profile-overview-container {
+        padding: 0rem;
+    }
+
+    .profile-details {
+        margin-top: 1.25rem;
+    }
+
+    .profile-image-container {
+        margin-bottom: 1.25rem;
+    }
+
+    .profile-image {
+        width: 7.5rem;
+        height: 7.5rem;
+    }
+}
+
+@media only screen and (max-width: 425px) {
+    .profile-overview-container {
+        padding: 0rem;
+        align-items: center;
+        justify-content: start;
+        flex-direction: column;
+    }
+
+    .profile-details {
+        padding: 0rem;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .profile-details h2 {
+        font-size: 1.75rem;
+        margin: 0;
+    }
+        .profile-details p {
+            font-size: 1rem;
+        }
+
+    .profile-section {
+        padding: 1.75rem;
+    }
+
+    .profile-image-container {
+        margin-bottom: 1rem;
+        translate: 0 -1rem;
+        height: 32px;
+    }
+
+    .profile-details-flex {
+        flex-wrap: nowrap;
+        flex-direction: column;
+    }
+
+    .profile-overview-header {
+        background: linear-gradient(90deg, rgba(89, 115, 147, 0.04) 0%, rgba(12, 65, 198, 0.51) 44.5%, rgba(69, 81, 132, 0.21) 100%);
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 3rem;
+        flex-shrink: 0;
+        width: 100%;
+        z-index: 0;
+    }
+
+
 }

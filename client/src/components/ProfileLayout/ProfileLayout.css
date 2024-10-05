@@ -44,3 +44,33 @@ border-radius: 10px;
 scrollbar-width: thin;
 scrollbar-color: #b3b3b3 transparent;
 }
+
+
+/* Media query laptop/smaller screens */
+@media only screen and (max-width: 1024px) {
+    .profile-layout-content {
+        padding: 45px 45px;
+        gap: 15px
+    }
+}
+
+/* Media query for tablet devices */
+@media only screen and (max-width: 768px) {
+    .profile-layout-content {
+        padding: 25px 25px;
+        gap: 15px
+    }
+
+    .profile-layout-row {
+        flex-wrap: wrap;
+        gap: 45px;
+    }
+}
+
+/* Media query for tablet devices */
+@media only screen and (max-width: 425px) {
+    .profile-layout-content {
+        padding: 0px 0px;
+        gap: 15px
+    }
+}
