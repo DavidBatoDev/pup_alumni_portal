@@ -93,7 +93,7 @@
 }
 
 .no-survey-message-container {
-  width: calc(100vw - 200px);
+  width: 80vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -149,7 +149,7 @@
   }
 
   .no-survey-message-container {
-    width: calc(100vw - 100px);
+    width: 350px;
   }
   
 }

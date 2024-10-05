@@ -34,28 +34,36 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin/events" element={<AdminEventsDashboard />} />
-        <Route path="/admin/survey-feedback" element={<AdminSurveyDashboard />} />
-        <Route path="/admin/survey/:surveyId" element={<SurveyInformationResponses />} />
-        <Route path="/admin/create-survey" element={<CreateSurvey />} /> 
-        <Route path="/surveys" element={<Surveys />} />
-        <Route path="/survey/:surveyId" element={<AnswerSurvey />} />
 
-        {/* Protected Routes (Wrap with your ProtectedRoute logic if needed) */}
-        <Route path="/event" element={<Events />} />
-          
-        {/* Specific Event Route */}
-        <Route path="/events/:eventTitle" element={<SpecificEvent />} />
+        {/* Protected Routes for Alumni */}
+        <Route element={<ProtectedRoute allowedRoles={['alumni']} />} >
+            {/* Profile */}
+            <Route path="/old-profile" element={<Profile />} />
+            <Route path="profile" element={<ProfileLayout />}>
+              <Route index element={<ProfileOverview />} />
+              <Route path="settings" element={<ProfileSettings />} />
+              <Route path="security" element={<ProfilePasswordSecurity />} />
+              <Route path="notifications" element={<ProfileNotificationPreferences />} />
+              <Route path="privacy" element={<ProfilePrivacySettings />} />
+            </Route>
 
-        <Route path="/old-profile" element={<Profile />} />
-          <Route path="profile" element={<ProfileLayout />}>
-            {/* Nested Routes */}
-            <Route index element={<ProfileOverview />} />
-            <Route path="settings" element={<ProfileSettings />} />
-            <Route path="security" element={<ProfilePasswordSecurity />} />
-            <Route path="notifications" element={<ProfileNotificationPreferences />} />
-            <Route path="privacy" element={<ProfilePrivacySettings />} />
-          </Route>
+            {/* Survey */}
+            <Route path="/surveys" element={<Surveys />} />
+            <Route path="/survey/:surveyId" element={<AnswerSurvey />} />
+
+            {/* Events */}
+            <Route path="/events" element={<Events />} />
+            <Route path="/events/:eventTitle" element={<SpecificEvent />} />
+        </Route>
+
+        {/* Protected Routes for Admin */}
+        <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+          <Route path="/admin" element={<AdminEventsDashboard />} />
+          <Route path="/admin/events" element={<AdminEventsDashboard />} />
+          <Route path="/admin/survey-feedback" element={<AdminSurveyDashboard />} />
+          <Route path="/admin/survey/:surveyId" element={<SurveyInformationResponses />} />
+          <Route path="/admin/create-survey" element={<CreateSurvey />} />
+        </Route>
 
 
       </Routes>

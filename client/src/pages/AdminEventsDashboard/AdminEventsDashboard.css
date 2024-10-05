@@ -81,6 +81,20 @@
   background: #a52436; /* Slightly lighter red on hover */
 }
 
+.no-events-created-message-container {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-events-created-message-container h3 {
+  font-size: 30px;
+  font-weight: bold;
+}
+
 /* Responsive Design: Mobile */
 @media (max-width: 768px) {
   .admin-dashboard {
@@ -103,6 +117,15 @@
 
   .admin-dashboard-btn {
     width: 100%; /* Full width for button */
+  }
+
+  .no-events-created-message-container {
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
   }
 }
 

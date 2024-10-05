@@ -72,7 +72,15 @@ const AdminSurveyDashboard = () => {
                 <SurveyListing key={survey.survey_id} surveyData={survey} />
               ))
             ) : (
-              <p>No surveys found matching your search. Click "Add Survey" to create one.</p>
+              <div className='no-survey-created-message-container'>
+                <h3 className="text-center">No surveys found.</h3>
+                <p className='text-center'>
+                  You have not created any surveys yet. Click the button below to create a new survey.
+                </p>
+                <button className="btn btn-danger" onClick={() => navigate('/admin/create-survey')}>
+                  Create Survey
+                </button>
+              </div>
             )}
           </div>
         </div>

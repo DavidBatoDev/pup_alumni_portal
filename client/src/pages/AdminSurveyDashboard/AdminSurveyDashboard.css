@@ -56,6 +56,7 @@
     border-radius: 15px; /* Rounded corners */
     background: rgba(255, 255, 255, 0.60); /* Transparent white background */
     padding: 30px; /* Padding around the entire container */
+    min-height: 88vh;
   }
   
   /* Survey Cards List Container */
@@ -63,6 +64,21 @@
     display: flex;
     flex-direction: column; /* Stack surveys vertically */
     gap: 20px; /* Space between each survey */
+  }
+
+  .no-survey-created-message-container {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+
+  }
+  
+  .no-survey-created-message-container h3 {
+    font-size: 30px;
+    font-weight: bold;
   }
   
   /* Responsive Design: Mobile */
@@ -88,5 +104,18 @@
     .admin-survey-dashboard-btn {
       width: 100%; /* Full width for button */
     }
+
+    .no-survey-created-message-container {
+      height: 70vh;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+  
+    }
+
   }
+
+
   

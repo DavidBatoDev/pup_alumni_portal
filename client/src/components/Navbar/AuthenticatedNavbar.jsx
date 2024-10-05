@@ -61,7 +61,7 @@ const AuthenticatedNavbar = () => {
         <div className="collapse navbar-collapse d-none d-lg-block" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <button className="nav-link" onClick={() => handleNavLinkClick('event')}>Events</button>
+              <button className="nav-link" onClick={() => handleNavLinkClick('events')}>Events</button>
             </li>
             <li className="nav-item">
               <button className="nav-link" onClick={() => handleNavLinkClick('surveys')}>Surveys</button>
@@ -97,7 +97,7 @@ const AuthenticatedNavbar = () => {
             <button className="drawer-link" onClick={() => handleNavLinkClick('events')}>Events</button>
           </li>
           <li className="drawer-item">
-            <button className="drawer-link" onClick={() => handleNavLinkClick('survey')}>Survey</button>
+            <button className="drawer-link" onClick={() => handleNavLinkClick('surveys')}>Survey</button>
           </li>
           <li className="drawer-item">
             <button className="drawer-link" onClick={() => handleNavLinkClick('career')}>Career</button>

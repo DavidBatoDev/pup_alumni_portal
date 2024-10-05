@@ -3,16 +3,17 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
 
-const ProtectedRoute = () => {
+const ProtectedRoute = ({ allowedRoles }) => {
   // Get authentication state from Redux
-  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  const { isAuthenticated, role } = useSelector((state) => state.user);
 
-  // If the user is not authenticated, redirect to login
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
   }
 
-  // If authenticated, render the child components
+  if (!allowedRoles.includes(role)) {
+    return <Navigate to="/login" />;
+  }
   return <Outlet />;
 };
 

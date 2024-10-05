@@ -49,14 +49,14 @@ const Login = () => {
       const { token, user } = response.data;
 
       // Dispatch the login action to store user info in Redux
-      dispatch(login(user));
+      dispatch(login({user: user, role: 'alumni'}));
 
       // Store the token in localStorage
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
 
       // Redirect to the events page
-      navigate('/event');
+      navigate('/events');
       setLoading(false);
     } catch (err) {
       console.log(err);

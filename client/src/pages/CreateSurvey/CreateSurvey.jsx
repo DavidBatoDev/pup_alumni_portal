@@ -112,9 +112,7 @@ const CreateSurvey = () => {
 
   // Cancel survey creation and delete if necessary
   const cancelSurveyCreation = () => {
-    if (window.confirm('Are you sure you want to cancel? This will discard all changes.')) {
-      navigate('/admin/dashboard');
-    }
+    navigate('/admin/survey-feedback');
   };
 
   return (

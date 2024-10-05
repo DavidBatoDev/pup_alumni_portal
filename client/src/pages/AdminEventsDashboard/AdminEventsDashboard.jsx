@@ -193,7 +193,15 @@ const AdminEventsDashboard = () => {
                 <EventListing key={eventItem.event_id} eventData={eventItem} onEdit={handleEditEvent} />
               ))
             ) : (
-              <p>No events found matching your search. Click "Add Event" to create one.</p>
+              <div className='no-events-created-message-container'>
+                <h3 className="text-center">No Events Found.</h3>
+                <p className='text-center'>
+                  You have add any events yet. Click the button below to add an event.
+                </p>
+                <button className="btn btn-danger" onClick={handleAddEvent}>
+                  Add Event
+                </button>
+              </div>
             )}
           </div>
         </div>

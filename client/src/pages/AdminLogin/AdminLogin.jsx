@@ -47,7 +47,7 @@ const AdminLogin = () => {
 
       const { token, user } = response.data;
 
-      dispatch(login(user));
+      dispatch(login({ user: user, role: 'admin' }));
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
 

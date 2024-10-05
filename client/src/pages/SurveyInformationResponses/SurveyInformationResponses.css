@@ -16,6 +16,7 @@
     padding: 20px;
     background-color: #f8f9fa; /* Light gray background */
     margin-left: 250px; /* Adjust to match sidebar width */
+    min-height: 100vh;
   }
   
   .survey-info-content.mobile-content {

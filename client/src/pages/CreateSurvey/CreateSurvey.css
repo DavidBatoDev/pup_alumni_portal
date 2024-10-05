@@ -347,4 +347,10 @@
       padding: 12px;
     }
   }
+
+  @media screen and (max-width: 1024px) {
+    .create-survey-content {
+      padding: 30px 40px;
+    }
+  }
   
