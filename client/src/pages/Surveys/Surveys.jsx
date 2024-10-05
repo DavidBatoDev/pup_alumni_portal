@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import BannerSmall from "../../components/Banner/BannerSmall";
-import AuthenticatedNav from "../../components/NavAuthenticated/NavAuthenticated";
+import Navbar from "../../components/Navbar/Navbar";
 import bannerImage from "../../assets/images/eventbanner.png";
 import "./Surveys.css"; // Updated CSS file for styling
 import axios from "axios";
@@ -33,7 +33,7 @@ const Surveys = () => {
   return (
     <div>
       {/* Authenticated Navigation Bar */}
-      <AuthenticatedNav />
+      <Navbar />
       
       {/* Banner Section */}
       <BannerSmall

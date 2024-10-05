@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './SpecificEvent.css';
-import NavAuthenticated from '../../components/NavAuthenticated/NavAuthenticated';
+import Navbar from "../../components/Navbar/Navbar";
 import BannerSmall from '../../components/Banner/BannerSmall';
 import bannerImage from '../../assets/images/eventimage1.png'; // Use a default banner image
 
@@ -66,7 +66,7 @@ const SpecificEvent = () => {
 
   return (
     <div className="specific-event-page">
-      <NavAuthenticated />
+      <Navbar />
       {/* Updated BannerSmall component with dynamic event data */}
       <BannerSmall
         bannerTitle={event.title.replace(/-/g, ' ')} // Replacing hyphens with spaces for display

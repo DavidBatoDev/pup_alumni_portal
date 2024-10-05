@@ -1,6 +1,6 @@
 import React from "react";
 import BannerSmall from "../../components/Banner/BannerSmall";
-import AuthenticatedNav from "../../components/NavAuthenticated/NavAuthenticated";
+import Navbar from "../../components/Navbar/Navbar";
 import bannerImage from "../../assets/images/eventbanner.png";
 import "./Events.css";
 import FilterSection from "../../components/FilterSection/Filter";
@@ -26,7 +26,7 @@ const Events = () => {
 
   return (
     <div>
-      <AuthenticatedNav />
+      <Navbar />
       <BannerSmall
         bannerTitle={"Events Page"}
         bannerImage={bannerImage}
