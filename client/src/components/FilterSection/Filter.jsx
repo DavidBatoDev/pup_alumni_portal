@@ -7,7 +7,7 @@ const Filter = () => {
 
     return (
         <div>
-            <div className="filter-section row mt-5">
+            <div className="filter-section row">
             {/* Filter Section */}
             <div className="col-md-12 filter-container">
               <div className="card shadow-sm p-4 bg-white rounded">
