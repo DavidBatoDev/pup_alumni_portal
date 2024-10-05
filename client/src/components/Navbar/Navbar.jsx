@@ -6,11 +6,13 @@ import HomePageNavbar from './HomepageNavbar';
 const Navbar = () => {
   const {user} = useSelector((state) => state.user);
 
-  console.log(user);
+  const condition = window.location.pathname == '/' || !user ? <HomePageNavbar /> : <AuthenticatedNavbar />;
+
+  console.log(window.location.pathname);
 
   return (
     <div>
-      {user ? <AuthenticatedNavbar /> : <HomePageNavbar />}
+      {condition}
     </div>
     );
   

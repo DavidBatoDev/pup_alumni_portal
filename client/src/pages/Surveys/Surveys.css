@@ -28,3 +28,47 @@
   position: relative;
   z-index: 2; /* Ensure the content is above any pseudo-elements */
 }
+
+.answered-section {
+  margin-top: 50px;
+}
+
+.answered-section h2 {
+  color: #6c757d; /* Darker color for differentiation */
+}
+
+.answered-section h5 {
+  color: #6c757d; /* Darker color for differentiation */
+}
+
+.line-seperator {
+  position: relative;
+  z-index: 1; /* Ensure the line is below the content */
+  width: 100%;
+  height: 2px;
+  background-color: #a50000; /* Light gray line */
+  margin: 50px 0;
+}
+
+@media screen and (max-width: 768px) {
+  .survey-header h2 {
+    font-size: 20px;
+  }
+
+  .survey-header h5 {
+    font-size: 16px;
+  }
+
+  .answered-section h2 {
+    font-size: 20px;
+  }
+
+  .answered-section h5 {
+    font-size: 16px;
+  }
+
+  .line-seperator {
+    margin: 20px 0;
+  }
+  
+}

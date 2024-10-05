@@ -4,8 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { Link, useLocation } from 'react-router-dom';
 import PupLogo from '../../assets/images/pup-logo.png';
 import OtherLogo from '../../assets/images/graduate-logo.png';
+import { useSelector } from 'react-redux';
+import userIcon from '../../assets/images/user.png';
 
 const HomepageNavbar = () => {
+  const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -85,7 +88,15 @@ const HomepageNavbar = () => {
               <button className="nav-link" onClick={() => handleNavLinkClick('contact')}>Contact</button>
             </li>
           </ul>
-          <button onClick={() => navigate('/login')} className="btn btn-nav-signin ms-3">Sign In</button>
+          {
+            user ? (
+              <Link to="/profile" className="nav-link">
+                <img src={userIcon} alt="User" width="30" height="30" />
+              </Link>
+            ) : (
+              <button onClick={() => navigate('/login')} className="btn btn-nav-signin ms-3">Sign In</button>
+            )
+          }
         </div>
       </div>
 
@@ -111,7 +122,17 @@ const HomepageNavbar = () => {
           <li className="drawer-item">
             <button className="drawer-link" onClick={() => handleNavLinkClick('contact')}>Contact</button>
           </li>
-          <button onClick={() => { setDrawerOpen(false); navigate('/login'); }} className="btn btn-nav-signin mt-3">Sign In</button>
+          { user ? (
+            <Link to="/profile" className="drawer-link">
+              <img src={userIcon}
+                alt="User"
+                width="30"
+                height="30"
+              />
+            </Link>
+          ) : (
+            <button onClick={() => { setDrawerOpen(false); navigate('/login'); }} className="btn btn-nav-signin mt-3">Sign In</button>
+          )}
         </ul>
       </div>
 

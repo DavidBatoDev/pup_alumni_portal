@@ -155,6 +155,77 @@ class SurveyController extends Controller
     }
 
     /**
+     * Get all surveys that the authenticated alumni has not yet answered.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getUnansweredSurveys()
+    {
+        try {
+            // Get the authenticated alumni ID
+            $alumniId = Auth::id();
+
+            // Fetch all surveys that the alumni has not yet responded to
+            $unansweredSurveys = Survey::whereDoesntHave('feedbackResponses', function ($query) use ($alumniId) {
+                $query->where('alumni_id', $alumniId);
+            })
+            ->select('survey_id', 'title', 'description', 'start_date', 'end_date', 'creation_date')
+            ->orderBy('creation_date', 'desc')
+            ->get();
+
+            // Check if any surveys are available
+            if ($unansweredSurveys->isEmpty()) {
+                return response()->json(['message' => 'No surveys available for you to answer.'], 404);
+            }
+
+            // Return the surveys list
+            return response()->json([
+                'success' => true,
+                'surveys' => $unansweredSurveys
+            ], 200);
+        } catch (\Exception $e) {
+            // Log the error and return a response with error details
+            \Log::error('Error fetching unanswered surveys: ' . $e->getMessage());
+
+            return response()->json(['error' => 'Failed to fetch surveys. Please try again later.'], 500);
+        }
+    }
+
+
+    public function getAnsweredSurveys()
+    {
+        try {
+            // Get the authenticated alumni ID
+            $alumniId = Auth::id();
+
+            // Fetch all surveys that the alumni has already responded to
+            $answeredSurveys = Survey::whereHas('feedbackResponses', function ($query) use ($alumniId) {
+                $query->where('alumni_id', $alumniId);
+            })
+            ->select('survey_id', 'title', 'description', 'start_date', 'end_date', 'creation_date')
+            ->orderBy('creation_date', 'desc')
+            ->get();
+
+            // Check if any surveys are available
+            if ($answeredSurveys->isEmpty()) {
+                return response()->json(['message' => 'You have not answered any surveys yet.'], 404);
+            }
+
+            // Return the list of answered surveys
+            return response()->json([
+                'success' => true,
+                'surveys' => $answeredSurveys
+            ], 200);
+        } catch (\Exception $e) {
+            // Log the error and return a response with error details
+            \Log::error('Error fetching answered surveys: ' . $e->getMessage());
+
+            return response()->json(['error' => 'Failed to fetch answered surveys. Please try again later.'], 500);
+        }
+    }
+
+
+    /**
      * Get all surveys created by the admin.
      *
      * @return \Illuminate\Http\JsonResponse
