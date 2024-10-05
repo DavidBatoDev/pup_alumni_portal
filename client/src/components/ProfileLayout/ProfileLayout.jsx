@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import axios from 'axios';
 import { Outlet } from 'react-router-dom';
 
-import NavAuthenticated from '../../components/NavAuthenticated/NavAuthenticated';
+import Navbar from '../Navbar/Navbar';
 import MainFooter from '../../components/MainFooter/MainFooter';
 import BannerSmall from '../../components/Banner/BannerSmall';
 import bannerImage from '../../assets/images/pup-login-banner.jpg';
@@ -45,7 +45,7 @@ const ProfileLayout = () => {
 
   return (
     <div className="profile-layout">
-      <NavAuthenticated />
+      <Navbar />
       <BannerSmall bannerTitle="Profile Overview" bannerImage={bannerImage} />
       <div className='background profile-layout-background'></div>
 

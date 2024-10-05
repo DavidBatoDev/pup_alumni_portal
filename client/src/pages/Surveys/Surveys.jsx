@@ -1,25 +1,50 @@
 import React, { useState, useEffect } from "react";
 import BannerSmall from "../../components/Banner/BannerSmall";
-import AuthenticatedNav from "../../components/NavAuthenticated/NavAuthenticated";
+import Navbar from "../../components/Navbar/Navbar";
 import bannerImage from "../../assets/images/eventbanner.png";
 import "./Surveys.css"; // Updated CSS file for styling
 import axios from "axios";
-import SurveyCard from "../../components/SurveyCard/SurveyCard"; // Import the updated SurveyCard component
+import '../../global.css';
+import SurveyCard from "../../components/SurveyCards/SurveyCards"; // Import the updated SurveyCard component
 
 const Surveys = () => {
-  const [surveysData, setSurveysData] = useState([]);
+  const DummyData = [
+    {
+      title: "Survey 1",
+      description: "Description of Survey 1",
+      link: "/survey/1",
+    },
+    {
+      title: "Survey 2",
+      description: "Description of Survey 2",
+      link: "/survey/2",
+    },
+    {
+      title: "Survey 3",
+      description: "Description of Survey 3",
+      link: "/survey/3",
+    },
+    {
+      title: "Survey 4",
+      description: "Description of Survey 4",
+      link: "/survey/4",
+    }
+  ];
+
+  const [unansweredSurveysData, setUnansweredSurveysData] = useState([]);
+  const [answerSurveyData, setAnswerSurveyData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetch surveys from the API
-    const fetchSurveys = async () => {
+    const fetchUnansweredSurveys = async () => {
       try {
-        const response = await axios.get("/api/surveys", {
+        const response = await axios.get("/api/survey/unanswered-surveys", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }); 
-        setSurveysData(response.data.surveys);
+        });
+        setUnansweredSurveysData(response.data.surveys);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching surveys:", error);
@@ -27,14 +52,31 @@ const Surveys = () => {
       }
     };
 
-    fetchSurveys();
+    const fetchAnsweredSurveys = async () => {
+      try {
+        const response = await axios.get("/api/survey/answered-surveys", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        setAnswerSurveyData(response.data.surveys);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching surveys:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAnsweredSurveys();
+    fetchUnansweredSurveys();
   }, []);
 
   return (
     <div>
       {/* Authenticated Navigation Bar */}
-      <AuthenticatedNav />
-      
+      <Navbar />
+      <div className="background login-background"></div>
+
       {/* Banner Section */}
       <BannerSmall
         bannerTitle={"Surveys Page"}
@@ -46,8 +88,9 @@ const Surveys = () => {
       />
 
       {/* Main Survey Section */}
-      <div className="survey-section">
+      <div className="survey-section glass">
         <div className="container">
+          {/* Unanswered Surveys Section */}
           <div className="survey-header">
             <h2>Participate in Our Surveys</h2>
             <h5>
@@ -58,10 +101,33 @@ const Surveys = () => {
             {loading ? (
               <div>Loading surveys...</div>
             ) : (
-              <SurveyCard surveys={surveysData} />
+              <SurveyCard surveys={unansweredSurveysData} answered={false} />
+            )}
+          </div>
+
+          <div className="line-seperator"></div>
+
+          {/* Answered Surveys Section */}
+          <div className="survey-header answered-section">
+            
+            {answerSurveyData.length > 0 && (
+              <>
+                <h2>Answered Surveys</h2>
+                <h5>
+                  Here are the surveys you have already completed. Thank you for your participation!
+                </h5>
+              </>
+            )}
+          </div>
+          <div className="surveys-container">
+            {loading ? (
+              <div>Loading surveys...</div>
+            ) : (
+              <SurveyCard surveys={answerSurveyData} answered={true} />
             )}
           </div>
         </div>
+
       </div>
     </div>
   );

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import './AnswerSurvey.css'; // Import the new CSS file for styling
+import './AnswerSurvey.css';
+import CustomAlert from '../../components/CustomAlert/CustomAlert';
+import CircularLoader from '../../components/CircularLoader/CircularLoader';
 
 const AnswerSurvey = () => {
   const { surveyId } = useParams(); // Extract survey ID from the URL
   const navigate = useNavigate();
+  const [error, setError] = useState(null); // Store error message
   const [surveyData, setSurveyData] = useState(null); // Store survey information
   const [responses, setResponses] = useState({}); // Store user responses
   const [loading, setLoading] = useState(true); // Track loading state
@@ -51,41 +54,46 @@ const AnswerSurvey = () => {
         },
       });
       if (response.status === 201) {
-        alert('Survey submitted successfully!');
         navigate('/surveys'); // Redirect to surveys page after successful submission
       } else {
-        console.error('Failed to submit survey:', response.data);
+        setError('Failed to submit survey. Please try again.');
+        setResponses({}); // Clear responses on error
       }
     } catch (error) {
       console.error('Error submitting survey:', error);
-      alert('Failed to submit the survey.');
+      setError('Failed to submit survey. Please try again.');
+      setResponses({}); // Clear responses on error
     }
   };
 
   if (loading) {
-    return <div className="loading">Loading survey questions...</div>;
+    return <CircularLoader />;
   }
 
   return (
     <div className="answer-survey-container">
+      {error && <CustomAlert message={error} type="error" />}
+      <div className='as-back-btn-container'>
+        <button>back</button>
+      </div>
       {/* Survey Information */}
       <div className="survey-info">
-        <h2 className="survey-title">{surveyData?.[0]?.survey?.title}</h2>
-        <p className="survey-description">{surveyData?.[0]?.survey?.description}</p>
+        <h2 className="survey-title">{surveyData?.title}</h2>
+        <p className="survey-description">{surveyData?.description}</p>
       </div>
 
       {/* Survey Questions Section */}
       <div className="survey-questions">
         <h3 className="survey-questions-header">Survey Questions</h3>
-        {surveyData.map((question, index) => (
-          <div key={question.question_id} className="survey-question-card">
-            <div className="question-top-bar" /> {/* Top bar styling */}
-            <div className="question-header">
-              <span className="question-index">{index + 1}</span>
-              <h4 className="question-title">{question.question_text}</h4>
+        {surveyData.questions.map((question, index) => (
+          <div key={question.question_id} className="as-survey-question-card">
+            <div className="as-question-top-bar" /> {/* Top bar styling */}
+            <div className="as-question-header">
+              <span className="as-question-index">{index + 1}.)</span>
+              <div className="as-question-title">{question.question_text}</div>
             </div>
             {/* Display question based on its type */}
-            <div className="question-content">
+            <div className="as-question-content">
               {question.question_type === 'Open-ended' ? (
                 <textarea
                   className="form-control"
