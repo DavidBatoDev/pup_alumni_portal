@@ -265,7 +265,7 @@ class SurveyController extends Controller
             return response()->json(['error' => 'Survey not found'], 404);
         }
 
-        return response()->json($survey->questions, 200);
+        return response()->json($survey, 200);
     }
 
     /**

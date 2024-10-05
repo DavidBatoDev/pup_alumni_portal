@@ -68,24 +68,27 @@ const AnswerSurvey = () => {
 
   return (
     <div className="answer-survey-container">
+      <div className='as-back-btn-container'>
+        <button>back</button>
+      </div>
       {/* Survey Information */}
       <div className="survey-info">
-        <h2 className="survey-title">{surveyData?.[0]?.survey?.title}</h2>
-        <p className="survey-description">{surveyData?.[0]?.survey?.description}</p>
+        <h2 className="survey-title">{surveyData?.title}</h2>
+        <p className="survey-description">{surveyData?.description}</p>
       </div>
 
       {/* Survey Questions Section */}
       <div className="survey-questions">
         <h3 className="survey-questions-header">Survey Questions</h3>
-        {surveyData.map((question, index) => (
-          <div key={question.question_id} className="survey-question-card">
-            <div className="question-top-bar" /> {/* Top bar styling */}
-            <div className="question-header">
-              <span className="question-index">{index + 1}</span>
-              <h4 className="question-title">{question.question_text}</h4>
+        {surveyData.questions.map((question, index) => (
+          <div key={question.question_id} className="as-survey-question-card">
+            <div className="as-question-top-bar" /> {/* Top bar styling */}
+            <div className="as-question-header">
+              <span className="as-question-index">{index + 1}.)</span>
+              <div className="as-question-title">{question.question_text}</div>
             </div>
             {/* Display question based on its type */}
-            <div className="question-content">
+            <div className="as-question-content">
               {question.question_type === 'Open-ended' ? (
                 <textarea
                   className="form-control"

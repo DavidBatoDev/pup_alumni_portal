@@ -1,8 +1,8 @@
 /* Prefix styles with .survey- to prevent conflicts */
 .survey-section {
-  background-color: #f8f9fa; /* Light gray background */
   padding: 50px 0;
 }
+
 
 .survey-header {
   margin-bottom: 32px;

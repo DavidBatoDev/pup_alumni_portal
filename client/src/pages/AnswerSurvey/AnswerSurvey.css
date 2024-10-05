@@ -1,12 +1,18 @@
 /* Prefix styles with .answer-survey to prevent conflicts */
 .answer-survey-container {
-  max-width: 900px;
+  max-width: 700px;
   margin: 50px auto;
   padding: 30px;
   background: #ffffff;
   border: 1px solid #ddd;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.as-back-btn-container {
+  display: absolute;
+  top: 10;
+  left: 10;
 }
 
 /* Survey information styling */
@@ -42,7 +48,7 @@
 }
 
 /* Survey question card styling */
-.survey-question-card {
+.as-survey-question-card {
   background: #fefefe;
   padding: 25px;
   border-radius: 10px;
@@ -52,31 +58,31 @@
   transition: box-shadow 0.3s ease-in-out;
 }
 
-.survey-question-card:hover {
+.as-survey-question-card:hover {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-.question-top-bar {
+.as-question-top-bar {
   height: 6px;
   background-color: #a52436;
   border-radius: 10px 10px 0 0;
   margin-bottom: 20px;
 }
 
-.question-header {
+.as-question-header {
   display: flex;
-  justify-content: space-between;
+  gap: 5px;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.question-index {
+.as-question-index {
   font-size: 20px;
   font-weight: bold;
   color: #424242;
 }
 
-.question-title {
+.as-question-title {
   font-size: 20px;
   font-weight: 600;
   color: #333;
@@ -132,4 +138,47 @@
   text-align: center;
   font-size: 20px;
   color: #888;
+}
+
+@media screen and (max-width: 768px) {
+  .answer-survey-container {
+    padding: 20px;
+  }
+
+  .survey-title {
+    font-size: 24px;
+  }
+
+  .survey-description {
+    font-size: 16px;
+  }
+
+  .survey-questions-header {
+    font-size: 20px;
+  }
+
+  .as-survey-question-card {
+    padding: 20px;
+  }
+
+  .as-question-index {
+    font-size: 18px;
+  }
+
+  .as-question-title {
+    font-size: 18px;
+  }
+
+  .multiple-choice-options {
+    padding-left: 10px;
+  }
+
+  .option-item label {
+    font-size: 16px;
+  }
+
+  .submit-survey .btn {
+    padding: 12px 24px;
+    font-size: 16px;
+  }
 }

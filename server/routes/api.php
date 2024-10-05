@@ -49,10 +49,10 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('/surveys', [SurveyController::class, 'getAllSurveys']);
 
     // Route to fetch all surveys that the alumni has not yet answered
-    Route::get('/unanswered-surveys', [SurveyAlumniController::class, 'getUnansweredSurveys']);
+    Route::get('survey/unanswered-surveys', [SurveyController::class, 'getUnansweredSurveys']);
 
     // Route to fetch all surveys that the alumni has answered
-     Route::get('/answered-surveys', [SurveyAlumniController::class, 'getAnsweredSurveys']);
+     Route::get('survey/answered-surveys', [SurveyController::class, 'getAnsweredSurveys']);
 
 });
 

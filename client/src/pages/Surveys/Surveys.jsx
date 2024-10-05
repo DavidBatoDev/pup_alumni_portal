@@ -4,6 +4,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import bannerImage from "../../assets/images/eventbanner.png";
 import "./Surveys.css"; // Updated CSS file for styling
 import axios from "axios";
+import '../../global.css';
 import SurveyCard from "../../components/SurveyCards/SurveyCards"; // Import the updated SurveyCard component
 
 const Surveys = () => {
@@ -31,14 +32,14 @@ const Surveys = () => {
   ];
 
   const [unansweredSurveysData, setUnansweredSurveysData] = useState([]);
-  const [answerSurveyData, setAnswerSurveyData] = useState(DummyData);
+  const [answerSurveyData, setAnswerSurveyData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetch surveys from the API
     const fetchUnansweredSurveys = async () => {
       try {
-        const response = await axios.get("/api/unanswered-surveys", {
+        const response = await axios.get("/api/survey/unanswered-surveys", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -53,7 +54,7 @@ const Surveys = () => {
 
     const fetchAnsweredSurveys = async () => {
       try {
-        const response = await axios.get("/api/answered-surveys", {
+        const response = await axios.get("/api/survey/answered-surveys", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -74,6 +75,7 @@ const Surveys = () => {
     <div>
       {/* Authenticated Navigation Bar */}
       <Navbar />
+      <div className="background login-background"></div>
 
       {/* Banner Section */}
       <BannerSmall
@@ -86,7 +88,7 @@ const Surveys = () => {
       />
 
       {/* Main Survey Section */}
-      <div className="survey-section">
+      <div className="survey-section glass">
         <div className="container">
           {/* Unanswered Surveys Section */}
           <div className="survey-header">
@@ -107,6 +109,7 @@ const Surveys = () => {
 
           {/* Answered Surveys Section */}
           <div className="survey-header answered-section">
+            
             {answerSurveyData.length > 0 && (
               <>
                 <h2>Answered Surveys</h2>

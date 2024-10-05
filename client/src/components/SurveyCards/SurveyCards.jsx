@@ -1,7 +1,11 @@
 import React from 'react';
 import './SurveyCards.css'; // Import the updated CSS file for styling
+import { useNavigate } from 'react-router-dom';
 
 const SurveyCard = ({ surveys, answered }) => {
+  const navigate = useNavigate();
+
+
   return (
     <div className="survey-list-container">
       {/* Search Bar and Available Surveys Count */}
@@ -33,7 +37,7 @@ const SurveyCard = ({ surveys, answered }) => {
               </div>
               {
                 !answered && (
-                  <button className="survey-card-btn-primary">Take Survey</button>
+                  <button onClick={() => navigate(`/survey/${survey.survey_id}`)} className="survey-card-btn-primary">Take Survey</button>
                 )
               }
             </div>

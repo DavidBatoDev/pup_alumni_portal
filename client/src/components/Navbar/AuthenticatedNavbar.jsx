@@ -94,10 +94,10 @@ const AuthenticatedNavbar = () => {
         </button>
         <ul className="drawer-nav">
           <li className="drawer-item">
-            <button className="drawer-link" onClick={() => handleNavLinkClick('home')}>Home</button>
+            <button className="drawer-link" onClick={() => handleNavLinkClick('events')}>Events</button>
           </li>
           <li className="drawer-item">
-            <button className="drawer-link" onClick={() => handleNavLinkClick('events')}>Events</button>
+            <button className="drawer-link" onClick={() => handleNavLinkClick('survey')}>Survey</button>
           </li>
           <li className="drawer-item">
             <button className="drawer-link" onClick={() => handleNavLinkClick('career')}>Career</button>
@@ -109,7 +109,9 @@ const AuthenticatedNavbar = () => {
           <button className="btn btn-notification">
             <img src={Bell}/>
           </button>
-          <button onClick={() => { setDrawerOpen(false); navigate('/login'); }} className="btn btn-nav-signin mt-3">Sign In</button>
+          <li className="drawer-item">
+            <button className="drawer-link" onClick={() => handleNavLinkClick('profile')}>Profile</button>
+          </li>
         </ul>
       </div>
 
