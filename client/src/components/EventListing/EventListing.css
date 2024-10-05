@@ -92,6 +92,11 @@
   margin-right: 5px; /* Spacing between location and date */
 }
 
+.event-info-listing span{
+  color: #a50000;
+  margin-left: 5px;
+}
+
 /* Event Description */
 .event-description {
   font-size: 14px;
@@ -221,25 +226,31 @@
     margin-bottom: 15px;
     height: auto; /* Allow image height to adjust for mobile */
     margin-right: 0;
+    margin-top: 20px;
   }
 
   .event-image {
-    height: auto;
-  }
-
-  .event-details {
-    text-align: center;
+    height: 100%;
+    width: 100%;
   }
 
   .event-title {
-    font-size: 18px; /* Smaller font for mobile */
+    font-size: 30px; /* Smaller font for mobile */
+    text-align: center;
+    margin-bottom: 10px;
+    
   }
 
   .event-info-listing,
   .event-description {
-    font-size: 14px;
-    text-align: center; /* Center text for mobile */
+    font-size: 15px;
     justify-content: center;
+    text-align: center;
+  }
+
+  .event-type {
+    font-size: 15px;
+    color: #870000;
   }
 
   .event-info-listing strong {
@@ -251,6 +262,7 @@
     align-items: center;
     margin-top: 15px;
     text-align: center;
+    margin-bottom: 10px;
   }
 
   .edit-icon {

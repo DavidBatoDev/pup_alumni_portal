@@ -38,23 +38,25 @@ const EventListing = ({ eventData, onEdit }) => {
         <div className="event-details">
           <h5 className="event-title">{eventData.title}</h5>
           <p className="event-info-listing">
-            <strong>{eventData.venue}</strong> | {eventDate.toDateString()} {/* Readable date format */}
+            <strong>{eventData.venue}</strong> | <span>{eventDate.toDateString()}</span> {/* Readable date format */}
           </p>
           <p className="event-description">{eventData.details}</p>
+          <div className="event-additional-info">
+            <span className="event-type">{eventData.type}</span>
+            {/* Link to a dynamic URL based on formatted event title */}
+            <Link 
+              to={`/events/${formattedTitle}`} 
+              className="btn more-info" 
+            >
+              More Info
+            </Link>
+          </div>
         </div>
+        
       </div>
 
       {/* Right-Aligned Content */}
-      <div className="event-additional-info">
-        <span className="event-type">{eventData.type}</span>
-        {/* Link to a dynamic URL based on formatted event title */}
-        <Link 
-          to={`/events/${formattedTitle}`} 
-          className="btn more-info" 
-        >
-          More Info
-        </Link>
-      </div>
+      
     </div>
   );
 };

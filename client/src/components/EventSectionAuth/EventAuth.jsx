@@ -61,7 +61,7 @@ const EventAuth = () => {
   };
 
   return (
-    <div className="container my-5">
+    <div className="container">
       {/* Search Bar and Upcoming Events */}
       <div className="events-card-container card p-4 shadow-sm">
         <div className="d-flex justify-content-between align-items-center mb-4 event-header">
@@ -83,7 +83,7 @@ const EventAuth = () => {
         {/* Map over the eventsData and render EventListing */}
         <div className="row">
           {eventsData.map((event, index) => (
-            <div key={index} className="col-12 mb-4">
+            <div key={index} className="col-12">
               <UserEventListing eventData={event}/>
             </div>
           ))}

@@ -15,15 +15,15 @@
 
 /* Add a pseudo-element for the greyish blur effect */
 .event-section::before {
-    content: ""; /* Empty content for the pseudo-element */
-    position: absolute; /* Position it absolutely */
-    top: 0; /* Align to the top */
-    left: 0; /* Align to the left */
-    right: 0; /* Stretch to the right */
-    bottom: 0; /* Stretch to the bottom */
-    background: rgba(255, 255, 255, 0.79);
-    backdrop-filter: blur(19.399999618530273px);
-    z-index: 1; /* Place it above the background but below the content */
+  content: ""; /* Empty content for the pseudo-element */
+  position: absolute; /* Position it absolutely */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  right: 0; /* Stretch to the right */
+  bottom: 0; /* Stretch to the bottom */
+  background: rgba(255, 255, 255, 0.79);
+  backdrop-filter: blur(19.399999618530273px);
+  z-index: 1; /* Place it above the background but below the content */
 }
 
 .event-header{
@@ -41,7 +41,10 @@
 .event-header h5{
     color: #1E1E1E;
     font-size: 20px;
+}
 
+.event-header h3{
+  font-size: 20px ;
 }
 
 .container {
@@ -78,4 +81,16 @@
       text-align: center;
     }
   }
+
+  @media (max-width: 1000px) {
+
+    .event-header{
+        flex-direction: column;
+        margin-bottom: 20px;
+        gap: 20px;
+    }
+
+  }
+
+  
   
