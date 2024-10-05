@@ -113,7 +113,7 @@ const ProfileOverview = () => {
             : (<p>No education history available.</p>)
         }
       </div>
-    </di>
+    </>
   );
 }
 
