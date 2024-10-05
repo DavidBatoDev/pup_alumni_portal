@@ -26,7 +26,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  background: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
   z-index: 1;
   transition: opacity 0.4s ease-out; /* Smooth transition for overlay */
 }
@@ -40,15 +40,13 @@
   border-radius: 10px; /* Rounded corners */
   overflow: hidden;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Shadow for elevation effect */
-  transform: translateY(-20px); /* Small translate for smooth pop-in effect */
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth material transition */
   max-height: 700px;
   overflow-y: scroll;
   scrollbar-width: none;
 }
 
 .desktop-modal-header {
-  padding: 20px 30px;
+  padding: 10px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -65,32 +63,9 @@
 
 .desktop-modal-body {
   padding: 20px 30px;
-  background: #f4f4f4; /* Light grey background */
+  background: #f4f4f4;
 }
 
-/* Input Fields inside Modal */
-.desktop-modal-body label {
-  display: block;
-  font-weight: 500;
-  margin-bottom: 5px;
-}
-
-.desktop-modal-body input,
-.desktop-modal-body textarea {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
-  transition: border-color 0.3s ease;
-}
-
-.desktop-modal-body input:focus,
-.desktop-modal-body textarea:focus {
-  border-color: #a52436; /* Red highlight on focus */
-  outline: none;
-}
 
 .close-btn {
   background: none;
@@ -100,58 +75,26 @@
   color: #ff5c5c;
 }
 
-/* Save Button */
-.save-event-btn {
-  display: block;
-  width: 100%;
-  padding: 15px;
-  background: #a52436;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  font-size: 18px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.save-event-btn:hover {
-  background: #e65a50; /* Hover effect */
-}
-
 @media screen and (max-width: 768px) {
   .desktop-modal-content {
-    width: 90%;
+    width: 100%;
   }
+
+  .desktop-modal-content {
+    max-height: 100%;
+  }
+
+  .desktop-modal-body {
+    margin-top: 50px;
+    height: 100vh;
+    border-radius: 0px;
+  }
+
+  .desktop-modal-header {
+    position: fixed;
+    width: 100%;
+    border-radius: 0px;
+  }
+
   
 }
-
-/* Animation keyframes for opening and closing */
-@keyframes openModal {
-  from {
-    transform: translateY(-30px) scale(0.8);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-}
-
-/* @keyframes closeModal {
-  from {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-  to {
-    transform: translateY(-30px) scale(0.8);
-    opacity: 0;
-  }
-}
-
-.desktop-modal.open {
-  animation: openModal 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; 
-}
-
-.desktop-modal.close {
-  animation: closeModal 0.4s ease-in-out forwards; 
-} */

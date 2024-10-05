@@ -101,3 +101,126 @@
     width: 100%; /* Full width for button */
   }
 }
+
+
+/* Basic Styles for the Admin Form */
+.events-form {
+/*  */
+}
+
+.events-form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.events-form-row--inline {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Numbered Rows */
+.events-form-row-1st, .events-form-row-2nd, .events-form-row-3rd,
+.events-form-row-4th, .events-form-row-5th, .events-form-row-6th {
+  margin-bottom: 15px;
+}
+
+/* Labels */
+.events-form-label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.events-form-label--inline {
+  flex: 1;
+}
+
+.events-form-fieldset {
+  border: none;
+  padding: 0;
+}
+
+.events-form-legend {
+  font-weight: bold;
+}
+
+/* Input, Select, and Textarea Styles */
+.events-form-input,
+.events-form-select,
+.events-form-textarea {
+  width: 100%;
+  padding: 8px 0;
+  font-size: 14px;
+  border: none;
+  border-bottom: 2px solid #ddd; /* Only underline */
+  outline: none;
+  background-color: transparent;
+  box-sizing: border-box;
+}
+
+/* Focused state styles for underline effect */
+.events-form-input:focus,
+.events-form-select:focus,
+.events-form-textarea:focus {
+  border-color: #007bff;
+}
+
+.events-form-select {
+  height: 38px;
+}
+
+.events-form-textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* Radio Button Styles */
+.events-form-radio-label {
+  font-size: 14px;
+  margin-right: 15px;
+}
+
+.events-form-radio {
+  margin-right: 5px;
+}
+
+/* Button Styles */
+.events-form-row--buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.events-form-btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  border: 2px solid #000;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.save-event-btn {
+  border-color: #28a745;
+  color: #28a745;
+}
+
+.save-event-btn:hover {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.delete-event-btn {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.delete-event-btn:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+

@@ -19,6 +19,9 @@ const AdminEventsDashboard = () => {
     event_date: '',
     location: '',
     description: '',
+    type: '', // New field
+    category: '', // New field
+    organization: '', // New field
   });
 
   console.log('eventsList:', eventsList);
@@ -49,6 +52,9 @@ const AdminEventsDashboard = () => {
       event_date: '',
       location: '',
       description: '',
+      type: '', // Reset new fields
+      category: '',
+      organization: '',
     });
     setShowModal(true);
   };
@@ -66,6 +72,9 @@ const AdminEventsDashboard = () => {
         event_date: eventDetails.event_date,
         location: eventDetails.location,
         description: eventDetails.description,
+        type: eventDetails.type, // New field
+        category: eventDetails.category, // New field
+        organization: eventDetails.organization, // New field
       });
       setCurrentEventId(eventId);
       setIsEditing(true); // Set to true for editing mode
@@ -111,7 +120,15 @@ const AdminEventsDashboard = () => {
       }
       setLoading(false);
       setShowModal(false);
-      setNewEvent({ event_name: '', event_date: '', location: '', description: '' }); // Reset form fields
+      setNewEvent({
+        event_name: '',
+        event_date: '',
+        location: '',
+        description: '',
+        type: '', // Reset new fields
+        category: '',
+        organization: '',
+      }); // Reset form fields
     } catch (error) {
       console.error('Error saving event:', error);
       setLoading(false);
@@ -189,60 +206,155 @@ const AdminEventsDashboard = () => {
         title={isEditing ? 'Edit Event' : 'Add New Event'}
         isMobile={isMobile}
       >
-        <form className="add-event-form">
-          <label>
-            Event Name:
-            <input
-              type="text"
-              name="event_name"
-              value={newEvent.event_name}
-              onChange={handleChange}
-              required
-            />
-          </label>
-          <label>
-            Event Date:
-            <input
-              type="date"
-              name="event_date"
-              value={newEvent.event_date}
-              onChange={handleChange}
-              required
-            />
-          </label>
-          <label>
-            Location:
-            <input
-              type="text"
-              name="location"
-              value={newEvent.location}
-              onChange={handleChange}
-              required
-            />
-          </label>
-          <label>
-            Description:
-            <textarea
-              name="description"
-              value={newEvent.description}
-              onChange={handleChange}
-              required
-            />
-          </label>
+        <form className="events-form add-event-form">
 
-          {/* Save/Update Event Button */}
-          <button type="button" className="save-event-btn" onClick={handleSaveEvent}>
-            {isEditing ? 'Update Event' : 'Save Event'}
-          </button>
+          {/* Row 1: Event Name and Event Date */}
+          <div className="events-form-row events-form-row-1st">
+            <label className="events-form-label events-form-label-name">
+              Event Name:
+              <input
+                type="text"
+                name="event_name"
+                className="events-form-input events-form-name"
+                value={newEvent.event_name}
+                onChange={handleChange}
+                required
+              />
+            </label>
 
-          {/* Delete Event Button (only show when editing) */}
-          {isEditing && (
-            <button type="button" className="delete-event-btn" onClick={handleDeleteEvent}>
-              Delete Event
+            <label className="events-form-label events-form-label-date">
+              Event Date:
+              <input
+                type="date"
+                name="event_date"
+                className="events-form-input events-form-date"
+                value={newEvent.event_date}
+                onChange={handleChange}
+                required
+              />
+            </label>
+          </div>
+
+          {/* Row 2: Location */}
+          <div className="events-form-row events-form-row-2nd">
+            <label className="events-form-label events-form-label-location">
+              Location:
+              <input
+                type="text"
+                name="location"
+                className="events-form-input events-form-location"
+                value={newEvent.location}
+                onChange={handleChange}
+                required
+              />
+            </label>
+          </div>
+
+          {/* Row 3: Type (Radio Buttons) and Category */}
+          <div className="events-form-row events-form-row-3rd events-form-row--inline">
+            <fieldset className="events-form-fieldset events-form-fieldset-type">
+              <legend className="events-form-legend">Type:</legend>
+              <label className="events-form-radio-label">
+                <input
+                  type="radio"
+                  name="type"
+                  value="Face-to-face"
+                  className="events-form-radio"
+                  checked={newEvent.type === 'Face-to-face'}
+                  onChange={handleChange}
+                  required
+                />
+                Face-to-face
+              </label>
+              <label className="events-form-radio-label">
+                <input
+                  type="radio"
+                  name="type"
+                  value="Virtual"
+                  className="events-form-radio"
+                  checked={newEvent.type === 'Virtual'}
+                  onChange={handleChange}
+                  required
+                />
+                Virtual
+              </label>
+              <label className="events-form-radio-label">
+                <input
+                  type="radio"
+                  name="type"
+                  value="Hybrid"
+                  className="events-form-radio"
+                  checked={newEvent.type === 'Hybrid'}
+                  onChange={handleChange}
+                  required
+                />
+                Hybrid
+              </label>
+            </fieldset>
+
+            <label className="events-form-label events-form-label--inline events-form-category">
+              Category:
+              <select
+                name="category"
+                className="events-form-select events-form-select-category"
+                value={newEvent.category}
+                onChange={handleChange}
+                required
+              >
+                <option value="" disabled>Select Category</option>
+                <option value="Career">Career</option>
+                <option value="Social">Social</option>
+                <option value="Faculty">Faculty</option>
+                <option value="Student Engagement">Student Engagement</option>
+                <option value="Service">Service</option>
+              </select>
+            </label>
+          </div>
+
+          {/* Row 4: Organization */}
+          <div className="events-form-row events-form-row-4th">
+            <label className="events-form-label">
+              Organization:
+              <input
+                type="text"
+                name="organization"
+                className="events-form-input"
+                value={newEvent.organization}
+                onChange={handleChange}
+                required
+              />
+            </label>
+          </div>
+
+          {/* Row 5: Description */}
+          <div className="events-form-row events-form-row-5th">
+            <label className="events-form-label">
+              Description:
+              <textarea
+                name="description"
+                className="events-form-textarea"
+                value={newEvent.description}
+                onChange={handleChange}
+                required
+              />
+            </label>
+          </div>
+
+          {/* Save/Update and Delete Event Buttons */}
+          <div className="events-form-row events-form-row-6th events-form-row--buttons">
+            <button type="button" className="events-form-btn save-event-btn" onClick={handleSaveEvent}>
+              {isEditing ? 'Update Event' : 'Save Event'}
             </button>
-          )}
+            {isEditing && (
+              <button type="button" className="events-form-btn delete-event-btn" onClick={handleDeleteEvent}>
+                Delete Event
+              </button>
+            )}
+          </div>
         </form>
       </ModalContainer>
+
+
     </div>
   );
 };

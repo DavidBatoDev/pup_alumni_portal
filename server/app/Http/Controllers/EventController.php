@@ -17,20 +17,22 @@ class EventController extends Controller
      */
     public function createEvent(Request $request)
     {
-        // Validate the request input
+        // Validate the request input including new fields
         $validatedData = $request->validate([
             'event_name' => 'required|string|max:255',
             'event_date' => 'required|date',
             'location' => 'required|string|max:255',
+            'type' => 'required|string|max:100', 
+            'category' => 'required|string|max:100',
+            'organization' => 'nullable|string|max:100', 
             'description' => 'nullable|string',
         ]);
-
-        // Create a new event
+    
+        // Create a new event with the validated data
         $event = Event::create($validatedData);
-
+    
         return response()->json(['success' => true, 'event' => $event], 201);
     }
-
     /**
      * Update an existing event.
      *
@@ -40,24 +42,27 @@ class EventController extends Controller
      */
     public function updateEvent(Request $request, $eventId)
     {
-        // Validate the input data
+        // Validate the input data including new fields
         $validatedData = $request->validate([
             'event_name' => 'required|string|max:255',
             'event_date' => 'required|date',
             'location' => 'required|string|max:255',
+            'type' => 'required|string|max:100', 
+            'category' => 'required|string|max:100', 
+            'organization' => 'nullable|string|max:100', 
             'description' => 'nullable|string',
         ]);
-
+    
         // Find the event by ID
         $event = Event::find($eventId);
-
+    
         if (!$event) {
             return response()->json(['error' => 'Event not found'], 404);
         }
-
+    
         // Update the event details with the validated data
         $event->update($validatedData);
-
+    
         return response()->json(['success' => true, 'message' => 'Event updated successfully.', 'event' => $event], 200);
     }
 
@@ -208,6 +213,9 @@ class EventController extends Controller
             'event_name' => $event->event_name,
             'event_date' => $event->event_date,
             'location' => $event->location,
+            'type' => $event->type, 
+            'category' => $event->category, 
+            'organization' => $event->organization, 
             'description' => $event->description,
             'registered_alumni' => $event->alumniEvents->map(function ($alumniEvent) {
                 return [

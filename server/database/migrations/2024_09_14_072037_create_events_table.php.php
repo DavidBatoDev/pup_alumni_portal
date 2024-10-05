@@ -14,6 +14,9 @@ class CreateEventsTable extends Migration
             $table->string('event_name');
             $table->date('event_date');
             $table->string('location');
+            $table->string('type');  // Add type column
+            $table->string('category');  // Add category column
+            $table->string('organization');  // Add organization column
             $table->text('description')->nullable();
             $table->timestamps();
         });
@@ -24,4 +27,5 @@ class CreateEventsTable extends Migration
         Schema::dropIfExists('events');
     }
 }
+
 
