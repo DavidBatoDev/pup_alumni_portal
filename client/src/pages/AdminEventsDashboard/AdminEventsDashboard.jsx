@@ -172,15 +172,15 @@ const AdminEventsDashboard = () => {
 
       {/* Main Content Area */}
       <div className="admin-dashboard-content">
-        <div className="admin-dashboard-header">
+        <div className="admin-events-dashboard-header">
           <input
             type="text"
             placeholder="Search events..."
-            className="admin-dashboard-search"
+            className="admin-events-dashboard-search"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button className="admin-dashboard-btn" onClick={handleAddEvent}>
+          <button className="admin-events-dashboard-btn" onClick={handleAddEvent}>
             + Add Event
           </button>
         </div>

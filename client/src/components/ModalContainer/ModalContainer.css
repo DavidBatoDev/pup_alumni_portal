@@ -46,6 +46,7 @@
 }
 
 .desktop-modal-header {
+  display: none ;
   padding: 10px 30px;
   display: flex;
   justify-content: space-between;
@@ -91,10 +92,10 @@
   }
 
   .desktop-modal-header {
+    display: flex !important;
     position: fixed;
     width: 100%;
     border-radius: 0px;
   }
-
   
 }
