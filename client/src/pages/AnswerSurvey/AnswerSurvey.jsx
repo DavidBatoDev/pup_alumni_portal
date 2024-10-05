@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import './AnswerSurvey.css'; // Import the new CSS file for styling
+import './AnswerSurvey.css';
+import CustomAlert from '../../components/CustomAlert/CustomAlert';
+import CircularLoader from '../../components/CircularLoader/CircularLoader';
 
 const AnswerSurvey = () => {
   const { surveyId } = useParams(); // Extract survey ID from the URL
   const navigate = useNavigate();
+  const [error, setError] = useState(null); // Store error message
   const [surveyData, setSurveyData] = useState(null); // Store survey information
   const [responses, setResponses] = useState({}); // Store user responses
   const [loading, setLoading] = useState(true); // Track loading state
@@ -51,23 +54,25 @@ const AnswerSurvey = () => {
         },
       });
       if (response.status === 201) {
-        alert('Survey submitted successfully!');
         navigate('/surveys'); // Redirect to surveys page after successful submission
       } else {
-        console.error('Failed to submit survey:', response.data);
+        setError('Failed to submit survey. Please try again.');
+        setResponses({}); // Clear responses on error
       }
     } catch (error) {
       console.error('Error submitting survey:', error);
-      alert('Failed to submit the survey.');
+      setError('Failed to submit survey. Please try again.');
+      setResponses({}); // Clear responses on error
     }
   };
 
   if (loading) {
-    return <div className="loading">Loading survey questions...</div>;
+    return <CircularLoader />;
   }
 
   return (
     <div className="answer-survey-container">
+      {error && <CustomAlert message={error} type="error" />}
       <div className='as-back-btn-container'>
         <button>back</button>
       </div>
