@@ -140,6 +140,9 @@
 
 
 @media (max-width: 768px) {
+  .specific-event-details {
+    width: calc(100vw - 50px); /* Adjust width for smaller screens */
+  }
   .specific-event-details h1 {
     font-size: 1.5rem;
   }

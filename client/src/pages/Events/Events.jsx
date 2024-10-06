@@ -1,29 +1,30 @@
-import React from "react";
+import {useState, useEffect} from "react";
 import BannerSmall from "../../components/Banner/BannerSmall";
 import Navbar from "../../components/Navbar/Navbar";
 import bannerImage from "../../assets/images/eventbanner.png";
 import "./Events.css";
 import FilterSection from "../../components/EventsFilterSection/EventsFilterSection";
 import EventAuth from "../../components/EventSectionAuth/EventAuth";
+import eventImg from '../../assets/images/eventimage2.jpg';
+import axios from "axios";
+
 
 const Events = () => {
-  const eventsData = [
-    {
-      date: "Sep 18",
-      title: "PUP Alumni Homecoming 2024",
-      description:
-        "An annual gathering of PUP alumni to reconnect with batchmates, celebrate achievements, and enjoy a night of nostalgia.",
-      type: "Face-to-Face",
-    },
-    {
-      date: "Sep 18",
-      title: "PUP Cultural Night",
-      description:
-        "An evening celebrating the rich culture and diversity of PUP, featuring performances, art displays, and more.",
-      type: "Face-to-Face",
-    },
-  ];
 
+  const [eventsData, setEventsData] = useState([]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get("/api/events");
+        setEventsData(response.data.events);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
   return (
     <div>
       <Navbar />
