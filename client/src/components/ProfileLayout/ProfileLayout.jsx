@@ -48,6 +48,8 @@ const ProfileLayout = () => {
       <BannerSmall bannerTitle="Profile Overview" bannerImage={bannerImage} />
       <div className='background profile-layout-background'></div>
 
+      { loading ? (<CircularLoader />) :
+      (
       <div className="container-fluid profile-layout-content glass">
 
         <div className="row profile-layout-row">
@@ -66,9 +68,9 @@ const ProfileLayout = () => {
         </div>
 
       </div>
+      )}
 
       <MainFooter />
-      {loading && <CircularLoader />}
     </div>
   );
 };

@@ -75,6 +75,17 @@
     justify-content: flex-start
 }
 
+.profile-section
+.btn-profile-button {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.profile-section
+.btn-profile-button * {
+    min-width: fit-content;
+}
+
 .profile-image-container {
     display: flex;
     align-items: center;
@@ -84,6 +95,7 @@
     .profile-image {
         width: 8rem;
         height: 8rem;
+        object-fit: cover;
         border-radius: 50%;
         border: 0.125rem solid #ddd;
         padding: 0.1875rem;
@@ -135,7 +147,11 @@
     .linkedin:hover {
         color: #0A66C2;
     }
+}
 
+.profile-section
+.table * {
+    min-width: fit-content;
 }
 
 .profile-experience,
@@ -296,6 +312,7 @@
             padding: 1.75rem;
         }
 
+        .profile-overview-container
         .profile-image-container {
             margin-bottom: 1rem;
             translate: 0 -1rem;
@@ -305,6 +322,18 @@
         .profile-details-flex {
             flex-wrap: nowrap;
             flex-direction: column;
+        }
+
+        .profile-picture-settings {
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .profile-picture-settings .btn {
+            flex-shrink: 1;
         }
 
         .profile-overview-header {
@@ -317,6 +346,15 @@
             width: 100%;
             z-index: 0;
         }
+        table > tbody > tr > td {
+            padding: 0.5rem;
+            font-size: 0.75rem;
+        }
+        table > thead > tr > th {
+            padding: 0.5rem;
+            font-size: 0.75rem;
+        }
+
     }
 
 }
