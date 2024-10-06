@@ -8,20 +8,22 @@ import './Profile.css';
 const ProfileSettings = () => {
   const { profile, address, employmentHistory, educationHistory } = useOutletContext();
 
-  // const profileImage = profile?.profile_picture
-  //   ? `/path/to/images/${profile.profile_picture}` // Adjust path to actual image directory if needed
-  //   : "https://via.placeholder.com/100";
-
   const profileImage = "https://via.placeholder.com/100";
 
   // Create local state for employment and education history to handle editing
+  const [editableAddress, setEditableAddress] = useState({ ...address });
   const [editableEmploymentHistory, setEditableEmploymentHistory] = useState([...employmentHistory]);
   const [editableEducationHistory, setEditableEducationHistory] = useState([...educationHistory]);
 
   // State to keep track of which rows are currently being edited
+  // const [editingAddressId, setEditingAddressId] = useState(null); // Pending for change in backend to use address_id
   const [editingEmploymentId, setEditingEmploymentId] = useState(null);
   const [editingEducationId, setEditingEducationId] = useState(null);
 
+  // Handle changes for address fields
+  const handleAddressChange = (field, value) => {
+    setEditableAddress({ ...editableAddress, [field]: value });
+  };
 
   // Handle changes for employment history fields
   const handleEmploymentChange = (id, field, value) => {
@@ -39,10 +41,32 @@ const ProfileSettings = () => {
     setEditableEducationHistory(updatedEducation);
   };
 
+  // Handle saving changes for address
+  const saveAddressChanges = () => {
+    console.log("Saved address data:", editableAddress);
+    axios
+      .put(`/api/update-address`, editableAddress, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          console.log('Address updated successfully:', response.data.data);
+          // Update the address in the context // Pending for change in backend to use address_id
+          // updateAddress(response.data.data);
+          // setEditingAddressId(null); // Exit editing mode
+        }
+      })
+      .catch((error) => {
+        console.error('Error updating address:', error);
+      });
+  }
+
   // Handle saving changes for employment history
   const saveEmploymentChanges = (id) => {
     setEditingEmploymentId(null);
-    // console.log("Saved employment data:", editableEmploymentHistory);
+    console.log("Saved employment data:", editableEmploymentHistory);
     const updatedEmployment = editableEmploymentHistory.find((job) => job.employment_id === id);
     axios
       .put(`/api/update-employment-history/${id}`, updatedEmployment, {
@@ -59,13 +83,12 @@ const ProfileSettings = () => {
       .catch((error) => {
         console.error('Error updating employment history:', error);
       });
-
   };
 
   // Handle saving changes for education history
   const saveEducationChanges = (id) => {
     setEditingEducationId(null); // Exit editing mode
-    // console.log("Saved education data:", editableEducationHistory);
+    console.log("Saved education data:", editableEducationHistory);
 
     const updatedEducation = editableEducationHistory.find((edu) => edu.education_id === id);
 
@@ -86,6 +109,19 @@ const ProfileSettings = () => {
       });
 
   };
+
+  const addNewAddress = () => {
+    const newAddress = {
+      address_id: `temp-${Date.now()}`,
+      street: '',
+      city: '',
+      state: '',
+      postal_code: '',
+      country: '',
+    };
+    setEditableAddress(newAddress);
+    // setEditingAddressId(newAddress.address_id); // Pending for change in backend to use address_id
+  }
 
   // Add new employment row in edit mode
   const addNewEmployment = () => {
@@ -122,6 +158,25 @@ const ProfileSettings = () => {
       start_date: employment.start_date || null,
       end_date: employment.end_date || null,
     };
+  };
+
+  // Save new address entry to server
+  const saveNewAddress = (address) => {
+    axios
+      .post(`/api/add-address`, address, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          console.log('New address added successfully:', response.data.data);
+          // Replace temporary ID with the actual ID from the response
+          // setEditableAddress(response.data.data);
+          // setEditingAddressId(null);
+        }
+      })
+      .catch((error) => {
+        console.error('Error adding new address:', error);
+      });
   };
 
   // Save new employment entry to server
@@ -231,26 +286,153 @@ const ProfileSettings = () => {
       <div className="card mb-4 profile-section">
 
         <h3 className="card-title">Personal Information & Contact Details</h3>
-        <div className="row mb-3">
-          <div className="col-md-6">
-            <label className="form-label">Date of Birth</label>
-            <input type="date" className="form-control" value={profile?.date_of_birth || ''} readOnly />
-          </div>
-          <div className="col-md-6">
-            <label className="form-label">Address</label>
-            <input type="text" className="form-control" placeholder={`${address['city']}, ${address['state']}`} readOnly />
-          </div>
-        </div>
+        <div className="col-12 col-md-10 w-100">
+          <div className="row mb-3">
+            <div className="col-12 col-md-6 mb-3 mb-md-0">
+              <label className="form-label">Date of Birth</label>
+              <input type="date" className="form-control" value={profile?.date_of_birth || ''} readOnly />
+            </div>
 
-        <div className="row mb-3">
-          <div className="col-md-6">
-            <label className="form-label">LinkedIn Profile</label>
-            <input type="text" className="form-control" placeholder={profile.linkedin_profile || 'Not Provided'} />
+            <div className="col-12 col-md-6 mb-3 mb-md-0">
+              <label className="form-label">LinkedIn Profile</label>
+              <input type="text" className="form-control" placeholder={profile.linkedin_profile || 'Not Provided'} />
+            </div>
+
           </div>
         </div>
 
         <div>
           <button className="btn btn-primary">Save New Changes</button>
+        </div>
+
+      </div>
+
+      {/* Address Information */}
+      <div className='card mb-4 profile-section'>
+        <h3 className="card-title">Address Information</h3>
+        <h5>Address Table</h5>
+        <div className='table-responsive'>
+          <table className="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Street</th>
+                <th scope="col">City</th>
+                <th scope="col">State</th>
+                <th scope="col">Postal Code</th>
+                <th scope="col">Country</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                editableAddress.length > 0 ? (
+                  editableAddress.map((address) => (
+                    <tr key={address.address_id}>
+                      <td>
+                        {editingAddressId === address.address_id ? (
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={address.street || ''}
+                            onChange={(e) => handleAddressChange('street', e.target.value)}
+                          />
+                        ) : (
+                          address.street
+                        )}
+                      </td>
+                      <td>
+                        {editingAddressId === address.address_id ? (
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={address.city || ''}
+                            onChange={(e) => handleAddressChange('city', e.target.value)}
+                          />
+                        ) : (
+                          address.city
+                        )}
+                      </td>
+                      <td>
+                        {editingAddressId === address.address_id ? (
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={address.state || ''}
+                            onChange={(e) => handleAddressChange('state', e.target.value)}
+                          />
+                        ) : (
+                          address.state
+                        )}
+                      </td>
+                      <td>
+                        {editingAddressId === address.address_id ? (
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={address.postal_code || ''}
+                            onChange={(e) => handleAddressChange('postal_code', e.target.value)}
+                          />
+                        ) : (
+                          address.postal_code
+                        )}
+                      </td>
+                      <td>
+                        {editingAddressId === address.address_id ? (
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={address.country || ''}
+                            onChange={(e) => handleAddressChange('country', e.target.value)}
+                          />
+                        ) : (
+                          address.country
+                        )}
+                      </td>
+                      <td>
+                        {editingAddressId === address.address_id ? (
+                          <div className="btn-group" role='edit-address'>
+                            <button className="btn btn-success btn-sm btn-save" onClick={() =>
+                              typeof address.address_id === 'string' && address.address_id.includes('temp')
+                                ? saveNewAddress(address)
+                                : saveAddressChanges(address.address_id)
+                            }>
+                              <i className="fa-regular fa-floppy-disk"></i>
+                            </button>
+                            <button className="btn btn-sm btn-danger btn-delete">
+                              <i className="fa-regular fa-trash-can btn-delete"></i>
+                            </button>
+                          </div>
+                        ) : (
+                          <button className="btn btn-warning btn  btn-light btn-sm" onClick={() => setEditingAddressId(address.address_id)}>
+                            <i className="fa-regular fa-pen-to-square"></i>
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    {/* <td colSpan="5">No address available.</td> Note: Delete when address_id is implemented */}
+                    <td>{address?.street}</td>
+                    <td>{address?.city}</td>
+                    <td>{address?.state}</td>
+                    <td>{address?.postal_code}</td>
+                    <td>{address?.country}</td>
+                    <td>TBD</td>
+                  </tr>
+                )
+              }
+              {/* Add New Address Button */}
+              <tr>
+                <td colSpan="6">
+                  <button className="btn btn-outline-primary btn-sm rounded-circle" onClick={addNewAddress}>
+                    <i className='fa-solid fa-plus'></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
         </div>
 
       </div>
@@ -263,7 +445,7 @@ const ProfileSettings = () => {
         <div className='table-responsive'>
 
 
-          <table className="table table-striped">
+          <table className="table table-striped table-hover">
             <thead>
               <tr>
                 <th scope="col">Job Title</th>
@@ -363,7 +545,8 @@ const ProfileSettings = () => {
                 <tr>
                   <td colSpan="5">No employment history available.</td>
                 </tr>
-              )}
+              )
+              }
               {/* Add New Employment Button */}
               <tr>
                 <td colSpan="6">
