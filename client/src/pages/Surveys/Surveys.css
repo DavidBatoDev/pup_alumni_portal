@@ -1,6 +1,7 @@
 /* Prefix styles with .survey- to prevent conflicts */
 .survey-section {
   padding: 50px 0;
+  height: calc(100vh - 70px);
 }
 
 
@@ -48,6 +49,14 @@
   height: 2px;
   background-color: #a50000; /* Light gray line */
   margin: 50px 0;
+}
+
+.loading-surveys {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  width: 100vw;
 }
 
 @media screen and (max-width: 768px) {

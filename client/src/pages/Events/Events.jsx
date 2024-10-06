@@ -3,7 +3,7 @@ import BannerSmall from "../../components/Banner/BannerSmall";
 import Navbar from "../../components/Navbar/Navbar";
 import bannerImage from "../../assets/images/eventbanner.png";
 import "./Events.css";
-import FilterSection from "../../components/FilterSection/Filter";
+import FilterSection from "../../components/EventsFilterSection/EventsFilterSection";
 import EventAuth from "../../components/EventSectionAuth/EventAuth";
 
 const Events = () => {

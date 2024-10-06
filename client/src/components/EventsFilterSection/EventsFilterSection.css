@@ -91,15 +91,18 @@
 }
 
 @media (max-width: 768px) {
+    /* Gawa ka bagong filter na container, tapos display mo yung mag mobile view */
 
+
+    /*  */
     .filter-container{
-        width: 517px;
+        display: none;
     }
 }
 
 @media (max-width: 500px) {
-    .filter-container{
-        width: 317px;
+    .filter-container
+    {
+        display: none;
     }
-    
 }

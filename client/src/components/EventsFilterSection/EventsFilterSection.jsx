@@ -1,9 +1,9 @@
 import React from 'react'
-import './FilterSection.css'
+import './EventsFilterSection.css'
 import filterIcon from "../../assets/svgs/filter-outline.svg"
 
 
-const Filter = () => {
+const EventsFilterSection = () => {
 
     return (
         <div>
@@ -114,4 +114,4 @@ const Filter = () => {
 
 };
 
-export default Filter;
+export default EventsFilterSection;

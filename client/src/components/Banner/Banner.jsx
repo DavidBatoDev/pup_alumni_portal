@@ -2,16 +2,29 @@
 import React from 'react';
 import './Banner.css';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Banner = () => {
+  const { user } = useSelector((state) => state.user);
+
+
   return (
     <div className="banner">
         <div className="banner-content">
             <h1 className="banner-hero-title">PUP ALUMNI</h1>
             <p className="banner-hero-motto">Welcome to PUP Alumni Portal.<br />Connect, Share, and Grow with our PUP Alumni Community</p>
             <div className="banner-buttons">
-                <Link to="/signup" className="btn btn-register me-3">Register Now</Link>
-                <Link to="/login" className="btn btn-signin">Sign In</Link>
+              {user?.user ? (
+                <>
+                <Link to="/events" className="btn btn-register">View Events</Link>
+                <Link to="/surveys" className="btn btn-signin">View Surveys</Link>
+                </>
+              ) : (
+                <>
+                  <Link to="/signup" className="btn btn-register me-3">Register Now</Link>
+                  <Link to="/login" className="btn btn-signin">Sign In</Link>
+                </>
+                )}
             </div>
         </div>
     </div>

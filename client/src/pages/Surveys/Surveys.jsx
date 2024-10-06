@@ -99,7 +99,9 @@ const Surveys = () => {
           </div>
           <div className="surveys-container">
             {loading ? (
-              <div>Loading surveys...</div>
+              <div className="loading-surveys">
+                <h3>Loading Surveys...</h3>
+              </div>
             ) : (
               <SurveyCard surveys={unansweredSurveysData} answered={false} />
             )}
@@ -121,7 +123,9 @@ const Surveys = () => {
           </div>
           <div className="surveys-container">
             {loading ? (
-              <div>Loading surveys...</div>
+              <div className="loading-surveys">
+                <h3>Loading Surveys...</h3>
+              </div>
             ) : (
               <SurveyCard surveys={answerSurveyData} answered={true} />
             )}

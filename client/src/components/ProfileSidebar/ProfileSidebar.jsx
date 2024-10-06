@@ -2,13 +2,19 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import './ProfileSidebar.css';
+import { logout } from '../../store/userSlice';
+import { useDispatch } from 'react-redux';
 
 const ProfileSidebar = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
 
   const handleLogout = () => {
-    navigate('/login'); // Redirect to login or any other page after logout
+    dispatch(logout());
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/');
   };
 
   return (
