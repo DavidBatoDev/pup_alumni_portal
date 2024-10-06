@@ -7,6 +7,7 @@ import SpecificEventMainContent from '../../components/SpecificEventMainContent/
 import bannerImage from '../../assets/images/eventimage1.png';
 import axios from 'axios';
 import './SpecificEvent.css';
+import CircularLoader from '../../components/CircularLoader/CircularLoader';
 
 const SpecificEvent = () => {
   const { eventId } = useParams();
@@ -15,7 +16,11 @@ const SpecificEvent = () => {
   useEffect(() => {
     const fetchEventData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/event/${eventId}`);
+        const response = await axios.get(`http://localhost:8000/api/event/${eventId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
         setEventData(response.data.event);
       } catch (error) {
         console.error("Error fetching event data:", error);
@@ -24,7 +29,9 @@ const SpecificEvent = () => {
     fetchEventData();
   }, [eventId]);
 
-  if (!eventData) return <div>Event not found</div>;
+  console.log('eventData:', eventData);
+
+  if (!eventData) return <CircularLoader />;
 
   // Set the background image if available, otherwise use a default image
   const backgroundImage = eventData.image || bannerImage;
@@ -60,10 +67,12 @@ const SpecificEvent = () => {
           type={eventData.type}
         />
         <SpecificEventMainContent
+          eventId={eventData.event_id}
           title={eventData.event_name}
           date={eventData.event_date}
           venue={eventData.location}
           details={eventData.description}
+          is_registered={eventData.is_alumni_registered}
         />
       </div>
     </div>

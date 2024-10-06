@@ -99,6 +99,14 @@
   font-size: 14px;
   color: #666;
   margin-bottom: 10px;
+  
+}
+
+.event-description {
+  text-align: justify;
+  height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Right-Aligned Content */
