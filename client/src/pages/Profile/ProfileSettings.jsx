@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import { useOutletContext } from 'react-router-dom';
 
 import './Profile.css';
@@ -114,10 +115,20 @@ const ProfileSettings = () => {
     setEditingEducationId(newEducation.education_id);
   };
 
+  const prepareNewEmployment = (employment) => {
+    return {
+      ...employment,
+      // Ensure the date fields have a valid value or set to null if missing
+      start_date: employment.start_date || null,
+      end_date: employment.end_date || null,
+    };
+  };
+
   // Save new employment entry to server
   const saveNewEmployment = (employment) => {
+    const validEmployment = prepareNewEmployment(employment);
     axios
-      .post(`/api/add-employment-history`, employment, {
+      .post(`/api/add-employment-history`, validEmployment, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       })
       .then((response) => {
@@ -126,7 +137,7 @@ const ProfileSettings = () => {
           // Replace temporary ID with the actual ID from the response
           setEditableEmploymentHistory((prev) =>
             prev.map((job) =>
-              job.employment_id === employment.employment_id ? response.data.data : job
+              job.employment_id === validEmployment.employment_id ? response.data.data : job
             )
           );
           setEditingEmploymentId(null);
@@ -256,6 +267,7 @@ const ProfileSettings = () => {
             <thead>
               <tr>
                 <th scope="col">Job Title</th>
+                <th scope="col">Description</th>
                 <th scope="col">Company</th>
                 <th scope="col">Start Date</th>
                 <th scope="col">End Date</th>
@@ -276,6 +288,17 @@ const ProfileSettings = () => {
                         />
                       ) : (
                         job.job_title
+                      )}
+                    </td>
+                    <td>
+                      {editingEmploymentId === job.employment_id ? (
+                        <textarea
+                          className="form-control auto-resize"
+                          value={job.description || ''}
+                          onChange={(e) => handleEmploymentChange(job.employment_id, 'description', e.target.value)}
+                        />
+                      ) : (
+                        job.description
                       )}
                     </td>
                     <td>
@@ -343,7 +366,7 @@ const ProfileSettings = () => {
               )}
               {/* Add New Employment Button */}
               <tr>
-                <td colSpan="5">
+                <td colSpan="6">
                   <button className="btn btn-outline-primary btn-sm rounded-circle" onClick={addNewEmployment}>
                     <i className='fa-solid fa-plus'></i>
                   </button>

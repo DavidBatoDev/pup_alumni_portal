@@ -154,6 +154,21 @@
     min-width: fit-content;
 }
 
+.auto-resize {
+    overflow: hidden; /* Hides the scrollbar */
+    resize: none; /* Prevent manual resizing */
+    min-height: 50px; /* Minimum height for the textarea */
+    max-height: 300px; /* Optional: set a maximum height */
+}
+.auto-resize:focus,
+.auto-resize:active {
+  height: auto; /* Reset height */
+}
+
+.auto-resize {
+    height: auto;
+}
+
 .profile-experience,
 .profile-education {
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);

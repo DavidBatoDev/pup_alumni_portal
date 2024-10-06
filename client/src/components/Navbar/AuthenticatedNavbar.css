@@ -34,6 +34,7 @@
 
   /* Navbar link styling */
   .navbar-nav .nav-link {
+    font-family: 'Raleway', sans-serif;
     font-size: 14px;
     font-style: normal;
     margin-right: 20px;
@@ -161,26 +162,26 @@
     .navbar {
       height: auto; /* Auto height for mobile */
     }
-  
+
     .navbar-logo {
       width: 40px;
       height: 40px;
     }
-  
+
     .header-title {
       display: none;
       font-size: 12px;
     }
-  
+
     .drawer {
       width: 50%;
       display: block;
     }
-  
+
     .drawer-link {
       font-size: 18px;
     }
-  
+
     .drawer-close-btn {
       font-size: 24px;
     }

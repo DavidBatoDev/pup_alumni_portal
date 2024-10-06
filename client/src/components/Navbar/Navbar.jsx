@@ -13,7 +13,7 @@ const Navbar = () => {
       {condition}
     </div>
     );
-  
+
 };
 
 export default Navbar;
