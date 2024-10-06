@@ -1,67 +1,91 @@
-/* src/pages/SpecificEvent/SpecificEvent.css */
+/* Apply the background to the entire page or specific event container */
 
-/* Updated styling for the entire event section */
+.specific-event-page {
+  position: relative;
+  background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), var(--bg-image); /* Use the dynamic background image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Create a blur effect using a pseudo-element */
+.specific-event-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.5); /* White overlay */
+  backdrop-filter: blur(20px); /* Apply the blur effect */
+  z-index: 0; /* Place it behind the content */
+}
+
+
+/* Adjust the specific-event-section to be transparent so it doesn't cover the background */
 .specific-event-section {
-  position: relative; /* Establish a positioning context */
-  background-image: url(../../assets/images/eventbanner.png);
-  background-size: cover; /* Cover the entire section with the image */
-  background-position: center; /* Center the background image */
-  background-repeat: no-repeat; /* Do not repeat the image */
-  padding: 50px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  position: relative;
+  padding: 50px 20px;
+  max-width: 1200px;
+  margin: 0 auto; /* Center the content */
+  background: transparent; /* Transparent background */
+  z-index: 2; /* Ensure this section is above the background */
 }
 
-/* Add a pseudo-element for the greyish blur effect */
+/* Transparent and blurred pseudo-element to add more blur effect */
 .specific-event-section::before {
-  content: ""; /* Empty content for the pseudo-element */
-  position: absolute; /* Position it absolutely */
-  top: 0; /* Align to the top */
-  left: 0; /* Align to the left */
-  right: 0; /* Stretch to the right */
-  bottom: 0; /* Stretch to the bottom */
-  background: rgba(255, 255, 255, 0.79); /* Greyish semi-transparent background */
-  backdrop-filter: blur(20px); /* Apply blur effect */
-  z-index: 1; /* Place it above the background but below the content */
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1; /* Lower than content to place behind */
 }
 
-/* Ensure the specific-event-container and its contents are properly layered */
-.specific-event-container {
-  position: relative; /* Keep content above the pseudo-element */
-  z-index: 2; /* Higher than the pseudo-element */
+/* Sidebar container styles */
+.specific-event-sidebar {
+  flex: 0 0 300px; /* Sidebar takes a fixed width */
+  min-width: 250px; /* Minimum width for responsiveness */
+  background: #ffffff; /* Light background */
   padding: 20px;
-
-}
-
-.specific-event-details {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
-  background: #fff;
+  border-radius: 10px;
   border: 1px solid #ddd;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* Light shadow */
+  position: relative; /* Ensure correct stacking */
+  z-index: 2; /* Higher than the blur */
 }
 
-.specific-event-details h1 {
-  font-size: 2rem;
+/* Sidebar card styling */
+.sidebar-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
   margin-bottom: 20px;
 }
 
-.specific-event-details img {
-  width: 100%;
-  height: auto;
-  margin-bottom: 20px;
+/* Main Content Container */
+.specific-event-details-container {
+  flex: 1; /* Main content takes the remaining space */
+  max-width: calc(100% - 320px); /* Calculate max width based on sidebar width and gap */
+  position: relative;
+  z-index: 2; /* Higher than blur overlay */
 }
 
-.specific-event-details p {
-  font-size: 1rem;
-  line-height: 1.6;
+/* Event details container */
+.specific-event-details {
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Slight shadow */
+  border: 1px solid #ddd;
 }
 
-.specific-event-description {
-  margin-top: 20px;
-  white-space: pre-line; /* Preserves newlines in event description */
-}
-
-/* Override banner-small styles */
+/* Ensure breadcrumb and banner styling is preserved */
 .specific-event-page .banner-small {
   height: 600px;
 }
@@ -70,52 +94,58 @@
   height: auto;
   flex-shrink: 1;
   text-align: center;
-  width: 1581px;
+  width: 100%;
   display: flex;
-  flex-direction: column; /* Arrange content vertically */
-  justify-content: center; /* Center all content vertically */
-  text-align: center; /* Center text alignment */
-  height: 100%; /* Make sure it occupies full height */
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
 }
 
-.specific-event-page .banner-content .banner-small-title-wrapper{
+.specific-event-page .banner-content .banner-small-title-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%; /* Make sure it occupies full height */
+  height: 100%;
   margin: auto;
 }
 
-.specific-event-page .banner-content .banner-small-title-wrapper .rsvp-btn{
+.specific-event-page .banner-content .banner-small-title-wrapper .rsvp-btn {
   display: flex;
   padding: 12px;
+  background-color: #870000;
 }
 
 .specific-event-page .banner-content .banner-small-title {
   font-size: 80px;
-  text-transform: uppercase;;
+  text-transform: uppercase;
   display: flex;
   align-items: center;
-  
 }
 
-/* Center the breadcrumb list within its container */
+/* Center the breadcrumb list */
 .specific-event-page .banner-small .breadcrumb {
   display: flex;
-  justify-content: center; /* Centers the breadcrumb horizontally */
-  align-items: center; /* Centers the breadcrumb vertically */
-  padding: 0; /* Remove default padding */
-  margin-bottom: 10; /* Remove default margin */
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin-bottom: 10px;
 }
 
-/* Additional styling for the breadcrumb list items */
 .specific-event-page .breadcrumb li {
-  display: inline; /* Ensure breadcrumb items are displayed inline */
+  display: inline;
 }
 
-@media (max-width: 1400px) {
-  .specific-event-page .banner-small .banner-content {
-    align-items: center;
+
+
+@media (max-width: 768px) {
+  .specific-event-details h1 {
+    font-size: 1.5rem;
+  }
+
+  .rsvp-btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
   }
 }

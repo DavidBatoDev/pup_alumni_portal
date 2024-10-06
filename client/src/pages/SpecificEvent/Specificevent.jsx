@@ -1,76 +1,59 @@
-// src/pages/SpecificEvent/SpecificEvent.jsx
-
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import './SpecificEvent.css';
 import Navbar from "../../components/Navbar/Navbar";
 import BannerSmall from '../../components/Banner/BannerSmall';
-import bannerImage from '../../assets/images/eventimage1.png'; // Use a default banner image
+import SpecificEventSidebar from '../../components/SpecificEventSidebar/SpecificEventSidebar';
+import SpecificEventMainContent from '../../components/SpecificEventMainContent/SpecificEventMainContent';
+import bannerImage from '../../assets/images/eventimage1.png';
 
-// Import images statically instead of using require in the events array
-import eventImage1 from '../../assets/images/eventimage1.png';
-import eventImage2 from '../../assets/images/eventimage2.jpg';
-
-// Dummy data or fetch from a state/store
 const events = [
   {
     title: "PUP-Alumni-Homecoming-2024",
     date: "September 18, 2024",
     venue: "PUP Sta. Mesa, Manila Campus",
-    details: `
-      Join us for the PUP Alumni Homecoming 2024, a night of celebration, reconnection, and nostalgia! This annual event is
-      an opportunity for alumni from all graduating classes to come together and reminisce about their time at Polytechnic
-      University of the Philippines. Reconnect with old friends, make new connections, and celebrate the achievements of our alumni community.
-    `,
-    image: eventImage1, // Use static import instead of require
+    details: `Join us for the PUP Alumni Homecoming 2024, a night of celebration, reconnection, and nostalgia! This annual event is an opportunity for alumni from all graduating classes to come together and reminisce about their time at Polytechnic University of the Philippines. Reconnect with old friends, make new connections, and celebrate the achievements of our alumni community.
+The evening will feature a welcome speech by our esteemed guest, an awards ceremony to honor distinguished alumni, a sumptuous dinner, and entertainment that will make this night unforgettable. We look forward to welcoming you back to your alma mater and sharing an evening of joy and memories.`,
+    schedule: [`5:00 PM - 6:00 PM: Registration and Welcome Drinks`, `6:00 PM - 7:00 PM: Welcome Speech and Alumni Awards`, `7:00 PM - 9:00 PM: Dinner and Entertainment`, `9:00 PM - onwards: Socials and Networking`],
+    guidelines: ['Arrival: Please arrive at least 30 minutes before the start of the event to allow time for registration.', 'Location: The event will be held at the PUP Sta. Mesa, Manila Campus. Detailed directions and parking information are available on our website.', 'Tickets: Ensure you have your event ticket or registration confirmation.', 'ID: A valid ID for verification at the entrance.', 'Personal Items: Only bring essential items; avoid bringing large bags.', 'Attire: Smart casual. Comfortable shoes are recommended as there may be some walking involved.'],
+    image: bannerImage,
     type: "Face-to-Face",
+    participants: 83,
+    daysToGo: 30,
+    dateAnnounced: "August 10, 2024",
+    heldBy: "Polytechnic University of the Philippines Alumni Association",
+    organizers: "PUP Office of Alumni Relations",
+    tags: ["Alumni", "Homecoming", "Reunion", "Networking", "Celebration"],
+    dressCode: "Semi-formal attire",
   },
-  {
-    title: "PUP-Cultural-Night",
-    date: "September 18, 2024",
-    venue: "PUP Sta. Mesa, Manila Campus",
-    details: `
-      Experience the vibrant culture of PUP at our annual Cultural Night event! Featuring a variety of performances, art displays,
-      and interactive activities, this event showcases the diverse talents and traditions of our university community. Join us for
-      an evening of celebration, creativity, and fun!
-    `,
-    image: eventImage2, // Use static import instead of require
-    type: "Face-to-Face",
-  },
+  // ... (other events)
 ];
 
-// Utility function to standardize event titles
-const formatTitle = (title) => {
-  // Replace spaces with hyphens, remove special characters except hyphens and lowercase the title
-  return title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-};
+const formatTitle = (title) => title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
 
 const SpecificEvent = () => {
-  // Get the event title from the URL
   const { eventTitle } = useParams();
-
-  // Log the URL parameter to verify the value
-  console.log("URL Event Title:", eventTitle);
-
-  // Compare using formatted titles
   const event = events.find((e) => formatTitle(e.title) === formatTitle(eventTitle));
 
-  // Log formatted titles for debugging
-  console.log("Formatted Event Titles:", events.map(e => formatTitle(e.title)));
-  console.log("Event Found:", event);
+  if (!event) return <div>Event not found</div>;
 
-  if (!event) {
-    console.log("Event not found for:", formatTitle(eventTitle));
-    return <div>Event not found</div>;
-  }
+  const backgroundImage = event.image || bannerImage;
 
   return (
-    <div className="specific-event-page">
+    <div
+      className="specific-event-page"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       <Navbar />
-      {/* Updated BannerSmall component with dynamic event data */}
       <BannerSmall
-        bannerTitle={event.title.replace(/-/g, ' ')} // Replacing hyphens with spaces for display
-        bannerImage={event.image || bannerImage} // Use event image if available, else default banner
+        bannerTitle={event.title.replace(/-/g, ' ')}
+        bannerImage={backgroundImage}
         breadcrumbs={[
           { label: "Home", link: "/" },
           { label: "Events", link: "/events" },
@@ -78,17 +61,26 @@ const SpecificEvent = () => {
         ]}
       />
       <div className="specific-event-section">
-        <div className="specific-event-container">
-          {/* Event Details */}
-          <div className="specific-event-details">
-            <h1>{event.title.replace(/-/g, ' ')}</h1> {/* Replace hyphens with spaces for display */}
-            <img src={event.image} alt={event.title} className="specific-event-image" />
-            <p><strong>Date:</strong> {event.date}</p>
-            <p><strong>Location:</strong> {event.venue}</p>
-            <p><strong>Type:</strong> {event.type}</p>
-            <p className="specific-event-description">{event.details}</p>
-          </div>
-        </div>
+        <SpecificEventSidebar
+          daysToGo={event.daysToGo}
+          date={event.date}
+          participants={event.participants}
+          venue={event.venue}
+          dateAnnounced={event.dateAnnounced}
+          tags={event.tags}
+          organizers={event.organizers}
+          heldBy={event.heldBy}
+          dressCode={event.dressCode}
+        />
+        <SpecificEventMainContent
+          title={event.title.replace(/-/g, ' ')}
+          date={event.date}
+          venue={event.venue}
+          details={event.details}
+          schedule={event.schedule}
+          guidelines={event.guidelines}
+          
+        />
       </div>
     </div>
   );
