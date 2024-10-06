@@ -11,41 +11,41 @@ const EventListing = ({ eventData, onEdit }) => {
   const day = eventDate.getDate();
   const month = eventDate.toLocaleString('default', { month: 'short' });
 
-  console.log('eventData:', eventData);
-
   return (
-    <div className="event-listing">
-      {/* Left-Aligned Date Section */}
-      <div className="event-date-section">
-        <div className="event-date-month">{month}</div>
-        <div className="event-date-day">{day}</div>
-      </div>
-
-      {/* Image and Event Details */}
-      <div className="event-image-and-details">
-        {/* Event Image */}
-        <div className="event-image-container">
-          <img
-            src={eventData.image || eventImg}
-            alt={eventData.event_name || 'Event Image'}
-            className="event-image"
-          />
+    <div className="event-listing-wrapper"> {/* Wrap component */}
+      <div className="event-listing">
+        {/* Left-Aligned Date Section */}
+        <div className="event-date-section">
+          <div className="event-date-month">{month}</div>
+          <div className="event-date-day">{day}</div>
         </div>
 
-        {/* Event Information */}
-        <div className="event-details">
-          <h5 className="event-title">{eventData.event_name}</h5>
-          <p className="event-info-listing">
-            <strong>{eventData.venue}</strong> | {eventDate.toDateString()} {/* Readable date format */}
-          </p>
-          <p className="event-description">{eventData.description}</p>
-        </div>
-      </div>
+        {/* Image and Event Details */}
+        <div className="event-image-and-details">
+          {/* Event Image */}
+          <div className="event-image-container">
+            <img
+              src={eventData.image || eventImg}
+              alt={eventData.event_name || 'Event Image'}
+              className="event-image"
+            />
+          </div>
 
-      {/* Right-Aligned Content */}
-      <div className="event-additional-info">
-        <span className="event-type">{eventData.type}</span>
-        <span className="edit-icon" onClick={() => onEdit(eventData.event_id)}>✎</span>
+          {/* Event Information */}
+          <div className="event-details">
+            <h5 className="event-title">{eventData.event_name}</h5>
+            <p className="event-info-listing">
+              <strong>{eventData.venue}</strong> | {eventDate.toDateString()} {/* Readable date format */}
+            </p>
+            <p className="event-description">{eventData.description}</p>
+          </div>
+        </div>
+
+        {/* Right-Aligned Content */}
+        <div className="event-additional-info">
+          <span className="event-type">{eventData.type}</span>
+          <span className="edit-icon" onClick={() => onEdit(eventData.event_id)}>✎</span>
+        </div>
       </div>
     </div>
   );

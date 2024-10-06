@@ -1,7 +1,5 @@
-/* EventListing.css */
-
-/* Container for Each Event */
-.event-listing {
+/* Scoped class to ensure styles are specific to the EventListing component */
+.event-listing-wrapper .event-listing {
   display: flex;
   align-items: flex-start; /* Align items to the start */
   background-color: transparent; /* Remove any background color */
@@ -12,12 +10,12 @@
   align-items: center;
 }
 
-.event-listing:hover {
+.event-listing-wrapper .event-listing:hover {
   box-shadow: none; /* Remove shadow effect */
 }
 
 /* Date Section Styling */
-.event-date-section {
+.event-listing-wrapper .event-date-section {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,26 +26,26 @@
   color: #a50000; /* Date color */
 }
 
-.event-date-month {
+.event-listing-wrapper .event-date-month {
   font-size: 14px;
   text-transform: uppercase;
   font-weight: bold;
 }
 
-.event-date-day {
+.event-listing-wrapper .event-date-day {
   font-size: 28px; /* Bigger font for the day */
   font-weight: bold;
 }
 
 /* Image and Details Container */
-.event-image-and-details {
+.event-listing-wrapper .event-image-and-details {
   display: flex;
   align-items: center; /* Center align image and text */
   flex: 1;
 }
 
 /* Event Image Styling */
-.event-image-container {
+.event-listing-wrapper .event-image-container {
   display: flex;
   flex: 0 0 180px; /* Adjust width for the image */
   height: 110px; /* Adjust height to control the aspect ratio */
@@ -55,7 +53,7 @@
   align-items: center;
 }
 
-.event-image {
+.event-listing-wrapper .event-image {
   width: 100%;
   height: 100%;
   border-radius: 8px;
@@ -63,22 +61,21 @@
 }
 
 /* Event Details */
-.event-details {
+.event-listing-wrapper .event-details {
   display: flex;
   flex-direction: column;
   justify-content: center; /* Center text vertically */
   flex: 1;
 }
 
-.event-title {
+.event-listing-wrapper .event-title {
   font-size: 22px;
   font-weight: bold;
   color: #333;
   margin: 0 0 5px; /* Adjust margin for better spacing */
 }
 
-/* Updated .event-info-listing Class */
-.event-info-listing {
+.event-listing-wrapper .event-info-listing {
   font-size: 16px; /* Consistent font size */
   color: #555; /* Text color for better readability */
   margin-bottom: 10px; /* Spacing below the info */
@@ -87,25 +84,25 @@
   align-items: center; /* Center vertically */
 }
 
-.event-info-listing strong {
+.event-listing-wrapper .event-info-listing strong {
   font-weight: 600; /* Make the location bold */
   margin-right: 5px; /* Spacing between location and date */
 }
 
-.event-info-listing span{
+.event-listing-wrapper .event-info-listing span {
   color: #a50000;
   margin-left: 5px;
 }
 
 /* Event Description */
-.event-description {
+.event-listing-wrapper .event-description {
   font-size: 14px;
   color: #666;
   margin-bottom: 10px;
 }
 
 /* Right-Aligned Content */
-.event-additional-info {
+.event-listing-wrapper .event-additional-info {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -116,7 +113,7 @@
   text-align: right;
 }
 
-.event-type {
+.event-listing-wrapper .event-type {
   font-size: 14px;
   font-weight: bold;
   color: #555;
@@ -136,14 +133,14 @@
 
 /* Responsive Design for Mobile */
 @media (max-width: 768px) {
-  .event-listing {
+  .event-listing-wrapper .event-listing {
     flex-direction: column;
     align-items: center;
     padding: 15px 0;
     border-bottom: 1px solid #ddd; /* Add border for better separation */
   }
 
-  .event-date-section {
+  .event-listing-wrapper .event-date-section {
     flex-direction: row;
     width: 100%;
     padding: 10px 0;
@@ -151,43 +148,43 @@
     column-gap: 10px;
   }
 
-  .event-image-and-details {
+  .event-listing-wrapper .event-image-and-details {
     flex-direction: column;
     align-items: center;
     width: 100%;
   }
 
-  .event-image-container {
+  .event-listing-wrapper .event-image-container {
     width: 100%;
     margin-bottom: 15px;
     height: auto; /* Allow image height to adjust for mobile */
     margin-right: 0;
   }
 
-  .event-image {
+  .event-listing-wrapper .event-image {
     height: auto;
   }
 
-  .event-details {
+  .event-listing-wrapper .event-details {
     text-align: center;
   }
 
-  .event-title {
+  .event-listing-wrapper .event-title {
     font-size: 18px; /* Smaller font for mobile */
   }
 
-  .event-info-listing,
-  .event-description {
+  .event-listing-wrapper .event-info-listing,
+  .event-listing-wrapper .event-description {
     font-size: 14px;
     text-align: center; /* Center text for mobile */
     justify-content: center;
   }
 
-  .event-info-listing strong {
+  .event-listing-wrapper .event-info-listing strong {
     margin: 0 3px; /* Center the bold text */
   }
 
-  .event-additional-info {
+  .event-listing-wrapper .event-additional-info {
     position: static;
     align-items: center;
     margin-top: 15px;
@@ -200,14 +197,14 @@
 }
 
 @media (max-width: 1400px) {
-  .event-listing {
+  .event-listing-wrapper .event-listing {
     flex-direction: column;
     align-items: center;
     padding: 15px 0;
     border-bottom: 1px solid #ddd; /* Add border for better separation */
   }
 
-  .event-date-section {
+  .event-listing-wrapper .event-date-section {
     flex-direction: row;
     width: 100%;
     padding: 10px 0;
@@ -215,13 +212,13 @@
     column-gap: 10px;
   }
 
-  .event-image-and-details {
+  .event-listing-wrapper .event-image-and-details {
     flex-direction: column;
     align-items: center;
     width: 100%;
   }
 
-  .event-image-container {
+  .event-listing-wrapper .event-image-container {
     width: 100%;
     margin-bottom: 15px;
     height: auto; /* Allow image height to adjust for mobile */
@@ -229,35 +226,34 @@
     margin-top: 20px;
   }
 
-  .event-image {
+  .event-listing-wrapper .event-image {
     height: 100%;
     width: 100%;
   }
 
-  .event-title {
+  .event-listing-wrapper .event-title {
     font-size: 30px; /* Smaller font for mobile */
     text-align: center;
     margin-bottom: 10px;
-    
   }
 
-  .event-info-listing,
-  .event-description {
+  .event-listing-wrapper .event-info-listing,
+  .event-listing-wrapper .event-description {
     font-size: 15px;
     justify-content: center;
     text-align: center;
   }
 
-  .event-type {
+  .event-listing-wrapper .event-type {
     font-size: 15px;
     color: #870000;
   }
 
-  .event-info-listing strong {
+  .event-listing-wrapper .event-info-listing strong {
     margin: 0 3px; /* Center the bold text */
   }
 
-  .event-additional-info {
+  .event-listing-wrapper .event-additional-info {
     position: static;
     align-items: center;
     margin-top: 15px;

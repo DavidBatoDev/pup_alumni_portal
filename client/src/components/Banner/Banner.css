@@ -165,6 +165,88 @@
   color: #a50000;
 }
 
+.rsvp-btn{
+    background-color: #800000;
+    border: none;
+    color: white;
+    transition: background-color 0.3s ease;
+    display: none;
+}
+
+.rsvp-btn:hover {
+    background-color: #a52436;
+}
+
+/* RSVP Button and Tooltip Styles */
+.rsvp-container {
+  position: relative; /* Establish positioning context for tooltip */
+  display: inline-block;
+  padding: 5px;
+}
+
+.rsvp-btn {
+  background-color: #800000;
+  border: none;
+  color: white;
+  transition: background-color 0.3s ease;
+  position: relative;
+}
+
+.rsvp-btn:hover {
+  background-color: #a52436;
+  
+}
+
+/* Tooltip styling */
+.rsvp-tooltip {
+  visibility: hidden; /* Hide tooltip by default */
+  width: max-content;
+  background-color: white;
+  color: #a50000;
+  text-align: center;
+  border-radius: 4px;
+  padding: 5px 10px;
+  position: absolute;
+  z-index: 10;
+  bottom: -40px; /* Position it below the button */
+  left: 50%;
+  transform: translateX(-50%); /* Center the tooltip horizontally */
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Tooltip arrow */
+.rsvp-tooltip::before,
+.rsvp-tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: 100%; /* Position the arrow above the tooltip */
+  left: 50%;
+  transform: translateX(-50%);
+  border: solid transparent;
+  height: 0;
+  width: 0;
+}
+
+.rsvp-tooltip::before {
+  border-width: 6px;
+  border-bottom-color: white; /* Tooltip arrow color */
+}
+
+.rsvp-tooltip::after {
+  border-width: 7px;
+  margin-left: -1px;
+  border-bottom-color: rgba(0, 0, 0, 0.1); /* Optional shadow for arrow */
+}
+
+/* Show the tooltip on button hover */
+.rsvp-container:hover .rsvp-tooltip {
+  visibility: visible; /* Make tooltip visible */
+  opacity: 1; /* Make it fully opaque */
+  transition: opacity 0.3s ease; /* Smooth visibility transition */
+}
+
+
 @media (max-width: 768px) {
   /* Default Banner */
   .banner {

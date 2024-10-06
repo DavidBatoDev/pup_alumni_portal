@@ -90,11 +90,13 @@
     color: #b1b1b1;
 }
 
+
+
+
 @media (max-width: 768px) {
     /* Gawa ka bagong filter na container, tapos display mo yung mag mobile view */
-
-
     /*  */
+    
     .filter-container{
         display: none;
     }
