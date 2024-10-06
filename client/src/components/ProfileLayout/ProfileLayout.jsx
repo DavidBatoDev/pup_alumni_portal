@@ -14,7 +14,6 @@ import './ProfileLayout.css';
 const ProfileLayout = () => {
   // State to store profile data
   const [profile, setProfile] = useState({});
-  // const user = useSelector((state) => state.user);
   const [address, setAddress] = useState({});
   const [employmentHistory, setEmploymentHistory] = useState([]);
   const [educationHistory, setEducationHistory] = useState([]);
@@ -49,6 +48,8 @@ const ProfileLayout = () => {
       <BannerSmall bannerTitle="Profile Overview" bannerImage={bannerImage} />
       <div className='background profile-layout-background'></div>
 
+      { loading ? (<CircularLoader />) :
+      (
       <div className="container-fluid profile-layout-content glass">
 
         <div className="row profile-layout-row">
@@ -67,9 +68,9 @@ const ProfileLayout = () => {
         </div>
 
       </div>
+      )}
 
       <MainFooter />
-      {loading && <CircularLoader />}
     </div>
   );
 };
