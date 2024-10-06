@@ -36,7 +36,7 @@ function App() {
         <Route path="/admin/login" element={<AdminLogin />} />
 
         {/* Protected Routes for Alumni */}
-        <Route element={<ProtectedRoute allowedRoles={['alumni']} />} >
+        <Route > {/*element={<ProtectedRoute allowedRoles={['alumni']} />*/}
             {/* Profile */}
             <Route path="/old-profile" element={<Profile />} />
             <Route path="profile" element={<ProfileLayout />}>
