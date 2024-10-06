@@ -14,7 +14,6 @@ import './ProfileLayout.css';
 const ProfileLayout = () => {
   // State to store profile data
   const [profile, setProfile] = useState({});
-  // const user = useSelector((state) => state.user);
   const [address, setAddress] = useState({});
   const [employmentHistory, setEmploymentHistory] = useState([]);
   const [educationHistory, setEducationHistory] = useState([]);

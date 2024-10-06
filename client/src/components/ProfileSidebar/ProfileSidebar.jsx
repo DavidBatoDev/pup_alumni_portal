@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 const ProfileSidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user.user);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -32,8 +32,8 @@ const ProfileSidebar = () => {
             />
           </div>
           <div className="d-flex flex-column justify-content-center h-auto w-auto">
-            <h4 className="profile-sidebar-name">{`${user?.user?.first_name} ${user?.user?.last_name}`}</h4>
-            <p className="profile-sidebar-id">{user?.user?.alumni_id}</p>
+            <h4 className="profile-sidebar-name">{`${user?.first_name} ${user?.last_name}`}</h4>
+            <p className="profile-sidebar-id">{user?.alumni_id}</p>
           </div>
         </div>
 

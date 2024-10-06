@@ -86,6 +86,78 @@ const ProfileSettings = () => {
 
   };
 
+  // Add new employment row in edit mode
+  const addNewEmployment = () => {
+    const newEmployment = {
+      employment_id: `temp-${Date.now()}`, // Temporary ID for new row
+      job_title: '',
+      company: '',
+      start_date: '',
+      end_date: '',
+      description: '',
+    };
+    setEditableEmploymentHistory([...editableEmploymentHistory, newEmployment]);
+    setEditingEmploymentId(newEmployment.employment_id);
+  };
+
+  // Add new education row in edit mode
+  const addNewEducation = () => {
+    const newEducation = {
+      education_id: `temp-${Date.now()}`, // Temporary ID for new row
+      institution: '',
+      degree: '',
+      field_of_study: '',
+      start_date: '',
+      end_date: '',
+    };
+    setEditableEducationHistory([...editableEducationHistory, newEducation]);
+    setEditingEducationId(newEducation.education_id);
+  };
+
+  // Save new employment entry to server
+  const saveNewEmployment = (employment) => {
+    axios
+      .post(`/api/add-employment-history`, employment, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          console.log('New employment added successfully:', response.data.data);
+          // Replace temporary ID with the actual ID from the response
+          setEditableEmploymentHistory((prev) =>
+            prev.map((job) =>
+              job.employment_id === employment.employment_id ? response.data.data : job
+            )
+          );
+          setEditingEmploymentId(null);
+        }
+      })
+      .catch((error) => {
+        console.error('Error adding new employment:', error);
+      });
+  };
+
+  // Save new education entry to server
+  const saveNewEducation = (education) => {
+    axios
+      .post(`/api/add-education-history`, education, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          console.log('New education added successfully:', response.data.data);
+          // Replace temporary ID with the actual ID from the response
+          setEditableEducationHistory((prev) =>
+            prev.map((edu) => (edu.education_id === education.education_id ? response.data.data : edu))
+          );
+          setEditingEducationId(null);
+        }
+      })
+      .catch((error) => {
+        console.error('Error adding new education:', error);
+      });
+  };
+
   return (
     <>
       <div className="card mb-4 profile-section">
@@ -239,13 +311,22 @@ const ProfileSettings = () => {
                   </td>
                   <td>
                     {editingEmploymentId === job.employment_id ? (
-                      <div className="d-flex flex-sm-wrap">
-                        <button className="btn btn-success btn-sm" onClick={() => saveEmploymentChanges(job.employment_id)}>Save</button>
-                        <button className="btn btn-sm btn-danger">Remove</button>
+                      <div className="btn-group" role='edit-employment'>
+                        <button className="btn btn-success btn-sm btn-save" onClick={() =>
+                          job.employment_id.includes('temp')
+                            ? saveNewEmployment(job)
+                            : saveEmploymentChanges(job.employment_id)
+                        }>
+                          <i className="fa-regular fa-floppy-disk"></i>
+                        </button>
+                        <button className="btn btn-sm btn-danger btn-delete">
+                          <i className="fa-regular fa-trash-can btn-delete"></i>
+                        </button>
                       </div>
                     ) : (
-                      <button className="btn btn-warning btn-sm" onClick={() => setEditingEmploymentId(job.employment_id)}>Edit</button>
-
+                      <button className="btn btn-warning btn-light btn-sm" onClick={() => setEditingEmploymentId(job.employment_id)}>
+                        <i className="fa-regular fa-pen-to-square"></i>
+                      </button>
                     )}
                   </td>
                 </tr>
@@ -255,6 +336,14 @@ const ProfileSettings = () => {
                 <td colSpan="5">No employment history available.</td>
               </tr>
             )}
+            {/* Add New Employment Button */}
+            <tr>
+              <td colSpan="5">
+                <button className="btn btn-outline-primary btn-sm rounded-circle" onClick={addNewEmployment}>
+                  <i className='fa-solid fa-plus'></i>
+                </button>
+              </td>
+            </tr>
           </tbody>
         </table>
 
@@ -337,12 +426,22 @@ const ProfileSettings = () => {
                   </td>
                   <td>
                     {editingEducationId === edu.education_id ? (
-                      <div>
-                        <button className="btn btn-success btn-sm" onClick={() => saveEducationChanges(edu.education_id)}>Save</button>
-                        <button className="btn btn-sm btn-danger">Remove</button>
+                      <div className='btn-group' role='edit-education'>
+                        <button className="btn btn-success btn-sm btn-save" onClick={() =>
+                          edu.education_id.includes('temp')
+                            ? saveNewEducation(edu)
+                            : saveEducationChanges(edu.education_id)
+                        }>
+                          <i className="fa-regular fa-floppy-disk"></i>
+                        </button>
+                        <button className="btn btn-sm btn-danger mx-1">
+                          <i className="fa-regular fa-trash-can btn-delete"></i>
+                        </button>
                       </div>
                     ) : (
-                      <button className="btn btn-warning btn-sm" onClick={() => setEditingEducationId(edu.education_id)}>Edit</button>
+                      <button className="btn btn-warning btn-light btn-sm" onClick={() => setEditingEducationId(edu.education_id)}>
+                        <i className="fa-regular fa-pen-to-square"></i>
+                      </button>
                     )}
                   </td>
                 </tr>
@@ -352,10 +451,18 @@ const ProfileSettings = () => {
                 <td colSpan="6">No education history available.</td>
               </tr>
             )}
+            {/* Add New Education Button */}
+            <tr>
+              <td colSpan="6">
+                <button className="btn btn-outline-primary btn-sm" onClick={addNewEducation}>
+                  <i className='fa-solid fa-plus'></i>
+                </button>
+              </td>
+            </tr>
+
           </tbody>
         </table>
       </div>
-
     </>
   );
 }

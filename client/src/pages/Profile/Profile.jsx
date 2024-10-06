@@ -1,7 +1,7 @@
 /*
 WARNING: THIS PAGE IS DEPRECATED AND MAY BE REMOVED IN THE FUTURE
 This page is deprecated and will be removed in the future.
-Unless this page is being used for viewing other users' profiles,
+Unless this page is being used for viewing OTHER USER' profiles,
 it is recommended to use the ProfileLayout component instead for personal profiles.
 The Profile Page is now a component under components/ProfileLayout/Profile.jsx
 While individual pages are under pages/Profile/ProfileOverview.jsx, ProfileSettings.jsx, etc.
@@ -23,7 +23,6 @@ import './Profile.css';
 const Profile = () => {
   // State to store profile data
   const [profile, setProfile] = useState({});
-  // const user = useSelector((state) => state.user);
   const [address, setAddress] = useState({});
   const [employmentHistory, setEmploymentHistory] = useState([]);
   const [educationHistory, setEducationHistory] = useState([]);

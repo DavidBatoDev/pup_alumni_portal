@@ -28,7 +28,7 @@ const ProfileOverview = () => {
             />
           </div>
 
-          {/* Profile Details */}
+          {/* Profile Details (Name, Address, etc.) */}
           <div className="d-flex flex-column w-100 profile-details">
             <div className='d-flex justify-content-between profile-details-flex'>
               <div className='d-flex flex-column'>
