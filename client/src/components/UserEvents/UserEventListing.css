@@ -1,7 +1,5 @@
-/* EventListing.css */
-
 /* Container for Each Event */
-.event-listing {
+.event-listing-auth {
   display: flex;
   align-items: flex-start; /* Align items to the start */
   background-color: transparent; /* Remove any background color */
@@ -12,12 +10,12 @@
   align-items: center;
 }
 
-.event-listing:hover {
+.event-listing-auth:hover {
   box-shadow: none; /* Remove shadow effect */
 }
 
 /* Date Section Styling */
-.event-date-section {
+.event-date-auth-section {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,26 +26,26 @@
   color: #a50000; /* Date color */
 }
 
-.event-date-month {
+.event-date-month-auth {
   font-size: 14px;
   text-transform: uppercase;
   font-weight: bold;
 }
 
-.event-date-day {
+.event-date-day-auth {
   font-size: 28px; /* Bigger font for the day */
   font-weight: bold;
 }
 
 /* Image and Details Container */
-.event-image-and-details {
+.event-image-and-details-auth {
   display: flex;
   align-items: center; /* Center align image and text */
   flex: 1;
 }
 
 /* Event Image Styling */
-.event-image-container {
+.event-image-container-auth {
   display: flex;
   flex: 0 0 180px; /* Adjust width for the image */
   height: 110px; /* Adjust height to control the aspect ratio */
@@ -55,7 +53,7 @@
   align-items: center;
 }
 
-.event-image {
+.event-image-auth {
   width: 100%;
   height: 100%;
   border-radius: 8px;
@@ -63,22 +61,22 @@
 }
 
 /* Event Details */
-.event-details {
+.event-details-auth {
   display: flex;
   flex-direction: column;
   justify-content: center; /* Center text vertically */
   flex: 1;
 }
 
-.event-title {
+.event-title-auth {
   font-size: 22px;
   font-weight: bold;
   color: #333;
   margin: 0 0 5px; /* Adjust margin for better spacing */
 }
 
-/* Updated .event-info-listing Class */
-.event-info-listing {
+/* Updated .event-info-listing-auth Class */
+.event-info-listing-auth {
   font-size: 16px; /* Consistent font size */
   color: #555; /* Text color for better readability */
   margin-bottom: 10px; /* Spacing below the info */
@@ -87,20 +85,25 @@
   align-items: center; /* Center vertically */
 }
 
-.event-info-listing strong {
+.event-info-listing-auth strong {
   font-weight: 600; /* Make the location bold */
   margin-right: 5px; /* Spacing between location and date */
 }
 
+.event-info-listing-auth span {
+  color: #a50000;
+  margin-left: 5px;
+}
+
 /* Event Description */
-.event-description {
+.event-description-auth {
   font-size: 14px;
   color: #666;
   margin-bottom: 10px;
 }
 
 /* Right-Aligned Content */
-.event-additional-info {
+.event-additional-info-auth {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -109,10 +112,9 @@
   right: 20px;
   top: 20px;
   text-align: right;
-  
 }
 
-.event-type {
+.event-type-auth {
   font-size: 14px;
   font-weight: bold;
   color: #555;
@@ -130,90 +132,148 @@
   color: #870000;
 }
 
-.more-info{
+.more-info {
   background-color: #a50000;
   color: #ddd;
   font-size: small;
 }
 
-.more-info:hover{
+.more-info:hover {
   background-color: #870000;
   color: #ddd;
 }
 
-
-
-/* Mobile Responsive Design */
+/* Responsive Design for Mobile */
 @media (max-width: 768px) {
-  /* Event Listing: Change flex to column */
-  .event-listing {
-    flex-direction: column; /* Stack content vertically */
-    align-items: center;
-    padding: 15px 0;
-    border-bottom: 1px solid #ddd;
-  }
-
-  /* Date Section: Ensure it stretches across the width */
-  .event-date-section {
-    flex-direction: row;
-    justify-content: space-between; /* Spread out month and day */
-    width: 100%; /* Full width to make it appear as a block */
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 10px;
-  }
-
-  /* Image and Details: Make image and details stack vertically */
-  .event-image-and-details {
+  .event-listing-auth {
     flex-direction: column;
     align-items: center;
-    width: 100%; /* Full width for a stacked look */
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd; /* Add border for better separation */
   }
 
-  /* Event Image: Adjust to take full width, remove fixed height */
-  .event-image-container {
-    width: 100%; /* Full width */
-    margin-bottom: 15px; /* Add spacing below image */
-    height: auto; /* Allow the height to adjust automatically */
-  }
-
-  /* Image within the container */
-  .event-image {
+  .event-date-auth-section {
+    flex-direction: row;
     width: 100%;
-    height: auto; /* Maintain aspect ratio */
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    column-gap: 10px;
   }
 
-  /* Event Details: Center the text */
-  .event-details {
+  .event-image-and-details-auth {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .event-image-container-auth {
+    width: 100%;
+    margin-bottom: 15px;
+    height: auto; /* Allow image height to adjust for mobile */
+    margin-right: 0;
+  }
+
+  .event-image-auth {
+    height: auto;
+  }
+
+  .event-details-auth {
     text-align: center;
   }
 
-  /* Event Title: Slightly smaller for mobile */
-  .event-title {
-    font-size: 18px;
+  .event-title-auth {
+    font-size: 18px; /* Smaller font for mobile */
   }
 
-  /* Event Info and Description: Adjust to be centered and smaller */
-  .event-info-listing,
-  .event-description {
-    font-size: 14px; /* Smaller font for mobile */
-    text-align: center; /* Center text */
+  .event-info-listing-auth,
+  .event-description-auth {
+    font-size: 14px;
+    text-align: center; /* Center text for mobile */
+    justify-content: center;
   }
 
-  /* Event Info List: Ensure center alignment for venue and date */
-  .event-info-listing strong {
-    margin: 0 auto; /* Center bold text */
+  .event-info-listing-auth strong {
+    margin: 0 3px; /* Center the bold text */
   }
 
-  /* Additional Info: Position at the bottom, center-aligned */
-  .event-additional-info {
-    position: static; /* Remove absolute positioning */
+  .event-additional-info-auth {
+    position: static;
     align-items: center;
     margin-top: 15px;
-    text-align: center; /* Center button and text */
+    text-align: center;
   }
 
-  /* Edit Icon: Add some space at the top for mobile view */
+  .edit-icon {
+    margin-top: 10px;
+  }
+}
+
+/* Responsive Design for Medium-Sized Screens */
+@media (max-width: 1400px) {
+  .event-listing-auth {
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd; /* Add border for better separation */
+  }
+
+  .event-date-auth-section {
+    flex-direction: row;
+    width: 100%;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    column-gap: 10px;
+  }
+
+  .event-image-and-details-auth {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .event-image-container-auth {
+    width: 100%;
+    margin-bottom: 15px;
+    height: auto; /* Allow image height to adjust for mobile */
+    margin-right: 0;
+    margin-top: 20px;
+  }
+
+  .event-image-auth {
+    height: 100%;
+    width: 100%;
+  }
+
+  .event-title-auth {
+    font-size: 30px; /* Smaller font for mobile */
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .event-info-listing-auth,
+  .event-description-auth {
+    font-size: 15px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .event-type-auth {
+    font-size: 15px;
+    color: #870000;
+  }
+
+  .event-info-listing-auth strong {
+    margin: 0 3px; /* Center the bold text */
+  }
+
+  .event-additional-info-auth {
+    position: static;
+    align-items: center;
+    margin-top: 15px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
   .edit-icon {
     margin-top: 10px;
   }

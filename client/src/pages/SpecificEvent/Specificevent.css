@@ -63,14 +63,14 @@
 
 /* Override banner-small styles */
 .specific-event-page .banner-small {
-  height: 500px;
+  height: 600px;
 }
 
-.banner-small .banner-content {
+.specific-event-page .banner-small .banner-content {
   height: auto;
   flex-shrink: 1;
   text-align: center;
-  width: auto;
+  width: 1581px;
   display: flex;
   flex-direction: column; /* Arrange content vertically */
   justify-content: center; /* Center all content vertically */
@@ -78,26 +78,44 @@
   height: 100%; /* Make sure it occupies full height */
 }
 
-.banner-content .banner-small-title {
-  font-size: 100px;
+.specific-event-page .banner-content .banner-small-title-wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Make sure it occupies full height */
+  margin: auto;
+}
+
+.specific-event-page .banner-content .banner-small-title-wrapper .rsvp-btn{
+  display: flex;
+  padding: 12px;
+}
+
+.specific-event-page .banner-content .banner-small-title {
+  font-size: 80px;
+  text-transform: uppercase;;
+  display: flex;
+  align-items: center;
+  
 }
 
 /* Center the breadcrumb list within its container */
-.banner-small .breadcrumb {
+.specific-event-page .banner-small .breadcrumb {
   display: flex;
   justify-content: center; /* Centers the breadcrumb horizontally */
   align-items: center; /* Centers the breadcrumb vertically */
   padding: 0; /* Remove default padding */
-  margin: 0; /* Remove default margin */
+  margin-bottom: 10; /* Remove default margin */
 }
 
 /* Additional styling for the breadcrumb list items */
-.breadcrumb li {
+.specific-event-page .breadcrumb li {
   display: inline; /* Ensure breadcrumb items are displayed inline */
 }
 
 @media (max-width: 1400px) {
-  .banner-small .banner-content {
+  .specific-event-page .banner-small .banner-content {
     align-items: center;
   }
 }

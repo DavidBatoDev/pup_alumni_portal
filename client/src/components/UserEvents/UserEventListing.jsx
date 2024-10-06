@@ -16,33 +16,33 @@ const EventListing = ({ eventData, onEdit }) => {
   const formattedTitle = eventData.title.replace(/\s+/g, '-'); // Replace spaces with hyphens
 
   return (
-    <div className="event-listing">
+    <div className="event-listing-auth">
       {/* Left-Aligned Date Section */}
-      <div className="event-date-section">
-        <div className="event-date-month">{month}</div>
-        <div className="event-date-day">{day}</div>
+      <div className="event-date-auth-section">
+        <div className="event-date-month-auth">{month}</div>
+        <div className="event-date-day-auth">{day}</div>
       </div>
 
       {/* Image and Event Details */}
-      <div className="event-image-and-details">
+      <div className="event-image-and-details-auth">
         {/* Event Image */}
-        <div className="event-image-container">
+        <div className="event-image-container-auth">
           <img
             src={eventData.image || eventImg}
             alt={eventData.event_name || 'Event Image'}
-            className="event-image"
+            className="event-image-auth"
           />
         </div>
 
         {/* Event Information */}
-        <div className="event-details">
-          <h5 className="event-title">{eventData.title}</h5>
-          <p className="event-info-listing">
+        <div className="event-details-auth">
+          <h5 className="event-title-auth">{eventData.title}</h5>
+          <p className="event-info-listing-auth">
             <strong>{eventData.venue}</strong> | <span>{eventDate.toDateString()}</span> {/* Readable date format */}
           </p>
-          <p className="event-description">{eventData.details}</p>
-          <div className="event-additional-info">
-            <span className="event-type">{eventData.type}</span>
+          <p className="event-description-auth">{eventData.details}</p>
+          <div className="event-additional-info-auth">
+            <span className="event-type-auth">{eventData.type}</span>
             {/* Link to a dynamic URL based on formatted event title */}
             <Link 
               to={`/events/${formattedTitle}`} 

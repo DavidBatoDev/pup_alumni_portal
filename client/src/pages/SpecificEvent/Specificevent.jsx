@@ -73,7 +73,7 @@ const SpecificEvent = () => {
         bannerImage={event.image || bannerImage} // Use event image if available, else default banner
         breadcrumbs={[
           { label: "Home", link: "/" },
-          { label: "Events", link: "/event" },
+          { label: "Events", link: "/events" },
           { label: event.title.replace(/-/g, ' '), link: `/events/${event.title}` }
         ]}
       />
