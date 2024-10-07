@@ -230,5 +230,53 @@ class EventController extends Controller
         return response()->json(['success' => true, 'event' => $eventDetails], 200);
     }
 
+    public function getEventDetailsWithStatus($eventId)
+    {
+        // Get the authenticated alumni from the token
+        $alumni = auth()->user();
+    
+        // Check if the alumni is authenticated
+        if (!$alumni) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+    
+        // Fetch the event details along with registered alumni
+        $event = Event::with(['alumniEvents.alumni' => function ($query) {
+                $query->select('alumni_id', 'first_name', 'last_name', 'email');
+            }])
+            ->find($eventId);
+    
+        // If the event is not found, return a 404 response
+        if (!$event) {
+            return response()->json(['error' => 'Event not found'], 404);
+        }
+    
+        // Check if the specific alumni is registered for the event
+        $isRegistered = $event->alumniEvents->contains('alumni_id', $alumni->alumni_id);
+    
+        // Format the response to include alumni details
+        $eventDetails = [
+            'event_id' => $event->event_id,
+            'event_name' => $event->event_name,
+            'event_date' => $event->event_date,
+            'location' => $event->location,
+            'type' => $event->type, 
+            'category' => $event->category, 
+            'organization' => $event->organization, 
+            'description' => $event->description,
+            'registered_alumni' => $event->alumniEvents->map(function ($alumniEvent) {
+                return [
+                    'alumni_id' => $alumniEvent->alumni->alumni_id,
+                    'first_name' => $alumniEvent->alumni->first_name,
+                    'last_name' => $alumniEvent->alumni->last_name,
+                    'email' => $alumniEvent->alumni->email,
+                ];
+            }),
+            'is_alumni_registered' => $isRegistered
+        ];
+    
+        return response()->json(['success' => true, 'event' => $eventDetails], 200);
+    }
+
 
 }

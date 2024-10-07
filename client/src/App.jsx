@@ -22,7 +22,7 @@ import ProfileSettings from './pages/Profile/ProfileSettings';
 import ProfilePasswordSecurity from './pages/Profile/ProfilePasswordSecurity';
 import ProfileNotificationPreferences from './pages/Profile/ProfileNotificationPreferences';
 import ProfilePrivacySettings from './pages/Profile/ProfilePrivacySettings';
-import SpecificEvent from './pages/SpecificEvent/Specificevent'; // Ensure the path is correct
+import SpecificEvent from './pages/SpecificEvent/SpecificEvent'; // Ensure the path is correct
 
 
 function App() {
@@ -53,7 +53,7 @@ function App() {
 
             {/* Events */}
             <Route path="/events" element={<Events />} />
-            <Route path="/events/:eventTitle" element={<SpecificEvent />} />
+            <Route path="/events/:eventId" element={<SpecificEvent />} />
         </Route>
 
         {/* Protected Routes for Admin */}
@@ -64,7 +64,6 @@ function App() {
           <Route path="/admin/survey/:surveyId" element={<SurveyInformationResponses />} />
           <Route path="/admin/create-survey" element={<CreateSurvey />} />
         </Route>
-
 
       </Routes>
     </Router>

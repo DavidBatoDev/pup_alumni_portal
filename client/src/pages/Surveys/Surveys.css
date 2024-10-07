@@ -1,7 +1,7 @@
 /* Prefix styles with .survey- to prevent conflicts */
 .survey-section {
   padding: 50px 0;
-  height: calc(100vh - 70px);
+  height: calc(100vh);
 }
 
 

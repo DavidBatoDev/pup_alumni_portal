@@ -63,7 +63,7 @@ const AdminEventsDashboard = () => {
   const handleEditEvent = async (eventId) => {
     try {
       setLoading(true);
-      const response = await axios.get(`/api/event/${eventId}`);
+      const response = await axios.get(`/api/events/${eventId}`);
       const eventDetails = response.data.event;
 
       // Populate the form fields with the event data

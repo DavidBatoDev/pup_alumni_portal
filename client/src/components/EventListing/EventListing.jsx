@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './EventListing.css';
-import eventImg from '../../assets/images/eventimage2.jpg'; // Replace with actual path
+import eventImg from '../../assets/images/eventimage1.png'; // Replace with actual path
 
 const EventListing = ({ eventData, onEdit }) => {
   // Extract date information to display it in a specific format

@@ -20,7 +20,7 @@ Route::post('admin/logout', [AdminAuthController::class, 'logout'])->middleware(
 
 // Route to list event/s
 Route::get('/events', [EventController::class, 'getEvents']);
-Route::get('/event/{eventId}', [EventController::class, 'getEventDetails']);
+Route::get('/events/{eventId}', [EventController::class, 'getEventDetails']);
 
 
 // Protected alumni routes (Require JWT Authentication)
@@ -53,6 +53,8 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     // Route to fetch all surveys that the alumni has answered
      Route::get('survey/answered-surveys', [SurveyController::class, 'getAnsweredSurveys']);
+
+     Route::get('/event/{eventId}', [EventController::class, 'getEventDetailsWithStatus']);
 
 });
 
