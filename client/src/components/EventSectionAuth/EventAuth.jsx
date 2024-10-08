@@ -8,8 +8,39 @@ import searchIcon from "../../assets/svgs/search-outline.svg";
 import menuIcon from "../../assets/svgs/menu-outline.svg";
 
 const EventAuth = ({ events }) => {
-  const [isFilterSectionVisible, setIsFilterSectionVisible] = useState(false);
+  // Filter sidebar state management
+  const [isFilterSectionVisible, setIsFilterSectionVisible] = useState(false); // Controls visibility of the filter overlay
+  const [maxVisibleCategories, setMaxVisibleCategories] = useState(4); // State to track max visible categories based on screen size
+
   const filterRef = useRef(null);
+  const containerRef = useRef(null);
+
+  // Available categories
+  const categories = ['Career', 'Social', 'Science', 'Computer'];
+
+  // Update the max visible categories based on screen width
+  const updateMaxVisibleCategories = () => {
+    const screenWidth = window.innerWidth;
+
+    if (screenWidth < 400) {
+      setMaxVisibleCategories(1); // Show only 1 category for very small screens
+    } else if (screenWidth < 600) {
+      setMaxVisibleCategories(2); // Show only 2 categories for small screens
+    } else if (screenWidth < 768) {
+      setMaxVisibleCategories(3); // Show 3 categories for medium screens
+    } else {
+      setMaxVisibleCategories(4); // Show all categories for larger screens
+    }
+  };
+
+  useEffect(() => {
+    updateMaxVisibleCategories();
+    window.addEventListener('resize', updateMaxVisibleCategories);
+
+    return () => {
+      window.removeEventListener('resize', updateMaxVisibleCategories);
+    };
+  }, []);
 
   const toggleFilterSection = () => setIsFilterSectionVisible(!isFilterSectionVisible);
 
@@ -28,10 +59,24 @@ const EventAuth = ({ events }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isFilterSectionVisible]);
 
+  // State to track active filter categories (use a Set to store active categories)
+  const [activeFilters, setActiveFilters] = useState(new Set());
+
+  const handleFilterClick = (category) => {
+    const newActiveFilters = new Set(activeFilters);
+    if (newActiveFilters.has(category)) {
+      newActiveFilters.delete(category); // Remove if already active
+    } else {
+      newActiveFilters.add(category); // Add if not active
+    }
+    setActiveFilters(newActiveFilters); // Update state with new set
+  };
+
   return (
-    <div className="container">
+    <div className="container" ref={containerRef}>
       <div className="events-card-container card p-4 shadow-sm">
         <div className="d-flex justify-content-between align-items-center mb-4 event-header">
+          {/* Search Bar */}
           <div className="input-group">
             <input
               type="text"
@@ -44,12 +89,33 @@ const EventAuth = ({ events }) => {
             </button>
           </div>
 
+          {/* Categories and Filter Button */}
           <div className="filter-event-wrapper">
-            <h3 className="text-muted">Upcoming Events: <span className="text-danger">{events.length}</span></h3>
+            {/* Render Filter Categories */}
+            <div className="filter-search-categories">
+              {categories.slice(0, maxVisibleCategories).map((category) => (
+                <div
+                  key={category}
+                  className={`filter-search ${activeFilters.has(category) ? 'active' : ''}`}
+                  onClick={() => handleFilterClick(category)}
+                >
+                  {category}
+                </div>
+              ))}
+            </div>
+
+            {/* Filter Menu Icon - Toggle Filter Overlay */}
             <div className="filter-search-section" onClick={toggleFilterSection}>
               <img src={menuIcon} alt="Menu Icon" />
-              <div className="filter-search">Filter</div>
+              <div className="filter-search">All</div>
             </div>
+          </div>
+
+          {/* Upcoming Events Count */}
+          <div className="filter-event-wrapper">
+            <h3 className="text-muted">
+              Upcoming Events: <span className="text-danger">{events.length}</span>
+            </h3>
           </div>
         </div>
 
@@ -63,14 +129,14 @@ const EventAuth = ({ events }) => {
         </div>
       </div>
 
-      {/* Filter Section Overlay */}
+      {/* Filter Section Overlay - Slides in from the left */}
       {isFilterSectionVisible && (
         <div ref={filterRef} className={`filter-section-overlay ${isFilterSectionVisible ? 'slide-in' : ''}`}>
           <EventsFilterSection />
         </div>
       )}
 
-      {/* Optional Overlay */}
+      {/* Optional Overlay Background */}
       {isFilterSectionVisible && (
         <div className="overlay-background" onClick={() => setIsFilterSectionVisible(false)}></div>
       )}
