@@ -56,6 +56,11 @@
     background: rgba(0, 0, 0, 0.5);
     z-index: 90; /* Lower z-index than the filter */
   }
+
+
+  .filter-search-categories{
+    display: none;
+  }
   
 
 /* src/components/EventAuth/EventAuth.css */
@@ -75,6 +80,32 @@
         z-index: 100;
         transition: left 0.3s ease-in-out;
       }
+
+      /* Styles when a filter item is clicked (active) */
+      .filter-search.active {
+        background-color: #870000; /* Your preferred background color */
+        color: #fff; /* White text when active */
+        border: 1px solid #870000; /* Match the border with background */
+}
+
+    
+    
+      .filter-search-categories {
+        display: flex;
+        align-items: center;
+        border-right: #1E1e1e 1px solid;
+        margin-right: 5px;
+        justify-content:space-between;
+        width: 100%;
+      }
+
+      .filter-search-categories .filter-search {
+        border: 1px solid #1E1e1e;
+        padding: 5px 10px;
+        border-radius: 20px;
+        width: 100%;
+        text-align: center;
+      } 
       
       /* Add the sliding effect */
       .slide-in {
@@ -96,8 +127,6 @@
         z-index: 90; /* Lower z-index than the filter */
       }
       
-    
-    
     .event-header{
         flex-direction: column;
         gap:20px;
@@ -107,26 +136,41 @@
         margin-top: 20px;
     }
 
+    .filter-event-wrapper .text-muted{
+      display: flex   ;
+      text-align: start;
+      width: 100%;
+      margin-left: 7px;
+      margin-bottom: 0;
+  }
+
     .filter-search-section{
         display: flex;
         justify-content: flex-end;
-        width: fit-content;
         gap: 5px;
         margin-right: 5px;
+        align-items: center;
+        justify-content: space-around;
     }
 
-    .filter-event-wrapper .text-muted{
-        display: flex   ;
-        text-align: start;
-        width: 100%;
-        margin-left: 7px;
-        margin-bottom: 0;
+    .filter-search-section .filter-search.active{
+        cursor: pointer;
+        border-bottom: 1px solid #870000;
+        
     }
 
     .filter-search{
         font-size: 15px;
         color: #1E1e1e;
         align-content: center;
+        cursor: pointer;
+        padding: 5px 10px; /* Adjusted padding for consistent sizing */
+        border: 1px solid #1e1e1e;
+        border-radius: 20px; /* Rounded corners */
+        background: transparent; /* Default background */
+        color: #1e1e1e; /* Default text color */
+        transition: color 0.3s ease;
+        margin: 0 5px; /* Space between buttons */
     }
 
     .filter-search-section img{
