@@ -8,6 +8,10 @@ import searchIcon from "../../assets/svgs/search-outline.svg";
 import menuIcon from "../../assets/svgs/menu-outline.svg";
 
 const EventAuth = ({ events }) => {
+  // State for pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const eventsPerPage = 5;
+
   // Filter sidebar state management
   const [isFilterSectionVisible, setIsFilterSectionVisible] = useState(false); // Controls visibility of the filter overlay
   const [maxVisibleCategories, setMaxVisibleCategories] = useState(4); // State to track max visible categories based on screen size
@@ -72,6 +76,19 @@ const EventAuth = ({ events }) => {
     setActiveFilters(newActiveFilters); // Update state with new set
   };
 
+  // Determine the events to be displayed on the current page
+  const indexOfLastEvent = currentPage * eventsPerPage;
+  const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
+  const currentEvents = events.slice(indexOfFirstEvent, indexOfLastEvent);
+
+  // Calculate the total number of pages
+  const totalPages = Math.ceil(events.length / eventsPerPage);
+
+  // Event handler for pagination controls
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div className="container" ref={containerRef}>
       <div className="events-card-container card p-4 shadow-sm">
@@ -121,11 +138,36 @@ const EventAuth = ({ events }) => {
 
         {/* Event Listings */}
         <div className="row">
-          {events.map((event, index) => (
+          {currentEvents.map((event, index) => (
             <div key={index} className="col-12">
               <UserEventListing eventData={event} />
             </div>
           ))}
+        </div>
+
+        {/* Pagination */}
+        <div className="d-flex justify-content-center mt-4">
+          <nav aria-label="Page navigation example">
+            <ul className="pagination">
+              <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                <button className="page-link" onClick={() => handlePageChange(currentPage - 1)} aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </button>
+              </li>
+              {[...Array(totalPages)].map((_, index) => (
+                <li key={index} className={`page-item ${index + 1 === currentPage ? 'active' : ''}`}>
+                  <button className="page-link" onClick={() => handlePageChange(index + 1)}>
+                    {index + 1}
+                  </button>
+                </li>
+              ))}
+              <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                <button className="page-link" onClick={() => handlePageChange(currentPage + 1)} aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </button>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
 
