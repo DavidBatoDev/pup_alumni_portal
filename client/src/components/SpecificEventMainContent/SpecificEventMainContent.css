@@ -1,53 +1,52 @@
 .specific-event-details-container {
     flex: 1;
-    max-width: calc(100% - 320px);
+    max-width: calc(100% - 320px); /* Set initial max-width for larger screens */
     position: relative;
     z-index: 2;
-  }
-  
-  .specific-event-details {
+    transition: width 0.3s ease-in-out; /* Smooth transition for width changes */
+}
+
+.specific-event-details {
     padding: 30px;
     background: #ffffff;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     border: 1px solid #ddd;
-  }
+}
 
-  .specific-event-details .specific-event-details-wrapper{
+.specific-event-details .specific-event-details-wrapper {
     border-bottom: 1px solid #ddd;
     padding-top: 20px;
-  }
+}
 
-  .specific-event-details .specific-event-details-wrapper:nth-child(1){
+.specific-event-details .specific-event-details-wrapper:nth-child(1) {
     padding-top: 0px;
-  }
-  
-  .specific-event-details .details-header {
+}
+
+.specific-event-details .details-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
+}
 
-  .specific-event-details .details-header p{
+.specific-event-details .details-header p {
     font-size: 20px;
     font-weight: bold;
     margin: auto 0;
-  }
-  
-  .specific-event-description {
+}
+
+.specific-event-description {
     margin: 20px 0;
     text-align: justify;
-  }
+}
 
-  .specific-event-details .details-header h1{
+.specific-event-details .details-header h1 {
     font-size: 25px;
     font-weight: bold;
     margin: auto 0;
-  }
+}
 
-
-  
-   .specific-event-details .rsvp-btn {
+.specific-event-details .rsvp-btn {
     padding: 5px 20px;
     background: #870000;
     color: #fff;
@@ -55,89 +54,88 @@
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-  }
-  
-  .specific-event-description .event-schedule, .event-guidelines {
+}
+
+.specific-event-description .event-schedule,
+.event-guidelines {
     padding: 10px;
+}
 
-  }
-
- 
 /* Responsive styles for 1200px and below */
 @media (max-width: 1200px) {
+  /* Set full width and remove the max-width restriction */
   .specific-event-details-container {
-      max-width: 100%;
+    width: 100% !important; /* Force full width */
+    max-width: 100% !important; /* Override any other max-width settings */
+    padding: 0; /* Remove padding if needed */
   }
 
   .specific-event-details {
-      width: 100%; 
-      padding: 25px; /* Adjust padding for better spacing */
-      margin: 10px 0; /* Additional margin for separation */
+    width: 100%;
+    padding: 25px; /* Adjust padding for better spacing */
+    margin: 10px 0; /* Additional margin for separation */
   }
 
   .specific-event-details .details-header h1 {
-      font-size: 22px; /* Slightly smaller font for smaller screens */
-      text-align: center;
+    font-size: 22px; /* Slightly smaller font for smaller screens */
+    text-align: center;
   }
 
   .specific-event-details .details-header p {
-      font-size: 18px;
-      text-align: center;
+    font-size: 18px;
+    text-align: center;
   }
 
   .specific-event-details .rsvp-btn {
-      padding: 5px 15px;
-      font-size: 0.9rem;
+    padding: 5px 15px;
+    font-size: 0.9rem;
   }
 
   /* Wrapping the description text for better readability */
   .specific-event-description {
-      font-size: 16px;
-      margin: 15px 0;
+    font-size: 16px;
+    margin: 15px 0;
   }
 
-  .event-schedule, .event-guidelines {
-      font-size: 15px;
-      line-height: 1.5;
+  .event-schedule,
+  .event-guidelines {
+    font-size: 15px;
+    line-height: 1.5;
   }
 }
 
 /* Responsive styles for 768px and below */
 @media (max-width: 768px) {
   .specific-event-details-container {
-      padding: 0; /* Remove container padding */
+    padding: 0; /* Remove container padding */
   }
 
   .specific-event-details {
-      padding: 20px;
+    padding: 20px;
   }
 
   .specific-event-details .details-header {
-      flex-direction: column; /* Stack elements vertically */
-      align-items: flex-start; /* Align elements to the start */
+    flex-direction: column; /* Stack elements vertically */
+    align-items: flex-start; /* Align elements to the start */
   }
 
   .specific-event-details .details-header h1,
   .specific-event-details .details-header p {
-      font-size: 20px;
-      margin-bottom: 10px; /* Space between elements */
-      margin: 10px auto;
+    font-size: 20px;
+    margin-bottom: 10px; /* Space between elements */
+    margin: 10px auto;
   }
 
   .specific-event-details .rsvp-btn {
     margin: 10px auto;
-      justify-content: center;
-      padding: 10px 20px;
-      font-size: 1rem;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 1rem;
   }
 
   .specific-event-description,
   .event-schedule,
   .event-guidelines {
-      font-size: 14px;
+    font-size: 14px;
   }
 }
-
-
-
-  
