@@ -26,7 +26,35 @@
     align-items: center;
 }
 
-/* src/components/EventAuth/EventAuth.css */
+/* General styles for pagination links */
+.pagination .page-item .page-link {
+  color: #000; /* Default color for page links */
+  background-color: #f8f9fa; /* Default background color */
+  border: 1px solid #dee2e6; /* Default border */
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  outline: none; /* Remove default focus outline */
+}
+
+/* Remove blue border when the pagination link is clicked (focused) */
+.pagination .page-item .page-link:focus {
+  outline: none; /* Completely remove the outline */
+  box-shadow: none; /* Remove any focus box shadow if applied */
+}
+
+/* Styling for active page links */
+.pagination .page-item.active .page-link {
+  background-color: #870000; /* Background color for active link */
+  color: #fff; /* Text color for active link */
+  border-color: #870000; /* Border color for active link */
+}
+
+/* Optional hover effect for all page links */
+.pagination .page-item .page-link:hover {
+  background-color: #870000; /* Change background on hover */
+  color: #fff; /* Change text color on hover */
+  border-color: #870000; /* Maintain border color on hover */
+}
 
 .filter-section-overlay {
     position: fixed;
