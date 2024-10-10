@@ -353,6 +353,12 @@ const AdminEventsDashboard = () => {
             <button type="button" className="events-form-btn save-event-btn" onClick={handleSaveEvent}>
               {isEditing ? 'Update Event' : 'Save Event'}
             </button>
+            
+            {/* Add  End Event */} {/* Pa fix and add functionality ako here */}
+            <button type="button" className="events-form-btn end-event-btn">
+              End Event
+            </button>
+
             {isEditing && (
               <button type="button" className="events-form-btn delete-event-btn" onClick={handleDeleteEvent}>
                 Delete Event
