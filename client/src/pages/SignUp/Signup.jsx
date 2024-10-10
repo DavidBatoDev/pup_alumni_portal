@@ -111,6 +111,35 @@ const Signup = () => {
     setEducationHistory(updatedEducation);
   };
 
+  const processLinkedInData = (data) => {
+    const formattedEmploymentHistory = data.position.map((job) => ({
+      company: job.companyName || '',
+      job_title: job.title || '',
+      start_date: job.start
+        ? `${job.start.year}-${String(job.start.month + 1).padStart(2, '0')}-${String(job.start.day || 1).padStart(2, '0')}`
+        : '',
+      end_date: job.end
+        ? `${job.end.year}-${String(job.end.month + 1).padStart(2, '0')}-${String(job.end.day || 1).padStart(2, '0')}`
+        : '',
+      description: job.description || '',
+    }));
+
+    const formattedEducationHistory = data.educations.map((education) => ({
+      institution: education.schoolName || '',
+      degree: education.degree || '',
+      field_of_study: education.fieldOfStudy || '',
+      start_date: education.start
+        ? `${education.start.year}-${String(education.start.month + 1).padStart(2, '0')}-${String(education.start.day || 1).padStart(2, '0')}`
+        : '',
+      end_date: education.end
+        ? `${education.end.year}-${String(education.end.month + 1).padStart(2, '0')}-${String(education.end.day || 1).padStart(2, '0')}`
+        : '',
+    }));
+
+    setEmploymentHistory([...employmentHistory, ...formattedEmploymentHistory]);
+    setEducationHistory([...educationHistory, ...formattedEducationHistory]);
+  };
+
   // Handle LinkedIn profile input change and API request for fetching data
   const handleLinkedInChange = async (e) => {
     const { name, value } = e.target;
@@ -123,12 +152,24 @@ const Signup = () => {
       setLoading(true);
       setLinkedinError(null);
 
+      const options = {
+        method: 'GET',
+        url: 'https://linkedin-data-api.p.rapidapi.com/get-profile-data-by-url',
+        params: {
+          url: value
+        },
+        headers: {
+          'x-rapidapi-key': 'bb3b2f3979mshab4732d09c1d9c8p15569fjsn11af407e6669',
+          'x-rapidapi-host': 'linkedin-data-api.p.rapidapi.com'
+        }
+      };
+
       try {
         // (DUMMY CODE BELOW) Implement fetch data using LinkedIn API
-        const response = await axios.get('/api/linkedin-data', { params: { profileUrl: value } });
+        const response = await axios.request(options);
+        console.log("Linked In Profile Found: ", response.data);
         if (response.data) {
-          setEmploymentHistory(response.data.employmentHistory || []);
-          setEducationHistory(response.data.educationHistory || []);
+          processLinkedInData(response.data);
         }
       } catch (error) {
         console.error('Failed to fetch LinkedIn data:', error);
