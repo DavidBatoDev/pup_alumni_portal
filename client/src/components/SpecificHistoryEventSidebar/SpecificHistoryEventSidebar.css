@@ -1,0 +1,114 @@
+.general-section {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.specific-event-sidebar {
+    flex: 0 0 300px;
+    min-width: 250px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .sidebar-card {
+    background: #ffffff;
+    padding: 5px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .event-date-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .event-date-wrapper img {
+    width: 30px;
+    height: 40px;
+    margin-right: 10px;
+  }
+
+  .event-date-wrapper h2{
+    font-size: 40px;
+    color: #870000;
+  
+  }
+
+  .event-date-daystogo{
+    width: 50%;
+  }
+
+  .days-to-go{
+    width: 100%;
+    margin-left: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    font-weight: bold;
+  }
+
+  .date-container div:nth-child(1) {
+    font-size: 15px;
+    font-weight: bold;
+    color: #870000;
+  }
+
+.date-container div:nth-child(2) {
+    font-size: 15px;
+}
+
+.additional-details{
+    margin-top: 20px;
+}
+
+.additional-details:nth-child(2) {
+    border-bottom: 1px solid #ddd;
+}
+
+.additional-details .event-date-wrapper {
+    align-items: start;
+}
+
+.share-icons{
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    text-decoration: none;
+}
+
+.share-icons i{
+    font-size: 25px;
+    color: #870000;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+    .specific-event-section {
+      flex-direction: column;
+      padding: 30px 15px;
+    }
+  
+    .specific-event-sidebar {
+      width: 100%;
+    }
+  
+    .specific-event-details-container {
+      width: 100%;
+      padding: 0;
+    }
+  
+    .specific-event-details {
+      padding: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .rsvp-btn {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+    }
+  }

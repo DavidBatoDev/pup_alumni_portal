@@ -2,98 +2,109 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from "../../components/Navbar/Navbar";
 import BannerSmall from '../../components/Banner/BannerSmall';
-import SpecificEventSidebar from '../../components/SpecificEventSidebar/SpecificEventSidebar';
-import SpecificEventMainContent from '../../components/SpecificEventMainContent/SpecificEventMainContent';
 import bannerImage from '../../assets/images/eventimage1.png';
 import axios from 'axios';
 import './SpecificHistoryPage.css';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
+import SpecificHistoryEventSidebar from '../../components/SpecificHistoryEventSidebar/SpecificHistoryEventSidebar';
+import image1 from '../../assets/images/eventImage1.png';
+import image2 from '../../assets/images/eventImage2.jpg';
+import image3 from '../../assets/images/eventImage3.jpg';
+import SpecificEventMainContent from '../../components/SpecificEventMainContent/SpecificEventMainContent';
+import SpecificHistoryEventMainContent from '../../components/SpecificHistoryEventMainContent/SpecificHistoryEventMainContent';
 
 const SpecificHistoryPage = () => {
 
-  {/*}
-  const { eventId } = useParams();
-  const [eventData, setEventData] = useState(null);
-  
+  // Uncomment this block if you are using the API to fetch specific event data
+  /*
+  const { eventId } = useParams(); // Get the eventId from the URL parameters
+  const [eventData, setEventData] = useState(null); // State to store fetched event data
+
   useEffect(() => {
+    // Function to fetch specific event data using the eventId
     const fetchEventData = async () => {
       try {
         const response = await axios.get(`http://localhost:8000/api/event/${eventId}`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // Include Authorization header if needed
           },
         });
-        setEventData(response.data.event);
+        setEventData(response.data.event); // Set the fetched event data
       } catch (error) {
-        console.error("Error fetching event data:", error);
+        console.error("Error fetching event data:", error); // Log any errors during the fetch
       }
     };
     fetchEventData();
   }, [eventId]);
-  */}
+  */
 
+  // Using dummy event data for now
   const eventData = [
     {
-        "event_name": "Pasdasdasd",
-        "event_date": "2024-09-18",
-        "location": "PUP Sta. Mesa, Manila Campus",
-        "type": "Face-to-face",
-        "category": "Social",
-        "organization": "PUP Alumni Association",
-        "description": "Join us for an unforgettable evening at the PUP Cultural Night, an event where alumni, students, faculty, and the PUP community come together to celebrate the rich cultural heritage and artistic talents of our university. Taking place on September 18, 2024, at the PUP Sta. Mesa, Manila Campus, this event promises to be a vibrant celebration filled with engaging performances, delectable food offerings, and beautiful art exhibits. \n\nThe evening will begin with a welcome reception at 5:00 PM, where attendees can mingle and connect over light refreshments and snacks. The main program will commence at 6:00 PM with an opening speech by the President of the PUP Alumni Association, setting the tone for a night dedicated to showcasing diverse cultural performances. Expect an array of traditional dances, choral renditions, spoken word poetry, and musical performances by PUP's most talented artists. From the grace of folk dance troupes to the powerful voices of our university choir, every performance is curated to highlight the diversity and artistic excellence within the PUP community. \n\nGuests are encouraged to wear smart casual attire or traditional Filipino clothing. For those who wish to show their support for the university spirit, donning PUP colors—red, gold, and white—is highly encouraged. Comfortable shoes are recommended as some portions of the evening will be held outdoors, allowing guests to stroll through various exhibit areas and food stalls. \n\nAttendees will have access to a variety of food stalls offering both local and international cuisine. From traditional Filipino street food like isaw and kwek-kwek to gourmet options like sushi and kebabs, there will be something to satisfy every palate. A designated area for beverages, including coffee, milk teas, and fruit shakes, will be available for refreshment. Explore the creative side of PUP through our art exhibit, featuring paintings, sculptures, and installations by both students and professional alumni artists. Interactive booths will be set up for activities like pottery-making, calligraphy workshops, and more, offering a chance for guests to engage with the arts in a hands-on manner. \n\nWe look forward to welcoming you to a night filled with celebration, camaraderie, and artistic expression. See you at the PUP Cultural Night!",
-        "updated_at": "2024-10-06T17:47:07.000000Z",
-        "created_at": "2024-10-06T17:47:07.000000Z",
-        "event_images": ["eventImage1.png", "eventImage2.png"],
-        "event_id": 1
+      "event_name": "Pasdasdasd",
+      "event_date": "2024-09-18",
+      "location": "PUP Sta. Mesa, Manila Campus",
+      "type": "Face-to-face",
+      "category": "Social",
+      "organization": "PUP Alumni Association",
+      "description": "Join us for an unforgettable evening at !",
+      "updated_at": "2024-10-06T17:47:07.000000Z",
+      "created_at": "2024-10-06T17:47:07.000000Z",
+      "event_images": [{image1}, {image2}, {image3}],
+      "event_id": 1
     },
-]
+  ];
 
-  console.log('eventData:', eventData);
+  // For now, use the first event in the array
+  const singleEvent = eventData[0];
 
-  if (!eventData) return <CircularLoader />;
+  console.log('eventData:', singleEvent); // Log the single event data for debugging
 
-  // Set the background image if available, otherwise use a default image
-  const backgroundImage = eventData.image || bannerImage;
+  // Show a loader if no event data is found
+  if (!singleEvent) return <CircularLoader />;
+
+  // Set the background image using the first image in event_images or the default bannerImage
+  const backgroundImage = bannerImage;
 
   return (
     <div
       className="specific-event-page"
       style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
-        backgroundRepeat: 'no-repeat',
+        backgroundImage: `url(${backgroundImage})`, // Set the background image
+        backgroundSize: 'cover', // Cover the entire container
+        backgroundPosition: 'center', // Center the background image
+        backgroundAttachment: 'fixed', // Fixed background for a parallax effect
+        backgroundRepeat: 'no-repeat', // Do not repeat the image
       }}
     >
       <Navbar />
       <BannerSmall
-        bannerTitle={eventData.event_name}
-        bannerImage={backgroundImage}
+        bannerTitle={singleEvent.event_name} // Use the event name as the banner title
+        bannerImage={backgroundImage} // Use the selected background image
         breadcrumbs={[
-          { label: "Home", link: "/" },
+          { label: "Home", link: "/" }, // Breadcrumb navigation
           { label: "Event History", link: "/events/events-history" },
-          { label: eventData.event_name, link: `/events/events-history/${eventData.event_id}` }
+          { label: singleEvent.event_name, link: `/events/events-history/${singleEvent.event_id}` }
         ]}
       />
       <div className="specific-event-section">
-
-        {/* Di ko pa namomodify*/} {/* Pa fix me */}
-        <SpecificEventSidebar
-          daysToGo={Math.floor((new Date(eventData.event_date) - new Date()) / (1000 * 60 * 60 * 24))}
-          date={eventData.event_date}
-          participants={eventData.registered_alumni.length}
-          venue={eventData.location}
-          organizers={eventData.organization}
-          type={eventData.type}
+        {/* Sidebar component for specific event details */}
+        <SpecificHistoryEventSidebar
+          daysToGo={Math.abs(Math.floor((new Date(singleEvent.event_date) - new Date()) / (1000 * 60 * 60 * 24)))} // Calculate days ago or days left
+          date={singleEvent.event_date}
+          participants={singleEvent.registered_alumni?.length || 0} // Check if registered_alumni exists, fallback to 0
+          venue={singleEvent.location}
+          organizers={singleEvent.organization}
+          type={singleEvent.type}
         />
-        <SpecificEventMainContent
-          eventId={eventData.event_id}
-          title={eventData.event_name}
-          date={eventData.event_date}
-          venue={eventData.location}
-          details={eventData.description}
-          is_registered={eventData.is_alumni_registered}
+        {/* Main content component for specific event details */}
+        <SpecificHistoryEventMainContent 
+            eventId={singleEvent.event_id}
+            title={singleEvent.event_name}
+            date={singleEvent.event_date}
+            venue={singleEvent.location}
+            details={singleEvent.description}
+            images={singleEvent.event_images}            
         />
       </div>
     </div>
