@@ -1,0 +1,298 @@
+/* Container for Each Event */
+.event-listing-auth {
+    display: flex;
+    align-items: flex-start; /* Align items to the start */
+    background-color: transparent; /* Remove any background color */
+    border-bottom: 1px solid #ddd; /* Use border to separate events */
+    padding: 20px 0;
+    transition: box-shadow 0.3s ease;
+    position: relative;
+    align-items: center;
+    justify-content: space-between; /* Ensure space between items */
+    gap: 20px; /* Gap between elements */
+  }
+  
+  /* Hover Effect */
+  .event-listing-auth:hover {
+    box-shadow: none; /* Remove shadow effect */
+  }
+  
+  /* Date Section Styling */
+  .event-date-auth-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80px; /* Width for date section */
+    margin-right: 20px; /* Spacing between date and content */
+    font-size: 18px;
+    color: #a50000; /* Date color */
+  }
+  
+  .event-date-month-auth {
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  
+  .event-date-day-auth {
+    font-size: 32px; /* Bigger font for the day */
+    font-weight: bold;
+  }
+  
+  /* Image and Details Container */
+  .event-image-and-details-auth {
+    display: flex;
+    align-items: center; /* Center align image and text */
+    flex: 1;
+    gap: 20px; /* Space between image and details */
+  }
+  
+  /* Event Image Styling */
+  .event-image-container-auth {
+    flex: 0 0 180px; /* Fixed width for the image */
+    height: 120px; /* Adjust height to control the aspect ratio */
+    margin-right: 20px;
+    align-items: center;
+    overflow: hidden; /* Hide overflow if the image is too large */
+  }
+  
+  .event-image-auth {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    object-fit: cover; /* Ensure image covers the entire container */
+  }
+  
+  /* Event Details */
+  .event-details-auth {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center text vertically */
+    flex: 1;
+  }
+  
+  .event-title-auth {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 5px; /* Adjust margin for better spacing */
+  }
+  
+  /* Updated .event-info-listing-auth Class */
+  .event-info-listing-auth {
+    font-size: 16px; /* Consistent font size */
+    color: #555; /* Text color for better readability */
+    margin-bottom: 10px; /* Spacing below the info */
+    display: flex; /* Flex container */
+    flex-wrap: wrap; /* Wrap content if necessary */
+    align-items: center; /* Center vertically */
+    gap: 5px; /* Space between each info item */
+  }
+  
+  .event-info-listing-auth strong {
+    font-weight: 600; /* Make the location bold */
+    margin-right: 5px; /* Spacing between location and date */
+  }
+  
+  .event-info-listing-auth span {
+    color: #a50000;
+    margin-left: 5px;
+  }
+  
+  /* Event Description */
+  .event-description-auth {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+    max-width: 550px;
+  }
+  
+  /* Right-Aligned Content */
+  .event-additional-info-auth {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    text-align: right;
+  }
+  
+  .event-type-auth {
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .more-info {
+    background-color: #a50000;
+    color: #fff;
+    font-size: small;
+    padding: 5px 15px;
+    border-radius: 25px; /* Rounded pill-like button */
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .more-info:hover {
+    background-color: #870000;
+    color: #ddd;
+  }
+  
+  .edit-icon {
+    font-size: 18px;
+    cursor: pointer;
+    color: #a50000;
+    transition: color 0.3s ease;
+  }
+  
+  .edit-icon:hover {
+    color: #870000;
+  }
+  
+  /* Responsive Design for Mobile */
+  @media (max-width: 768px) {
+    .event-listing-auth {
+      flex-direction: column;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #ddd; /* Add border for better separation */
+    }
+  
+    .event-date-auth-section {
+      flex-direction: row;
+      width: 100%;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+      column-gap: 10px;
+      justify-content: center; /* Center-align the date */
+    }
+  
+    .event-image-and-details-auth {
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      margin-top: 10px; /* Add spacing */
+    }
+  
+    .event-image-container-auth {
+      width: 100%;
+      margin-bottom: 15px;
+      height: auto; /* Allow image height to adjust for mobile */
+      margin-right: 0;
+    }
+  
+    .event-image-auth {
+      height: auto;
+    }
+  
+    .event-details-auth {
+      text-align: center;
+    }
+  
+    .event-title-auth {
+      font-size: 18px; /* Smaller font for mobile */
+    }
+  
+    .event-info-listing-auth,
+    .event-description-auth {
+      font-size: 14px;
+      text-align: center; /* Center text for mobile */
+      justify-content: center;
+    }
+  
+    .event-info-listing-auth strong {
+      margin: 0 3px; /* Center the bold text */
+    }
+  
+    .event-additional-info-auth {
+      position: static;
+      align-items: center;
+      margin-top: 15px;
+      text-align: center;
+    }
+  
+    .edit-icon {
+      margin-top: 10px;
+    }
+  
+    .more-info {
+      margin-top: 10px;
+    }
+  }
+  
+  /* Responsive Design for Medium-Sized Screens */
+  @media (max-width: 1400px) {
+    .event-listing-auth {
+      flex-direction: column;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #ddd; /* Add border for better separation */
+    }
+  
+    .event-date-auth-section {
+      flex-direction: row;
+      width: 100%;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+      column-gap: 10px;
+    }
+  
+    .event-image-and-details-auth {
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+  
+    .event-image-container-auth {
+      width: 100%;
+      margin-bottom: 15px;
+      height: auto; /* Allow image height to adjust for mobile */
+      margin-right: 0;
+      margin-top: 20px;
+    }
+  
+    .event-image-auth {
+      height: 100%;
+      width: 100%;
+    }
+  
+    .event-title-auth {
+      font-size: 24px; /* Adjust font for medium screens */
+      text-align: center;
+      margin-bottom: 10px;
+    }
+  
+    .event-info-listing-auth,
+    .event-description-auth {
+      font-size: 15px;
+      justify-content: center;
+      text-align: center;
+    }
+  
+    .event-type-auth {
+      font-size: 15px;
+      color: #870000;
+    }
+  
+    .event-info-listing-auth strong {
+      margin: 0 3px; /* Center the bold text */
+    }
+  
+    .event-additional-info-auth {
+      position: static;
+      align-items: center;
+      margin-top: 15px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+  
+    .edit-icon {
+      margin-top: 10px;
+    }
+  }
+  

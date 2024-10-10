@@ -1,15 +1,16 @@
-// src/components/EventAuth/EventAuth.jsx
+// src/components/HistoryEventSectionAuth/HistoryEventSectionAuth.jsx
 
 import React, { useState, useRef, useEffect } from 'react';
 import UserEventListing from '../UserEvents/UserEventListing';
 import EventsFilterSection from '../EventsFilterSection/EventsFilterSection';
-import './EventAuth.css';
+import './HistoryEventSectionAuth.css';
 import searchIcon from "../../assets/svgs/search-outline.svg";
 import menuIcon from "../../assets/svgs/menu-outline.svg";
 import EventHistory from '../../pages/EventHistory/EventHistory';
 import { Link } from 'react-router-dom';
+import HistoryEventListing from '../HistoryEventListing/HistoryEventListing';
 
-const EventAuth = ({ events }) => {
+const HistoryEventSectionAuth = ({ events }) => {
   // State for pagination
   const [currentPage, setCurrentPage] = useState(1);
   const eventsPerPage = 5;
@@ -133,7 +134,7 @@ const EventAuth = ({ events }) => {
           {/* Upcoming Events Count */}
           <div className="filter-event-wrapper">
             <h3 className="text-muted">
-              Upcoming Events: <span className="text-danger">{events.length}</span>
+              Previous Events: <span className="text-danger">{events.length}</span>
             </h3>
           </div>
         </div>
@@ -142,21 +143,10 @@ const EventAuth = ({ events }) => {
         <div className="row">
           {currentEvents.map((event, index) => (
             <div key={index} className="col-12">
-              <UserEventListing eventData={event} />
+              <HistoryEventListing eventData={event} />
             </div>
           ))}
         </div>
-
-        {/* View Events History Link - Shown only on the last page of pagination */}
-        {currentPage === totalPages && (
-          <div className="d-flex justify-content-center mt-4">
-            {/* Correct the Link path syntax */}
-            <Link to={`/events/events-history`} className="view-event-history">
-              View Events History
-            </Link>
-          </div>
-        )}
-
 
         {/* Pagination */}
         <div className="d-flex justify-content-center mt-2">
@@ -199,4 +189,4 @@ const EventAuth = ({ events }) => {
   );
 };
 
-export default EventAuth;
+export default HistoryEventSectionAuth;
