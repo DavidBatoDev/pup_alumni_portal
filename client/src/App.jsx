@@ -23,6 +23,8 @@ import ProfilePasswordSecurity from './pages/Profile/ProfilePasswordSecurity';
 import ProfileNotificationPreferences from './pages/Profile/ProfileNotificationPreferences';
 import ProfilePrivacySettings from './pages/Profile/ProfilePrivacySettings';
 import SpecificEvent from './pages/SpecificEvent/SpecificEvent'; // Ensure the path is correct
+import EventHistory from './pages/EventHistory/EventHistory';
+import SpecificHistoryPage from './pages/SpecificHistoryPage/SpecificHistoryPage';
 
 
 function App() {
@@ -54,6 +56,8 @@ function App() {
             {/* Events */}
             <Route path="/events" element={<Events />} />
             <Route path="/events/:eventId" element={<SpecificEvent />} />
+            <Route path="/events/events-history" element={<EventHistory />} />
+            <Route path="/events/events-history/:eventId" element={<SpecificHistoryPage />} />
         </Route>
 
         {/* Protected Routes for Admin */}
