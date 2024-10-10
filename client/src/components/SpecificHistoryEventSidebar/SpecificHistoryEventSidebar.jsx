@@ -3,9 +3,9 @@ import Calendar from '../../assets/svgs/calendar-outline.svg';
 import Clock from '../../assets/svgs/time-outline.svg';
 import People from '../../assets/svgs/people-outline.svg';
 import Location from '../../assets/svgs/location-outline.svg';
-import './SpecificEventSidebar.css';
+import './SpecificHistoryEventSidebar.css';
 
-const SpecificEventSidebar = ({ daysToGo, date, participants, venue, organizers, type }) => {
+const SpecificHistoryEventSidebar = ({ daysToGo, date, participants, venue, organizers, type }) => {
   return (
     <aside className="specific-event-sidebar">
       <div className="sidebar-card">
@@ -61,4 +61,4 @@ const SpecificEventSidebar = ({ daysToGo, date, participants, venue, organizers,
   );
 };
 
-export default SpecificEventSidebar;
+export default SpecificHistoryEventSidebar;

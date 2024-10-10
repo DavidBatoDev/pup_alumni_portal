@@ -136,10 +136,79 @@
   .specific-event-page .breadcrumb li {
     display: inline;
   }
-
-  .rsvp-container {
-    display: none;
+  
+  /* Carousel Container */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px; /* Maximum width for the carousel */
+    margin: 20px auto; /* Center the carousel */
+    overflow: hidden; /* Hide overflow to create slide effect */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
   }
+  
+  /* Carousel Wrapper */
+  .carousel-wrapper {
+    display: flex; /* Use flexbox for horizontal alignment */
+    transition: transform 0.5s ease-in-out; /* Smooth transition for sliding */
+  }
+  
+  /* Individual Slide */
+  .carousel-slide {
+    min-width: 100%; /* Each slide takes up full width */
+    height: 400px; /* Set a fixed height */
+    background-size: cover; /* Cover the entire slide area */
+    background-position: center; /* Center the background image */
+    display: none; /* Hide all slides initially */
+  }
+  
+  /* Active Slide */
+  .carousel-slide.active {
+    display: block; /* Show only the active slide */
+  }
+  
+  /* Carousel Buttons */
+.carousel-button {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Offset the button's own height */
+    background: #870000; /* Semi-transparent background */
+    color: white; /* White arrow color */
+    border: none;
+    width: 40px; /* Set a fixed width for the circle */
+    height: 40px; /* Set a fixed height for the circle */
+    padding: 0; /* Remove padding */
+    cursor: pointer;
+    z-index: 2; /* Ensure buttons are on top */
+    border-radius: 50%; /* Make the button circular */
+    display: flex;
+    align-items: center; /* Center the arrow vertically */
+    justify-content: center; /* Center the arrow horizontally */
+    transition: background 0.3s ease; /* Smooth background transition on hover */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add slight shadow to the buttons */
+  }
+  
+  /* Left (Previous) Button */
+  .carousel-button.prev {
+    left: 20px; /* Position to the left */
+  }
+  
+  /* Right (Next) Button */
+  .carousel-button.next {
+    right: 20px; /* Position to the right */
+  }
+  
+  /* Button Hover Effect */
+  .carousel-button:hover {
+    background: rgba(0, 0, 0, 0.8); /* Darker background on hover */
+  }
+  
+  /* Adjust the arrow font size to fit better inside the circle */
+  .carousel-button::before {
+    font-size: 24px; /* Increase the size of the arrows */
+  }
+  
   
   
   
