@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import './signUpForms.css';
 
-const EducationForm = ({
+const EducationForm = forwardRef(({
   nextStep,
   prevStep,
   formData,
@@ -15,7 +15,29 @@ const EducationForm = ({
   educationHistory,
   handleDeleteEmployment,
   handleDeleteEducation
-}) => {
+}, ref) => {
+  const [error, setError] = useState('');
+
+  // Function to validate fields
+  const validateFields = () => {
+    const agreeInfo = document.getElementById('agreeInfo').checked;
+    const privacyPolicy = document.getElementById('privacyPolicy').checked;
+
+    if (!agreeInfo || !privacyPolicy) {
+      setError('You must agree to the terms and privacy policy.');
+      return false;
+    }
+
+    setError('');
+    return true;
+  };
+
+  // Expose the validateFields method to the parent
+  useImperativeHandle(ref, () => ({
+    validateFields,
+  }));
+
+
   return (
     <div className="form-section w-auto">
       <h3 className="section-title">EDUCATIONAL AND PROFESSIONAL INFORMATION</h3>
@@ -40,7 +62,7 @@ const EducationForm = ({
             onChange={handleLinkedInChange}
             className="form-control"
           />
-          
+
         </div>
 
 
@@ -203,9 +225,9 @@ const EducationForm = ({
             {/* Add New Education Button */}
             <tr>
               <td colSpan="6">
-                  <button className="btn btn-outline-primary btn-sm rounded-circle" onClick={addNewEducation}>
-                      <i className="fa-solid fa-plus"></i> Add Education
-                  </button>
+                <button className="btn btn-outline-primary btn-sm rounded-circle" onClick={addNewEducation}>
+                  <i className="fa-solid fa-plus"></i> Add Education
+                </button>
               </td>
             </tr>
           </tbody>
@@ -239,9 +261,11 @@ const EducationForm = ({
           </button>
         </div>
       </div>
+      {error && <p className="error-message text-center">{error}</p>}
 
     </div>
-  );
-};
+  )
+});
+
 
 export default EducationForm;

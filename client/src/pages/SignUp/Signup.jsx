@@ -30,7 +30,12 @@ const Signup = () => {
     country: '',
     state: '',
     linkedin_profile: '',
+    graduation_year: '',
+    degree: '',
+    major: '',
   });
+
+  const educationFormRef = useRef(); // Create a ref for the EducationForm
 
   // Step state to track the current form step
   const [currentStep, setCurrentStep] = useState(1);
@@ -193,6 +198,11 @@ const Signup = () => {
     e.preventDefault();
     setError(null); // Reset error before submit
 
+    const isValid = educationFormRef.current.validateFields();
+    if (!isValid) {
+      return; // If validation fails, stop the submission
+    }
+
     if (formData.password !== formData.password_confirmation) {
       setError('Passwords do not match');
       return;
@@ -269,7 +279,7 @@ const Signup = () => {
 
           {/* Signup Form Section */}
           <div className="row justify-content-center mt-5">
-            <form onSubmit={handleSubmit} className="w-100">
+            <form onSubmit={handleSubmit} className="w-100" noValidate>
               {/* Form Container */}
               <div className="container d-flex justify-content-center">
                 {/* Form Content based on Current Step */}
@@ -292,6 +302,7 @@ const Signup = () => {
                   )}
                   {currentStep === 3 && (
                     <EducationForm
+                      ref={educationFormRef}
                       nextStep={nextStep}
                       prevStep={prevStep}
                       formData={formData}
@@ -310,8 +321,6 @@ const Signup = () => {
                 </div>
               </div>
 
-              {/* Error Message Display */}
-              {error && <p className="error-message text-center">{error}</p>}
             </form>
           </div>
         </div>

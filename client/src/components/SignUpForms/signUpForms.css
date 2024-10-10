@@ -79,6 +79,10 @@ select.form-control {
     font-size: 14px;
 }
 
+.is-invalid {
+    border-radius: 0 100px 100px 0 !important;
+}
+
 .input-group-text {
     border-radius: 100px 0 0 100px;
     border: 1px solid #ced4da;
