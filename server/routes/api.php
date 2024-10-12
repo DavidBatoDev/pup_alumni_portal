@@ -73,7 +73,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     // admin-specific route to create an event
     Route::post('/admin/event', [EventController::class, 'createEvent']);
     // Route for updating an event
-    Route::put('/admin/event/{eventId}', [EventController::class, 'updateEvent']);
+    Route::post('/admin/update-event/{eventId}', [EventController::class, 'updateEvent']);
     // Route for deleting an event
     Route::delete('/admin/event/{eventId}', [EventController::class, 'deleteEvent']);
 

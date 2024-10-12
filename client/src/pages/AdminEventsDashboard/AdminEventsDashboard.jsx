@@ -12,8 +12,8 @@ const AdminEventsDashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isEditing, setIsEditing] = useState(false); // Track if editing mode is active
-  const [currentEventId, setCurrentEventId] = useState(null); // Track current event ID being edited
+  const [isEditing, setIsEditing] = useState(false); 
+  const [currentEventId, setCurrentEventId] = useState(null); 
   const [newEvent, setNewEvent] = useState({
     event_name: '',
     event_date: '',
@@ -22,12 +22,16 @@ const AdminEventsDashboard = () => {
     type: '', 
     category: '', 
     organization: '',
-    photos: [],
   });
 
-  const [photoPreviews, setPhotoPreviews] = useState([]);
-
-  console.log('eventsList:', eventsList);
+  const [tempPhotos, setTempPhotos] = useState([]); // Store newly uploaded photos
+  const [existingPhotos, setExistingPhotos] = useState([]); // Store existing photos for preview
+  const [photoPreviews, setPhotoPreviews] = useState([]); // Store preview URLs
+  const [specificEventPhotoIds, setSpecificEventPhotoIds] = useState([]); // Store specific event photo IDs
+  const [photosToDelete, setPhotosToDelete] = useState([]); // Track photos to delete
+  const [uploading, setUploading] = useState(false); 
+  const [imageUploadError, setImageUploadError] = useState(null);
+  const [updateSuccess, setUpdateSuccess] = useState(false);
 
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
@@ -45,40 +49,53 @@ const AdminEventsDashboard = () => {
     };
 
     fetchEvents();
-  }, []);
+  }, [updateSuccess]);
 
   // Open modal for adding a new event
   const handleAddEvent = () => {
-    setIsEditing(false); // Set to false for adding a new event
+    setIsEditing(false); 
     setNewEvent({
       event_name: '',
       event_date: '',
       location: '',
       description: '',
-      type: '', // Reset new fields
+      type: '',
       category: '',
       organization: '',
     });
+    setTempPhotos([]);
+    setExistingPhotos([]);
+    setPhotoPreviews([]);
+    setSpecificEventPhotoIds([]);
+    setPhotosToDelete([]); // Reset photos to delete
     setShowModal(true);
   };
 
   // handlePhotoChange function
   const handlePhotoChange = (e) => {
     const files = Array.from(e.target.files);
-  
-    // Create file previews
+    setTempPhotos((prevPhotos) => [...prevPhotos, ...files]);
+
     const previewUrls = files.map((file) => URL.createObjectURL(file));
-  
-    // Set the photos in state
-    setNewEvent((prevEvent) => ({
-      ...prevEvent,
-      photos: files, // Update the photos field with the selected files
-    }));
-  
-    // Set the preview URLs
-    setPhotoPreviews(previewUrls);
+    setPhotoPreviews((prevPreviews) => [...prevPreviews, ...previewUrls]);
   };
-  
+
+  // Remove photo from temporary or existing photos
+  const handleRemovePhoto = (index, isExisting) => {
+    console.log('Removing photo at index:', specificEventPhotoIds[index]);
+    // if (isExisting) {
+    //   const photoIdToDelete = specificEventPhotoIds[index]; // Get photo ID of the existing photo
+    //   console.log('Photo ID to delete:', photoIdToDelete);
+    //   setPhotosToDelete((prevToDelete) => [...prevToDelete, photoIdToDelete]); // Add to photos to delete list
+    //   setExistingPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index)); // Remove from UI
+    //   setSpecificEventPhotoIds((prevIds) => prevIds.filter((_, i) => i !== index)); // Update specific event photo IDs
+    // } else {
+      const photoIdToDelete = specificEventPhotoIds[index]; 
+      setPhotosToDelete((prevToDelete) => [...prevToDelete, photoIdToDelete]);
+      setTempPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
+      setPhotoPreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
+    // }
+  };
 
   // Fetch event details and open modal for editing
   const handleEditEvent = async (eventId) => {
@@ -87,19 +104,27 @@ const AdminEventsDashboard = () => {
       const response = await axios.get(`/api/events/${eventId}`);
       const eventDetails = response.data.event;
 
-      // Populate the form fields with the event data
+      const existingPhotoUrls = eventDetails.photos.map((photo) => photo.photo_path);
+      const existingPhotoIds = eventDetails.photos.map((photo) => photo.photo_id);
+
       setNewEvent({
         event_name: eventDetails.event_name,
         event_date: eventDetails.event_date,
         location: eventDetails.location,
         description: eventDetails.description,
-        type: eventDetails.type, // New field
-        category: eventDetails.category, // New field
-        organization: eventDetails.organization, // New field
+        type: eventDetails.type,
+        category: eventDetails.category,
+        organization: eventDetails.organization,
       });
+
+      setExistingPhotos(existingPhotoUrls); 
+      setPhotoPreviews(existingPhotoUrls); 
+      setSpecificEventPhotoIds(existingPhotoIds); 
+      setPhotosToDelete([]); // Reset the delete state
+
       setCurrentEventId(eventId);
-      setIsEditing(true); // Set to true for editing mode
-      setShowModal(true); // Open the modal
+      setIsEditing(true);
+      setShowModal(true); 
       setLoading(false);
     } catch (error) {
       console.error('Error fetching event details:', error);
@@ -109,9 +134,10 @@ const AdminEventsDashboard = () => {
 
   // Save or update the event
   const handleSaveEvent = async () => {
+    setUpdateSuccess(false);
     try {
       setLoading(true);
-  
+      setUploading(true);
       const formData = new FormData();
       formData.append('event_name', newEvent.event_name);
       formData.append('event_date', newEvent.event_date);
@@ -120,60 +146,76 @@ const AdminEventsDashboard = () => {
       formData.append('type', newEvent.type);
       formData.append('category', newEvent.category);
       formData.append('organization', newEvent.organization);
-  
-      // Append each photo to the FormData
-      newEvent.photos.forEach((photo) => {
+
+      // Send IDs for photos to delete
+      photosToDelete.forEach((photoId) => {
+        formData.append('photos_to_delete[]', photoId);
+      });
+
+      // Send IDs for existing photos that the user wants to keep
+      specificEventPhotoIds.forEach((photoId) => {
+        formData.append('existing_photos[]', photoId);
+      });
+
+      // Add new photos (files) to the FormData
+      tempPhotos.forEach((photo) => {
         formData.append('photos[]', photo);
       });
-  
-      if (isEditing) {
-        // Update existing event
-        const response = await axios.put(`/api/admin/event/${currentEventId}`, formData, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            'Content-Type': 'multipart/form-data', // Required for file uploads
-          },
-        });
-        if (response.status === 200) {
-          // Update event in the list, and sort by event date
+
+      const response = isEditing
+        ? await axios.post(`/api/admin/update-event/${currentEventId}`, formData, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+              'Content-Type': 'multipart/form-data',
+            },
+          })
+        : await axios.post('/api/admin/event', formData, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+
+      if (response.status === 200 || response.status === 201) {
+        const newEvent = response.data.event;
+        if (isEditing) {
           const updatedEventList = eventsList.map((event) =>
             event.event_id === currentEventId ? { ...event, ...newEvent } : event
           );
-          updatedEventList.sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
           setEventsList(updatedEventList);
-        }
-      } else {
-        // Save a new event
-        const response = await axios.post('/api/admin/event', formData, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            'Content-Type': 'multipart/form-data', // Required for file uploads
-          },
-        });
-        if (response.status === 201) {
-          const newEvent = response.data.event;
+        } else {
           setEventsList((prevList) => [...prevList, newEvent]);
         }
+        setUpdateSuccess(true);
       }
+
       setLoading(false);
       setShowModal(false);
-      setNewEvent({
-        event_name: '',
-        event_date: '',
-        location: '',
-        description: '',
-        type: '',
-        category: '',
-        organization: '',
-        photos: [],
-      });
-      setPhotoPreviews([]); // Clear photo previews
+      resetFormState();
     } catch (error) {
       console.error('Error saving event:', error);
       setLoading(false);
+      setUploading(false);
     }
   };
-  
+
+  const resetFormState = () => {
+    setNewEvent({
+      event_name: '',
+      event_date: '',
+      location: '',
+      description: '',
+      type: '',
+      category: '',
+      organization: '',
+    });
+    setPhotoPreviews([]);
+    setTempPhotos([]);
+    setExistingPhotos([]);
+    setSpecificEventPhotoIds([]);
+    setPhotosToDelete([]);
+  };
+
   // Delete event handler
   const handleDeleteEvent = async () => {
     try {
@@ -184,10 +226,9 @@ const AdminEventsDashboard = () => {
         },
       });
       if (response.status === 200) {
-        // Remove event from the list
         const updatedEventList = eventsList.filter((event) => event.event_id !== currentEventId);
         setEventsList(updatedEventList);
-        setShowModal(false); // Close the modal
+        setShowModal(false);
         setLoading(false);
       }
     } catch (error) {
@@ -206,10 +247,8 @@ const AdminEventsDashboard = () => {
     <div className="admin-dashboard">
       {loading && <CircularLoader />}
 
-      {/* Sidebar */}
       <AdminSidebar />
 
-      {/* Main Content Area */}
       <div className="admin-dashboard-content">
         <div className="admin-events-dashboard-header">
           <input
@@ -224,7 +263,6 @@ const AdminEventsDashboard = () => {
           </button>
         </div>
 
-        {/* Container for Event Listings */}
         <div className="admin-dashboard-events-container">
           <div className="admin-dashboard-events-list">
             {filteredEvents.length > 0 ? (
@@ -232,11 +270,9 @@ const AdminEventsDashboard = () => {
                 <EventListing key={eventItem.event_id} eventData={eventItem} onEdit={handleEditEvent} />
               ))
             ) : (
-              <div className='no-events-created-message-container'>
+              <div className="no-events-created-message-container">
                 <h3 className="text-center">No Events Found.</h3>
-                <p className='text-center'>
-                  You have add any events yet. Click the button below to add an event.
-                </p>
+                <p className="text-center">You have not added any events yet. Click the button below to add an event.</p>
                 <button className="btn btn-danger" onClick={handleAddEvent}>
                   Add Event
                 </button>
@@ -246,7 +282,6 @@ const AdminEventsDashboard = () => {
         </div>
       </div>
 
-      {/* Modal for Adding/Editing Event */}
       <ModalContainer
         showModal={showModal}
         closeModal={() => setShowModal(false)}
@@ -254,122 +289,72 @@ const AdminEventsDashboard = () => {
         isMobile={isMobile}
       >
         <form className="events-form add-event-form">
-
-          {/* Row for Image Upload */}
           <div className="events-form-row events-form-row-photos">
             <label className="events-form-label">
               Upload Photos:
-              <input
-                type="file"
-                name="photos"
-                className="events-form-input"
-                multiple
-                onChange={handlePhotoChange} // Add change handler for photos
-              />
+              <input type="file" name="photos" className="events-form-input" multiple onChange={handlePhotoChange} />
             </label>
 
-            {/* Display photo previews */}
             <div className="photo-previews-container">
-              {photoPreviews.length > 0 &&
-                photoPreviews.map((preview, index) => (
-                  <img key={index} src={preview} alt="Preview" className="photo-preview" />
-                ))}
+              {photoPreviews.length > 0 && (
+                <>
+                  <div className="photo-preview-list">
+                    {photoPreviews.map((preview, index) => (
+                      <div key={index} className="photo-preview-wrapper">
+                        <img src={preview} alt="Preview" className="photo-preview" />
+                        <button type="button" className="remove-photo-btn" onClick={() => handleRemovePhoto(index, false)}>
+                          ✕
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           </div>
-                    {/* Row 1: Event Name and Event Date */}
+
           <div className="events-form-row events-form-row-1st">
             <label className="events-form-label events-form-label-name">
               Event Name:
-              <input
-                type="text"
-                name="event_name"
-                className="events-form-input events-form-name"
-                value={newEvent.event_name}
-                onChange={handleChange}
-                required
-              />
+              <input type="text" name="event_name" className="events-form-input events-form-name" value={newEvent.event_name} onChange={handleChange} required />
             </label>
 
             <label className="events-form-label events-form-label-date">
               Event Date:
-              <input
-                type="date"
-                name="event_date"
-                className="events-form-input events-form-date"
-                value={newEvent.event_date}
-                onChange={handleChange}
-                required
-              />
+              <input type="date" name="event_date" className="events-form-input events-form-date" value={newEvent.event_date} onChange={handleChange} required />
             </label>
           </div>
 
-          {/* Row 2: Location */}
           <div className="events-form-row events-form-row-2nd">
             <label className="events-form-label events-form-label-location">
               Location:
-              <input
-                type="text"
-                name="location"
-                className="events-form-input events-form-location"
-                value={newEvent.location}
-                onChange={handleChange}
-                required
-              />
+              <input type="text" name="location" className="events-form-input events-form-location" value={newEvent.location} onChange={handleChange} required />
             </label>
           </div>
 
-          {/* Row 3: Type (Radio Buttons) and Category */}
           <div className="events-form-row events-form-row-3rd events-form-row--inline">
             <fieldset className="events-form-fieldset events-form-fieldset-type">
               <legend className="events-form-legend">Type:</legend>
               <label className="events-form-radio-label">
-                <input
-                  type="radio"
-                  name="type"
-                  value="Face-to-face"
-                  className="events-form-radio"
-                  checked={newEvent.type === 'Face-to-face'}
-                  onChange={handleChange}
-                  required
-                />
+                <input type="radio" name="type" value="Face-to-face" className="events-form-radio" checked={newEvent.type === 'Face-to-face'} onChange={handleChange} required />
                 Face-to-face
               </label>
               <label className="events-form-radio-label">
-                <input
-                  type="radio"
-                  name="type"
-                  value="Virtual"
-                  className="events-form-radio"
-                  checked={newEvent.type === 'Virtual'}
-                  onChange={handleChange}
-                  required
-                />
+                <input type="radio" name="type" value="Virtual" className="events-form-radio" checked={newEvent.type === 'Virtual'} onChange={handleChange} required />
                 Virtual
               </label>
               <label className="events-form-radio-label">
-                <input
-                  type="radio"
-                  name="type"
-                  value="Hybrid"
-                  className="events-form-radio"
-                  checked={newEvent.type === 'Hybrid'}
-                  onChange={handleChange}
-                  required
-                />
+                <input type="radio" name="type" value="Hybrid" className="events-form-radio" checked={newEvent.type === 'Hybrid'} onChange={handleChange} required />
                 Hybrid
               </label>
             </fieldset>
 
             <label className="events-form-label events-form-label--inline events-form-category">
               Category:
-              <select
-                name="category"
-                className="events-form-select events-form-select-category"
-                value={newEvent.category}
-                onChange={handleChange}
-                required
-              >
-                <option value="" disabled>Select Category</option>
+              <select name="category" className="events-form-select events-form-select-category" value={newEvent.category} onChange={handleChange} required>
+                <option value="" disabled>
+                  Select Category
+                </option>
                 <option value="Career">Career</option>
                 <option value="Social">Social</option>
                 <option value="Faculty">Faculty</option>
@@ -379,44 +364,23 @@ const AdminEventsDashboard = () => {
             </label>
           </div>
 
-          {/* Row 4: Organization */}
           <div className="events-form-row events-form-row-4th">
             <label className="events-form-label">
               Organization:
-              <input
-                type="text"
-                name="organization"
-                className="events-form-input"
-                value={newEvent.organization}
-                onChange={handleChange}
-                required
-              />
+              <input type="text" name="organization" className="events-form-input" value={newEvent.organization} onChange={handleChange} required />
             </label>
           </div>
 
-          {/* Row 5: Description */}
           <div className="events-form-row events-form-row-5th">
             <label className="events-form-label">
               Description:
-              <textarea
-                name="description"
-                className="events-form-textarea"
-                value={newEvent.description}
-                onChange={handleChange}
-                required
-              />
+              <textarea name="description" className="events-form-textarea" value={newEvent.description} onChange={handleChange} required />
             </label>
           </div>
 
-          {/* Save/Update and Delete Event Buttons */}
           <div className="events-form-row events-form-row-6th events-form-row--buttons">
             <button type="button" className="events-form-btn save-event-btn" onClick={handleSaveEvent}>
               {isEditing ? 'Update Event' : 'Save Event'}
-            </button>
-            
-            {/* Add  End Event */} {/* Pa fix and add functionality ako here */}
-            <button type="button" className="events-form-btn end-event-btn">
-              End Event
             </button>
 
             {isEditing && (
@@ -427,8 +391,6 @@ const AdminEventsDashboard = () => {
           </div>
         </form>
       </ModalContainer>
-
-
     </div>
   );
 };

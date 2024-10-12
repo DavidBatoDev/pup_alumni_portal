@@ -27,7 +27,7 @@ class EventController extends Controller
             'category' => 'required|string|max:100',
             'organization' => 'nullable|string|max:100',
             'description' => 'nullable|string',
-            'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate multiple images
+            'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048', // Validate multiple images
         ]);
     
         // Create the event
@@ -58,30 +58,57 @@ class EventController extends Controller
      */
     public function updateEvent(Request $request, $eventId)
     {
-        // Validate the input data including new fields
         $validatedData = $request->validate([
             'event_name' => 'required|string|max:255',
             'event_date' => 'required|date',
             'location' => 'required|string|max:255',
-            'type' => 'required|string|max:100', 
-            'category' => 'required|string|max:100', 
-            'organization' => 'nullable|string|max:100', 
+            'type' => 'required|string|max:100',
+            'category' => 'required|string|max:100',
+            'organization' => 'nullable|string|max:100',
             'description' => 'nullable|string',
+            'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
+            'existing_photos' => 'nullable|array', // Photos to keep
+            'photos_to_delete' => 'nullable|array', // Photos to delete
         ]);
     
-        // Find the event by ID
         $event = Event::find($eventId);
-    
         if (!$event) {
             return response()->json(['error' => 'Event not found'], 404);
         }
     
-        // Update the event details with the validated data
         $event->update($validatedData);
+    
+        // Handle existing photos (deletion)
+        if ($request->has('photos_to_delete')) {
+            $photosToDelete = $request->input('photos_to_delete');
+            foreach ($photosToDelete as $photoId) {
+                $photo = EventPhoto::find($photoId);
+                if ($photo) {
+                    // Delete the photo from storage
+                    \Storage::disk('public')->delete($photo->photo_path);
+    
+                    // Delete the record from the database
+                    $photo->delete();
+                }
+            }
+        }
+    
+        // Handle new photos if they are uploaded
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $photo) {
+                $path = $photo->store('event_photos', 'public');
+    
+                // Save new photo in the database
+                EventPhoto::create([
+                    'event_id' => $event->event_id,
+                    'photo_path' => $path,
+                ]);
+            }
+        }
     
         return response()->json(['success' => true, 'message' => 'Event updated successfully.', 'event' => $event], 200);
     }
-
+    
     /**
      * Delete an existing event.
      *
