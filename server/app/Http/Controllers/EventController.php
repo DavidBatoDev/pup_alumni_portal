@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\AlumniEvent;
+use App\Models\EventPhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

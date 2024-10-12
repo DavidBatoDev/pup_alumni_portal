@@ -19,10 +19,13 @@ const AdminEventsDashboard = () => {
     event_date: '',
     location: '',
     description: '',
-    type: '', // New field
-    category: '', // New field
-    organization: '', // New field
+    type: '', 
+    category: '', 
+    organization: '',
+    photos: [],
   });
+
+  const [photoPreviews, setPhotoPreviews] = useState([]);
 
   console.log('eventsList:', eventsList);
 
@@ -59,6 +62,24 @@ const AdminEventsDashboard = () => {
     setShowModal(true);
   };
 
+  // handlePhotoChange function
+  const handlePhotoChange = (e) => {
+    const files = Array.from(e.target.files);
+  
+    // Create file previews
+    const previewUrls = files.map((file) => URL.createObjectURL(file));
+  
+    // Set the photos in state
+    setNewEvent((prevEvent) => ({
+      ...prevEvent,
+      photos: files, // Update the photos field with the selected files
+    }));
+  
+    // Set the preview URLs
+    setPhotoPreviews(previewUrls);
+  };
+  
+
   // Fetch event details and open modal for editing
   const handleEditEvent = async (eventId) => {
     try {
@@ -90,11 +111,27 @@ const AdminEventsDashboard = () => {
   const handleSaveEvent = async () => {
     try {
       setLoading(true);
+  
+      const formData = new FormData();
+      formData.append('event_name', newEvent.event_name);
+      formData.append('event_date', newEvent.event_date);
+      formData.append('location', newEvent.location);
+      formData.append('description', newEvent.description);
+      formData.append('type', newEvent.type);
+      formData.append('category', newEvent.category);
+      formData.append('organization', newEvent.organization);
+  
+      // Append each photo to the FormData
+      newEvent.photos.forEach((photo) => {
+        formData.append('photos[]', photo);
+      });
+  
       if (isEditing) {
         // Update existing event
-        const response = await axios.put(`/api/admin/event/${currentEventId}`, newEvent, {
+        const response = await axios.put(`/api/admin/event/${currentEventId}`, formData, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'multipart/form-data', // Required for file uploads
           },
         });
         if (response.status === 200) {
@@ -107,13 +144,13 @@ const AdminEventsDashboard = () => {
         }
       } else {
         // Save a new event
-        const response = await axios.post('/api/admin/event', newEvent, {
+        const response = await axios.post('/api/admin/event', formData, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'multipart/form-data', // Required for file uploads
           },
         });
         if (response.status === 201) {
-          // Save event in the list, and sort by event date
           const newEvent = response.data.event;
           setEventsList((prevList) => [...prevList, newEvent]);
         }
@@ -125,16 +162,18 @@ const AdminEventsDashboard = () => {
         event_date: '',
         location: '',
         description: '',
-        type: '', // Reset new fields
+        type: '',
         category: '',
         organization: '',
-      }); // Reset form fields
+        photos: [],
+      });
+      setPhotoPreviews([]); // Clear photo previews
     } catch (error) {
       console.error('Error saving event:', error);
       setLoading(false);
     }
   };
-
+  
   // Delete event handler
   const handleDeleteEvent = async () => {
     try {
@@ -216,7 +255,28 @@ const AdminEventsDashboard = () => {
       >
         <form className="events-form add-event-form">
 
-          {/* Row 1: Event Name and Event Date */}
+          {/* Row for Image Upload */}
+          <div className="events-form-row events-form-row-photos">
+            <label className="events-form-label">
+              Upload Photos:
+              <input
+                type="file"
+                name="photos"
+                className="events-form-input"
+                multiple
+                onChange={handlePhotoChange} // Add change handler for photos
+              />
+            </label>
+
+            {/* Display photo previews */}
+            <div className="photo-previews-container">
+              {photoPreviews.length > 0 &&
+                photoPreviews.map((preview, index) => (
+                  <img key={index} src={preview} alt="Preview" className="photo-preview" />
+                ))}
+            </div>
+          </div>
+                    {/* Row 1: Event Name and Event Date */}
           <div className="events-form-row events-form-row-1st">
             <label className="events-form-label events-form-label-name">
               Event Name:

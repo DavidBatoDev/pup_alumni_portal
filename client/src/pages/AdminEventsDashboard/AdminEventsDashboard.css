@@ -251,3 +251,19 @@
 }
 
 
+/* Style for the photo preview container */
+.photo-previews-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Style for individual photo previews */
+.photo-preview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
