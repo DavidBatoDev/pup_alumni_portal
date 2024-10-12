@@ -208,8 +208,8 @@ class ComposerStaticInit528ca6ddeb3e87df9d0c273e147b1717
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'Whoops\\' => 
         array (
@@ -373,8 +373,8 @@ class ComposerStaticInit528ca6ddeb3e87df9d0c273e147b1717
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -601,13 +601,27 @@ class ComposerStaticInit528ca6ddeb3e87df9d0c273e147b1717
 
     public static $classMap = array (
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Http\\Controllers\\AdminAuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AdminAuthController.php',
         'App\\Http\\Controllers\\AlumniController' => __DIR__ . '/../..' . '/app/Http/Controllers/AlumniController.php',
         'App\\Http\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\EventController' => __DIR__ . '/../..' . '/app/Http/Controllers/EventController.php',
+        'App\\Http\\Controllers\\SurveyController' => __DIR__ . '/../..' . '/app/Http/Controllers/SurveyController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
+        'App\\Http\\Middleware\\JwtMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/JwtMiddleware.php',
         'App\\Http\\Requests\\RegisterAlumniRequest' => __DIR__ . '/../..' . '/app/Http/Requests/RegisterAlumniRequest.php',
         'App\\Models\\Address' => __DIR__ . '/../..' . '/app/Models/Address.php',
+        'App\\Models\\Admin' => __DIR__ . '/../..' . '/app/Models/Admin.php',
         'App\\Models\\Alumni' => __DIR__ . '/../..' . '/app/Models/Alumni.php',
+        'App\\Models\\AlumniEvent' => __DIR__ . '/../..' . '/app/Models/AlumniEvent.php',
+        'App\\Models\\EducationHistory' => __DIR__ . '/../..' . '/app/Models/EducationHistory.php',
+        'App\\Models\\EmploymentHistory' => __DIR__ . '/../..' . '/app/Models/EmploymentHistory.php',
+        'App\\Models\\Event' => __DIR__ . '/../..' . '/app/Models/Event.php',
+        'App\\Models\\FeedbackResponse' => __DIR__ . '/../..' . '/app/Models/FeedbackResponse.php',
+        'App\\Models\\QuestionResponse' => __DIR__ . '/../..' . '/app/Models/QuestionResponse.php',
+        'App\\Models\\Survey' => __DIR__ . '/../..' . '/app/Models/Survey.php',
+        'App\\Models\\SurveyOption' => __DIR__ . '/../..' . '/app/Models/SurveyOption.php',
+        'App\\Models\\SurveyQuestion' => __DIR__ . '/../..' . '/app/Models/SurveyQuestion.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',

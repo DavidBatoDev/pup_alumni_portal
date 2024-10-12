@@ -1,5 +1,7 @@
 <?php
 // File: /app/Models/Event.php
+// File: /app/Models/Event.php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,16 +11,24 @@ class Event extends Model
 {
     use HasFactory;
 
-    protected $table = 'events'; // Define the table name
-    protected $primaryKey = 'event_id'; // Define the primary key
+    protected $table = 'events';
+    protected $primaryKey = 'event_id';
 
-    // Include new fields in fillable
-    protected $fillable = ['event_name', 'event_date', 'location', 'type', 'category', 'organization', 'description'];
+    protected $fillable = [
+        'event_name', 'event_date', 'location', 'type', 'category', 
+        'organization', 'description'
+    ];
 
-    public $timestamps = true; // Use timestamps (created_at, updated_at) if applicable
+    public $timestamps = true;
 
     public function alumniEvents()
     {
         return $this->hasMany(AlumniEvent::class, 'event_id', 'event_id');
     }
+
+    public function photos()
+    {
+        return $this->hasMany(EventPhoto::class, 'event_id', 'event_id');
+    }
 }
+

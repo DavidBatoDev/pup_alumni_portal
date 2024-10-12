@@ -17,22 +17,37 @@ class EventController extends Controller
      */
     public function createEvent(Request $request)
     {
-        // Validate the request input including new fields
+        // Validate the input data and the image files
         $validatedData = $request->validate([
             'event_name' => 'required|string|max:255',
             'event_date' => 'required|date',
             'location' => 'required|string|max:255',
-            'type' => 'required|string|max:100', 
+            'type' => 'required|string|max:100',
             'category' => 'required|string|max:100',
-            'organization' => 'nullable|string|max:100', 
+            'organization' => 'nullable|string|max:100',
             'description' => 'nullable|string',
+            'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate multiple images
         ]);
     
-        // Create a new event with the validated data
+        // Create the event
         $event = Event::create($validatedData);
+    
+        // Handle file uploads
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $photo) {
+                $path = $photo->store('event_photos', 'public'); // Store in the 'public' disk
+    
+                // Save the photo path in the event_photos table
+                EventPhoto::create([
+                    'event_id' => $event->event_id,
+                    'photo_path' => $path,
+                ]);
+            }
+        }
     
         return response()->json(['success' => true, 'event' => $event], 201);
     }
+    
     /**
      * Update an existing event.
      *
@@ -182,10 +197,12 @@ class EventController extends Controller
      */
     public function getEvents()
     {
-        // Fetch all events, ordered by the event date
-        $events = Event::orderBy('event_date', 'desc')->get();
+        // Fetch all events with their associated photos
+        $events = Event::with('photos')->orderBy('event_date', 'desc')->get();
+    
         return response()->json(['success' => true, 'events' => $events], 200);
     }
+    
 
 
     /**
@@ -196,27 +213,29 @@ class EventController extends Controller
      */
     public function getEventDetails($eventId)
     {
-        // Fetch the event details along with registered alumni, specifying the correct columns
-        $event = Event::with(['alumniEvents.alumni' => function ($query) {
-                $query->select('alumni_id', 'first_name', 'last_name', 'email');
-            }])
-            ->find($eventId);
+        // Fetch the event details along with registered alumni and event photos
+        $event = Event::with(['alumniEvents.alumni', 'photos'])->find($eventId);
     
-        // If the event is not found, return a 404 response
         if (!$event) {
             return response()->json(['error' => 'Event not found'], 404);
         }
     
-        // Format the response to include alumni details
+        // Format the response
         $eventDetails = [
             'event_id' => $event->event_id,
             'event_name' => $event->event_name,
             'event_date' => $event->event_date,
             'location' => $event->location,
-            'type' => $event->type, 
-            'category' => $event->category, 
-            'organization' => $event->organization, 
+            'type' => $event->type,
+            'category' => $event->category,
+            'organization' => $event->organization,
             'description' => $event->description,
+            'photos' => $event->photos->map(function ($photo) {
+                return [
+                    'photo_id' => $photo->photo_id,
+                    'photo_path' => url('storage/' . $photo->photo_path), // Return full URL to the image
+                ];
+            }),
             'registered_alumni' => $event->alumniEvents->map(function ($alumniEvent) {
                 return [
                     'alumni_id' => $alumniEvent->alumni->alumni_id,
@@ -229,6 +248,7 @@ class EventController extends Controller
     
         return response()->json(['success' => true, 'event' => $eventDetails], 200);
     }
+    
 
     public function getEventDetailsWithStatus($eventId)
     {
