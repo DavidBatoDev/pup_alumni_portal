@@ -93,14 +93,6 @@ const SpecificHistoryEventMainContent = ({ eventId, title, details, date, venue,
             </button>
           </div>
         </div>
-
-        {/* Date and Location Section */}
-        <div className="specific-event-details-wrapper">
-          <div className="details-header">
-            <h1>Date: {date}</h1>
-            <p>Location: {venue}</p>
-          </div>
-        </div>
       </div>
     </div>
   );

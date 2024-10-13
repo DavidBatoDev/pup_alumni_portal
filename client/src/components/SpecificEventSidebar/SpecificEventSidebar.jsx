@@ -15,7 +15,7 @@ const SpecificEventSidebar = ({ daysToGo, date, participants, venue, organizers,
           <h2>{daysToGo}</h2>
           <div className="days-to-go">
             <div className='event-date-daystogo'>days</div>
-            <div className='event-date-daystogo'>ago</div>
+            <div className='event-date-daystogo'>to go</div>
           </div>
         </div>
 
