@@ -143,9 +143,7 @@
     width: 100%;
     max-width: 600px; /* Maximum width for the carousel */
     margin: 20px auto; /* Center the carousel */
-    overflow: hidden; /* Hide overflow to create slide effect */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    overflow: hidden; /* Hide overflow to create slide effect */   
   }
   
   /* Carousel Wrapper */
@@ -187,6 +185,10 @@
     justify-content: center; /* Center the arrow horizontally */
     transition: background 0.3s ease; /* Smooth background transition on hover */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add slight shadow to the buttons */
+  }
+
+  .carousel-button:hover {
+    background: rgba(0, 0, 0, 0.8); /* Darker background on hover */
   }
   
   /* Left (Previous) Button */
