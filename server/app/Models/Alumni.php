@@ -30,7 +30,7 @@ class Alumni extends Authenticatable implements JWTSubject
     // Define relationship to Address model
     public function address()
     {
-        return $this->hasOne(Address::class, 'alumni_id', 'alumni_id');
+        return $this->hasMany(Address::class, 'alumni_id', 'alumni_id');
     }
 
     // Define relationship to EmploymentHistory model
