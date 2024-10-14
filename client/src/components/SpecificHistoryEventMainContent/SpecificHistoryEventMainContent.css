@@ -1,230 +1,363 @@
 /* Apply the background to the entire page or specific event container */
-
 .specific-event-page {
-    position: relative;
-    background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), var(--bg-image); /* Use the dynamic background image */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-  }
-  
-  /* Create a blur effect using a pseudo-element */
-  .specific-event-page::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.5); /* White overlay */
-    backdrop-filter: blur(20px); /* Apply the blur effect */
-    z-index: 0; /* Place it behind the content */
-  }
-  
-  
-  /* Adjust the specific-event-section to be transparent so it doesn't cover the background */
-  .specific-event-section {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    position: relative;
-    padding: 50px 20px;
-    max-width: 1200px;
-    margin: 0 auto; /* Center the content */
-    background: transparent; /* Transparent background */
-    z-index: 2; /* Ensure this section is above the background */
-  }
-  
-  /* Transparent and blurred pseudo-element to add more blur effect */
-  .specific-event-section::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1; /* Lower than content to place behind */
-  }
-  
-  /* Sidebar container styles */
-  .specific-event-sidebar {
-    flex: 0 0 300px; /* Sidebar takes a fixed width */
-    min-width: 250px; /* Minimum width for responsiveness */
-    background: #ffffff; /* Light background */
-    padding: 20px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* Light shadow */
-    position: relative; /* Ensure correct stacking */
-    z-index: 2; /* Higher than the blur */
-  }
-  
-  /* Sidebar card styling */
-  .sidebar-card {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-  }
-  
-  /* Main Content Container */
-  .specific-event-details-container {
-    flex: 1; /* Main content takes the remaining space */
-    max-width: calc(100% - 320px); /* Calculate max width based on sidebar width and gap */
-    position: relative;
-    z-index: 2; /* Higher than blur overlay */
-  }
-  
-  /* Event details container */
-  .specific-event-details {
-    padding: 30px;
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Slight shadow */
-    border: 1px solid #ddd;
-  }
-  
-  /* Ensure breadcrumb and banner styling is preserved */
-  .specific-event-page .banner-small {
-    height: 600px;
-  }
-  
-  .specific-event-page .banner-small .banner-content {
-    height: auto;
-    flex-shrink: 1;
-    text-align: center;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    height: 100%;
-  }
-  
-  .specific-event-page .banner-content .banner-small-title-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    margin: auto;
-  }
-  
-  .specific-event-page .banner-content .banner-small-title-wrapper .rsvp-btn {
-    display: flex;
-    padding: 12px;
-    background-color: #870000;
-  }
-  
-  .specific-event-page .banner-content .banner-small-title {
-    font-size: 80px;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-  }
-  
-  /* Center the breadcrumb list */
-  .specific-event-page .banner-small .breadcrumb {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-    margin-bottom: 10px;
-  }
-  
-  .specific-event-page .breadcrumb li {
-    display: inline;
-  }
-  
-  /* Carousel Container */
+  position: relative;
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0.8)
+    ),
+    var(--bg-image); /* Use the dynamic background image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Create a blur effect using a pseudo-element */
+.specific-event-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.5); /* White overlay */
+  backdrop-filter: blur(20px); /* Apply the blur effect */
+  z-index: 0; /* Place it behind the content */
+}
+
+/* Adjust the specific-event-section to be transparent so it doesn't cover the background */
+.specific-event-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  position: relative;
+  padding: 50px 20px;
+  max-width: 1300px;
+  margin: 0 auto; /* Center the content */
+  background: transparent; /* Transparent background */
+  z-index: 2; /* Ensure this section is above the background */
+}
+
+/* Transparent and blurred pseudo-element to add more blur effect */
+.specific-event-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1; /* Lower than content to place behind */
+}
+
+/* Sidebar container styles */
+.specific-event-sidebar {
+  flex: 0 0 300px; /* Sidebar takes a fixed width */
+  min-width: 250px; /* Minimum width for responsiveness */
+  background: #ffffff; /* Light background */
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* Light shadow */
+  position: relative; /* Ensure correct stacking */
+  z-index: 2; /* Higher than the blur */
+}
+
+/* Sidebar card styling */
+.sidebar-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* Main Content Container */
+.specific-event-details-container {
+  flex: 1; /* Main content takes the remaining space */
+  max-width: calc(
+    100% - 320px
+  ); /* Calculate max width based on sidebar width and gap */
+  position: relative;
+  z-index: 2; /* Higher than blur overlay */
+}
+
+/* Event details container */
+.specific-event-details {
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Slight shadow */
+  border: 1px solid #ddd;
+}
+
+/* Ensure breadcrumb and banner styling is preserved */
+.specific-event-page .banner-small {
+  height: 600px;
+}
+
+.specific-event-page .banner-small .banner-content {
+  height: auto;
+  flex-shrink: 1;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+}
+
+.specific-event-page .banner-content .banner-small-title-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin: auto;
+}
+
+.specific-event-page .banner-content .banner-small-title-wrapper .rsvp-btn {
+  display: flex;
+  padding: 12px;
+  background-color: #870000;
+}
+
+.specific-event-page .banner-content .banner-small-title {
+  font-size: 80px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+}
+
+/* Center the breadcrumb list */
+.specific-event-page .banner-small .breadcrumb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+.specific-event-page .breadcrumb li {
+  display: inline;
+}
+
+.specific-event-details .details-header .image-view {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.image-view img {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+/* Highlight the active view mode button */
+.view-img.active {
+  background-color: #f0f0f0; /* Light grey background to indicate active state */
+  border-radius: 5px; /* Smooth rounded corners */
+}
+
+/* When hovered, highlight the background slightly */
+.view-img:hover {
+  background-color: #dddddd9a; /* Light hover effect */
+  border-radius: 5px;
+}
+
+.image-view {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.image-view img {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.view-img {
+  padding: 3px;
+  transition: background-color 0.3s ease; /* Smooth transition effect */
+}
+
+/* Grid container for grid view */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
+  gap: 10px; /* Space between the items */
+  margin-top: 20px;
+}
+
+.grid-item {
+  position: relative;
+  overflow: hidden; /* Ensures images don't overflow the container */
+}
+
+.grid-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cover the entire area, keeping the aspect ratio */
+  border-radius: 5px;
+}
+
+/* Carousel Container */
 .carousel-container {
-    position: relative;
-    width: 100%;
-    max-width: 600px; /* Maximum width for the carousel */
-    margin: 20px auto; /* Center the carousel */
-    overflow: hidden; /* Hide overflow to create slide effect */   
-  }
-  
-  /* Carousel Wrapper */
-  .carousel-wrapper {
-    display: flex; /* Use flexbox for horizontal alignment */
-    transition: transform 0.5s ease-in-out; /* Smooth transition for sliding */
-  }
-  
-  /* Individual Slide */
-  .carousel-slide {
-    min-width: 100%; /* Each slide takes up full width */
-    height: 400px; /* Set a fixed height */
-    background-size: cover; /* Cover the entire slide area */
-    background-position: center; /* Center the background image */
-    display: none; /* Hide all slides initially */
-  }
-  
-  /* Active Slide */
-  .carousel-slide.active {
-    display: block; /* Show only the active slide */
-  }
-  
-  /* Carousel Buttons */
+  position: relative;
+  height: auto;
+  width: 100%;
+  margin: 20px auto; /* Center the carousel */
+  overflow: hidden; /* Hide overflow to create slide effect */
+  border-radius: 5px;
+}
+
+/* Carousel Wrapper */
+.carousel-wrapper {
+  display: flex; /* Use flexbox for horizontal alignment */
+  transition: transform 0.5s ease-in-out; /* Smooth transition for sliding */
+}
+
+/* Individual Slide */
+.carousel-slide {
+  min-width: 100%; /* Each slide takes up full width */
+  height: 400px; /* Set a fixed height */
+  background-size: cover; /* Cover the entire slide area */
+  background-position: center; /* Center the background image */
+  display: none; /* Hide all slides initially */
+}
+
+/* Active Slide */
+.carousel-slide.active {
+  display: block; /* Show only the active slide */
+}
+
+/* Carousel Buttons */
 .carousel-button {
-    position: absolute;
-    top: 50%; /* Center vertically */
-    transform: translateY(-50%); /* Offset the button's own height */
-    background: #870000; /* Semi-transparent background */
-    color: white; /* White arrow color */
-    border: none;
-    width: 40px; /* Set a fixed width for the circle */
-    height: 40px; /* Set a fixed height for the circle */
-    padding: 0; /* Remove padding */
-    cursor: pointer;
-    z-index: 2; /* Ensure buttons are on top */
-    border-radius: 50%; /* Make the button circular */
-    display: flex;
-    align-items: center; /* Center the arrow vertically */
-    justify-content: center; /* Center the arrow horizontally */
-    transition: background 0.3s ease; /* Smooth background transition on hover */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add slight shadow to the buttons */
+  position: absolute;
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Offset the button's own height */
+  background: #870000; /* Semi-transparent background */
+  color: white; /* White arrow color */
+  border: none;
+  width: 40px; /* Set a fixed width for the circle */
+  height: 40px; /* Set a fixed height for the circle */
+  padding: 0; /* Remove padding */
+  cursor: pointer;
+  z-index: 2; /* Ensure buttons are on top */
+  border-radius: 50%; /* Make the button circular */
+  display: flex;
+  align-items: center; /* Center the arrow vertically */
+  justify-content: center; /* Center the arrow horizontally */
+  transition: background 0.3s ease; /* Smooth background transition on hover */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add slight shadow to the buttons */
+}
+
+.carousel-button:hover {
+  background: rgba(0, 0, 0, 0.8); /* Darker background on hover */
+}
+
+/* Left (Previous) Button */
+.carousel-button.prev {
+  left: 20px; /* Position to the left */
+}
+
+/* Right (Next) Button */
+.carousel-button.next {
+  right: 20px; /* Position to the right */
+}
+
+/* Button Hover Effect */
+.carousel-button:hover {
+  background: rgba(0, 0, 0, 0.8); /* Darker background on hover */
+}
+
+/* Adjust the arrow font size to fit better inside the circle */
+.carousel-button::before {
+  font-size: 24px; /* Increase the size of the arrows */
+}
+
+@media (max-width: 768px) {
+  .specific-event-details {
+    width: calc(100vw - 50px); /* Adjust width for smaller screens */
+  }
+  .specific-event-details h1 {
+    font-size: 1.5rem;
   }
 
-  .carousel-button:hover {
-    background: rgba(0, 0, 0, 0.8); /* Darker background on hover */
+  .image-view {
+    margin: 0 auto;
   }
-  
-  /* Left (Previous) Button */
-  .carousel-button.prev {
-    left: 20px; /* Position to the left */
+  .rsvp-btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
   }
-  
-  /* Right (Next) Button */
+
+  /* Adjust the carousel slide container */
+  .carousel-slide {
+    height: 250px; /* Reduce height for smaller screens */
+    background-size: contain; /* Ensure the whole image is visible */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Avoid repeating the background image */
+  }
+
+  /* Adjust the carousel slide container */
+  .carousel-slide {
+    height: 250px; /* Reduce height for smaller screens */
+    background-size: contain; /* Ensure the whole image is visible */
+    background-position: center;
+    background-repeat: no-repeat; /* Avoid repeating the background image */
+  }
+
+  /* Position buttons below the image and center them */
+  .carousel-buttons-wrapper {
+    display: flex;
+    justify-content: center; /* Center the buttons */
+    gap: 20px; /* Add space between the buttons */
+    margin-top: 10px;
+  }
+
+  /* Adjust button positioning */
+  .carousel-button {
+    position: relative; /* Make them relative to parent */
+    transform: none; /* Remove the vertical centering */
+  }
+
+  /* Remove the default left/right positioning */
+  .carousel-button.prev,
   .carousel-button.next {
-    right: 20px; /* Position to the right */
+    left: auto;
+    right: auto;
   }
-  
-  /* Button Hover Effect */
-  .carousel-button:hover {
-    background: rgba(0, 0, 0, 0.8); /* Darker background on hover */
+
+  .carousel-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
   }
-  
-  /* Adjust the arrow font size to fit better inside the circle */
-  .carousel-button::before {
-    font-size: 24px; /* Increase the size of the arrows */
+
+  /* Adjust grid to a single column layout for small screens */
+  /* Adjust grid to a two-column layout for smaller screens */
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr); /* Two equal-width columns */
   }
-  
-  
-  
-  
-  @media (max-width: 768px) {
-    .specific-event-details {
-      width: calc(100vw - 50px); /* Adjust width for smaller screens */
-    }
-    .specific-event-details h1 {
-      font-size: 1.5rem;
-    }
-  
-    .rsvp-btn {
-      padding: 8px 16px;
-      font-size: 0.9rem;
-    }
+
+  .grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Maintain aspect ratio, covering the entire grid item */
+    border-radius: 5px;
   }
-  
+}
+
+@media (max-width: 480px) {
+  /* Adjust grid to a single-column layout for very small screens */
+  .grid-container {
+    grid-template-columns: 1fr; /* Single column */
+  }
+
+  .carousel-container {
+    margin-top: 0;
+  }
+}
