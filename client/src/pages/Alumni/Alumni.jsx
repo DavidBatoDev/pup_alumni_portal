@@ -1,28 +1,35 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-
+import React from 'react';
 import Navbar from '../../components/Navbar/Navbar';
-import MainFooter from '../../components/MainFooter/MainFooter';
 import BannerSmall from '../../components/Banner/BannerSmall';
 import bannerImage from '../../assets/images/pup-login-banner.jpg';
-import CircularLoader from '../../components/CircularLoader/CircularLoader';
+import EventsFilterSection from '../../components/EventsFilterSection/EventsFilterSection';
+import './Alumni.css';
+import AlumniContent from '../../components/AlumniContent/AlumniContent';
 
 const Alumni = () => {
-  // State to store profile data
-  const [profile, setProfile] = useState({});
-
-  // Get user data from Redux
-  const user = useSelector((state) => state.user);
-
   return (
     <>
-      <Navbar/>
-      <BannerSmall bannerImage={bannerImage} bannerTitle="Alumni"/>
-      
+      <Navbar />
+      <BannerSmall bannerImage={bannerImage} bannerTitle="Alumnis" />
 
-   </>
+      <div className="alumni-section">
+        <div className="container">
+          <div className="alumni-header">
+            <h2>Ready to reconnect? The alumni network is waiting!.</h2>
+            <h5>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
+              repellat odio in, dolore voluptates sequi amet animi quaerat ad
+              sint rerum?
+            </h5>
+          </div>
+
+          <div className="alumni-container d-flex">
+            
+          </div>
+        </div>
+      </div>
+    </>
   );
-}
+};
 
 export default Alumni;
