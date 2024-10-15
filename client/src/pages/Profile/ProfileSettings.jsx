@@ -295,7 +295,7 @@ const ProfileSettings = () => {
 
             <div className="col-12 col-md-6 mb-3 mb-md-0">
               <label className="form-label">LinkedIn Profile</label>
-              <input type="text" className="form-control" placeholder={profile.linkedin_profile || 'Not Provided'} />
+              <input type="text" className="form-control" value={profile?.linkedin_profile || 'Not Provided'} />
             </div>
 
           </div>

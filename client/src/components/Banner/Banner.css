@@ -14,7 +14,7 @@
 }
 
 .banner-small {
-    height: 300px;
+    height: 18.75rem;
     position: relative;
     background-size: cover;
     background-position: center;
@@ -59,7 +59,7 @@
 }
 
 .banner-small .banner-content {
-    height: 190px;
+    height: 11.875rem;
     display: flex;
     align-items: flex-start;
     z-index: 2;
@@ -73,7 +73,7 @@
 /* Adjust heading size and alignment */
 .banner-content .banner-hero-title {
   color: #1E1E1E;
-  font-size: 128px; /* Large heading size */
+  font-size: 8rem; /* Large heading size */
   font-weight: 700;
   line-height: 0.75; /* Tight line-height */
 }
@@ -83,7 +83,7 @@
   color: #1E1E1E;
   text-align: left;
   font-family: "Crimson Text";
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 700;
   line-height: 1.22;
   max-width: 90%;
@@ -92,7 +92,7 @@
 .banner-content .banner-small-title {
     color: #FFF;
     font-family: "Crimson Text";
-    font-size: 128px;
+    font-size: 8rem;
     font-style: normal;
     font-weight: 700;
     z-index: 2;
@@ -107,7 +107,7 @@
 .banner-small .breadcrumb .breadcrumb-item a {
     color: #FFF;
     font-family: "Raleway", sans-serif;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -194,7 +194,7 @@
 
 .rsvp-btn:hover {
   background-color: #a52436;
-  
+
 }
 
 /* Tooltip styling */

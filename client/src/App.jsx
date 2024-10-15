@@ -25,6 +25,7 @@ import ProfilePrivacySettings from './pages/Profile/ProfilePrivacySettings';
 import SpecificEvent from './pages/SpecificEvent/SpecificEvent'; // Ensure the path is correct
 import EventHistory from './pages/EventHistory/EventHistory';
 import SpecificHistoryPage from './pages/SpecificHistoryPage/SpecificHistoryPage';
+import Alumni from './pages/Alumni/Alumni';
 
 
 function App() {
@@ -39,8 +40,10 @@ function App() {
 
         {/* Protected Routes for Alumni */}
         <Route > {/*element={<ProtectedRoute allowedRoles={['alumni']} />*/}
+
             {/* Profile */}
-            <Route path="/old-profile" element={<Profile />} />
+            <Route path="/old-profile" element={<Profile />} /> {/* Deprecated */}
+
             <Route path="profile" element={<ProfileLayout />}>
               <Route index element={<ProfileOverview />} />
               <Route path="settings" element={<ProfileSettings />} />
@@ -48,6 +51,9 @@ function App() {
               <Route path="notifications" element={<ProfileNotificationPreferences />} />
               <Route path="privacy" element={<ProfilePrivacySettings />} />
             </Route>
+
+            {/* Alumni */}
+            <Route path="/alumni" element={<Alumni />} />
 
             {/* Survey */}
             <Route path="/surveys" element={<Surveys />} />
@@ -58,6 +64,7 @@ function App() {
             <Route path="/events/:eventId" element={<SpecificEvent />} />
             <Route path="/events/events-history" element={<EventHistory />} />
             <Route path="/events/events-history/:eventId" element={<SpecificHistoryPage />} />
+            
         </Route>
 
         {/* Protected Routes for Admin */}
