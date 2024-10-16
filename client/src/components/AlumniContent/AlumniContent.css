@@ -1,0 +1,33 @@
+.alumni-container .container{
+    position: relative;
+    z-index: 2;
+    padding: 0;
+    width: 1296px;
+}
+
+.alumni-card-container .alumni-header{
+    display: flex;
+    align-items:flex-end;
+    justify-content: space-between;
+}
+
+.alumni-card-container .alumni-header .input-group{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 40%;
+}
+
+.alumni-card-container .alumni-header .switch-view-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 45px;
+    gap: 5px;
+}
+
+.switch-view-wrapper img{
+    width: 30px;
+    height: 25px;
+}

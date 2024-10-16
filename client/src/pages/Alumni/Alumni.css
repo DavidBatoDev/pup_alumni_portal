@@ -54,7 +54,6 @@
 }
 
 .alumni-section .alumni-header {
-    flex-direction: column;
     margin-bottom: 20px;
     gap: 20px;
 }
