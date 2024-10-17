@@ -10,6 +10,7 @@ import MainFooter from '../../components/MainFooter/MainFooter';
 import BannerSmall from '../../components/Banner/BannerSmall';
 import bannerImage from '../../assets/images/pup-login-banner.jpg';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
+import CustomAlert from '../../components/CustomAlert/CustomAlert'
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -26,6 +27,10 @@ const Login = () => {
       setLoading(false);
     };
   }, [navigate]);
+
+  const onClearError = () => {
+    setError('');
+  };
 
 
   const handleSubmit = async (e) => {
@@ -79,6 +84,7 @@ const Login = () => {
 
   return (
     <>
+      {error && <CustomAlert message={error} severity='error' onClose={onClearError}/>}
       <Navbar />
       <div className = "background login-background"></div>
       <div className="login-page">
@@ -99,9 +105,6 @@ const Login = () => {
                   <p className="login-description">
                     Log in to access exclusive alumni resources, connect with fellow graduates, and take advantage of our career support services. Your network and opportunities await you.
                   </p>
-
-                  {/* Show general error message if login fails */}
-                  {error && <p className="text-danger">{error}</p>}
 
                   {/* Display validation errors */}
                   <form className="login-form" onSubmit={handleSubmit}>

@@ -25,12 +25,11 @@ const AdminEventsDashboard = () => {
   });
 
   const [tempPhotos, setTempPhotos] = useState([]); // Store newly uploaded photos
-  const [existingPhotos, setExistingPhotos] = useState([]); // Store existing photos for preview
   const [photoPreviews, setPhotoPreviews] = useState([]); // Store preview URLs
   const [specificEventPhotoIds, setSpecificEventPhotoIds] = useState([]); // Store specific event photo IDs
   const [photosToDelete, setPhotosToDelete] = useState([]); // Track photos to delete
   const [uploading, setUploading] = useState(false); 
-  const [imageUploadError, setImageUploadError] = useState(null);
+  const [error, setError] = useState(null);
   const [updateSuccess, setUpdateSuccess] = useState(false);
 
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -64,10 +63,9 @@ const AdminEventsDashboard = () => {
       organization: '',
     });
     setTempPhotos([]);
-    setExistingPhotos([]);
     setPhotoPreviews([]);
     setSpecificEventPhotoIds([]);
-    setPhotosToDelete([]); // Reset photos to delete
+    setPhotosToDelete([]);
     setShowModal(true);
   };
 
@@ -117,7 +115,6 @@ const AdminEventsDashboard = () => {
         organization: eventDetails.organization,
       });
 
-      setExistingPhotos(existingPhotoUrls); 
       setPhotoPreviews(existingPhotoUrls); 
       setSpecificEventPhotoIds(existingPhotoIds); 
       setPhotosToDelete([]); // Reset the delete state
@@ -211,7 +208,6 @@ const AdminEventsDashboard = () => {
     });
     setPhotoPreviews([]);
     setTempPhotos([]);
-    setExistingPhotos([]);
     setSpecificEventPhotoIds([]);
     setPhotosToDelete([]);
   };
@@ -298,16 +294,14 @@ const AdminEventsDashboard = () => {
             <div className="photo-previews-container">
               {photoPreviews.length > 0 && (
                 <>
-                  <div className="photo-preview-list">
-                    {photoPreviews.map((preview, index) => (
-                      <div key={index} className="photo-preview-wrapper">
-                        <img src={preview} alt="Preview" className="photo-preview" />
-                        <button type="button" className="remove-photo-btn" onClick={() => handleRemovePhoto(index, false)}>
-                          ✕
-                        </button>
-                      </div>
-                    ))}
-                  </div>
+                  {photoPreviews.map((preview, index) => (
+                    <div key={index} className="photo-preview-wrapper">
+                      <img src={preview} alt="Preview" className="photo-preview" />
+                      <button type="button" className="remove-photo-btn" onClick={() => handleRemovePhoto(index, false)}>
+                        ✕
+                      </button>
+                    </div>
+                  ))}
                 </>
               )}
             </div>

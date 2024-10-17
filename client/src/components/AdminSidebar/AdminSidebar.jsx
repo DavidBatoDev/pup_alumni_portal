@@ -22,7 +22,7 @@ const AdminSidebar = () => {
     <div>
       {/* Mobile Navbar with a unique ID */}
       <nav className="navbar navbar-expand-lg navbar-dark as-navbar d-md-none">
-        <Link to="/admin/dashboard" className="navbar-brand">
+        <Link to="/" className="navbar-brand">
           <img src={Logo} alt="Admin Logo" className="as-navbar-logo" />
         </Link>
         {/* Sidebar toggle button for mobile view */}
@@ -60,7 +60,9 @@ const AdminSidebar = () => {
       {/* Regular Sidebar for Desktop View */}
       <div className="as-sidebar d-none d-md-flex flex-column">
         <div className="as-sidebar-header">
+        <Link to="/" className="navbar-brand">
           <img src={Logo} alt="Admin Logo" className="as-sidebar-logo" />
+        </Link>
         </div>
         <ul className="as-sidebar-menu nav flex-column">
           {menuItems.map((item) => (
