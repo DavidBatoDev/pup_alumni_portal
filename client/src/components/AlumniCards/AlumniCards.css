@@ -6,7 +6,7 @@
   /* Default list view */
   .alumni-card {
     border: 1px solid #ddd;
-    padding: 8px 12px;
+    padding: 12px 24px;
     border-radius: 8px;
     max-width: 100%;
     display: flex;
@@ -16,8 +16,8 @@
   }
 
   .alumni-card img {
-    width: 100px;
-    height: 100px;
+    width: 5.25rem;
+    height: 5.25rem;
     object-fit: cover;
   }
 
@@ -40,12 +40,6 @@
 
   .alumni-profile-section .card-text span:nth-child(1) {
     color: #870000;
-    font-weight: bold;
-  }
-
-  .connect-btn-container {
-    display: flex;
-    justify-content: flex-end;
   }
 
   .alumni-cards-container .btn {

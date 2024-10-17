@@ -34,8 +34,8 @@ const AlumniCards = ({ viewMode, profiles, loading }) => {
                   </p>
                 </div>
               </div>
-              <div className="connect-btn-container d-flex">
-                <button className="btn btn-primary mx-4">Connect</button>
+              <div className="connect-btn-container d-flex justify-content-end">
+                <button className="btn btn-primary">Connect</button>
               </div>
             </div>
           ))}

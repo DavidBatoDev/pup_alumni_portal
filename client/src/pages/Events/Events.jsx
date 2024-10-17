@@ -3,7 +3,7 @@ import BannerSmall from "../../components/Banner/BannerSmall";
 import Navbar from "../../components/Navbar/Navbar";
 import bannerImage from "../../assets/images/eventbanner.png";
 import "./Events.css";
-import FilterSection from "../../components/EventsFilterSection/EventsFilterSection";
+import EventsFilterSection from "../../components/EventsFilterSection/EventsFilterSection";
 import EventAuth from "../../components/EventSectionAuth/EventAuth";
 import eventImg from '../../assets/images/eventimage2.jpg';
 import axios from "axios";
@@ -64,7 +64,7 @@ const Events = () => {
             </h5>
           </div>
           <div className="events-container d-flex">
-            <FilterSection />
+            <EventsFilterSection />
             <EventAuth events={eventsData} />
           </div>
         </div>

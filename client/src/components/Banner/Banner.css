@@ -267,12 +267,14 @@
   .banner-content .banner-hero-title {
     font-size: 68px; /* Reduce heading size */
     line-height: 1;
+    user-select: none;
   }
 
   .banner-content .banner-hero-motto {
     font-size: 18px; /* Reduce paragraph size */
     text-align: center;
     max-width: 90%; /* Adjust width for better fit */
+    user-select: none;
   }
 
   .banner-buttons {

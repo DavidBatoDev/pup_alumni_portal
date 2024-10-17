@@ -74,10 +74,12 @@
 
 .profile-sidebar-menu ul {
     padding-left: 0;
+    flex-direction: column;
 }
 
 .profile-sidebar-menu li {
     margin-bottom: 10px;
+    user-select: none;
 }
 
 .sidebar-divider {
@@ -133,4 +135,97 @@ button.btn-link {
 .logout-container {
     display: flex;
     justify-content: center;
+}
+
+.scroll-button  {
+    display: none;
+}
+
+
+
+@media only screen and (max-width: 768px) {
+    .profile-sidebar {
+        height: auto;
+    }
+}
+
+@media only screen and (max-width: 425px) {
+    .profile-sidebar {
+        position: relative;
+    }
+
+    .profile-sidebar-links {
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    .horizontal-scroll {
+      margin: 0rem 2rem 0rem 2rem !important;
+      align-items: center;
+      flex-direction: row !important;
+      overflow-x: auto;
+      white-space: nowrap; /* Prevents items from wrapping to the next line */
+      scroll-snap-type: x mandatory; /* Enable scroll snapping */
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
+    }
+
+    .horizontal-scroll li {
+      flex: 0 0 auto; /* Ensure items don't shrink or grow */
+      margin-right: 10px; /* Space between items */
+      scroll-snap-align: start; /* Snap each item to the start of the container */
+      position: relative; /* For positioning the like button */
+    }
+
+    .horizontal-scroll li:last-child {
+      margin-right: 0; /* Remove margin from the last item */
+    }
+
+    /* Optional: Hide scrollbar for cleaner look */
+    .horizontal-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .horizontal-scroll {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+
+    .scroll-button {
+        display: flex;
+        border: none;
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1;
+        margin: 0;
+        padding: 1rem;
+        align-items: center;
+        justify-content: center;
+
+        width: 1.875rem;
+        width: 1.875rem;
+        background-color: #FFF;
+        font-size: 1.5rem;
+        box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+    }
+
+    .scroll-arrow {
+        color: #1E1E1E;
+    }
+
+    .scroll-button.left {
+    left: 0;
+    }
+
+    .scroll-button.right {
+    right: 0;
+    }
+
+    .profile-sidebar-menu {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+    overflow: hidden;
+    }
 }
