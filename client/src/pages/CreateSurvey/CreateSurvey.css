@@ -353,4 +353,9 @@
       padding: 30px 40px;
     }
   }
+
+  .option-value-selector {
+    width: 80px;
+    margin: 0 10px;
+  }
   

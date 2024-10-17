@@ -159,7 +159,7 @@ const EventAuth = ({ events }) => {
 
 
         {/* Pagination */}
-        <div className="d-flex justify-content-center mt-2">
+        <div className="pagination-container d-flex justify-content-center mt-2">
           <nav aria-label="Page navigation example">
             <ul className="pagination">
               <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>

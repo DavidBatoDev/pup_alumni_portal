@@ -24,10 +24,10 @@ class SurveyController extends Controller
                 'end_date' => 'required|date',
                 'questions' => 'required|array',
                 'questions.*.question_text' => 'required|string|max:255',
-                'questions.*.question_type' => 'required|string|in:Multiple Choice,Open-ended',
+                'questions.*.question_type' => 'required|string|in:Multiple Choice,Open-ended,Rating',
                 'questions.*.options' => 'array|required_if:questions.*.question_type,Multiple Choice',
                 'questions.*.options.*.option_text' => 'required_with:questions.*.options|string|max:255',
-                'questions.*.options.*.option_value' => 'nullable|integer', // Ensure option_value is an integer as per schema
+                'questions.*.options.*.option_value' => 'nullable|integer',
             ]);
     
             // Create the survey and reference 'survey_id'
@@ -51,9 +51,9 @@ class SurveyController extends Controller
                     'question_text' => $questionData['question_text'],
                     'question_type' => $questionData['question_type'],
                 ]);
-    
-                // If the question type is 'Multiple Choice', add the options
-                if ($questionData['question_type'] === 'Multiple Choice' && isset($questionData['options'])) {
+
+                // If the question type is 'Multiple Choice' or 'Rating', add the options
+                if (in_array($questionData['question_type'], ['Multiple Choice', 'Rating']) && isset($questionData['options'])) {
                     foreach ($questionData['options'] as $optionData) {
                         SurveyOption::create([
                             'question_id' => $question->question_id,  // Use $question->question_id as foreign key
@@ -63,6 +63,7 @@ class SurveyController extends Controller
                     }
                 }
             }
+
     
             return response()->json(['message' => 'Survey and its details saved successfully.', 'survey' => $survey], 201);
     
@@ -307,12 +308,6 @@ class SurveyController extends Controller
         return response()->json(['message' => 'Survey responses submitted successfully.'], 201);
     }
 
-    /**
-     * Get all alumni responses for a specific survey along with their details.
-     *
-     * @param int $surveyId
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function getSurveyResponses($surveyId)
     {
         // Fetch all feedback responses for the given survey along with related alumni information
@@ -321,7 +316,7 @@ class SurveyController extends Controller
                 // Select the appropriate fields and primary key column from the alumni table
                 $query->select('alumni_id', 'email', 'first_name', 'last_name');
             },
-            'questionResponses',
+            'questionResponses.surveyOption',  // Correct relationship to fetch survey options
             'survey'
         ])
         ->where('survey_id', $surveyId) // Filter by specific survey ID
@@ -341,6 +336,9 @@ class SurveyController extends Controller
                         'question_id' => $questionResponse->question_id,
                         'response_text' => $questionResponse->response_text,
                         'option_id' => $questionResponse->option_id,
+                        // Fetch option details from the surveyOption relationship
+                        'option_text' => optional($questionResponse->surveyOption)->option_text,
+                        'option_value' => optional($questionResponse->surveyOption)->option_value,
                     ];
                 }),
             ];

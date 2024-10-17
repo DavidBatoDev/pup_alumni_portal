@@ -1,18 +1,40 @@
-/* Prefix styles with .answer-survey to prevent conflicts */
+/* Container and layout */
 .answer-survey-container {
-  max-width: 700px;
-  margin: 50px auto;
-  padding: 30px;
-  background: #ffffff;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 40px;
+  background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
 }
 
+/* Back button container */
 .as-back-btn-container {
-  display: absolute;
-  top: 10;
-  left: 10;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.as-back-btn {
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: #a52436;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.as-back-btn:hover {
+  color: #c62828;
+}
+
+.as-back-btn i {
+  margin-right: 8px;
+  font-size: 22px;
 }
 
 /* Survey information styling */
@@ -22,7 +44,7 @@
 }
 
 .survey-title {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: bold;
   color: #333;
   margin-bottom: 15px;
@@ -40,28 +62,32 @@
 }
 
 .survey-questions-header {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 600;
   color: #424242;
   margin-bottom: 30px;
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 /* Survey question card styling */
 .as-survey-question-card {
-  background: #fefefe;
+  background-color: #ffffff;
   padding: 25px;
   border-radius: 10px;
   border: 1px solid #eee;
   margin-bottom: 25px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.3s ease-in-out;
+  transition: box-shadow 0.3s ease-in-out, transform 0.2s ease;
 }
 
 .as-survey-question-card:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
+/* Top bar styling */
 .as-question-top-bar {
   height: 6px;
   background-color: #a52436;
@@ -77,7 +103,7 @@
 }
 
 .as-question-index {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   color: #424242;
 }
@@ -92,19 +118,19 @@
 .multiple-choice-options {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
   padding-left: 15px;
 }
 
 .option-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .option-item input[type="radio"] {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
 }
 
 .option-item label {
@@ -112,41 +138,54 @@
   color: #555;
 }
 
+/* Open-ended question textarea */
+textarea.form-control {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f7f7f7;
+  resize: none;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+textarea.form-control:focus {
+  border-color: #a52436;
+}
+
 /* Submit button styling */
 .submit-survey {
   text-align: center;
-  margin-top: 50px;
+  margin-top: 40px;
 }
 
 .submit-survey .btn {
   background-color: #a52436;
   color: white;
-  padding: 14px 28px;
+  padding: 14px 32px;
   font-size: 18px;
+  font-weight: 600;
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, box-shadow 0.2s ease;
 }
 
 .submit-survey .btn:hover {
   background-color: #c62828;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
 }
 
-/* Loading indicator styling */
-.loading {
-  text-align: center;
-  font-size: 20px;
-  color: #888;
-}
-
+/* Responsive adjustments */
 @media screen and (max-width: 768px) {
   .answer-survey-container {
     padding: 20px;
   }
 
   .survey-title {
-    font-size: 24px;
+    font-size: 26px;
   }
 
   .survey-description {
@@ -154,7 +193,7 @@
   }
 
   .survey-questions-header {
-    font-size: 20px;
+    font-size: 22px;
   }
 
   .as-survey-question-card {
@@ -169,10 +208,6 @@
     font-size: 18px;
   }
 
-  .multiple-choice-options {
-    padding-left: 10px;
-  }
-
   .option-item label {
     font-size: 16px;
   }
@@ -181,4 +216,12 @@
     padding: 12px 24px;
     font-size: 16px;
   }
+}
+
+.error {
+  border-color: red;
+}
+.error-text {
+  color: red;
+  font-size: 0.9rem;
 }
