@@ -48,7 +48,7 @@ const ProfileSidebar = () => {
         </div>
 
         {/* Sidebar Navigation Menu */}
-        <div className="profile-sidebar-menu flex-grow-1">
+        <div className="profile-sidebar-menu">
           <div className="profile-sidebar-links">
             <button className="scroll-button left rounded-circle" onClick={() => scroll('left')}><i className="scroll-arrow fa-solid fa-xs fa-chevron-left"></i></button>
             <ul ref={scrollRef} className="list-unstyled d-flex horizontal-scroll">
@@ -100,7 +100,7 @@ const ProfileSidebar = () => {
         </div>
         <div className="sidebar-divider"></div>
         <div className="flex-grow-1"></div>
-        <div className="logout-container">
+        <div className="logout-container w-100 d-flex justify-content-center">
           {/* Log Out Button with Click Handler */}
           <button className="btn btn-link profile-logout-button" onClick={handleLogout}>
             Log Out

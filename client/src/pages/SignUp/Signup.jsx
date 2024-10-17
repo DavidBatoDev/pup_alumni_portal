@@ -33,6 +33,8 @@ const Signup = () => {
     graduation_year: '',
     degree: '',
     major: '',
+    current_job_title: '',
+    current_employer: '',
   });
 
   const educationFormRef = useRef(); // Create a ref for the EducationForm
@@ -140,6 +142,20 @@ const Signup = () => {
         ? `${education.end.year}-${String(education.end.month + 1).padStart(2, '0')}-${String(education.end.day || 1).padStart(2, '0')}`
         : '',
     }));
+
+    // Set current_job_title and current_employer from latest job entry of employment history
+    const latestEmployment = formattedEmploymentHistory.find((job) => !job.end_date);
+    if (latestEmployment) {
+      setFormData({
+        ...formData,
+        current_job_title: latestJob?.job_title || '',
+        current_employer: latestJob?.company || '',
+      });
+    }
+
+    // Reverse the formatted employment and education history to display the latest entry first
+    formattedEmploymentHistory.reverse(); 
+    formattedEducationHistory.reverse();
 
     setEmploymentHistory([...employmentHistory, ...formattedEmploymentHistory]);
     setEducationHistory([...educationHistory, ...formattedEducationHistory]);

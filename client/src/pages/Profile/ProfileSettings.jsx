@@ -9,7 +9,7 @@ import { updateUser } from '../../store/userSlice';
 const ProfileSettings = () => {
   // const { profile, address, employmentHistory, educationHistory } = useOutletContext();
   const dispatch = useDispatch();
-  const {user} = useSelector(state => state.user);
+  const { user } = useSelector(state => state.user);
   const [profile, setProfile] = useState({
     first_name: '',
     last_name: '',
@@ -32,7 +32,7 @@ const ProfileSettings = () => {
   const [editableEducationHistory, setEditableEducationHistory] = useState([...educationHistory]);
 
   // State to keep track of which rows are currently being edited
-  // const [editingAddressId, setEditingAddressId] = useState(null); // Pending for change in backend to use address_id
+  const [editingAddressId, setEditingAddressId] = useState(null); // Pending for change in backend to use address_id
   const [editingEmploymentId, setEditingEmploymentId] = useState(null);
   const [editingEducationId, setEditingEducationId] = useState(null);
 
@@ -62,9 +62,9 @@ const ProfileSettings = () => {
             linkedin_profile: response.data.data.linkedin_profile,
           });
           setProfilePicture(response.data.data.profile_picture);
-          setAddress(response.data.data.address);
-          setEmploymentHistory(response.data.data.employment_history || []);
-          setEducationHistory(response.data.data.education_history || []);
+          setEditableAddress(response.data.data.address);
+          setEditableEmploymentHistory(response.data.data.employment_history || []);
+          setEditableEducationHistory(response.data.data.education_history || []);
         }
       })
       .catch((error) => {
@@ -111,7 +111,7 @@ const ProfileSettings = () => {
             email: response.data.data.email,
             phone: response.data.data.phone
           })
-          dispatch(updateUser({user: response.data.data}));
+          dispatch(updateUser({ user: response.data.data }));
         }
       })
       .catch((error) => {
@@ -160,7 +160,7 @@ const ProfileSettings = () => {
         }, 5000);
       })
   }
-    
+
 
   const handlePhotoChange = (e) => {
     const linkForFile = URL.createObjectURL(e.target.files[0]);
@@ -172,8 +172,11 @@ const ProfileSettings = () => {
   }
 
   // Handle changes for address fields
-  const handleAddressChange = (field, value) => {
-    setEditableAddress({ ...editableAddress, [field]: value });
+  const handleAddressChange = (id, field, value) => {
+    const updatedAdddress = editableAddress.map((address) =>
+      address.address_id === id ? { ...address, [field]: value } : address
+    )
+    setEditableAddress(updatedAdddress);
   };
 
   // Handle changes for employment history fields
@@ -207,10 +210,12 @@ const ProfileSettings = () => {
   }
 
   // Handle saving changes for address
-  const saveAddressChanges = () => {
-    console.log("Saved address data:", editableAddress);
+  const saveAddressChanges = (id) => {
+    setEditingAddressId(null);
+    console.log("Sending address data:", editableAddress);
+    const updatedAddress = editableAddress.find((address) => address.address_id === id);
     axios
-      .put(`/api/update-address`, editableAddress, {
+      .put(`/api/update-address/${id}`, updatedAddress, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -218,9 +223,7 @@ const ProfileSettings = () => {
       .then((response) => {
         if (response.data.success) {
           console.log('Address updated successfully:', response.data.data);
-          // Update the address in the context // Pending for change in backend to use address_id
-          // updateAddress(response.data.data);
-          // setEditingAddressId(null); // Exit editing mode
+          setEditingAddressId(null); // Exit editing mode
         }
       })
       .catch((error) => {
@@ -231,7 +234,7 @@ const ProfileSettings = () => {
   // Handle saving changes for employment history
   const saveEmploymentChanges = (id) => {
     setEditingEmploymentId(null);
-    console.log("Saved employment data:", editableEmploymentHistory);
+    console.log("Sending employment data:", editableEmploymentHistory);
     const updatedEmployment = editableEmploymentHistory.find((job) => job.employment_id === id);
     axios
       .put(`/api/update-employment-history/${id}`, updatedEmployment, {
@@ -242,18 +245,46 @@ const ProfileSettings = () => {
       .then((response) => {
         if (response.data.success) {
           console.log('Employment history updated successfully:', response.data.data);
-          setEditingEmploymentId(null); // Exit editing mode
+
+          // Find the latest employment history with null or undefined as end_date
+          const latestEmployment = editableEmploymentHistory.find((job) => !job.end_date);
+
+          // Update current job title employer if latest job end date is null
+          if (latestEmployment) {
+            const profileUpdate = {
+              current_job_title: latestEmployment.job_title,
+              current_employer: latestEmployment.company,
+            };
+
+            // Send a PUT request to update the profile
+            axios
+              .post('/api/update-profile', profileUpdate, {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+              })
+              .then((profileResponse) => {
+                if (profileResponse.data.success) {
+                  console.log('Profile updated successfully:', profileResponse.data.data);
+                }
+              })
+              .catch((profileError) => {
+                console.error('Error updating profile:', profileError);
+              });
+          }
+          setEditingEmploymentId(null); // Exit editin  g mode
         }
       })
       .catch((error) => {
         console.error('Error updating employment history:', error);
       });
+
   };
 
   // Handle saving changes for education history
   const saveEducationChanges = (id) => {
     setEditingEducationId(null); // Exit editing mode
-    console.log("Saved education data:", editableEducationHistory);
+    console.log("Sending education data:", editableEducationHistory);
 
     const updatedEducation = editableEducationHistory.find((edu) => edu.education_id === id);
 
@@ -284,8 +315,8 @@ const ProfileSettings = () => {
       postal_code: '',
       country: '',
     };
-    setEditableAddress(newAddress);
-    // setEditingAddressId(newAddress.address_id); // Pending for change in backend to use address_id
+    setEditableAddress([... editableAddress, newAddress]);
+    setEditingAddressId(newAddress.address_id);
   }
 
   // Add new employment row in edit mode
@@ -335,8 +366,12 @@ const ProfileSettings = () => {
         if (response.data.success) {
           console.log('New address added successfully:', response.data.data);
           // Replace temporary ID with the actual ID from the response
-          // setEditableAddress(response.data.data);
-          // setEditingAddressId(null);
+          setEditableAddress((prev) =>
+            prev.map(
+              (addr) => addr.address_id === address.address_id ? response.data.data : addr
+            )
+          );
+          setEditingAddressId(null);
         }
       })
       .catch((error) => {
@@ -421,7 +456,7 @@ const ProfileSettings = () => {
             <div className="row mb-3">
               <div className="col-12 col-md-6 mb-3 mb-md-0">
                 <label className="form-label">First Name</label>
-                <input type="text" className="form-control" name='first_name' value={profile.first_name} onChange={handleChangeProfile}/>
+                <input type="text" className="form-control" name='first_name' value={profile.first_name} onChange={handleChangeProfile} />
               </div>
               <div className="col-12 col-md-6">
                 <label className="form-label">Last Name</label>
@@ -457,7 +492,7 @@ const ProfileSettings = () => {
           <div className="row mb-3">
             <div className="col-12 col-md-6 mb-3 mb-md-0">
               <label className="form-label">Date of Birth</label>
-              <input type="date" className="form-control" name='date_of_birth' value={personalInfo?.date_of_birth} onChange={handleChangePersonalInfo}  />
+              <input type="date" className="form-control" name='date_of_birth' value={personalInfo?.date_of_birth} onChange={handleChangePersonalInfo} />
             </div>
 
             <div className="col-12 col-md-6 mb-3 mb-md-0">
@@ -501,7 +536,7 @@ const ProfileSettings = () => {
                             type="text"
                             className="form-control"
                             value={address.street || ''}
-                            onChange={(e) => handleAddressChange('street', e.target.value)}
+                            onChange={(e) => handleAddressChange(address.address_id, 'street', e.target.value)}
                           />
                         ) : (
                           address.street
@@ -513,7 +548,7 @@ const ProfileSettings = () => {
                             type="text"
                             className="form-control"
                             value={address.city || ''}
-                            onChange={(e) => handleAddressChange('city', e.target.value)}
+                            onChange={(e) => handleAddressChange(address.address_id, 'city', e.target.value)}
                           />
                         ) : (
                           address.city
@@ -525,7 +560,7 @@ const ProfileSettings = () => {
                             type="text"
                             className="form-control"
                             value={address.state || ''}
-                            onChange={(e) => handleAddressChange('state', e.target.value)}
+                            onChange={(e) => handleAddressChange(address.address_id, 'state', e.target.value)}
                           />
                         ) : (
                           address.state
@@ -537,7 +572,7 @@ const ProfileSettings = () => {
                             type="text"
                             className="form-control"
                             value={address.postal_code || ''}
-                            onChange={(e) => handleAddressChange('postal_code', e.target.value)}
+                            onChange={(e) => handleAddressChange(address.address_id, 'postal_code', e.target.value)}
                           />
                         ) : (
                           address.postal_code
@@ -549,7 +584,7 @@ const ProfileSettings = () => {
                             type="text"
                             className="form-control"
                             value={address.country || ''}
-                            onChange={(e) => handleAddressChange('country', e.target.value)}
+                            onChange={(e) => handleAddressChange(address.address_id, 'country', e.target.value)}
                           />
                         ) : (
                           address.country
@@ -710,7 +745,7 @@ const ProfileSettings = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5">No employment history available.</td>
+                  <td colSpan="6">No employment history available.</td>
                 </tr>
               )
               }
