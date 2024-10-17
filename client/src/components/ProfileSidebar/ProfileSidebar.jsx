@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 const ProfileSidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user.user.user);
+  const {user} = useSelector((state) => state.user);
 
   const scrollRef = useRef(null);
 
@@ -26,6 +26,7 @@ const ProfileSidebar = () => {
     navigate('/');
   };
 
+
   return (
     <div className="profile-sidebar">
       {/* Sidebar Header */}
@@ -35,7 +36,7 @@ const ProfileSidebar = () => {
         <div className="d-flex gap-2 align-items-end h-auto profile-sidebar-account mt-2">
           <div className="profile-sidebar-image">
             <img
-              src="https://via.placeholder.com/80"
+              src={`http://localhost:8000/storage/${user?.profile_picture}`}
               alt="Profile"
               className="rounded-circle img-fluid"
             />

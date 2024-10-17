@@ -4,9 +4,9 @@ import AuthenticatedNavbar from './AuthenticatedNavbar';
 import HomePageNavbar from './HomepageNavbar';
 
 const Navbar = () => {
-  const {user} = useSelector((state) => state.user);
+  const {user, isAuthenticated} = useSelector((state) => state.user);
 
-  const condition = window.location.pathname == '/' || !user?.user ? <HomePageNavbar /> : <AuthenticatedNavbar />;
+  const condition = window.location.pathname == '/' || !user ? <HomePageNavbar /> : <AuthenticatedNavbar />;
 
   return (
     <div>

@@ -26,6 +26,11 @@ class AlumniController extends Controller
         // Load address, employment, and education relationships
         $alumni->load(['address', 'employmentHistory', 'educationHistory']);
 
+        // add url to profile picture
+        if ($alumni->profile_picture) {
+            $alumni->profile_picture = url('storage/' . $alumni->profile_picture);
+        }
+
         return response()->json([
             'success' => true,
             'data' => $alumni
@@ -57,9 +62,15 @@ class AlumniController extends Controller
             'current_job_title' => 'nullable|string|max:255',
             'current_employer' => 'nullable|string|max:255',
             'linkedin_profile' => 'nullable|url|max:255',
-            'profile_picture' => 'nullable|string|max:255',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
             'password' => 'nullable|string|min:8|confirmed',
         ]);
+
+
+        if ($request->hasFile('profile_picture')) {
+            $path = $request->file('profile_picture')->store('profile_pictures', 'public'); // Store in public disk
+            $alumni->profile_picture = $path; // Save the path to the database
+        }
     
         // If validation fails, return errors
         if ($validator->fails()) {
@@ -73,7 +84,7 @@ class AlumniController extends Controller
         $alumni->update($request->only([
             'first_name', 'last_name', 'email', 'phone', 'date_of_birth', 
             'gender', 'graduation_year', 'degree', 'major', 'current_job_title', 
-            'current_employer', 'linkedin_profile', 'profile_picture'
+            'current_employer', 'linkedin_profile'
         ]));
     
         // Check if password needs to be updated

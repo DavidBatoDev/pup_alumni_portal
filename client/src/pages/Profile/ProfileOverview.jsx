@@ -1,28 +1,53 @@
-import React from 'react';
+import {useState, useEffect} from 'react';
 import axios from 'axios';
-import { useOutletContext } from 'react-router-dom';
-
+import CircularLoader from '../../components/CircularLoader/CircularLoader';
 import './Profile.css';
 
 const ProfileOverview = () => {
-  const { profile, address, employmentHistory, educationHistory } = useOutletContext();
+  const [profile, setProfile] = useState({});
+  const [address, setAddress] = useState({});
+  const [employmentHistory, setEmploymentHistory] = useState([]);
+  const [educationHistory, setEducationHistory] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // const profileImage = profile?.profile_picture
   // ? `/path/to/images/${profile?.profile_picture}` // Adjust path to actual image directory if needed
   // : "https://via.placeholder.com/100";
   const linkedin_url = "https://linkedin.com/juandelacruz";
 
-  const profileImage = "https://via.placeholder.com/100";
+  useEffect(() => {
+    // Set up axios request with Authorization header
+    axios
+      .get('http://localhost:8000/api/profile', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`, // Include the token in the Authorization header
+        },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          setProfile(response.data.data);
+          setAddress(response.data.data.address);
+          setEmploymentHistory(response.data.data.employment_history || []);
+          setEducationHistory(response.data.data.education_history || []);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching profile data:', error);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
 
   return (
     <>
+    {loading && <CircularLoader />}
       <div className="card mb-4 profile-section">
         <div className="profile-overview-header"></div>
         <div className="profile-overview-container w-100">
           {/* Profile Image Container */}
           <div className="profile-image-container">
             <img
-              src={profileImage}
+              src={profile?.profile_picture}
               alt="Profile"
               className="profile-image rounded-circle img-fluid"
             />

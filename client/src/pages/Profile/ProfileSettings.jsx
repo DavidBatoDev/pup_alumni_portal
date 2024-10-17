@@ -1,14 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
-import { useOutletContext } from 'react-router-dom';
-
 import './Profile.css';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { updateUser } from '../../store/userSlice';
 
 const ProfileSettings = () => {
-  const { profile, address, employmentHistory, educationHistory } = useOutletContext();
-
-  const profileImage = "https://via.placeholder.com/100";
+  // const { profile, address, employmentHistory, educationHistory } = useOutletContext();
+  const dispatch = useDispatch();
+  const {user} = useSelector(state => state.user);
+  const [profile, setProfile] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone: '',
+  });
+  const [personalInfo, setPersonalInfo] = useState({
+    date_of_birth: '',
+    linkedin_profile: '',
+  });
+  const [profilePicture, setProfilePicture] = useState('');
+  const [address, setAddress] = useState({});
+  const [employmentHistory, setEmploymentHistory] = useState([]);
+  const [educationHistory, setEducationHistory] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Create local state for employment and education history to handle editing
   const [editableAddress, setEditableAddress] = useState({ ...address });
@@ -19,6 +35,141 @@ const ProfileSettings = () => {
   // const [editingAddressId, setEditingAddressId] = useState(null); // Pending for change in backend to use address_id
   const [editingEmploymentId, setEditingEmploymentId] = useState(null);
   const [editingEducationId, setEditingEducationId] = useState(null);
+
+  const [alert, setAlert] = useState({
+    severity: '',
+    message: '',
+  });
+
+  useEffect(() => {
+    // Set up axios request with Authorization header
+    axios
+      .get('http://localhost:8000/api/profile', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`, // Include the token in the Authorization header
+        },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          setProfile({
+            first_name: response.data.data.first_name,
+            last_name: response.data.data.last_name,
+            email: response.data.data.email,
+            phone: response.data.data.phone,
+          })
+          setPersonalInfo({
+            date_of_birth: response.data.data.date_of_birth,
+            linkedin_profile: response.data.data.linkedin_profile,
+          });
+          setProfilePicture(response.data.data.profile_picture);
+          setAddress(response.data.data.address);
+          setEmploymentHistory(response.data.data.employment_history || []);
+          setEducationHistory(response.data.data.education_history || []);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching profile data:', error);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleCloseAlert = () => {
+    setAlert({
+      severity: '',
+      message: '',
+    });
+  };
+
+  const handleUpdateProfile = () => {
+    const body = new FormData();
+    body.append('first_name', profile.first_name);
+    body.append('last_name', profile.last_name);
+    body.append('phone', profile.phone);
+    if (user.email !== profile.email) {
+      body.append('email', profile.email);
+    }
+    if (profile.profile_picture) {
+      body.append('profile_picture', profile.profile_picture);
+    }
+    axios
+      .post('/api/update-profile', body, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          console.log('Profile updated successfully:', response.data.data);
+          setAlert({
+            severity: 'success',
+            message: 'Profile updated successfully',
+          });
+          setProfile({
+            first_name: response.data.data.first_name,
+            last_name: response.data.data.last_name,
+            email: response.data.data.email,
+            phone: response.data.data.phone
+          })
+          dispatch(updateUser({user: response.data.data}));
+        }
+      })
+      .catch((error) => {
+        const errorMsg = Object.keys(error.response.data.message)[0];
+        console.error('Error updating profile:', error);
+        setAlert({
+          severity: 'error',
+          message: error.response.data.message[errorMsg],
+        });
+      }).finally(() => {
+        setTimeout(() => {
+          handleCloseAlert();
+        }, 5000);
+      })
+  }
+
+  const handleUpdatePersonalInfo = () => {
+    axios
+      .post('/api/update-profile', personalInfo, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          console.log('Personal info updated successfully:', response.data.data);
+          setAlert({
+            severity: 'success',
+            message: 'Personal info updated successfully',
+          });
+          setPersonalInfo({
+            date_of_birth: response.data.data.date_of_birth,
+            linkedin_profile: response.data.data.linkedin_profile,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error('Error updating personal info:', error);
+        setAlert({
+          severity: 'error',
+          message: 'Error updating personal info',
+        });
+      }).finally(() => {
+        setTimeout(() => {
+          handleCloseAlert();
+        }, 5000);
+      })
+  }
+    
+
+  const handlePhotoChange = (e) => {
+    const linkForFile = URL.createObjectURL(e.target.files[0]);
+    setProfilePicture(linkForFile);
+    setProfile({
+      ...profile,
+      profile_picture: e.target.files[0],
+    });
+  }
 
   // Handle changes for address fields
   const handleAddressChange = (field, value) => {
@@ -40,6 +191,20 @@ const ProfileSettings = () => {
     );
     setEditableEducationHistory(updatedEducation);
   };
+
+  const handleChangeProfile = (e) => {
+    setProfile({
+      ...profile,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const handleChangePersonalInfo = (e) => {
+    setPersonalInfo({
+      ...personalInfo,
+      [e.target.name]: e.target.value,
+    })
+  }
 
   // Handle saving changes for address
   const saveAddressChanges = () => {
@@ -227,6 +392,7 @@ const ProfileSettings = () => {
   return (
     <>
       <div className="card mb-4 profile-section">
+        {alert?.message && <CustomAlert severity={alert.severity} message={alert.message} onClose={handleCloseAlert} />}
         <h3 className="card-title">General Info</h3>
         <div className="row gap-3 align-items-center">
 
@@ -234,7 +400,7 @@ const ProfileSettings = () => {
           <div className="d-flex align-items-center profile-picture-settings">
 
             <div className="profile-image-container">
-              <img src={profileImage} alt="Profile" className="profile-image rounded-circle" />
+              <img src={profilePicture} alt="Profile" className="profile-image rounded-circle" />
             </div>
 
             <div className='d-flex flex-column ms-2'>
@@ -243,7 +409,8 @@ const ProfileSettings = () => {
             </div>
 
             <div className="d-flex ms-auto ps-auto gap-1 justify-content-start align-items-center btn-profile-button">
-              <button className="btn btn-outline-secondary btn-sm">Upload New Picture</button>
+              <label className="btn btn-outline-secondary btn-sm" htmlFor="photo-upload">Upload Picture</label>
+              <input id='photo-upload' type="file" hidden accept="image/*" onChange={handlePhotoChange} />
               <button className="btn btn-outline-danger btn-sm ms-2">Delete Picture</button>
             </div>
 
@@ -254,28 +421,28 @@ const ProfileSettings = () => {
             <div className="row mb-3">
               <div className="col-12 col-md-6 mb-3 mb-md-0">
                 <label className="form-label">First Name</label>
-                <input type="text" className="form-control" placeholder={profile?.first_name || ''} readOnly />
+                <input type="text" className="form-control" name='first_name' value={profile.first_name} onChange={handleChangeProfile}/>
               </div>
               <div className="col-12 col-md-6">
                 <label className="form-label">Last Name</label>
-                <input type="text" className="form-control" placeholder={profile?.last_name || ''} readOnly />
+                <input type="text" className="form-control" name='last_name' value={profile.last_name} onChange={handleChangeProfile} />
               </div>
             </div>
 
             <div className="row mb-3">
               <div className="col-12 col-md-6 mb-3 mb-md-0">
                 <label className="form-label">Email</label>
-                <input type="email" className="form-control" value={profile?.email || ''} readOnly />
+                <input type="email" className="form-control" name='email' value={profile?.email || ''} onChange={handleChangeProfile} />
               </div>
               <div className="col-12 col-md-6">
                 <label className="form-label">Phone</label>
-                <input type="tel" className="form-control" placeholder={profile?.phone || 'None Provided'} readOnly />
+                <input type="tel" className="form-control" name='phone' value={profile?.phone} onChange={handleChangeProfile} />
               </div>
             </div>
 
             {/* Centering the button and adding responsive width */}
             <div className="d-flex">
-              <button className="btn btn-primary">Save New Changes</button>
+              <button onClick={handleUpdateProfile} className="btn btn-primary">Save New Changes</button>
             </div>
           </div>
 
@@ -290,19 +457,19 @@ const ProfileSettings = () => {
           <div className="row mb-3">
             <div className="col-12 col-md-6 mb-3 mb-md-0">
               <label className="form-label">Date of Birth</label>
-              <input type="date" className="form-control" value={profile?.date_of_birth || ''} readOnly />
+              <input type="date" className="form-control" name='date_of_birth' value={personalInfo?.date_of_birth} onChange={handleChangePersonalInfo}  />
             </div>
 
             <div className="col-12 col-md-6 mb-3 mb-md-0">
               <label className="form-label">LinkedIn Profile</label>
-              <input type="text" className="form-control" value={profile?.linkedin_profile || 'Not Provided'} />
+              <input type="text" className="form-control" name='linkedin_profile' value={personalInfo?.linkedin_profile} onChange={handleChangePersonalInfo} />
             </div>
 
           </div>
         </div>
 
         <div>
-          <button className="btn btn-primary">Save New Changes</button>
+          <button onClick={handleUpdatePersonalInfo} className="btn btn-primary">Save New Changes</button>
         </div>
 
       </div>

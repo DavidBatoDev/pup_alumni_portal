@@ -26,7 +26,7 @@ const Banner = () => {
               )}
 
             <div className="banner-buttons">
-              {user?.user ? (
+              {user ? (
                 <>
                 <Link to="/events" className="btn btn-register">View Events</Link>
                 <Link to="/surveys" className="btn btn-signin">View Surveys</Link>

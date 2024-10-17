@@ -1,46 +1,17 @@
 import React, {useEffect, useState, useRef} from 'react';
-import axios from 'axios';
 import { Outlet } from 'react-router-dom';
-
 import Navbar from '../Navbar/Navbar';
 import MainFooter from '../../components/MainFooter/MainFooter';
 import BannerSmall from '../../components/Banner/BannerSmall';
 import bannerImage from '../../assets/images/pup-login-banner.jpg';
-import CircularLoader from '../../components/CircularLoader/CircularLoader';
 import ProfileSidebar from '../../components/ProfileSidebar/ProfileSidebar';
 
 import './ProfileLayout.css';
 
 const ProfileLayout = () => {
   // State to store profile data
-  const [profile, setProfile] = useState({});
-  const [address, setAddress] = useState({});
-  const [employmentHistory, setEmploymentHistory] = useState([]);
-  const [educationHistory, setEducationHistory] = useState([]);
-  const [loading, setLoading] = useState(true);
 
 
-  useEffect(() => {
-    // Set up axios request with Authorization header
-    axios
-      .get('http://localhost:8000/api/profile', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`, // Include the token in the Authorization header
-        },
-      })
-      .then((response) => {
-        if (response.data.success) {
-          setProfile(response.data.data);
-          setAddress(response.data.data.address);
-          setEmploymentHistory(response.data.data.employment_history || []);
-          setEducationHistory(response.data.data.education_history || []);
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching profile data:', error);
-      })
-      .finally(() => setLoading(false));
-  }, []);
 
   return (
     <div className="profile-layout">
@@ -48,8 +19,8 @@ const ProfileLayout = () => {
       <BannerSmall bannerTitle="Profile Overview" bannerImage={bannerImage} />
       <div className='background profile-layout-background'></div>
 
-      { loading ? (<CircularLoader />) :
-      (
+      {/* { loading ? (<CircularLoader />) :
+      ( */}
       <div className="container-fluid profile-layout-content glass">
 
         <div className="row profile-layout-row">
@@ -62,13 +33,13 @@ const ProfileLayout = () => {
           {/* Main Content Area */}
           <div className="col-md">
             {/* Render child components like Overview, Settings, etc. */}
-            <Outlet context={{ profile, address, employmentHistory, educationHistory }} />
+            <Outlet />
           </div>
 
         </div>
 
       </div>
-      )}
+      {/* )} */}
 
       <MainFooter />
     </div>

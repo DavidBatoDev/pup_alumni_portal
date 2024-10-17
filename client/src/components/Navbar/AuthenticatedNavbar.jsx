@@ -81,7 +81,7 @@ const AuthenticatedNavbar = () => {
             <div className="profile-container">
               <Link to="/profile" className='profile-container'>
               {
-                user?.user ? (
+                user ? (
                   <Link to="/profile" className="nav-link">
                     <img src={userIcon} alt="User" width="30" height="30" />
                   </Link>
