@@ -22,6 +22,7 @@ const AlumniContent = () => {
       current_employer: "Magsaysay People Resources",
       city: "Makati",
       country: "Philippines",
+      graduation_year: "2019",
     },
     {
       id: 2,
@@ -32,6 +33,7 @@ const AlumniContent = () => {
       current_employer: "Magsaysay People Resources",
       city: "Makati",
       country: "Philippines",
+      graduation_year: "2019",
     },
     {
       id: 3,
@@ -42,6 +44,7 @@ const AlumniContent = () => {
       current_employer: "Magsaysay People Resources",
       city: "Makati",
       country: "Philippines",
+      graduation_year: "2019",
     },
     {
       id: 4,
@@ -52,6 +55,7 @@ const AlumniContent = () => {
       current_employer: "Magsaysay People Resources",
       city: "Makati",
       country: "Philippines",
+      graduation_year: "2019",
     },
     {
       id: 5,
@@ -62,6 +66,7 @@ const AlumniContent = () => {
       current_employer: "Magsaysay People Resources",
       city: "Makati",
       country: "Philippines",
+      graduation_year: "2019",
     },
     {
       id: 6,
@@ -72,6 +77,7 @@ const AlumniContent = () => {
       current_employer: "Magsaysay People Resources",
       city: "Makati",
       country: "Philippines",
+      graduation_year: "2019",
     },
     {
       id: 7,
@@ -82,6 +88,7 @@ const AlumniContent = () => {
       current_employer: "Magsaysay People Resources",
       city: "Makati",
       country: "Philippines",
+      graduation_year: "2019",
     },
   ];
 
