@@ -89,7 +89,7 @@ const HomepageNavbar = () => {
             </li>
           </ul>
           {
-            user?.user ? (
+            user ? (
               <Link to="/profile" className="nav-link">
                 <img src={userIcon} alt="User" width="30" height="30" />
               </Link>
@@ -122,7 +122,7 @@ const HomepageNavbar = () => {
           <li className="drawer-item">
             <button className="drawer-link" onClick={() => handleNavLinkClick('contact')}>Contact</button>
           </li>
-          { user?.user ? (
+          { user ? (
             <Link to="/profile" className="drawer-link">
               <img src={userIcon}
                 alt="User"

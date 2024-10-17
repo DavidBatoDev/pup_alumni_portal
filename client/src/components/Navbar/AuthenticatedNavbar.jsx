@@ -120,7 +120,7 @@ const AuthenticatedNavbar = () => {
             <img src={Bell}/>
           </button>
           <li className="drawer-item">
-            { user?.user ? (
+            { user ? (
               <Link to="/profile" className="drawer-link">
                 <img src={userIcon}
                   alt="User"
