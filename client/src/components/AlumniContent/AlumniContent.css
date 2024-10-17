@@ -1,0 +1,92 @@
+/* Container for the entire alumni card content */
+.alumni-card-container {
+    position: relative;
+    z-index: 2;
+    padding: 0;
+    width: 100%;
+    max-width: 1296px;
+    margin: 0 auto;
+  }
+  
+  /* Alumni header with search bar and view switcher */
+  .alumni-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap; /* For responsive wrapping */
+  }
+  
+  /* Input group for the search bar */
+  .alumni-header .input-group {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    width: 50%;
+  }
+  
+  /* Wrapper for the view switch buttons (grid and menu) */
+  .alumni-header .switch-view-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* Switch view wrapper containing both icons */
+.switch-view-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  /* Switch view icons */
+.switch-view-wrapper img {
+    width: 25px; /* Adjust the size of the icon */
+    height: 25px;
+    cursor: pointer;
+  }
+  
+  /* Adjust the padding for the wrapper to fit snugly */
+  .view-img {
+    display: inline-flex; /* Only take the width of the content (icon) */
+    align-items: center;
+    justify-content: center;
+    padding: 3px; /* Minimal padding */
+    transition: background-color 0.3s ease; /* Smooth transition for hover/active */
+    border-radius: 5px; /* Rounded corners */
+  }
+  
+  /* Style for active view mode */
+  .view-img.active {
+    background-color: #f0f0f0; /* Light gray background to indicate active state */
+    border-radius: 5px;
+  }
+  
+  /* Optional: Add a hover effect */
+  .view-img:hover {
+    background-color: #dddddd; /* Slightly darker on hover */
+  }
+  
+  
+  
+  /* Media query for mobile screens */
+  @media (max-width: 600px) {
+    /* Make the alumni header collapse into a grid */
+    .alumni-header {
+      display: grid;
+      grid-template-columns: 1fr; /* Stack items vertically */
+      gap: 10px;
+    }
+  
+    /* Make the input group take full width */
+    .alumni-header .input-group {
+      width: 100%;
+    }
+  
+    /* Center the view switch buttons */
+    .alumni-header .switch-view-wrapper {
+      justify-content: center;
+    }
+  }
+  

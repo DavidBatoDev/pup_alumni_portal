@@ -1,0 +1,73 @@
+.alumni-section .container {
+    position: relative;
+    z-index: 2; /* Ensures content is above the pseudo-element */
+}
+
+.alumni-section .alumni-header {
+    margin-bottom: 32px;
+}
+
+.alumni-section .alumni-header h2 {
+    color: #1E1E1E;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.alumni-section .alumni-header h5 {
+    color: #1E1E1E;
+    font-size: 20px;
+}
+
+/* Alumni section styling */
+.alumni-section {
+    background-image: url(../../assets/images/eventbanner.png);
+    padding: 50px 0;
+    background-size: cover; /* Cover the entire section with the image */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    position: relative; /* Establish a positioning context for the pseudo-element */
+    font-family: "Crimson Text";
+    font-size: 128px;
+    font-style: normal;
+    font-weight: 700;
+    z-index: 2;
+    height: 100%;
+}
+
+/* Add a pseudo-element for the greyish blur effect */
+.alumni-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.79);
+    backdrop-filter: blur(19.4px);
+    z-index: 1; /* Place it above the background but below the content */
+}
+
+.alumni-section .alumni-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.alumni-section .alumni-header {
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+
+/* Mobile View */
+@media (max-width: 768px) {
+    .alumni-section .alumni-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .alumni-section .alumni-header h2, 
+    .alumni-section .alumni-header h5 {
+        text-align: center;
+    }
+}
