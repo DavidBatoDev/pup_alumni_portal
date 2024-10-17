@@ -228,6 +228,16 @@ class EventController extends Controller
         // Fetch all events with their associated photos
         $events = Event::with('photos')->orderBy('event_date', 'desc')->get();
     
+        // Update photo_path to include the full URL
+        $events->transform(function ($event) {
+            $event->photos->transform(function ($photo) {
+                // Prepend the storage URL to the photo_path
+                $photo->photo_path = url('storage/' . $photo->photo_path);
+                return $photo;
+            });
+            return $event;
+        });
+    
         return response()->json(['success' => true, 'events' => $events], 200);
     }
     

@@ -10,6 +10,8 @@ const UserEventListing = ({ eventData }) => {
   const month = eventDate.toLocaleString('default', { month: 'short' });
   const formattedTitle = eventData?.event_name.replace(/\s+/g, '-');
 
+  console.log(eventData);
+
   // Truncate the description to a maximum of 200 characters
   const truncatedDescription =
     eventData?.description.length > 200
@@ -29,7 +31,7 @@ const UserEventListing = ({ eventData }) => {
         {/* Event Image */}
         <div className="event-image-container-auth">
           <img
-            src={eventData.image || fallbackImage}
+            src={eventData.photos[0].photo_path || fallbackImage}
             alt={eventData.event_name || 'Event Image'}
             className="event-image-auth"
           />

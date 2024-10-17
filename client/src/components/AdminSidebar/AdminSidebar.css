@@ -7,6 +7,7 @@
 
 .as-navbar-logo {
   width: 50px; /* Adjusted logo size */
+  cursor: pointer;
 }
 
 /* Mobile Sidebar */
