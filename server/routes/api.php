@@ -11,6 +11,7 @@ use App\Http\Controllers\EventController;
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('logout', [AuthController::class, 'logout'])->middleware('jwt.verify');
+Route::post('/refresh-token', [AuthController::class, 'refreshToken']);
 
 
 // Admin authentication routes

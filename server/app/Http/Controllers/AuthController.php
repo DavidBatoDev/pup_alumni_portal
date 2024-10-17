@@ -12,6 +12,29 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+
+   /**
+     * Refresh the JWT token.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refreshToken(Request $request)
+    {
+        try {
+            // Get the current token and refresh it
+            $newToken = JWTAuth::refresh(JWTAuth::getToken());
+
+            // Return the new token in the response
+            return response()->json([
+                'access_token' => $newToken,
+            ]);
+        } catch (TokenExpiredException $e) {
+            return response()->json(['error' => 'Refresh token has expired'], 401);
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'Token is invalid'], 401);
+        }
+    }
+
     // Register a new alumni
     public function register(Request $request)
     {
@@ -126,11 +149,15 @@ class AuthController extends Controller
         ]);
     }
 
-    // Logout the alumni (invalidate the token)
-    public function logout()
+    public function logout(Request $request)
     {
-        JWTAuth::invalidate(JWTAuth::getToken());
-
-        return response()->json(['message' => 'Successfully logged out']);
+        try {
+            // Invalidate the current token
+            JWTAuth::invalidate(JWTAuth::getToken());
+    
+            return response()->json(['message' => 'Successfully logged out']);
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'Failed to log out, please try again'], 500);
+        }
     }
 }

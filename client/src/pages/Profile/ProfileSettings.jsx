@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import api from '../../api';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import './Profile.css';
 import { useSelector } from 'react-redux';
@@ -42,13 +43,8 @@ const ProfileSettings = () => {
   });
 
   useEffect(() => {
-    // Set up axios request with Authorization header
-    axios
-      .get('http://localhost:8000/api/profile', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`, // Include the token in the Authorization header
-        },
-      })
+    api
+      .get('http://localhost:8000/api/profile')
       .then((response) => {
         if (response.data.success) {
           setProfile({
@@ -91,10 +87,9 @@ const ProfileSettings = () => {
     if (profile.profile_picture) {
       body.append('profile_picture', profile.profile_picture);
     }
-    axios
+    api
       .post('/api/update-profile', body, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'multipart/form-data',
         },
       })
@@ -129,12 +124,8 @@ const ProfileSettings = () => {
   }
 
   const handleUpdatePersonalInfo = () => {
-    axios
-      .post('/api/update-profile', personalInfo, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
+    api
+      .post('/api/update-profile', personalInfo)
       .then((response) => {
         if (response.data.success) {
           console.log('Personal info updated successfully:', response.data.data);
@@ -214,12 +205,8 @@ const ProfileSettings = () => {
     setEditingAddressId(null);
     console.log("Sending address data:", editableAddress);
     const updatedAddress = editableAddress.find((address) => address.address_id === id);
-    axios
-      .put(`/api/update-address/${id}`, updatedAddress, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
+    api
+      .put(`/api/update-address/${id}`, updatedAddress)
       .then((response) => {
         if (response.data.success) {
           console.log('Address updated successfully:', response.data.data);
@@ -236,12 +223,8 @@ const ProfileSettings = () => {
     setEditingEmploymentId(null);
     console.log("Sending employment data:", editableEmploymentHistory);
     const updatedEmployment = editableEmploymentHistory.find((job) => job.employment_id === id);
-    axios
-      .put(`/api/update-employment-history/${id}`, updatedEmployment, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
+    api
+      .put(`/api/update-employment-history/${id}`, updatedEmployment)
       .then((response) => {
         if (response.data.success) {
           console.log('Employment history updated successfully:', response.data.data);
@@ -257,12 +240,8 @@ const ProfileSettings = () => {
             };
 
             // Send a PUT request to update the profile
-            axios
-              .post('/api/update-profile', profileUpdate, {
-                headers: {
-                  Authorization: `Bearer ${localStorage.getItem('token')}`,
-                },
-              })
+            api
+              .post('/api/update-profile', profileUpdate)
               .then((profileResponse) => {
                 if (profileResponse.data.success) {
                   console.log('Profile updated successfully:', profileResponse.data.data);
@@ -288,12 +267,8 @@ const ProfileSettings = () => {
 
     const updatedEducation = editableEducationHistory.find((edu) => edu.education_id === id);
 
-    axios
-      .put(`http://localhost:8000/api/update-education-history/${id}`, updatedEducation, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
+    api
+      .put(`http://localhost:8000/api/update-education-history/${id}`, updatedEducation)
       .then((response) => {
         if (response.data.success) {
           console.log('Education history updated successfully:', response.data.data);
@@ -358,10 +333,8 @@ const ProfileSettings = () => {
 
   // Save new address entry to server
   const saveNewAddress = (address) => {
-    axios
-      .post(`/api/add-address`, address, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      })
+    api
+      .post(`/api/add-address`, address)
       .then((response) => {
         if (response.data.success) {
           console.log('New address added successfully:', response.data.data);
@@ -382,10 +355,8 @@ const ProfileSettings = () => {
   // Save new employment entry to server
   const saveNewEmployment = (employment) => {
     const validEmployment = prepareNewEmployment(employment);
-    axios
-      .post(`/api/add-employment-history`, validEmployment, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      })
+    api
+      .post(`/api/add-employment-history`, validEmployment)
       .then((response) => {
         if (response.data.success) {
           console.log('New employment added successfully:', response.data.data);
@@ -405,10 +376,8 @@ const ProfileSettings = () => {
 
   // Save new education entry to server
   const saveNewEducation = (education) => {
-    axios
-      .post(`/api/add-education-history`, education, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      })
+    api
+      .post(`/api/add-education-history`, education)
       .then((response) => {
         if (response.data.success) {
           console.log('New education added successfully:', response.data.data);

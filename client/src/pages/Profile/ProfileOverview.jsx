@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import api from '../../api';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 import './Profile.css';
 
@@ -17,12 +18,8 @@ const ProfileOverview = () => {
 
   useEffect(() => {
     // Set up axios request with Authorization header
-    axios
-      .get('http://localhost:8000/api/profile', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`, // Include the token in the Authorization header
-        },
-      })
+    api
+      .get('http://localhost:8000/api/profile')
       .then((response) => {
         if (response.data.success) {
           setProfile(response.data.data);
