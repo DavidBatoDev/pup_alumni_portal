@@ -10,9 +10,6 @@ const EventListing = ({ eventData, onEdit }) => {
   const month = eventDate.toLocaleString('default', { month: 'short' });
 
   // Determine the preview image to use (first photo or default image)
-
-  console.log(eventData.photos[0].photo_path);
-
   const eventPhoto =
     eventData.photos && eventData.photos.length > 0
       ? eventData.photos[0].photo_path // Use the first photo
