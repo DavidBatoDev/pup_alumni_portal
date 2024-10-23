@@ -53,9 +53,15 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('survey/unanswered-surveys', [SurveyController::class, 'getUnansweredSurveys']);
 
     // Route to fetch all surveys that the alumni has answered
-     Route::get('survey/answered-surveys', [SurveyController::class, 'getAnsweredSurveys']);
+    Route::get('survey/answered-surveys', [SurveyController::class, 'getAnsweredSurveys']);
 
-     Route::get('/event/{eventId}', [EventController::class, 'getEventDetails']);
+    Route::get('/event/{eventId}', [EventController::class, 'getEventDetails']);
+
+     // Get all alumni except the authenticated user
+    Route::get('/alumni', [AlumniController::class, 'getAllAlumniExceptSelf']);
+
+    // Get a specific alumni with their employment and education history
+    Route::get('/alumni/{id}', [AlumniController::class, 'getSpecificAlumni']);
 
 });
 

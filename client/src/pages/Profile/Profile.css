@@ -373,3 +373,36 @@
     }
 
 }
+
+.other-profile-container {
+    padding: 40px 100px;
+}
+
+/* Back button styling */
+.back-button-op {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    color: black;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    z-index: 100;
+  }
+  
+  .back-button-op > i {
+    margin-right: 8px; /* Spacing between icon and text */
+  }
+  
+  .back-button-op:hover {
+    background-color: #cc2727;
+  }
+  
+  .other-profile-container {
+    margin-top: 70px; /* Adjusted to avoid overlap with back button */
+  }
+  

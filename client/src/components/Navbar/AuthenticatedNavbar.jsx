@@ -69,6 +69,9 @@ const AuthenticatedNavbar = () => {
               <button className="nav-link" onClick={() => handleNavLinkClick('surveys')}>Surveys</button>
             </li>
             <li className="nav-item">
+              <button className="nav-link" onClick={() => handleNavLinkClick('alumni')}>Alumni</button>
+            </li>
+            <li className="nav-item">
               <button className="nav-link" onClick={() => handleNavLinkClick('career')}>Career</button>
             </li>
             <li className="nav-item">

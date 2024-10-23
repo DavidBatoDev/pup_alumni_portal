@@ -314,4 +314,58 @@ class AlumniController extends Controller
             'data' => $educationHistory,
         ], 200);
     }
+
+    /**
+     * Get all alumni except the authenticated user, including their address, employment history, and education history.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAllAlumniExceptSelf()
+    {
+        // Get the authenticated user's ID
+        $authenticatedUserId = Auth::id();
+
+        // Get all alumni except the authenticated user with address, employment, and education history
+        $alumni = Alumni::where('alumni_id', '!=', $authenticatedUserId)
+                        ->with(['address', 'employmentHistory', 'educationHistory']) // Eager load related data
+                        ->get();
+
+        // Add URL to profile pictures
+        foreach ($alumni as $alum) {
+            if ($alum->profile_picture) {
+                $alum->profile_picture = url('storage/' . $alum->profile_picture);
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $alumni
+        ], 200);
+    }
+
+
+    /**
+     * Get a specific alumni along with their employment and education history.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getSpecificAlumni($id)
+    {
+        // Fetch the specific alumni by ID with their related employment and education history
+        $alumni = Alumni::with(['employmentHistory', 'educationHistory'])
+                        ->where('alumni_id', $id)
+                        ->firstOrFail();
+
+        // Add URL to profile picture
+        if ($alumni->profile_picture) {
+            $alumni->profile_picture = url('storage/' . $alumni->profile_picture);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $alumni
+        ], 200);
+    }
+
 }
