@@ -8,10 +8,13 @@ import AccountDetailsForm from '../../components/SignUpForms/AccountDetailsForm'
 import PersonalInformationForm from '../../components/SignUpForms/PersonalInformationForm';
 import EducationForm from '../../components/SignUpForms/EducationForm';
 import "../../global.css";
-import axios from "axios";
+// import axios from "axios";
+import api from "../../api";
 import { useNavigate } from "react-router-dom";
 import BannerSmall from "../../components/Banner/BannerSmall";
 import bannerImage from '../../assets/images/pup-login-banner.jpg';
+import CircularLoader from "../../components/CircularLoader/CircularLoader";
+import CustomAlert from '../../components/CustomAlert/CustomAlert';
 
 const Signup = () => {
   // Manage state for the main registration form
@@ -37,6 +40,8 @@ const Signup = () => {
     current_employer: '',
   });
 
+
+
   const educationFormRef = useRef(); // Create a ref for the EducationForm
 
   // Step state to track the current form step
@@ -55,6 +60,11 @@ const Signup = () => {
 
   useEffect(() => {
     scrollToFormContainer();
+
+    return () => {
+      // Cleanup function
+      setLoading(false);
+    }
   }, [currentStep]);
 
   const nextStep = () => {
@@ -186,8 +196,9 @@ const Signup = () => {
       };
 
       try {
+        setLoading(true);
         // (DUMMY CODE BELOW) Implement fetch data using LinkedIn API
-        const response = await axios.request(options);
+        const response = await api.request(options);
         console.log("Linked In Profile Found: ", response.data);
         if (response.data) {
           processLinkedInData(response.data);
@@ -225,30 +236,25 @@ const Signup = () => {
     }
 
     try {
+      setLoading(true);
       // Submit main registration form data
-      const response = await axios.post('/api/register', formData);
+      const response = await api.post('/api/register', formData);
       console.log('User Registered:', response.data);
 
       // Extract token
       const token = response.data.token;
 
+      localStorage.setItem('token', token);
+
       // Function to submit a single employment history entry
       const submitEmploymentHistory = async (history) => {
-        await axios.post('/api/add-employment-history', history, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await api.post('/api/add-employment-history', history);
         console.log('Employment History Entry Added');
       };
 
       // Function to submit a single education history entry
       const submitEducationHistory = async (history) => {
-        await axios.post('/api/add-education-history', history, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await api.post('/api/add-education-history', history);
         console.log('Education History Entry Added');
       };
 
@@ -265,14 +271,17 @@ const Signup = () => {
       console.log('All employment and education history entries added successfully.');
       navigate('/login');
     } catch (error) {
-      console.log('Error during submission:', error.response);
+      console.log('Error during submission:', error);
       setError(error.response?.data?.message || 'Registration failed');
+    } finally {
+      setLoading(false);
     }
   };
   return (
     <>
       <Navbar />
       <div className="signup-page">
+        {loading && <CircularLoader />}
         <div className="background login-background"></div>
         {/* Banner area */}
         <BannerSmall

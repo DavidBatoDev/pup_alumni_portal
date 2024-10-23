@@ -3,7 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Homepage from './pages/Homepage/Homepage';
 import Login from './pages/Login/Login';
-import Signup from './pages/SignUp/signup';
+import Signup from './pages/SignUp/Signup';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 import './global.css';
@@ -26,6 +26,7 @@ import SpecificEvent from './pages/SpecificEvent/SpecificEvent'; // Ensure the p
 import EventHistory from './pages/EventHistory/EventHistory';
 import SpecificHistoryPage from './pages/SpecificHistoryPage/SpecificHistoryPage';
 import Alumni from './pages/Alumni/Alumni';
+import OtherProfile from './pages/Profile/OtherProfile'
 
 
 function App() {
@@ -54,6 +55,8 @@ function App() {
 
             {/* Alumni */}
             <Route path="/alumni" element={<Alumni />} />
+
+            <Route path="/profile/:alumniId" element={<OtherProfile />} />
 
             {/* Survey */}
             <Route path="/surveys" element={<Surveys />} />
