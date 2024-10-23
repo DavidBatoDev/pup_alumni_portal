@@ -37,12 +37,21 @@
 }
 
 /* Sidebar Profile Image Styling */
-.profile-sidebar-image img {
-    width: 80px;
-    height: 80px;
-    border: 2px solid #ddd;
-    padding: 3px;
+.profile-sidebar-image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-sidebar-image-container .profile-image {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 0.125rem solid #ddd;
+    padding: 0.1875rem;
     background: #fff;
+    margin: 0rem;
 }
 
 .profile-sidebar-account {

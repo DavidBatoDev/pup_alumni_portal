@@ -34,11 +34,11 @@ const ProfileSidebar = () => {
       <div className="profile-sidebar-content h-100">
         {/* Profile Information */}
         <div className="d-flex gap-2 align-items-end h-auto profile-sidebar-account mt-2">
-          <div className="profile-sidebar-image">
+          <div className="profile-sidebar-image-container">
             <img
               src={`http://localhost:8000/storage/${user?.profile_picture}`}
               alt="Profile"
-              className="rounded-circle img-fluid"
+              className="profile-image rounded-circle img-fluid"
             />
           </div>
           <div className="d-flex flex-column justify-content-center h-auto w-auto">
