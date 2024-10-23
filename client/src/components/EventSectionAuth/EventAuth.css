@@ -12,6 +12,8 @@
 
  .events-card-container{
     font-family: "Crimson Text";
+    min-height: 830px;
+    display: flex;;
 }
 
 .filter-search-section {
@@ -24,6 +26,14 @@
     text-align: end;
     width: 100%;
     align-items: center;
+}
+
+.pagination-container {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
 }
 
 /* General styles for pagination links */

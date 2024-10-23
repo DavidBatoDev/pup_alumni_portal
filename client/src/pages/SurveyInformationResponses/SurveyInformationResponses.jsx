@@ -60,10 +60,10 @@ const SurveyInformationResponses = () => {
         {survey?.questions.map((question, index) => (
           <div key={question.question_id} className={`survey-question ${isMobile ? 'mobile-question' : ''}`}>
             <h5>{index + 1}. {question.question_text}</h5>
-            {question.question_type === 'Multiple Choice' && (
+            {(question.question_type === 'Multiple Choice' || question.question_type === 'Rating') && (
               <ul>
                 {question.options.map((option) => (
-                  <li key={option.option_id}>{option.option_text}</li>
+                  <li key={option.option_id}>{option.option_text} - {option.option_value}</li>
                 ))}
               </ul>
             )}
@@ -94,7 +94,7 @@ const SurveyInformationResponses = () => {
                     <td>{new Date(response.response_date).toLocaleDateString()}</td>
                     {response.question_responses.map((qr) => (
                       <td key={qr.question_id}>
-                        {qr.response_text || qr.option_id ? qr.response_text || 'Option ' + qr.option_id : 'No Response'}
+                        {qr.response_text || qr.option_id ? qr.response_text || `Value - ${qr.option_value}` : 'No Response'}
                       </td>
                     ))}
                   </tr>

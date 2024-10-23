@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import api from '../../api';
 import { useParams, useNavigate } from 'react-router-dom';
 import './AnswerSurvey.css';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
@@ -8,7 +9,10 @@ import CircularLoader from '../../components/CircularLoader/CircularLoader';
 const AnswerSurvey = () => {
   const { surveyId } = useParams(); // Extract survey ID from the URL
   const navigate = useNavigate();
-  const [error, setError] = useState(null); // Store error message
+  const [status, setStatus] = useState({
+    message: '',
+    severity: '',
+  }); // Store error message
   const [surveyData, setSurveyData] = useState(null); // Store survey information
   const [responses, setResponses] = useState({}); // Store user responses
   const [loading, setLoading] = useState(true); // Track loading state
@@ -17,11 +21,7 @@ const AnswerSurvey = () => {
   useEffect(() => {
     const fetchSurveyQuestions = async () => {
       try {
-        const response = await axios.get(`/api/survey/${surveyId}/questions`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
+        const response = await api.get(`/api/survey/${surveyId}/questions`);
         setSurveyData(response.data);
         setLoading(false);
       } catch (error) {
@@ -32,6 +32,10 @@ const AnswerSurvey = () => {
 
     fetchSurveyQuestions();
   }, [surveyId]);
+
+  const handleCloseAlert = () => {
+    setStatus({ message: '', severity: '' });
+  }
 
   // Handle changes for multiple-choice questions
   const handleOptionChange = (questionId, optionId) => {
@@ -48,20 +52,16 @@ const AnswerSurvey = () => {
     const formattedResponses = Object.values(responses);
     console.log(JSON.stringify(formattedResponses));
     try {
-      const response = await axios.post(`/api/survey/${surveyId}/submit`, { responses: formattedResponses }, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
+      const response = await api.post(`/api/survey/${surveyId}/submit`, { responses: formattedResponses });
       if (response.status === 201) {
         navigate('/surveys'); // Redirect to surveys page after successful submission
       } else {
-        setError('Failed to submit survey. Please try again.');
+        setStatus({ message: 'Failed to submit survey. Please try again.', severity: 'error' });
         setResponses({}); // Clear responses on error
       }
     } catch (error) {
       console.error('Error submitting survey:', error);
-      setError('Failed to submit survey. Please try again.');
+      setStatus({ message: error.response.data.message, severity: 'error' });
       setResponses({}); // Clear responses on error
     }
   };
@@ -72,10 +72,15 @@ const AnswerSurvey = () => {
 
   return (
     <div className="answer-survey-container">
-      {error && <CustomAlert message={error} type="error" />}
+      {status.message && <CustomAlert message={status.message} severity={status.severity} onClose={handleCloseAlert}/>}
+      
+      {/* Back Button with Font Awesome Icon */}
       <div className='as-back-btn-container'>
-        <button>back</button>
+        <button className='as-back-btn' onClick={() => navigate(-1)}>
+          <i className="fas fa-arrow-left"></i> Back
+        </button>
       </div>
+
       {/* Survey Information */}
       <div className="survey-info">
         <h2 className="survey-title">{surveyData?.title}</h2>
@@ -99,6 +104,7 @@ const AnswerSurvey = () => {
                   className="form-control"
                   placeholder="Type your answer here..."
                   onChange={(e) => handleTextChange(question.question_id, e.target.value)}
+                  required
                 />
               ) : (
                 <div className="multiple-choice-options">
@@ -109,6 +115,7 @@ const AnswerSurvey = () => {
                         name={`question-${question.question_id}`}
                         value={option.option_id}
                         onChange={() => handleOptionChange(question.question_id, option.option_id)}
+                        required
                       />
                       <label>{option.option_text}</label>
                     </div>
