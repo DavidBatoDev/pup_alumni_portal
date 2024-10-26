@@ -7,6 +7,7 @@ use App\Models\AlumniEvent;
 use App\Models\EventPhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Events\EventCreated;
 
 class EventController extends Controller
 {
@@ -45,6 +46,8 @@ class EventController extends Controller
                 ]);
             }
         }
+
+        broadcast(new EventCreated($event))->toOthers();
     
         return response()->json(['success' => true, 'event' => $event], 201);
     }

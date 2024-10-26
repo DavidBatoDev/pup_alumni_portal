@@ -1,5 +1,5 @@
 // src/App.js
-import React from 'react';
+import React, {useEffect} from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Homepage from './pages/Homepage/Homepage';
 import Login from './pages/Login/Login';
@@ -22,14 +22,21 @@ import ProfileSettings from './pages/Profile/ProfileSettings';
 import ProfilePasswordSecurity from './pages/Profile/ProfilePasswordSecurity';
 import ProfileNotificationPreferences from './pages/Profile/ProfileNotificationPreferences';
 import ProfilePrivacySettings from './pages/Profile/ProfilePrivacySettings';
-import SpecificEvent from './pages/SpecificEvent/SpecificEvent'; // Ensure the path is correct
+import SpecificEvent from './pages/SpecificEvent/SpecificEvent'; 
 import EventHistory from './pages/EventHistory/EventHistory';
 import SpecificHistoryPage from './pages/SpecificHistoryPage/SpecificHistoryPage';
 import Alumni from './pages/Alumni/Alumni';
-import OtherProfile from './pages/Profile/OtherProfile'
-
+import OtherProfile from './pages/Profile/OtherProfile';
+import echo from './echo';
 
 function App() {
+  useEffect(() => {
+    echo.channel('alumni')
+      .listen('EventCreated', (event) => {
+        console.log('New event created:', event);
+      });
+  }, []);
+
   return (
     <Router>
       <Routes>
