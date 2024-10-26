@@ -34,6 +34,8 @@ const ProfileOverview = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  console.log(profile?.profile_picture);
+
 
   return (
     <>

@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import './UserEventListing.css';
 import fallbackImage from '../../assets/images/eventimage1.png';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const UserEventListing = ({ eventData }) => {
+  const { user }= useSelector(state => state.user);
   const eventDate = new Date(eventData.event_date);
   const day = eventDate.getDate();
   const month = eventDate.toLocaleString('default', { month: 'short' });
   const formattedTitle = eventData?.event_name.replace(/\s+/g, '-');
-
-  console.log(eventData);
 
   // Truncate the description to a maximum of 200 characters
   const truncatedDescription =
@@ -31,7 +31,7 @@ const UserEventListing = ({ eventData }) => {
         {/* Event Image */}
         <div className="event-image-container-auth">
           <img
-            src={eventData.photos[0].photo_path || fallbackImage}
+            src={eventData?.photos[0]?.photo_path || fallbackImage}
             alt={eventData.event_name || 'Event Image'}
             className="event-image-auth"
           />

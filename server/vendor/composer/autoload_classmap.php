@@ -23,6 +23,7 @@ return array(
     'App\\Models\\EducationHistory' => $baseDir . '/app/Models/EducationHistory.php',
     'App\\Models\\EmploymentHistory' => $baseDir . '/app/Models/EmploymentHistory.php',
     'App\\Models\\Event' => $baseDir . '/app/Models/Event.php',
+    'App\\Models\\EventPhoto' => $baseDir . '/app/Models/EventPhoto.php',
     'App\\Models\\FeedbackResponse' => $baseDir . '/app/Models/FeedbackResponse.php',
     'App\\Models\\QuestionResponse' => $baseDir . '/app/Models/QuestionResponse.php',
     'App\\Models\\Survey' => $baseDir . '/app/Models/Survey.php',

@@ -617,6 +617,7 @@ class ComposerStaticInit528ca6ddeb3e87df9d0c273e147b1717
         'App\\Models\\EducationHistory' => __DIR__ . '/../..' . '/app/Models/EducationHistory.php',
         'App\\Models\\EmploymentHistory' => __DIR__ . '/../..' . '/app/Models/EmploymentHistory.php',
         'App\\Models\\Event' => __DIR__ . '/../..' . '/app/Models/Event.php',
+        'App\\Models\\EventPhoto' => __DIR__ . '/../..' . '/app/Models/EventPhoto.php',
         'App\\Models\\FeedbackResponse' => __DIR__ . '/../..' . '/app/Models/FeedbackResponse.php',
         'App\\Models\\QuestionResponse' => __DIR__ . '/../..' . '/app/Models/QuestionResponse.php',
         'App\\Models\\Survey' => __DIR__ . '/../..' . '/app/Models/Survey.php',
