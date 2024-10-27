@@ -8,7 +8,7 @@ import AccountDetailsForm from '../../components/SignUpForms/AccountDetailsForm'
 import PersonalInformationForm from '../../components/SignUpForms/PersonalInformationForm';
 import EducationForm from '../../components/SignUpForms/EducationForm';
 import "../../global.css";
-// import axios from "axios";
+import axios from "axios";
 import api from "../../api";
 import { useNavigate } from "react-router-dom";
 import BannerSmall from "../../components/Banner/BannerSmall";
@@ -129,43 +129,43 @@ const Signup = () => {
   };
 
   const processLinkedInData = (data) => {
-    const formattedEmploymentHistory = data.position.map((job) => ({
-      company: job.companyName || '',
-      job_title: job.title || '',
-      start_date: job.start
-        ? `${job.start.year}-${String(job.start.month + 1).padStart(2, '0')}-${String(job.start.day || 1).padStart(2, '0')}`
-        : '',
-      end_date: job.end
-        ? `${job.end.year}-${String(job.end.month + 1).padStart(2, '0')}-${String(job.end.day || 1).padStart(2, '0')}`
-        : '',
-      description: job.description || '',
-    }));
+    const formattedEmploymentHistory = data.position
+      .map((job) => ({
+        company: job.companyName || '',
+        job_title: job.title || '',
+        start_date: job.start
+          ? `${job.start.year}-${String(job.start.month + 1).padStart(2, '0')}-${String(job.start.day || 1).padStart(2, '0')}`
+          : '',
+        end_date: job.end
+          ? `${job.end.year}-${String(job.end.month + 1).padStart(2, '0')}-${String(job.end.day || 1).padStart(2, '0')}`
+          : '',
+        description: job.description || '',
+      }))
+      .sort((a, b) => new Date(a.start_date) - new Date(b.start_date)); // Sort by start_date in ascending order
 
-    const formattedEducationHistory = data.educations.map((education) => ({
-      institution: education.schoolName || '',
-      degree: education.degree || '',
-      field_of_study: education.fieldOfStudy || '',
-      start_date: education.start
-        ? `${education.start.year}-${String(education.start.month + 1).padStart(2, '0')}-${String(education.start.day || 1).padStart(2, '0')}`
-        : '',
-      end_date: education.end
-        ? `${education.end.year}-${String(education.end.month + 1).padStart(2, '0')}-${String(education.end.day || 1).padStart(2, '0')}`
-        : '',
-    }));
+    const formattedEducationHistory = data.educations
+      .map((education) => ({
+        institution: education.schoolName || '',
+        degree: education.degree || '',
+        field_of_study: education.fieldOfStudy || '',
+        start_date: education.start
+          ? `${education.start.year}-${String(education.start.month + 1).padStart(2, '0')}-${String(education.start.day || 1).padStart(2, '0')}`
+          : '',
+        end_date: education.end
+          ? `${education.end.year}-${String(education.end.month + 1).padStart(2, '0')}-${String(education.end.day || 1).padStart(2, '0')}`
+          : '',
+      }))
+      .sort((a, b) => new Date(a.start_date) - new Date(b.start_date)); // Sort by start_date in ascending order
 
     // Set current_job_title and current_employer from latest job entry of employment history
     const latestEmployment = formattedEmploymentHistory.find((job) => !job.end_date);
     if (latestEmployment) {
       setFormData({
         ...formData,
-        current_job_title: latestJob?.job_title || '',
-        current_employer: latestJob?.company || '',
+        current_job_title: latestEmployment.job_title || '',
+        current_employer: latestEmployment.company || '',
       });
     }
-
-    // Reverse the formatted employment and education history to display the latest entry first
-    formattedEmploymentHistory.reverse(); 
-    formattedEducationHistory.reverse();
 
     setEmploymentHistory([...employmentHistory, ...formattedEmploymentHistory]);
     setEducationHistory([...educationHistory, ...formattedEducationHistory]);
@@ -190,7 +190,7 @@ const Signup = () => {
           url: value
         },
         headers: {
-          'x-rapidapi-key': 'bb3b2f3979mshab4732d09c1d9c8p15569fjsn11af407e6669',
+          'x-rapidapi-key': 'a30a131dc7msh773b412d847af6ap14d19djsnacf1132f828f',
           'x-rapidapi-host': 'linkedin-data-api.p.rapidapi.com'
         }
       };
@@ -198,7 +198,7 @@ const Signup = () => {
       try {
         setLoading(true);
         // (DUMMY CODE BELOW) Implement fetch data using LinkedIn API
-        const response = await api.request(options);
+        const response = await axios.request(options);
         console.log("Linked In Profile Found: ", response.data);
         if (response.data) {
           processLinkedInData(response.data);
@@ -280,6 +280,8 @@ const Signup = () => {
   return (
     <>
       <Navbar />
+      <CustomAlert severity={"warning"} message={linkedinError} onClose={() => setLinkedinError(null)} />
+      <CustomAlert severity={"error"} message={error} onClose={() => setError(null)} />
       <div className="signup-page">
         {loading && <CircularLoader />}
         <div className="background login-background"></div>
