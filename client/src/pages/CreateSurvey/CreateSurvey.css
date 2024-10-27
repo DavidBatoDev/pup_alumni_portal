@@ -2,23 +2,23 @@
 .create-survey-container {
     display: flex;
   }
-  
+
   .create-survey-container.mobile {
     flex-direction: column; /* Stack items vertically */
   }
-  
+
   /* Content area styling */
   .create-survey-content {
     flex-grow: 1;
     padding: 30px 300px;
     margin-left: 250px; /* Adjust to match sidebar width */
   }
-  
+
   .create-survey-content.mobile-content {
     padding: 20px 20px;
     margin-left: 0; /* Remove left margin on mobile */
   }
-  
+
   /* Header styling */
   .create-survey-header {
     display: flex;
@@ -26,60 +26,60 @@
     align-items: center;
     margin-bottom: 30px;
   }
-  
+
   .create-survey-header.mobile-header {
     flex-direction: column;
     align-items: flex-start; /* Align items to the left on mobile */
     gap: 10px; /* Add spacing between elements */
   }
-  
+
   .create-survey-header h2 {
     font-size: 24px;
     font-weight: 500;
     color: #424242; /* Google Forms-like color */
   }
-  
+
   /* Button Styles */
   .create-survey-actions {
     display: flex;
     gap: 10px; /* Space between buttons */
   }
-  
+
   .create-survey-actions.mobile-actions {
     width: 100%;
   }
-  
+
   .create-survey-actions .btn {
     padding: 10px 20px;
     font-size: 14px;
     border-radius: 8px;
     width: 100px;
   }
-  
+
   .create-survey-actions .btn.mobile-btn {
     width: 100%; /* Full width buttons on mobile */
   }
-  
+
   .create-survey-actions .btn-primary {
     background-color: #a52436;
     color: white;
     border: none;
   }
-  
+
   .create-survey-actions .btn-primary:hover {
     background-color: #c62828;
   }
-  
+
   .create-survey-actions .btn-secondary {
     background-color: #6c757d;
     color: white;
     border: none;
   }
-  
+
   .create-survey-actions .btn-secondary:hover {
     background-color: #5a6268;
   }
-  
+
   /* Survey Information styling */
   .survey-info {
     background: #ffffff;
@@ -88,7 +88,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
   }
-  
+
   .survey-info input,
   .survey-info textarea {
     width: 100%;
@@ -98,18 +98,22 @@
     margin-bottom: 20px;
     font-size: 16px;
   }
-  
+
   .survey-info textarea {
     resize: none;
     height: 100px;
   }
-  
+
+  .survey-info .is-invalid {
+    border-radius: 8px !important;
+  }
+
   /* Survey date fields styling */
   .survey-date-fields {
     display: flex;
     justify-content: space-between;
   }
-  
+
   .survey-date-fields input {
     width: 48%;
     padding: 12px;
@@ -117,24 +121,24 @@
     border-radius: 8px;
     font-size: 16px;
   }
-  
+
   .survey-date-fields.mobile-date-fields {
     flex-direction: column;
     gap: 10px;
   }
-  
+
   /* Survey Questions Section */
   .survey-questions {
     margin-top: 20px;
   }
-  
+
   .survey-questions h3 {
     font-size: 20px;
     font-weight: 500;
     color: #424242;
     margin-bottom: 20px;
   }
-  
+
   /* Question Card Styling */
   .survey-question-card {
     background: #ffffff;
@@ -145,7 +149,7 @@
     border: 1px solid #ddd;
     position: relative;
   }
-  
+
   .survey-question-card .question-top-bar {
     height: 5px;
     width: 100%;
@@ -153,79 +157,79 @@
     border-radius: 10px 10px 0 0;
     margin-bottom: 15px;
   }
-  
+
   .question-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  
+
   .question-header.mobile-question-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
-  
+
   .question-header .question-index {
     font-size: 18px;
     font-weight: bold;
     color: #424242;
   }
-  
+
   .question-header .question-controls button {
     background: none;
     border: none;
     color: #d32f2f;
     font-size: 18px;
   }
-  
+
   .question-header .question-controls button:hover {
     cursor: pointer;
     color: #c62828;
   }
-  
+
   /* Question Content Layout */
   .question-content {
     display: flex;
     gap: 15px;
     align-items: center;
   }
-  
+
   .question-content.mobile-content {
     flex-direction: column; /* Stack items vertically on mobile */
     gap: 10px;
   }
-  
+
   .question-content input {
     width: 100%;
     padding: 12px;
     border: 1px solid #ddd;
     border-radius: 8px;
   }
-  
+
   .question-type-dropdown {
     width: 150px;
     padding: 12px;
     border: 1px solid #ddd;
     border-radius: 8px;
   }
-  
+
   /* Survey Options Styling */
   .survey-options {
     margin-top: 20px;
   }
-  
+
   .survey-options .option-input-group {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
   }
-  
+
   .option-input-group .option-input {
     flex-grow: 1;
     margin-right: 10px;
   }
-  
+
   .option-input-group .btn-danger {
     padding: 8px 15px;
     font-size: 14px;
@@ -233,11 +237,11 @@
     background-color: #d32f2f;
     color: white;
   }
-  
+
   .option-input-group .btn-danger:hover {
     background-color: #c62828;
   }
-  
+
   .btn-secondary {
     padding: 8px 12px;
     font-size: 14px;
@@ -246,11 +250,11 @@
     border: none;
     border-radius: 8px;
   }
-  
+
   .btn-secondary:hover {
     background-color: #5a6268;
   }
-  
+
   /* Add Question Button */
   .add-question-btn {
     width: 100%;
@@ -262,87 +266,87 @@
     font-size: 16px;
     margin-top: 30px;
   }
-  
+
   .add-question-btn:hover {
     background-color: #c62828;
   }
-  
+
   /* Mobile Responsive Design */
   @media (max-width: 768px) {
     /* Mobile adjustments */
     .create-survey-container {
       flex-direction: column;
     }
-  
+
     .create-survey-content {
       padding: 20px;
       margin-left: 0; /* Remove left margin */
     }
-  
+
     .survey-info {
       padding: 15px;
     }
-  
+
     .survey-info input,
     .survey-info textarea {
       font-size: 14px; /* Reduce font size on mobile */
       padding: 10px;
     }
-  
+
     .survey-date-fields {
       flex-direction: column;
       gap: 10px;
     }
-  
+
     .survey-questions h3 {
       font-size: 18px;
     }
-  
+
     .survey-question-card {
       padding: 15px;
     }
-  
+
     .question-header {
       flex-direction: column;
       align-items: flex-start;
       gap: 10px;
     }
-  
+
     .question-header .question-index {
       font-size: 16px;
     }
-  
+
     .question-header .question-controls button {
       font-size: 16px;
     }
-  
+
     .question-content {
       flex-direction: column;
     }
-  
+
     .question-content input {
       padding: 10px;
     }
-  
+
     .question-type-dropdown {
       width: 100%;
       padding: 10px;
     }
-  
+
     .option-input-group .btn-danger {
       padding: 6px 12px;
       font-size: 12px;
     }
-  
+
     .option-input-group .option-input {
       margin-right: 5px;
     }
-  
+
     .btn-secondary {
       padding: 10px;
       width: 100%; /* Full width on mobile */
     }
-  
+
     .add-question-btn {
       padding: 12px;
     }
@@ -358,4 +362,3 @@
     width: 80px;
     margin: 0 10px;
   }
-  
