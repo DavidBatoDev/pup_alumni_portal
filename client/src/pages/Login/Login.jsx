@@ -22,6 +22,11 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [validation, setValidation] = useState({
+    email: true,
+    password: true,
+  })
+
   useEffect(() => {
     return () => {
       setLoading(false);
