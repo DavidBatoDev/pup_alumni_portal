@@ -8,6 +8,7 @@ import { useMediaQuery } from 'react-responsive';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import styles for Quill
+import CustomAlert from '../../components/CustomAlert/CustomAlert';
 
 const AdminEventsDashboard = () => {
   const [eventsList, setEventsList] = useState([]);
@@ -36,6 +37,10 @@ const AdminEventsDashboard = () => {
 
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
+  const onClearError = () => {
+    setError(null);
+  }
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -45,6 +50,7 @@ const AdminEventsDashboard = () => {
         setLoading(false);
       } catch (error) {
         console.error('Error fetching events:', error);
+        setError(error.response.data.message);
         setLoading(false);
       }
     };
@@ -52,9 +58,53 @@ const AdminEventsDashboard = () => {
     fetchEvents();
   }, [updateSuccess]);
 
-  useEffect(() => {
-    console.log("newEvent state updated:", newEvent);
-  }, [newEvent]);
+  // validation fields
+  const [validation, setValidation] = useState({
+    event_name: true,
+    event_date: true,
+    location: true,
+    description: true,
+    type: true,
+    category: true,
+    organization: true,
+  });
+
+  const resetValidation = () => {
+    setValidation({
+      event_name: true,
+      event_date: true,
+      location: true,
+      description: true,
+      type: true,
+      category: true,
+      organization: true,
+    });
+  };
+
+  const validateEventDate = (date) => {
+    const currentDate = new Date();
+    const selectedDate = new Date(date);
+    return selectedDate >= currentDate;
+  };
+
+  const validateDescription = (description) => {
+    return description.trim() !== '' && description.length >= 30;
+  };
+
+  const validateFields = () => {
+    const newValidation = {
+      event_name: newEvent.event_name.trim() !== '',
+      event_date: validateEventDate(newEvent.event_date),
+      location: newEvent.location.trim() !== '',
+      description: validateDescription(newEvent.description),
+      type: newEvent.type.trim() !== '',
+      category: newEvent.category.trim() !== '',
+      organization: newEvent.organization.trim() !== '',
+    };
+
+    setValidation(newValidation);
+    return Object.values(newValidation).every((value) => value === true);
+  };
 
   // Open modal for adding a new event
   const handleAddEvent = () => {
@@ -72,6 +122,7 @@ const AdminEventsDashboard = () => {
     setPhotoPreviews([]);
     setSpecificEventPhotoIds([]);
     setPhotosToDelete([]);
+    resetValidation();
     setShowModal(true);
   };
 
@@ -94,6 +145,7 @@ const AdminEventsDashboard = () => {
 
   // Fetch event details and open modal for editing
   const handleEditEvent = async (eventId) => {
+    setError(null);
     try {
       setLoading(true);
       console.log('Editing event:', eventId);
@@ -117,14 +169,16 @@ const AdminEventsDashboard = () => {
 
       setPhotoPreviews(existingPhotoUrls);
       setSpecificEventPhotoIds(existingPhotoIds);
-      setPhotosToDelete([]); 
+      setPhotosToDelete([]);
 
       setCurrentEventId(eventId);
       setIsEditing(true);
+      resetValidation();
       setShowModal(true);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching event details:', error);
+      setError(error.response.data.message);
       setLoading(false);
     }
   };
@@ -132,6 +186,12 @@ const AdminEventsDashboard = () => {
   // Save or update the event
   const handleSaveEvent = async () => {
     setUpdateSuccess(false);
+    setError(null);
+
+    if (!validateFields()) {
+      return;
+    }
+
     try {
       setLoading(true);
       setUploading(true);
@@ -188,6 +248,7 @@ const AdminEventsDashboard = () => {
       resetFormState();
     } catch (error) {
       console.error('Error saving event:', error);
+      setError(error.response.data.message);
       setLoading(false);
       setUploading(false);
     }
@@ -203,6 +264,7 @@ const AdminEventsDashboard = () => {
       category: '',
       organization: '',
     });
+    resetValidation();
     setPhotoPreviews([]);
     setTempPhotos([]);
     setSpecificEventPhotoIds([]);
@@ -240,6 +302,7 @@ const AdminEventsDashboard = () => {
 
   return (
     <div className="admin-dashboard">
+      {error && <CustomAlert message={error} severity='error' onClose={onClearError}/>}
       {loading && <CircularLoader />}
 
       <AdminSidebar />
@@ -307,47 +370,56 @@ const AdminEventsDashboard = () => {
           </div>
 
           <div className="events-form-row events-form-row-1st">
-            <label className="events-form-label events-form-label-name">
+            <label className="events-form-label">
               Event Name:
               <input
                 type="text"
                 name="event_name"
-                className="events-form-input events-form-name"
+                className={`events-form-input events-form-name form-control ${validation.event_name ? '' : 'is-invalid'}`}
                 value={newEvent.event_name}
                 onChange={handleChange}
                 required
               />
+              <div className='invalid-feedback d-block'>
+                {!validation.event_name && "Event name is required."}
+              </div>
             </label>
 
-            <label className="events-form-label events-form-label-date">
+            <label className="events-form-label">
               Event Date:
               <input
                 type="date"
                 name="event_date"
-                className="events-form-input events-form-date"
+                className={`events-form-input events-form-date form-control ${validation.event_date ? '' : 'is-invalid'}`}
                 value={newEvent.event_date}
                 onChange={handleChange}
                 required
               />
+              <div className='invalid-feedback d-block'>
+                {!validation.event_date && "Event date must be in the future."}
+              </div>
             </label>
           </div>
 
           <div className="events-form-row events-form-row-2nd">
-            <label className="events-form-label events-form-label-location">
+            <label className="events-form-label">
               Location:
               <input
                 type="text"
                 name="location"
-                className="events-form-input events-form-location"
+                className={`events-form-input events-form-location form-control ${validation.location ? '' : 'is-invalid'}`}
                 value={newEvent.location}
                 onChange={handleChange}
                 required
               />
+              <div className="invalid-feedback d-block">
+                {!validation.location && "Location is required."}
+              </div>
             </label>
           </div>
 
           <div className="events-form-row events-form-row-3rd events-form-row--inline">
-            <fieldset className="events-form-fieldset events-form-fieldset-type">
+            <fieldset className="events-form-fieldset">
               <legend className="events-form-legend">Type:</legend>
               <label className="events-form-radio-label">
                 <input
@@ -385,16 +457,19 @@ const AdminEventsDashboard = () => {
                 />
                 Hybrid
               </label>
+              <div className="invalid-feedback d-block">
+                {!validation.type && "Event type is required."}
+              </div>
             </fieldset>
 
-            <label className="events-form-label events-form-label--inline events-form-category">
+            <label className="events-form-label events-form-label--inline">
               Category:
               <select
-                name="category"
-                className="events-form-select events-form-select-category"
-                value={newEvent.category}
-                onChange={handleChange}
-                required
+              name="category"
+              className={`events-form-select px-3 events-form-select-category ${!validation.category ? 'is-invalid' : ''}`}
+              value={newEvent.category}
+              onChange={handleChange} 
+              required
               >
                 <option value="" disabled>
                   Select Category
@@ -405,6 +480,9 @@ const AdminEventsDashboard = () => {
                 <option value="Student Engagement">Student Engagement</option>
                 <option value="Service">Service</option>
               </select>
+              <div className="invalid-feedback">
+                {!validation.category && "Please select a category."}
+              </div>
             </label>
           </div>
 
@@ -412,13 +490,16 @@ const AdminEventsDashboard = () => {
             <label className="events-form-label">
               Organization:
               <input
-                type="text"
-                name="organization"
-                className="events-form-input"
-                value={newEvent.organization}
-                onChange={handleChange}
-                required
+              type="text" 
+              name="organization"
+              className={`events-form-input ${!validation.organization ? 'is-invalid' : ''}`}
+              value={newEvent.organization}
+              onChange={handleChange}
+              required
               />
+              <div className="invalid-feedback d-block">
+                {!validation.organization && "Organization is required."}
+              </div>
             </label>
           </div>
 
@@ -456,6 +537,9 @@ const AdminEventsDashboard = () => {
                 ]}
                 className="events-form-quill"
               />
+              <div className="invalid-feedback d-block">
+                {!validation.description && `A description about this event is required. Minimum of 30 characters (current length: ${newEvent.description.length})`}
+              </div>
             </label>
           </div>
 

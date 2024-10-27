@@ -17,6 +17,41 @@ const CreateSurvey = () => {
   const [errors, setErrors] = useState({}); // Store validation errors
   const [alert, setAlert] = useState({ message: '', severity: 'info' }); // Alert state
   const lastQuestionRef = useRef(null); // Ref to track the last added question
+  const [validation, setValidation] = useState({ // Store validation fields (survey information)
+    title: true,
+    description: true,
+    start_date: true,
+    end_date: true
+  });
+
+  const resetValidation = () => {
+    setValidation({
+      title: true,
+      description: true,
+      start_date: true,
+      end_date: true
+    });
+  };
+
+  const validateEndDate = (startDate, endDate) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    return end >= start;
+  };
+
+  // Validate survey fields before saving
+  const validateSurveyFields = () => {
+    const { title, description, start_date, end_date } = survey;
+    const updatedValidation = {
+      title: title.trim().length > 0,
+      description: description.trim().length > 0,
+      start_date: start_date.trim().length > 0,
+      end_date: end_date.trim().length > 0 && validateEndDate(start_date, end_date),
+    };
+
+    setValidation(updatedValidation);
+    return Object.values(updatedValidation).every((field) => field);
+  }
 
   // Handlers for survey fields
   const handleSurveyChange = (e) => setSurvey({ ...survey, [e.target.name]: e.target.value });
@@ -144,6 +179,11 @@ const CreateSurvey = () => {
   const saveSurvey = async () => {
     const formattedSurvey = formatSurveyPayload();
 
+    if (!validateSurveyFields()) {
+      setAlert({ message: 'Please fill out all required fields correctly.', severity: 'warning' });
+      return;
+    }
+
     try {
       const response = await axios.post('/api/admin/save-survey', formattedSurvey, {
         headers: {
@@ -200,30 +240,42 @@ const CreateSurvey = () => {
             value={survey.title}
             placeholder="Survey Title"
             onChange={handleSurveyChange}
-            className="form-control"
+            className={`form-control ${!validation.title ? 'is-invalid' : ''}`}
           />
+          <div className='invalid-feedback d-block'>
+            {validation.title ? '' : 'Title is required'}
+          </div>
           <textarea
             name="description"
             value={survey.description}
             placeholder="Survey Description"
             onChange={handleSurveyChange}
-            className="form-control"
+            className={`form-control ${!validation.description ? 'is-invalid' : ''}`}
           />
+          <div className='invalid-feedback d-block'>
+            {validation.description ? '' : 'Description is required'}
+          </div>
           <div className="survey-date-fields">
             <input
               type="date"
               name="start_date"
               value={survey.start_date}
               onChange={handleSurveyChange}
-              className="form-control"
+              className={`form-control ${!validation.start_date ? 'is-invalid' : ''}`}
             />
+            <div className='invalid-feedback d-block'>
+              {validation.start_date ? '' : 'Start date is required'}
+            </div>
             <input
               type="date"
               name="end_date"
               value={survey.end_date}
               onChange={handleSurveyChange}
-              className="form-control"
+              className={`form-control ${!validation.end_date ? 'is-invalid' : ''}`}
             />
+            <div className='invalid-feedback d-block'>
+              {validation.end_date ? '' : 'End date is required and must be after the start date'}
+            </div>
           </div>
         </div>
 
