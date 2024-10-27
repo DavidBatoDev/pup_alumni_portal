@@ -47,7 +47,7 @@
 
 /* Banner content */
 .banner .banner-content {
-  z-index: 2; /* Ensure it appears above the background */
+  z-index: 1; /* Ensure it appears above the background */
   margin-top: 90px;
   width: 1296px;
   margin-left: auto;
@@ -62,7 +62,7 @@
     height: 11.875rem;
     display: flex;
     align-items: flex-start;
-    z-index: 2;
+    z-index: 1;
     padding: 0 128px 0 128px;
     flex-direction: column;
     justify-content: flex-end;
