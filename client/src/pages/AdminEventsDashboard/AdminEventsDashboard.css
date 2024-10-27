@@ -235,6 +235,7 @@
 }
 
 .save-event-btn {
+  margin-top: 50px;
   border-color: #28a745;
   color: #28a745;
 }
@@ -295,4 +296,48 @@
 
 .remove-photo-btn:hover {
   background-color: rgba(255, 0, 0, 1); /* Darken the background on hover */
+}
+
+
+/* Ensure the dropdown stays visible when expanded */
+.ql-picker.ql-expanded {
+  z-index: 1002; /* Higher than other UI elements */
+  position: relative;
+}
+
+/* Dropdown options styling */
+.ql-picker-options {
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 1003; /* Higher than the expanded picker */
+  position: absolute;
+  pointer-events: auto; /* Enable interaction */
+}
+
+/* Style individual dropdown items */
+.ql-picker-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Highlight item on hover */
+.ql-picker-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Active item styling */
+.ql-picker-item.ql-active {
+  background-color: #e0e0e0;
+  font-weight: bold;
+}
+
+/* Ensure the toolbar remains unclipped */
+.ql-toolbar {
+  overflow: visible !important;
+  position: relative;
 }

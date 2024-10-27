@@ -41,7 +41,7 @@ const SpecificEvent = () => {
   if (!eventData) return <CircularLoader />;
 
   // Set the background image if available, otherwise use a default image
-  const backgroundImage = eventData.photos[0].photo_path || bannerImage;
+  const backgroundImage = eventData?.photos[0]?.photo_path || bannerImage;
 
   return (
     <div
