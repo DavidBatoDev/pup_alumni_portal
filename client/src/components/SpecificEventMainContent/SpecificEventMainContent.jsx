@@ -69,7 +69,7 @@ const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_reg
               </button>
             )}
           </div>
-          <p className="specific-event-description">{details}</p>
+          <p className="specific-event-description" dangerouslySetInnerHTML={{__html: details}} />
         </div>
 
         {/* Date and Location Section */}

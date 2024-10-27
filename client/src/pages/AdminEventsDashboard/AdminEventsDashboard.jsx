@@ -6,6 +6,7 @@ import ModalContainer from '../../components/ModalContainer/ModalContainer';
 import './AdminEventsDashboard.css';
 import { useMediaQuery } from 'react-responsive';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
+import ReactQuill from 'react-quill';
 
 const AdminEventsDashboard = () => {
   const [eventsList, setEventsList] = useState([]);
@@ -368,7 +369,30 @@ const AdminEventsDashboard = () => {
           <div className="events-form-row events-form-row-5th">
             <label className="events-form-label">
               Description:
-              <textarea name="description" className="events-form-textarea" value={newEvent.description} onChange={handleChange} required />
+              {/* <textarea name="description" className="events-form-textarea" value={newEvent.description} onChange={handleChange} required /> */}
+              <ReactQuill
+                theme="snow"
+                value={newEvent.description}
+                onChange={(value) => setNewEvent({ ...newEvent, description: value })}
+                style={{ height: '150px' }}
+                modules={{
+                  toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                    [{ 'indent': '-1' }, { 'indent': '+1' }],
+                    [{ 'align': [] }],
+                    ['link', 'image'],
+                    ['clean']
+                  ],
+                }}
+                formats={[
+                  'font', 'size', 'bold', 'italic', 'underline', 'strike', 'list', 'bullet',
+                  'indent', 'align', 'link', 'image'
+                ]}
+                className="events-form-quill"
+              />
+
+
             </label>
           </div>
 

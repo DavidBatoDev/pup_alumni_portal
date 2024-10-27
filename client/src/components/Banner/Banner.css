@@ -14,7 +14,7 @@
 }
 
 .banner-small {
-    height: 18.75rem;
+    height: 12.75rem;
     position: relative;
     background-size: cover;
     background-position: center;
@@ -92,7 +92,7 @@
 .banner-content .banner-small-title {
     color: #FFF;
     font-family: "Crimson Text";
-    font-size: 8rem;
+    font-size: 6rem;
     font-style: normal;
     font-weight: 700;
     z-index: 2;
