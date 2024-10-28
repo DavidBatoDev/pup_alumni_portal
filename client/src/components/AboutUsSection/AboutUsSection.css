@@ -29,6 +29,7 @@
     line-height: 1.6;
     margin-bottom: 20px;
     text-align: justify;
+    padding-right: 0.625rem;
   }
 
   .learn-more-btn {
@@ -46,13 +47,16 @@
     background-color: #a52436;
   }
 
-  .about-us-image {
+  .about-us-video iframe {
+    border-radius: 10px;
     flex: 1 1 45%; /* Take 45% width */
   }
 
-  .about-us-image img {
+  .about-us-video img {
+    z-index: 0;
     width: 100%;
-    border-radius: 10px;
+    object-fit: cover;
+    display: none;
   }
 
   /* Responsive styling for smaller screens */
@@ -62,7 +66,7 @@
     }
 
     .about-us-text,
-    .about-us-image {
+    .about-us-video {
       flex: 1 1 100%; /* Full width on smaller screens */
       text-align: center; /* Center-align text */
     }
@@ -71,7 +75,7 @@
       text-align: center;
     }
 
-    .about-us-image img {
+    .about-us-video iframe {
       max-width: 90%; /* Shrink the image a bit on mobile */
       margin: 0 auto; /* Center the image */
     }

@@ -14,7 +14,16 @@ const AboutUsSection = () => {
           </p>
           <button className="learn-more-btn">Learn More</button>
         </div>
-        <div className="about-us-image">
+        <div className="about-us-video">
+          <iframe
+          width="638"
+          height="359"
+          src="https://www.youtube.com/embed/oEjfxyYsFY4?si=7UiKxfV484xZa1Ud"
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+          ></iframe>
           <img src={aboutImage} alt="About Us" />
         </div>
       </div>
