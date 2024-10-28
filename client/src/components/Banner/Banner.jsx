@@ -11,7 +11,7 @@ const Banner = () => {
   return (
     <div className="banner">
         <div className="banner-content">
-            <div className="d-flex flex-row gap-4">
+            <div className="d-flex flex-wrap banner-title-container">
               <h1 className='banner-hero-title'>
                 <span className='key'>P</span>
                 <span className='key'>U</span>

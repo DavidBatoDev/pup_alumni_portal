@@ -76,6 +76,11 @@
   font-size: 8rem; /* Large heading size */
   font-weight: 700;
   line-height: 0.75; /* Tight line-height */
+  min-width: fit-content;
+}
+
+.banner-content .banner-title-container {
+    gap: 1.5rem;
 }
 
 /* Adjust paragraph size and alignment */
@@ -306,6 +311,12 @@
 
   .banner-buttons .btn {
     padding: 8px 20px; /* Smaller padding for buttons */
+  }
+
+  .banner-content .banner-title-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem
   }
 }
 
