@@ -27,7 +27,7 @@ const EventsFilterSection = ({ filters, onFilterChange }) => {
 
   return (
     <div>
-      <div className="filter-section row">
+      <div className="filter-section">
         <div className="col-md-12 filter-container">
           <div className="card shadow-sm p-4 bg-white rounded">
             <div className="box-header d-flex">

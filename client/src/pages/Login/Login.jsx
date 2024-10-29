@@ -106,7 +106,7 @@ const Login = () => {
               <div className="row">
                 {/* Left Column: Login Form */}
                 <div className="col-md-6 d-flex flex-column justify-content-center">
-                  <h2 className="welcome-text">Welcome Back!</h2>
+                  <h2 className="welcome-text mb-1">Welcome Back!</h2>
                   <p className="login-description">
                     Log in to access exclusive alumni resources, connect with fellow graduates, and take advantage of our career support services. Your network and opportunities await you.
                   </p>
