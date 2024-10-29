@@ -122,7 +122,7 @@ const AuthenticatedNavbar = () => {
           <NotificationMenu />
           {/* <button className="btn btn-notification"> */}
           {/* </button> */}
-          <li className="drawer-item">
+          <a className="drawer-item">
             { user ? (
               <Link to="/profile" className="drawer-link">
                 <img src={userIcon}
@@ -134,7 +134,7 @@ const AuthenticatedNavbar = () => {
             ) : (
               <button onClick={() => { setDrawerOpen(false); navigate('/login'); }} className="btn btn-nav-signin mt-3">Sign In</button>
             )}
-          </li>
+          </a>
         </ul>
       </div>
 
