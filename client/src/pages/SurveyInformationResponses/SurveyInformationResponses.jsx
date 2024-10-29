@@ -5,6 +5,7 @@ import AdminSidebar from '../../components/AdminSidebar/AdminSidebar';
 import './SurveyInformationResponses.css';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 import { useMediaQuery } from 'react-responsive'; // Import useMediaQuery
+import exportOutline from '../../assets/svgs/export-outline.svg';
 
 const SurveyInformationResponses = () => {
   const { surveyId } = useParams();
@@ -56,7 +57,9 @@ const SurveyInformationResponses = () => {
         </div>
 
         {/* Survey Questions Section */}
-        <h2 className="survey-info-subtitle">Survey Questions</h2>
+        <div className="survey-info-subtitle"> 
+          <h2>Survey Questions</h2>
+        </div>
         {survey?.questions.map((question, index) => (
           <div key={question.question_id} className={`survey-question ${isMobile ? 'mobile-question' : ''}`}>
             <h5>{index + 1}. {question.question_text}</h5>
@@ -72,7 +75,16 @@ const SurveyInformationResponses = () => {
         ))}
 
         {/* Survey Responses Section */}
-        <h2 className="survey-info-subtitle">Survey Responses</h2>
+        <div className='d-flex justify-content-between align-items-center'>
+          <h2 className='survey-info-subtitle '>Survey Responses</h2>
+
+          {/* Export as CSV Button */}
+          <div className="export-as-csv-btn btn btn-light d-flex align-items-center">
+            Export as CSV
+          </div>
+        </div>
+
+        {/* Table of Responses */}
         <div className="table-responsive">
           <table className="table table-bordered table-hover">
             <thead className="thead-light">
@@ -80,8 +92,9 @@ const SurveyInformationResponses = () => {
                 <th>Alumni Name</th>
                 <th>Email</th>
                 <th>Response Date</th>
-                {survey?.questions.map((question) => (
-                  <th key={question.question_id}>{question.question_text}</th>
+                {/* Display "Question 1", "Question 2", etc., instead of question names */}
+                {survey?.questions.map((_, index) => (
+                  <th key={index}>Question {index + 1}</th> 
                 ))}
               </tr>
             </thead>
@@ -92,8 +105,9 @@ const SurveyInformationResponses = () => {
                     <td>{response.alumni_first_name} {response.alumni_last_name}</td>
                     <td>{response.alumni_email}</td>
                     <td>{new Date(response.response_date).toLocaleDateString()}</td>
-                    {response.question_responses.map((qr) => (
-                      <td key={qr.question_id}>
+                    {/* Render each question response in its corresponding cell */}
+                    {response.question_responses.map((qr, index) => (
+                      <td key={index}>
                         {qr.response_text || qr.option_id ? qr.response_text || `Value - ${qr.option_value}` : 'No Response'}
                       </td>
                     ))}
