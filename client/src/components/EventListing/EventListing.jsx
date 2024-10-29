@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './EventListing.css';
-import eventImg from '../../assets/images/eventimage1.png'; // Default image path
-
+import eventImg from '../../assets/images/eventimage1.png'; 
 const EventListing = ({ eventData, onEdit }) => {
   // Extract date information to display it in a specific format
   const eventDate = new Date(eventData.event_date);
@@ -10,8 +9,6 @@ const EventListing = ({ eventData, onEdit }) => {
   const month = eventDate.toLocaleString('default', { month: 'short' });
 
   // Determine the preview image to use (first photo or default image)
-
-  console.log(eventData.photos[0].photo_path);
 
   const eventPhoto =
     eventData.photos && eventData.photos.length > 0
@@ -44,7 +41,7 @@ const EventListing = ({ eventData, onEdit }) => {
             <p className="event-info-listing">
               <strong>{eventData.location}</strong> | {eventDate.toDateString()} {/* Location and Date */}
             </p>
-            <p className="event-description">{eventData.description}</p>
+            <p className="event-description" dangerouslySetInnerHTML={{ __html: eventData.description }} />
           </div>
         </div>
 

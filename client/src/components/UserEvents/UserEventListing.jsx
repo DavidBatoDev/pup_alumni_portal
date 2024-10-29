@@ -43,7 +43,7 @@ const UserEventListing = ({ eventData }) => {
           <p className="event-info-listing-auth">
             <strong>{eventData?.location}</strong> | <span>{eventDate.toDateString()}</span>
           </p>
-          <p className="event-description-auth">{truncatedDescription}</p>
+          <p className="event-description-auth" dangerouslySetInnerHTML={{__html: truncatedDescription}}/>
           <div className="event-additional-info-auth">
             <span className="event-type-auth">{eventData.type}</span>
             <Link to={`/events/${eventData?.event_id}`} className="btn more-info">

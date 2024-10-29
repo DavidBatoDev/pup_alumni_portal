@@ -25,13 +25,18 @@
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     padding: 30px;
-    flex: 1 1 23%; /* Adjusts the card width */
     text-align: center;
-    transition: transform 0.3s ease;
+    width: 100%;
   }
 
-  .feature-card:hover {
-    transform: translateY(-5px); /* Adds a subtle hover effect */
+  .feature-card-wrapper {
+    transition: transform 0.3s ease;
+    flex: 1 1 23%; /* Adjusts the card width */
+
+  }
+
+  .feature-card-wrapper:hover {
+    transform: translateY(-5px);
   }
 
   .feature-icon {
@@ -60,7 +65,7 @@
       gap: 30px;
     }
 
-    .feature-card {
-      flex: 1 1 100%; /* Full width on mobile */
+    .feature-card-wrapper {
+        flex: 1 1 100%;
     }
   }

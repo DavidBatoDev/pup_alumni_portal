@@ -6,6 +6,8 @@ import ModalContainer from '../../components/ModalContainer/ModalContainer';
 import './AdminEventsDashboard.css';
 import { useMediaQuery } from 'react-responsive';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; // Import styles for Quill
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 
 const AdminEventsDashboard = () => {
@@ -124,6 +126,7 @@ const AdminEventsDashboard = () => {
     setShowModal(true);
   };
 
+  
   // handlePhotoChange function
   const handlePhotoChange = (e) => {
     const files = Array.from(e.target.files);
@@ -133,21 +136,11 @@ const AdminEventsDashboard = () => {
     setPhotoPreviews((prevPreviews) => [...prevPreviews, ...previewUrls]);
   };
 
-  // Remove photo from temporary or existing photos
-  const handleRemovePhoto = (index, isExisting) => {
-    console.log('Removing photo at index:', specificEventPhotoIds[index]);
-    // if (isExisting) {
-    //   const photoIdToDelete = specificEventPhotoIds[index]; // Get photo ID of the existing photo
-    //   console.log('Photo ID to delete:', photoIdToDelete);
-    //   setPhotosToDelete((prevToDelete) => [...prevToDelete, photoIdToDelete]); // Add to photos to delete list
-    //   setExistingPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index)); // Remove from UI
-    //   setSpecificEventPhotoIds((prevIds) => prevIds.filter((_, i) => i !== index)); // Update specific event photo IDs
-    // } else {
-      const photoIdToDelete = specificEventPhotoIds[index];
-      setPhotosToDelete((prevToDelete) => [...prevToDelete, photoIdToDelete]);
-      setTempPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
-      setPhotoPreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
-    // }
+  const handleRemovePhoto = (index) => {
+    const photoIdToDelete = specificEventPhotoIds[index];
+    setPhotosToDelete((prevToDelete) => [...prevToDelete, photoIdToDelete]);
+    setTempPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
+    setPhotoPreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
   };
 
   // Fetch event details and open modal for editing
@@ -155,11 +148,14 @@ const AdminEventsDashboard = () => {
     setError(null);
     try {
       setLoading(true);
+      console.log('Editing event:', eventId);
       const response = await axios.get(`/api/events/${eventId}`);
       const eventDetails = response.data.event;
 
       const existingPhotoUrls = eventDetails.photos.map((photo) => photo.photo_path);
       const existingPhotoIds = eventDetails.photos.map((photo) => photo.photo_id);
+
+      console.log("responseEvent", eventDetails);
 
       setNewEvent({
         event_name: eventDetails.event_name,
@@ -173,7 +169,7 @@ const AdminEventsDashboard = () => {
 
       setPhotoPreviews(existingPhotoUrls);
       setSpecificEventPhotoIds(existingPhotoIds);
-      setPhotosToDelete([]); // Reset the delete state
+      setPhotosToDelete([]);
 
       setCurrentEventId(eventId);
       setIsEditing(true);
@@ -208,17 +204,14 @@ const AdminEventsDashboard = () => {
       formData.append('category', newEvent.category);
       formData.append('organization', newEvent.organization);
 
-      // Send IDs for photos to delete
       photosToDelete.forEach((photoId) => {
         formData.append('photos_to_delete[]', photoId);
       });
 
-      // Send IDs for existing photos that the user wants to keep
       specificEventPhotoIds.forEach((photoId) => {
         formData.append('existing_photos[]', photoId);
       });
 
-      // Add new photos (files) to the FormData
       tempPhotos.forEach((photo) => {
         formData.append('photos[]', photo);
       });
@@ -278,7 +271,6 @@ const AdminEventsDashboard = () => {
     setPhotosToDelete([]);
   };
 
-  // Delete event handler
   const handleDeleteEvent = async () => {
     try {
       setLoading(true);
@@ -299,7 +291,10 @@ const AdminEventsDashboard = () => {
     }
   };
 
-  const handleChange = (e) => setNewEvent({ ...newEvent, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNewEvent((prevState) => ({ ...prevState, [name]: value }));
+  };
 
   const filteredEvents = eventsList.filter((eventItem) =>
     eventItem.event_name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -364,7 +359,7 @@ const AdminEventsDashboard = () => {
                   {photoPreviews.map((preview, index) => (
                     <div key={index} className="photo-preview-wrapper">
                       <img src={preview} alt="Preview" className="photo-preview" />
-                      <button type="button" className="remove-photo-btn" onClick={() => handleRemovePhoto(index, false)}>
+                      <button type="button" className="remove-photo-btn" onClick={() => handleRemovePhoto(index)}>
                         ✕
                       </button>
                     </div>
@@ -377,7 +372,14 @@ const AdminEventsDashboard = () => {
           <div className="events-form-row events-form-row-1st">
             <label className="events-form-label">
               Event Name:
-              <input type="text" name="event_name" className={`events-form-input events-form-name form-control ${validation.event_name ? '' : 'is-invalid'}`} value={newEvent.event_name} onChange={handleChange} required />
+              <input
+                type="text"
+                name="event_name"
+                className={`events-form-input events-form-name form-control ${validation.event_name ? '' : 'is-invalid'}`}
+                value={newEvent.event_name}
+                onChange={handleChange}
+                required
+              />
               <div className='invalid-feedback d-block'>
                 {!validation.event_name && "Event name is required."}
               </div>
@@ -385,7 +387,14 @@ const AdminEventsDashboard = () => {
 
             <label className="events-form-label">
               Event Date:
-              <input type="date" name="event_date" className={`events-form-input events-form-date form-control ${validation.event_date ? '' : 'is-invalid'}`} value={newEvent.event_date} onChange={handleChange} required />
+              <input
+                type="date"
+                name="event_date"
+                className={`events-form-input events-form-date form-control ${validation.event_date ? '' : 'is-invalid'}`}
+                value={newEvent.event_date}
+                onChange={handleChange}
+                required
+              />
               <div className='invalid-feedback d-block'>
                 {!validation.event_date && "Event date must be in the future."}
               </div>
@@ -395,7 +404,14 @@ const AdminEventsDashboard = () => {
           <div className="events-form-row events-form-row-2nd">
             <label className="events-form-label">
               Location:
-              <input type="text" name="location" className={`events-form-input events-form-location form-control ${validation.location ? '' : 'is-invalid'}`} value={newEvent.location} onChange={handleChange} required />
+              <input
+                type="text"
+                name="location"
+                className={`events-form-input events-form-location form-control ${validation.location ? '' : 'is-invalid'}`}
+                value={newEvent.location}
+                onChange={handleChange}
+                required
+              />
               <div className="invalid-feedback d-block">
                 {!validation.location && "Location is required."}
               </div>
@@ -407,33 +423,37 @@ const AdminEventsDashboard = () => {
               <legend className="events-form-legend">Type:</legend>
               <label className="events-form-radio-label">
                 <input
-                type="radio"
-                name="type"
-                value="Face-to-face"
-                className={`events-form-radio ${!validation.type ? 'is-invalid' : ''}`}
-                checked={newEvent.type === 'Face-to-face'} onChange={handleChange} required
+                  type="radio"
+                  name="type"
+                  value="Face-to-face"
+                  className="events-form-radio"
+                  checked={newEvent.type === 'Face-to-face'}
+                  onChange={handleChange}
+                  required
                 />
                 Face-to-face
               </label>
               <label className="events-form-radio-label">
                 <input
-                type="radio"
-                name="type"
-                value="Virtual"
-                className={`events-form-radio ${!validation.type ? 'is-invalid' : ''}`}
-                checked={newEvent.type === 'Virtual'}
-                onChange={handleChange} required
+                  type="radio"
+                  name="type"
+                  value="Virtual"
+                  className="events-form-radio"
+                  checked={newEvent.type === 'Virtual'}
+                  onChange={handleChange}
+                  required
                 />
                 Virtual
               </label>
               <label className="events-form-radio-label">
                 <input
-                type="radio"
-                name="type"
-                value="Hybrid"
-                className={`events-form-radio ${!validation.type ? 'is-invalid' : ''}`}
-                checked={newEvent.type === 'Hybrid'}
-                onChange={handleChange} required
+                  type="radio"
+                  name="type"
+                  value="Hybrid"
+                  className="events-form-radio"
+                  checked={newEvent.type === 'Hybrid'}
+                  onChange={handleChange}
+                  required
                 />
                 Hybrid
               </label>
@@ -448,8 +468,9 @@ const AdminEventsDashboard = () => {
               name="category"
               className={`events-form-select px-3 events-form-select-category ${!validation.category ? 'is-invalid' : ''}`}
               value={newEvent.category}
-              onChange={handleChange}
-              required>
+              onChange={handleChange} 
+              required
+              >
                 <option value="" disabled>
                   Select Category
                 </option>
@@ -469,7 +490,7 @@ const AdminEventsDashboard = () => {
             <label className="events-form-label">
               Organization:
               <input
-              type="text"
+              type="text" 
               name="organization"
               className={`events-form-input ${!validation.organization ? 'is-invalid' : ''}`}
               value={newEvent.organization}
@@ -485,12 +506,36 @@ const AdminEventsDashboard = () => {
           <div className="events-form-row events-form-row-5th">
             <label className="events-form-label">
               Description:
-              <textarea
-              name="description"
-              className={`events-form-textarea px-3 ${!validation.description ? 'is-invalid' : ''}`}
-              value={newEvent.description}
-              onChange={handleChange}
-              required
+              <ReactQuill
+                theme="snow"
+                value={newEvent.description}
+                onChange={(value) =>
+                  setNewEvent((prevState) => ({ ...prevState, description: value }))
+                }
+                style={{ height: '150px' }}
+                modules={{
+                  toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                    [{ indent: '-1' }, { indent: '+1' }],
+                    [{ align: [] }],
+                    ['link', 'image'],
+                    ['clean'],
+                  ],
+                }}
+                formats={[
+                  'bold',
+                  'italic',
+                  'underline',
+                  'strike',
+                  'list',
+                  'bullet',
+                  'indent',
+                  'align',
+                  'link',
+                  'image',
+                ]}
+                className="events-form-quill"
               />
               <div className="invalid-feedback d-block">
                 {!validation.description && `A description about this event is required. Minimum of 30 characters (current length: ${newEvent.description.length})`}
