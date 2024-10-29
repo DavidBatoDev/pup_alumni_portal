@@ -12,7 +12,9 @@ const AboutUsSection = () => {
           <p>
           The PUP Graduate School Alumni Network is dedicated to cultivating a lifelong community of graduates who are committed to excellence, connection, and impact. Serving alumni of the Polytechnic University of the Philippines (PUP) Graduate School, our mission is to support professionals who have pursued advanced studies in their fields, earning master's and doctorate degrees that equip them for leadership, innovation, and academic contribution.
           </p>
-          <button className="learn-more-btn">Learn More</button>
+          <div className="learn-more-btn-container">
+            <button className="learn-more-btn">Learn More</button>
+          </div>
         </div>
         <div className="about-us-video">
           <iframe

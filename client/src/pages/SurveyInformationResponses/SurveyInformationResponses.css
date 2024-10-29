@@ -104,6 +104,28 @@
     text-align: center;
     padding: 50px;
   }
+
+  /* Export button styling */
+  .export-as-csv-btn{
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #7b0000;
+    color: white;
+  }
+
+  .export-as-csv-btn:hover{
+    background-color: #5e0000;
+    color: white;
+  }
+
+  .export-as-csv-btn:active{
+    background-color: #5e0000;
+    color: white;
+  }
+
+
   
   /* Responsive Design for Mobile */
   @media (max-width: 768px) {

@@ -4,8 +4,11 @@
   height: calc(130vh);
 }
 
-
 .survey-header {
+  margin-bottom: 20px;
+}
+
+.survey-header:nth-child(1) {
   margin-bottom: 80px;
 }
 
