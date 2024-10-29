@@ -5,7 +5,6 @@ import AdminSidebar from '../../components/AdminSidebar/AdminSidebar';
 import './SurveyInformationResponses.css';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 import { useMediaQuery } from 'react-responsive'; // Import useMediaQuery
-import exportOutline from '../../assets/svgs/export-outline.svg';
 
 const SurveyInformationResponses = () => {
   const { surveyId } = useParams();
@@ -41,6 +40,51 @@ const SurveyInformationResponses = () => {
 
     fetchSurveyData();
   }, [surveyId]);
+
+  // Function to export table data as CSV
+  const exportAsCSV = () => {
+    if (!survey || responses.length === 0) return;
+
+    // Create CSV headers
+    const headers = [
+      'Alumni Name',
+      'Email',
+      'Response Date',
+      ...survey.questions.map((_, index) => `Question ${index + 1}`)
+    ];
+
+    // Format the response data for CSV
+    const csvRows = responses.map((response) => {
+      const row = [
+        `${response.alumni_first_name} ${response.alumni_last_name}`,
+        response.alumni_email,
+        new Date(response.response_date).toLocaleDateString(),
+        ...response.question_responses.map((qr) =>
+          qr.response_text || qr.option_id ? qr.response_text || `Value - ${qr.option_value}` : 'No Response'
+        )
+      ];
+      return row;
+    });
+
+    // Combine headers and rows for CSV content
+    const csvContent = [
+      headers.join(','), // Join headers with commas
+      ...csvRows.map((row) => row.join(',')) // Join each row with commas
+    ].join('\n'); // Separate each row with a newline
+
+    // Create a Blob from the CSV content
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+
+    // Create a link to download the file
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `SurveyResponses_${surveyId}.csv`;
+    a.click();
+
+    // Cleanup the URL object
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <div className={`survey-info-responses-container ${isMobile ? 'mobile' : ''}`}>
@@ -79,7 +123,10 @@ const SurveyInformationResponses = () => {
           <h2 className='survey-info-subtitle '>Survey Responses</h2>
 
           {/* Export as CSV Button */}
-          <div className="export-as-csv-btn btn btn-light d-flex align-items-center">
+          <div 
+            className="export-as-csv-btn btn btn-light d-flex align-items-center"
+            onClick={exportAsCSV} // Attach the export function to the button click
+          >
             Export as CSV
           </div>
         </div>
