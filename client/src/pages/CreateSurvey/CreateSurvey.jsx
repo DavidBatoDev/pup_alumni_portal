@@ -15,21 +15,22 @@ const CreateSurvey = () => {
     questions: [],
   });
   const [errors, setErrors] = useState({}); // Store validation errors
-  const [alert, setAlert] = useState({ message: '', severity: 'info' }); // Alert state
+  const [alert, setAlert] = useState({ message: '', severity: '' }); // Alert state
   const lastQuestionRef = useRef(null); // Ref to track the last added question
   const [validation, setValidation] = useState({ // Store validation fields (survey information)
     title: true,
     description: true,
     start_date: true,
-    end_date: true
+    end_date: true,
   });
 
+  // Reset validation fields
   const resetValidation = () => {
     setValidation({
       title: true,
       description: true,
       start_date: true,
-      end_date: true
+      end_date: true,
     });
   };
 
@@ -39,7 +40,7 @@ const CreateSurvey = () => {
     return end >= start;
   };
 
-  // Validate survey fields before saving
+  // Validate survey fields
   const validateSurveyFields = () => {
     const { title, description, start_date, end_date } = survey;
     const updatedValidation = {
@@ -51,12 +52,11 @@ const CreateSurvey = () => {
 
     setValidation(updatedValidation);
     return Object.values(updatedValidation).every((field) => field);
-  }
+  };
 
-  // Handlers for survey fields
   const handleSurveyChange = (e) => setSurvey({ ...survey, [e.target.name]: e.target.value });
 
-  // Add new question to the survey, initializing it as "Open-ended"
+  // Add new question to the survey
   const addNewQuestion = () => {
     const newQuestion = { question_id: Date.now(), question_text: '', question_type: 'Open-ended', required: false, options: [] };
     setSurvey((prevSurvey) => ({
@@ -65,24 +65,19 @@ const CreateSurvey = () => {
     }));
   };
 
-  // Automatically scroll to the newly added question
   useEffect(() => {
     if (lastQuestionRef.current) {
       lastQuestionRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [survey.questions.length]); // Trigger effect when the number of questions changes
+  }, [survey.questions.length]);
 
-  // Automatically add default options when the question type changes
   const handleQuestionChange = (index, field, value) => {
     const updatedQuestions = [...survey.questions];
 
     if (field === 'question_type') {
-      // If changing to "Multiple Choice", automatically add "1st option"
       if (value === 'Multiple Choice') {
         updatedQuestions[index].options = [{ option_id: Date.now(), option_text: '1st option', option_value: '1' }];
-      }
-      // If changing to "Rating", automatically add 5 rating options
-      else if (value === 'Rating') {
+      } else if (value === 'Rating') {
         updatedQuestions[index].options = [
           { option_id: Date.now() + 5, option_text: 'Poorly', option_value: '1' },
           { option_id: Date.now() + 4, option_text: 'Unsatisfied', option_value: '2' },
@@ -91,7 +86,6 @@ const CreateSurvey = () => {
           { option_id: Date.now() + 1, option_text: 'Very Satisfied', option_value: '5' },
         ];
       } else {
-        // If changing to "Open-ended", clear any options
         updatedQuestions[index].options = [];
       }
     }
@@ -162,8 +156,8 @@ const CreateSurvey = () => {
       required: q.required,
       options: q.question_type === 'Multiple Choice' || q.question_type === 'Rating' ? q.options.map((o) => ({
         option_text: o.option_text,
-        option_value: parseInt(o.option_value, 10), // Ensure option_value is a number
-      })) : [], // Ensure that options are included only for "Multiple Choice" or "Rating"
+        option_value: parseInt(o.option_value, 10),
+      })) : [],
     }));
 
     return {
@@ -179,6 +173,7 @@ const CreateSurvey = () => {
   const saveSurvey = async () => {
     const formattedSurvey = formatSurveyPayload();
 
+    // Validate fields before sending
     if (!validateSurveyFields()) {
       setAlert({ message: 'Please fill out all required fields correctly.', severity: 'warning' });
       return;
@@ -192,7 +187,10 @@ const CreateSurvey = () => {
       });
       if (response.status === 201) {
         setAlert({ message: 'Survey saved successfully!', severity: 'success' });
-        navigate('/admin/survey-feedback'); // Redirect to dashboard after saving
+        // Navigate back to the AdminSurveyDashboard with alert state after 2 seconds
+        setTimeout(() => {
+          navigate('/admin/survey-feedback', { state: { message: 'Survey created successfully!', severity: 'success' } });
+        }, 2000);
       } else {
         setAlert({ message: 'Failed to save survey. Please try again.', severity: 'error' });
       }
@@ -207,9 +205,9 @@ const CreateSurvey = () => {
     setAlert({ message: '', severity: '' });
   };
 
-  // Cancel survey creation and delete if necessary
+  // Cancel survey creation and navigate back
   const cancelSurveyCreation = () => {
-    navigate('/admin/survey-feedback');
+    navigate('/admin/surveys');
   };
 
   return (
@@ -286,9 +284,9 @@ const CreateSurvey = () => {
             <div
               key={question.question_id}
               className="survey-question-card"
-              ref={index === survey.questions.length - 1 ? lastQuestionRef : null} // Attach ref to the last question
+              ref={index === survey.questions.length - 1 ? lastQuestionRef : null}
             >
-              <div className="question-top-bar" /> {/* Colored Top Bar */}
+              <div className="question-top-bar" />
               <div className="question-header">
                 <span className="question-index">{index + 1}</span>
                 <h4 className="question-title">Question {index + 1}</h4>
@@ -330,7 +328,6 @@ const CreateSurvey = () => {
                         onChange={(e) => handleOptionChange(index, optionIndex, 'option_text', e.target.value)}
                         className="option-input no-border"
                       />
-                      {/* Selector for option value */}
                       <select
                         value={option.option_value}
                         onChange={(e) => handleOptionChange(index, optionIndex, 'option_value', e.target.value)}

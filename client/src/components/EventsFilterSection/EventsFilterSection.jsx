@@ -2,8 +2,17 @@ import React, { useState, useEffect } from 'react';
 import './EventsFilterSection.css';
 import filterIcon from "../../assets/svgs/filter-outline.svg";
 
-const EventsFilterSection = ({ filters, onFilterChange }) => {
-  const [localFilters, setLocalFilters] = useState(filters); // Local state to handle changes before applying
+const EventsFilterSection = ({ filters = {}, onFilterChange = () => {} }) => {
+  // Default state shape to ensure each key has a default value
+  const [localFilters, setLocalFilters] = useState({
+    searchTerm: '',
+    startDate: '',
+    endDate: '',
+    types: [],
+    categories: [],
+    organizations: [],
+    ...filters, // Override defaults with any provided `filters` props
+  });
 
   // Handle changes in search, date, and checkbox filters
   const handleInputChange = (e) => {
@@ -14,8 +23,10 @@ const EventsFilterSection = ({ filters, onFilterChange }) => {
   const handleCheckboxChange = (e, group) => {
     const { name, checked } = e.target;
     setLocalFilters((prevFilters) => {
-      const groupValues = prevFilters[group];
-      const updatedGroupValues = checked ? [...groupValues, name] : groupValues.filter((val) => val !== name);
+      const groupValues = prevFilters[group] || [];
+      const updatedGroupValues = checked
+        ? [...groupValues, name]
+        : groupValues.filter((val) => val !== name);
       return { ...prevFilters, [group]: updatedGroupValues };
     });
   };
@@ -52,18 +63,30 @@ const EventsFilterSection = ({ filters, onFilterChange }) => {
               <label className="filter-label mb-2">DATE</label>
               <div className="date-picker mb-2">
                 <label>From</label>
-                <input type="date" className="form-control" name="startDate" value={localFilters.startDate} onChange={handleInputChange} />
+                <input
+                  type="date"
+                  className="form-control"
+                  name="startDate"
+                  value={localFilters.startDate}
+                  onChange={handleInputChange}
+                />
               </div>
               <div className="date-picker">
                 <label>Until</label>
-                <input type="date" className="form-control" name="endDate" value={localFilters.endDate} onChange={handleInputChange} />
+                <input
+                  type="date"
+                  className="form-control"
+                  name="endDate"
+                  value={localFilters.endDate}
+                  onChange={handleInputChange}
+                />
               </div>
             </div>
 
             {/* Type Filter */}
             <div className="filter-group mb-4">
               <label className="filter-label mb-2">TYPE</label>
-              <div className="form-check-group ">
+              <div className="form-check-group">
                 {['Virtual', 'Face-to-face', 'Reunion'].map((type) => (
                   <div className="form-check d-flex align-items-center" key={type}>
                     <input

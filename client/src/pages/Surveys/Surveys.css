@@ -63,6 +63,10 @@
 }
 
 @media screen and (max-width: 768px) {
+
+  .survey-section .container {
+    margin: 20px 5px;
+  }
   .survey-header h2 {
     font-size: 20px;
   }

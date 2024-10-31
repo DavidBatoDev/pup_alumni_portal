@@ -92,7 +92,9 @@
     margin-top: auto; /* Push the button to the bottom */
   }
 
-
+ .alumni-section .container p {
+  font-size: 30px;
+ }
 
 
   @media (max-width: 768px) {

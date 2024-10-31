@@ -116,13 +116,12 @@
   text-align: center;
 }
 
-
+/* Responsive styling for screens 768px and below */
 @media screen and (max-width: 768px) {
   .survey-card-grid {
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    display: grid;
+    grid-template-columns: 1fr; /* Stacks items in a single column */
     gap: 10px;
-    display: flex;
-    justify-content: center;
   }
 
   .survey-text-muted {
@@ -135,7 +134,7 @@
   }
 
   .survey-card-item {
-    width: 170px;
+    width: 100%; /* Full width of the container */
   }
 
   .survey-card-title {
@@ -154,5 +153,5 @@
   .no-survey-message-container {
     width: 350px;
   }
-  
 }
+ 

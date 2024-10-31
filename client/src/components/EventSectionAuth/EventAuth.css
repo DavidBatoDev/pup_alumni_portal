@@ -1,42 +1,103 @@
+/* General background and text colors */
 .bg-light {
-    background-color: #f8f9fa !important;
-  }
+  background-color: #f8f9fa !important;
+}
 
 .text-danger {
-    color: #d9534f !important;
+  color: #d9534f !important;
 }
 
-.search-icon{
-    height: 20px;
+.search-icon {
+  height: 20px;
 }
 
- .events-card-container{
-    font-family: "Crimson Text";
-    min-height: 830px;
-    display: flex;;
+/* Event card container styling */
+.events-card-container {
+  font-family: "Crimson Text";
+  min-height: 830px;
+  display: flex;
 }
 
+/* Filter search section and categories */
 .filter-search-section {
-    display: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
 }
 
+/* Filter event wrapper alignment */
 .filter-event-wrapper {
-    display: flex;
-    justify-content: flex-end;
-    text-align: end;
-    width: 100%;
-    align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  text-align: end;
+  width: 100%;
+  align-items: center;
 }
 
+/* Filter tags within the filter search section */
+.filter-search-categories {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  scrollbar-width: thin; /* Firefox: thin scrollbar */
+  -ms-overflow-style: none; /* Internet Explorer and Edge */
+  flex: 1;
+}
+
+/* Hide scrollbar for Webkit browsers */
+.filter-search-categories::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-search {
+  padding: 5px 10px;
+  border: 1px solid #1e1e1e;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.filter-search.active {
+  background-color: #870000;
+  color: #fff;
+  border-color: #870000;
+}
+
+/* Divider between filter categories and All button */
+.filter-divider {
+  height: 20px;
+  width: 1px;
+  background-color: #1e1e1e;
+  margin-left: 10px;
+}
+
+/* Styling for the "All" button */
+.filter-search-all {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.filter-search-all .filter-search {
+  font-weight: bold;
+}
+
+.filter-search-all img {
+  width: 20px;
+  height: auto;
+}
+
+/* Pagination styling */
 .pagination-container {
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-
 }
 
-/* General styles for pagination links */
 .pagination .page-item .page-link {
   color: #000; /* Default color for page links */
   background-color: #f8f9fa; /* Default background color */
@@ -46,45 +107,129 @@
   outline: none; /* Remove default focus outline */
 }
 
-/* Remove blue border when the pagination link is clicked (focused) */
+/* Remove blue border when pagination link is focused */
 .pagination .page-item .page-link:focus {
-  outline: none; /* Completely remove the outline */
-  box-shadow: none; /* Remove any focus box shadow if applied */
+  outline: none;
+  box-shadow: none;
 }
 
-/* Styling for active page links */
+/* Active pagination link styling */
 .pagination .page-item.active .page-link {
-  background-color: #870000; /* Background color for active link */
-  color: #fff; /* Text color for active link */
-  border-color: #870000; /* Border color for active link */
+  background-color: #870000;
+  color: #fff;
+  border-color: #870000;
 }
 
-/* Optional hover effect for all page links */
+/* Pagination hover effect */
 .pagination .page-item .page-link:hover {
-  background-color: #870000; /* Change background on hover */
-  color: #fff; /* Change text color on hover */
-  border-color: #870000; /* Maintain border color on hover */
+  background-color: #870000;
+  color: #fff;
+  border-color: #870000;
 }
 
+/* Filter section overlay styling */
 .filter-section-overlay {
+  position: fixed;
+  top: 0;
+  left: -100%; /* Start off-screen */
+  height: 100%;
+  width: 100%;
+  max-width: 320px;
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  transition: left 0.3s ease-in-out;
+}
+
+/* When visible, slide in */
+.slide-in {
+  left: 0 !important;
+}
+
+/* Background overlay */
+.overlay-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+/* View event history link */
+.view-event-history {
+  font-size: 15px;
+  color: #1e1e1eb9;
+  text-decoration: none;
+}
+
+.view-event-history:hover {
+  border-bottom: 1px solid #870000;
+}
+
+/* Responsive styles for screens smaller than 768px */
+@media (max-width: 768px) {
+
+  /* Filter section overlay for mobile */
+  .filter-section-overlay {
+    align-content: center;
     position: fixed;
     top: 0;
     left: -100%;
     height: 100%;
     width: 100%;
-    max-width: 320px; /* Width of the filter section */
+    max-width: 320px;
     background: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    z-index: 3;
+    z-index: 100;
     transition: left 0.3s ease-in-out;
+    overflow-y: scroll;
   }
 
-  /* Add the sliding effect */
+  /* Active style for filter tags on mobile */
+  .filter-search.active {
+    background-color: #870000;
+    color: #fff;
+    border: 1px solid #870000;
+  }
+
+  /* Filter search categories styling on mobile */
+  .filter-search-categories {
+    display: flex;
+    align-items: center;
+    border-right: #1e1e1e 1px solid;
+    margin-right: 5px;
+    justify-content: space-between;
+    width: 100%;
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }
+
+  /* Hide scrollbar for Webkit browsers on mobile */
+  .filter-search-categories::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Filter search styling for individual tags on mobile */
+  .filter-search-categories .filter-search {
+    border: 1px solid #1e1e1e;
+    padding: 5px 10px;
+    border-radius: 20px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  /* Add sliding effect on mobile */
   .slide-in {
     left: 0;
   }
 
-  /* Optional overlay to show behind the filter for aesthetics */
+  /* Ensure filter container is visible within overlay */
+  .filter-section-overlay .filter-container {
+    display: block;
+  }
+
+  /* Overlay background styling */
   .overlay-background {
     position: fixed;
     top: 0;
@@ -92,139 +237,60 @@
     height: 100%;
     width: 100%;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 3; /* Lower z-index than the filter */
+    z-index: 3;
   }
 
-
-  .filter-search-categories{
-    display: none;
+  /* Adjust event header for mobile view */
+  .event-header {
+    flex-direction: column;
+    gap: 20px;
   }
 
-  .view-event-history{
-    font-size: 15px;
-    color: #1e1e1eb9;
-    text-decoration: none;
+  .container {
+    margin-top: 20px;
   }
 
-  .view-event-history:hover{
+  /* Upcoming events count styling */
+  .filter-event-wrapper .text-muted {
+    display: flex;
+    text-align: start;
+    width: 100%;
+    margin-left: 7px;
+    margin-bottom: 0;
+  }
+
+  /* Display filter-search-section on mobile with aligned content */
+  .filter-search-section {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+    margin-right: 5px;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .filter-search-section .filter-search.active {
+    cursor: pointer;
     border-bottom: 1px solid #870000;
   }
 
-
-/* src/components/EventAuth/EventAuth.css */
-
-@media (max-width: 768px) {
-
-    .filter-section-overlay {
-        align-content: center;
-        position: fixed;
-        top: 0;
-        left: -100%;
-        height: 100%;
-        width: 100%;
-        max-width: 320px; /* Width of the filter section */
-        background: white;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        z-index: 4;
-        transition: left 0.3s ease-in-out;
-      }
-
-      /* Styles when a filter item is clicked (active) */
-      .filter-search.active {
-        background-color: #870000; /* Your preferred background color */
-        color: #fff; /* White text when active */
-        border: 1px solid #870000; /* Match the border with background */
-}
-
-
-
-      .filter-search-categories {
-        display: flex;
-        align-items: center;
-        border-right: #1E1e1e 1px solid;
-        margin-right: 5px;
-        justify-content:space-between;
-        width: 100%;
-      }
-
-      .filter-search-categories .filter-search {
-        border: 1px solid #1E1e1e;
-        padding: 5px 10px;
-        border-radius: 20px;
-        width: 100%;
-        text-align: center;
-      }
-
-      /* Add the sliding effect */
-      .slide-in {
-        left: 0;
-      }
-
-      .filter-section-overlay .filter-container {
-        display: block; /* Ensure the filter container is visible */
-      }
-
-      /* Optional overlay to show behind the filter for aesthetics */
-      .overlay-background {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 3; /* Lower z-index than the filter */
-      }
-
-    .event-header{
-        flex-direction: column;
-        gap:20px;
-    }
-
-    .container{
-        margin-top: 20px;
-    }
-
-    .filter-event-wrapper .text-muted{
-      display: flex   ;
-      text-align: start;
-      width: 100%;
-      margin-left: 7px;
-      margin-bottom: 0;
+  .filter-search {
+    font-size: 15px;
+    color: #1e1e1e;
+    align-content: center;
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid #1e1e1e;
+    border-radius: 20px;
+    background: transparent;
+    color: #1e1e1e;
+    transition: color 0.3s ease;
+    margin: 0 5px;
   }
 
-    .filter-search-section{
-        display: flex;
-        justify-content: flex-end;
-        gap: 5px;
-        margin-right: 5px;
-        align-items: center;
-        justify-content: space-around;
-    }
-
-    .filter-search-section .filter-search.active{
-        cursor: pointer;
-        border-bottom: 1px solid #870000;
-
-    }
-
-    .filter-search{
-        font-size: 15px;
-        color: #1E1e1e;
-        align-content: center;
-        cursor: pointer;
-        padding: 5px 10px; /* Adjusted padding for consistent sizing */
-        border: 1px solid #1e1e1e;
-        border-radius: 20px; /* Rounded corners */
-        background: transparent; /* Default background */
-        color: #1e1e1e; /* Default text color */
-        transition: color 0.3s ease;
-        margin: 0 5px; /* Space between buttons */
-    }
-
-    .filter-search-section img{
-        height: auto;
-        width: 20px;
-    }
-
-
+  /* Menu icon size within filter-search-section */
+  .filter-search-section img {
+    height: auto;
+    width: 20px;
+  }
 }
