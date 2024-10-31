@@ -24,4 +24,10 @@ class Survey extends Model
     {
         return $this->hasMany(FeedbackResponse::class, 'survey_id');
     }
+
+    public function sections()
+    {
+        return $this->hasMany(SurveySection::class, 'survey_id');
+    }
+
 }

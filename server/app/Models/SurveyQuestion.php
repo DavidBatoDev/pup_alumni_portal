@@ -1,5 +1,5 @@
 <?php
-// server/app/Models/SurveyOption.php
+// server/app/Models/SurveyQuestion.php
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +11,7 @@ class SurveyQuestion extends Model
 
     protected $primaryKey = 'question_id'; // Define the primary key
 
-    protected $fillable = ['survey_id', 'question_text', 'question_type'];
+    protected $fillable = ['survey_id', 'section_id', 'question_text', 'question_type'];
 
     public function options()
     {
@@ -21,5 +21,10 @@ class SurveyQuestion extends Model
     public function questionResponses()
     {
         return $this->hasMany(QuestionResponse::class, 'question_id');
+    }
+    
+    public function section()
+    {
+        return $this->belongsTo(SurveySection::class, 'section_id');
     }
 }
