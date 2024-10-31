@@ -12,11 +12,25 @@ const CreateSurvey = () => {
     description: '',
     start_date: '',
     end_date: '',
-    questions: [],
+    sections: [
+      {
+        section_title: '',
+        section_description: '',
+        questions: [
+          {
+            question_id: Date.now(),
+            question_text: '',
+            question_type: 'Open-ended',
+            options: [],
+          },
+        ],
+      },
+    ]
   });
   const [errors, setErrors] = useState({}); // Store validation errors
   const [alert, setAlert] = useState({ message: '', severity: '' }); // Alert state
   const lastQuestionRef = useRef(null); // Ref to track the last added question
+  const lastSectionRef = useRef(null);
   const [validation, setValidation] = useState({ // Store validation fields (survey information)
     title: true,
     description: true,
@@ -33,6 +47,7 @@ const CreateSurvey = () => {
       end_date: true,
     });
   };
+
 
   const validateEndDate = (startDate, endDate) => {
     const start = new Date(startDate);
@@ -56,29 +71,58 @@ const CreateSurvey = () => {
 
   const handleSurveyChange = (e) => setSurvey({ ...survey, [e.target.name]: e.target.value });
 
+  // Add new section to the survey
+  const addNewSection = () => {
+    const updatedSections = [...survey.sections];
+    const newSection = { section_title: '', section_description: '', questions: [] };
+    updatedSections.push(newSection);
+    setSurvey({ ...survey, sections: updatedSections });
+
+    setTimeout(() => {
+      lastSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 0);
+  };
+  
+
   // Add new question to the survey
-  const addNewQuestion = () => {
-    const newQuestion = { question_id: Date.now(), question_text: '', question_type: 'Open-ended', required: false, options: [] };
-    setSurvey((prevSurvey) => ({
-      ...prevSurvey,
-      questions: [...prevSurvey.questions, newQuestion],
-    }));
+  const addNewQuestion = (sectionIndex) => {
+    const updatedSections = [...survey.sections];
+    const newQuestion = { 
+      question_id: Date.now(), 
+      question_text: '', 
+      question_type: 'Open-ended', 
+      options: [] 
+    };
+    updatedSections[sectionIndex].questions.push(newQuestion);
+    setSurvey({ ...survey, sections: updatedSections });
+
+    if (sectionIndex === survey.sections.length - 1) {
+      setTimeout(() => {
+        lastQuestionRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 0);
+    }
   };
 
   useEffect(() => {
     if (lastQuestionRef.current) {
       lastQuestionRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [survey.questions.length]);
+  }, [survey.sections.length]);
 
-  const handleQuestionChange = (index, field, value) => {
-    const updatedQuestions = [...survey.questions];
+  const handleSectionChange = (sectionIndex, field, value) => {
+    const updatedSections = [...survey.sections];
+    updatedSections[sectionIndex][field] = value;
+    setSurvey({ ...survey, sections: updatedSections });
+  };
 
+  const handleQuestionChange = (sectionIndex, questionIndex, field, value) => {
+    const updatedSections = [...survey.sections];
     if (field === 'question_type') {
       if (value === 'Multiple Choice') {
-        updatedQuestions[index].options = [{ option_id: Date.now(), option_text: '1st option', option_value: '1' }];
+        updatedSections[sectionIndex].questions[questionIndex].options = [
+          { option_id: Date.now(), option_text: '1st option', option_value: '1' }];
       } else if (value === 'Rating') {
-        updatedQuestions[index].options = [
+        updatedSections[sectionIndex].questions[questionIndex].options = [
           { option_id: Date.now() + 5, option_text: 'Poorly', option_value: '1' },
           { option_id: Date.now() + 4, option_text: 'Unsatisfied', option_value: '2' },
           { option_id: Date.now() + 3, option_text: 'Neutral', option_value: '3' },
@@ -86,12 +130,11 @@ const CreateSurvey = () => {
           { option_id: Date.now() + 1, option_text: 'Very Satisfied', option_value: '5' },
         ];
       } else {
-        updatedQuestions[index].options = [];
+        updatedSections[sectionIndex].questions[questionIndex].options = [];
       }
     }
-
-    updatedQuestions[index][field] = value;
-    setSurvey({ ...survey, questions: updatedQuestions });
+    updatedSections[sectionIndex].questions[questionIndex][field] = value;
+    setSurvey({ ...survey, sections: updatedSections });
   };
 
   // Validate options to ensure no duplicate option_value exists in a question
@@ -115,59 +158,65 @@ const CreateSurvey = () => {
   };
 
   // Add an option to a specific question (if it's a multiple-choice or rating type)
-  const addOptionToQuestion = (questionIndex) => {
-    const updatedQuestions = [...survey.questions];
-    const nextOptionValue = updatedQuestions[questionIndex].options.length + 1;
-    updatedQuestions[questionIndex].options.push({ option_id: Date.now(), option_text: '', option_value: nextOptionValue });
-    setSurvey({ ...survey, questions: updatedQuestions });
+  const addOptionToQuestion = (sectionIndex, questionIndex) => {
+    const updatedSections = [...survey.sections];
+    updatedSections[sectionIndex].questions[questionIndex].options.push({ 
+      option_text: '', 
+      option_value: updatedSections[sectionIndex].questions[questionIndex].options.length + 1 
+    });
+    setSurvey({ ...survey, sections: updatedSections });
   };
 
-  // Update an option's text or value and validate for duplicate values
-  const handleOptionChange = (questionIndex, optionIndex, field, value) => {
-    const updatedQuestions = [...survey.questions];
-    updatedQuestions[questionIndex].options[optionIndex][field] = value;
-    setSurvey({ ...survey, questions: updatedQuestions });
 
-    // Validate options after setting a new option_value
-    if (field === 'option_value') {
-      validateOptions(questionIndex);
-    }
+  const handleOptionChange = (sectionIndex, questionIndex, optionIndex, field, value) => {
+    const updatedSections = [...survey.sections];
+    updatedSections[sectionIndex].questions[questionIndex].options[optionIndex][field] = value;
+    setSurvey({ ...survey, sections: updatedSections });
+
+    // if (field === 'option_value') {
+    //   validateOptions(questionIndex);
+    // }
   };
 
-  // Delete a question
-  const deleteQuestion = (index) => {
-    const updatedQuestions = survey.questions.filter((_, i) => i !== index);
-    setSurvey({ ...survey, questions: updatedQuestions });
+  const deleteSection = (index) => {
+    const updatedSections = survey.sections.filter((_, i) => i !== index);
+    setSurvey({ ...survey, sections: updatedSections });
   };
 
   // Delete an option from a specific question
-  const deleteOption = (questionIndex, optionIndex) => {
-    const updatedQuestions = [...survey.questions];
-    updatedQuestions[questionIndex].options = updatedQuestions[questionIndex].options.filter((_, i) => i !== optionIndex);
-    setSurvey({ ...survey, questions: updatedQuestions });
-    validateOptions(questionIndex);
-  };
+  const deleteQuestion = (sectionIndex, questionIndex) => {
+    const updatedSections = [...survey.sections];
+    updatedSections[sectionIndex].questions = updatedSections[sectionIndex].questions.filter((_, i) => i !== questionIndex);
+    setSurvey({ ...survey, sections: updatedSections });
+  }
+
+  // Delete an option from a specific question
+  const deleteOption = (sectionIndex, questionIndex, optionIndex) => {
+    const updatedSections = [...survey.sections];
+    updatedSections[sectionIndex].questions[questionIndex].options = updatedSections[sectionIndex].questions[questionIndex].options.filter((_, i) => i !== optionIndex);
+    setSurvey({ ...survey, sections: updatedSections });
+  }
+
 
   // Format the survey data to match the API payload structure
-  const formatSurveyPayload = () => {
-    const formattedQuestions = survey.questions.map((q) => ({
-      question_text: q.question_text,
-      question_type: q.question_type,
-      required: q.required,
-      options: q.question_type === 'Multiple Choice' || q.question_type === 'Rating' ? q.options.map((o) => ({
-        option_text: o.option_text,
-        option_value: parseInt(o.option_value, 10),
-      })) : [],
-    }));
-
-    return {
-      title: survey.title,
-      description: survey.description,
-      start_date: survey.start_date,
-      end_date: survey.end_date,
-      questions: formattedQuestions,
-    };
-  };
+  const formatSurveyPayload = () => ({
+    title: survey.title,
+    description: survey.description,
+    start_date: survey.start_date,
+    end_date: survey.end_date,
+    sections: survey.sections.map((section) => ({
+      section_title: section.section_title,
+      section_description: section.section_description,
+      questions: section.questions.map((question) => ({
+        question_text: question.question_text,
+        question_type: question.question_type,
+        options: question.options.map((option) => ({
+          option_text: option.option_text,
+          option_value: option.option_value,
+        })),
+      })),
+    })),
+  });
 
   // Save survey to the server with proper payload structure
   const saveSurvey = async () => {
@@ -213,24 +262,17 @@ const CreateSurvey = () => {
   return (
     <div className="create-survey-container">
       <AdminSidebar />
-
       <div className="create-survey-content">
-        {/* CustomAlert for showing messages */}
-        {alert.message && <CustomAlert message={alert.message} severity={alert.severity} onClose={handleCloseAlert} />}
-
+        {alert.message && <CustomAlert message={alert.message} severity={alert.severity} onClose={() => setAlert({ message: '', severity: '' })} />}
+        
         <div className="create-survey-header">
           <h2>Create New Survey</h2>
           <div className="create-survey-actions">
-            <button className="btn btn-secondary" onClick={cancelSurveyCreation}>
-              Cancel
-            </button>
-            <button className="btn btn-primary" onClick={saveSurvey} disabled={Object.keys(errors).length > 0}>
-              Save Survey
-            </button>
+            <button className="btn btn-secondary" onClick={() => navigate('/admin/surveys')}>Cancel</button>
+            <button className="btn btn-primary" onClick={saveSurvey}>Save Survey</button>
           </div>
         </div>
 
-        {/* Survey Information */}
         <div className="survey-info">
           <input
             type="text"
@@ -238,124 +280,116 @@ const CreateSurvey = () => {
             value={survey.title}
             placeholder="Survey Title"
             onChange={handleSurveyChange}
-            className={`form-control ${!validation.title ? 'is-invalid' : ''}`}
           />
-          <div className='invalid-feedback d-block'>
-            {validation.title ? '' : 'Title is required'}
-          </div>
           <textarea
             name="description"
             value={survey.description}
             placeholder="Survey Description"
             onChange={handleSurveyChange}
-            className={`form-control ${!validation.description ? 'is-invalid' : ''}`}
           />
-          <div className='invalid-feedback d-block'>
-            {validation.description ? '' : 'Description is required'}
-          </div>
           <div className="survey-date-fields">
             <input
               type="date"
               name="start_date"
               value={survey.start_date}
               onChange={handleSurveyChange}
-              className={`form-control ${!validation.start_date ? 'is-invalid' : ''}`}
+              className=""
             />
-            <div className='invalid-feedback d-block'>
-              {validation.start_date ? '' : 'Start date is required'}
-            </div>
             <input
               type="date"
               name="end_date"
               value={survey.end_date}
               onChange={handleSurveyChange}
-              className={`form-control ${!validation.end_date ? 'is-invalid' : ''}`}
+              className=""
             />
-            <div className='invalid-feedback d-block'>
-              {validation.end_date ? '' : 'End date is required and must be after the start date'}
-            </div>
           </div>
         </div>
 
-        {/* Survey Questions Section */}
-        <div className="survey-questions">
-          <h3>Survey Questions</h3>
-          {survey.questions.map((question, index) => (
-            <div
-              key={question.question_id}
-              className="survey-question-card"
-              ref={index === survey.questions.length - 1 ? lastQuestionRef : null}
-            >
-              <div className="question-top-bar" />
-              <div className="question-header">
-                <span className="question-index">{index + 1}</span>
-                <h4 className="question-title">Question {index + 1}</h4>
-                <div className="question-controls">
-                  <button className="btn btn-sm btn-outline-danger" onClick={() => deleteQuestion(index)}>
-                    🗑️
-                  </button>
+        <div className="survey-sections">
+
+          {survey.sections.map((section, sectionIndex) => (
+            <div key={section.section_id} className="survey-section-card" ref={sectionIndex === survey.sections.length - 1 ? lastSectionRef : null}>
+              <div className='survey-section--num'>
+                <h5>Section {sectionIndex + 1} of {survey.sections.length}</h5>
+              </div>
+              <div className='survey-section-info'>
+                <div className='survey-section-info--row-1'>
+                  <input
+                    type="text"
+                    value={section.section_title}
+                    placeholder="Section Title"
+                    onChange={(e) => handleSectionChange(sectionIndex, 'section_title', e.target.value)}
+                    className=""
+                  />
+                  <button button className="" onClick={() => deleteSection(sectionIndex)}>🗑️</button>
+                </div>
+                <div className='survey-section-info--row-2'>
+                <textarea
+                    value={section.section_description}
+                    placeholder="Section Description"
+                    onChange={(e) => handleSectionChange(sectionIndex, 'section_description', e.target.value)}
+                    className=""
+                  />
+                  
                 </div>
               </div>
-              <div className="question-content">
-                <input
-                  type="text"
-                  value={question.question_text}
-                  placeholder={`Question ${index + 1}`}
-                  onChange={(e) => handleQuestionChange(index, 'question_text', e.target.value)}
-                  className="form-control"
-                />
-                <select
-                  value={question.question_type}
-                  onChange={(e) => handleQuestionChange(index, 'question_type', e.target.value)}
-                  className="form-control question-type-dropdown"
-                >
-                  <option value="Open-ended">Open-ended</option>
-                  <option value="Multiple Choice">Multiple Choice</option>
-                  <option value="Rating">Rating</option>
-                </select>
-              </div>
-
-              {/* Display options if it's a multiple choice or rating question */}
-              {(question.question_type === 'Multiple Choice' || question.question_type === 'Rating') && (
-                <div className="survey-options">
-                  {question.options.map((option, optionIndex) => (
-                    <div key={option.option_id} className="option-input-group">
-                      <div className="option-circle" />
+              
+              <div className="section-questions">
+                {section.questions.map((question, questionIndex) => (
+                  <div key={question.question_id} className="survey-question-card" ref={sectionIndex === survey.sections.length - 1 ? lastQuestionRef : null}>
+                    <div className='survey-question-card--nav'>
                       <input
                         type="text"
-                        value={option.option_text}
-                        placeholder={`Option ${optionIndex + 1}`}
-                        onChange={(e) => handleOptionChange(index, optionIndex, 'option_text', e.target.value)}
-                        className="option-input no-border"
+                        value={question.question_text}
+                        placeholder={`Question ${questionIndex + 1}`}
+                        onChange={(e) => handleQuestionChange(sectionIndex, questionIndex, 'question_text', e.target.value)}
+                        className="survey-question--text"
                       />
                       <select
-                        value={option.option_value}
-                        onChange={(e) => handleOptionChange(index, optionIndex, 'option_value', e.target.value)}
-                        className={`form-control option-value-selector ${errors[index] ? 'error' : ''}`}
+                        value={question.question_type}
+                        onChange={(e) => handleQuestionChange(sectionIndex, questionIndex, 'question_type', e.target.value)}
+                        className="survey-question--select"
                       >
-                        {Array.from({ length: question.options.length }, (_, i) => i + 1).map((val) => (
-                          <option key={val} value={val}>{val}</option>
-                        ))}
+                        <option value="Open-ended">💬 Open-ended</option>
+                        <option value="Multiple Choice">©️ Multiple Choice</option>
                       </select>
-                      <button
-                        className="btn btn-danger btn-sm remove-option-btn"
-                        onClick={() => deleteOption(index, optionIndex)}
-                      >
-                        ✖
-                      </button>
                     </div>
-                  ))}
-                  {errors[index] && <p className="error-text">{errors[index]}</p>}
-                  <button className="btn add-option-btn" onClick={() => addOptionToQuestion(index)}>
-                    + Add Option
-                  </button>
-                </div>
-              )}
+                    {question.question_type === 'Multiple Choice' && (
+                      <div className="question-options">
+                        {question.options.map((option, optionIndex) => (
+                          <div key={option.option_id} className="option-input-group"> 
+                            <div className='option-input-group--values'>
+                              <input
+                                type="text"
+                                value={option.option_text}
+                                placeholder={`Option ${optionIndex + 1}`}
+                                onChange={(e) => handleOptionChange(sectionIndex, questionIndex, optionIndex, 'option_text', e.target.value)}
+                                className=""
+                              />
+                            <select
+                              value={option.option_value}
+                              onChange={(e) => handleOptionChange(sectionIndex, questionIndex, optionIndex, 'option_value', e.target.value)}
+                              className={`form-control option-value-selector ${errors[optionIndex] ? 'error' : ''}`}
+                            >
+                              {Array.from({ length: question.options.length }, (_, i) => i + 1).map((val) => (
+                                <option key={val} value={val}>{val}</option>
+                              ))}
+                            </select>
+                            <button className="btn btn-danger btn-sm" onClick={() => deleteOption(sectionIndex, questionIndex, optionIndex)}>✖</button>
+                            </div>
+                          </div>
+                        ))}
+                        <button className="btn add-option-btn" onClick={() => addOptionToQuestion(sectionIndex, questionIndex)}>+ Add Option</button>
+                      </div>
+                    )}
+                    <button className="btn btn-outline-danger" onClick={() => deleteQuestion(sectionIndex, questionIndex)}>🗑️ Delete Question</button>
+                  </div>
+                ))}
+                <button className="add-question-btn" onClick={() => addNewQuestion(sectionIndex)}>+ Add Question</button>
+              </div>
             </div>
           ))}
-          <button className="btn btn-primary add-question-btn" onClick={addNewQuestion}>
-            + Add Question
-          </button>
+          <button className="btn btn-secondary add-section-btn" onClick={addNewSection}>+ Add Section</button>
         </div>
       </div>
     </div>

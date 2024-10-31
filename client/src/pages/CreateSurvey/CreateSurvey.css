@@ -1,4 +1,9 @@
 /* General container for the entire Create Survey Page */
+input {
+  border: none;  
+  outline: none;
+}
+
 .create-survey-container {
     display: flex;
   }
@@ -91,22 +96,105 @@
 
   .survey-info input,
   .survey-info textarea {
+    border: none;
     width: 100%;
     padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    border-bottom: 2px solid #a52436;
+    border-radius: 2px;
     margin-bottom: 20px;
     font-size: 16px;
+    outline: none;
+  }
+
+  .survey-info textarea {
+    border-bottom: 2px solid #a52436;
+  }
+
+
+  .survey-info input:focus,
+  .survey-info textarea:focus {
+    border-bottom: 4px solid #a52436;
+    outline: none;
   }
 
   .survey-info textarea {
     resize: none;
-    height: 100px;
+    height: 50px;
+    border-bottom: 2px solid black;
+    outline: none;
   }
 
   .survey-info .is-invalid {
     border-radius: 8px !important;
   }
+
+  .survey-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .survey-section--num {
+    display: flex;
+    padding: 4px 10px;
+    background-color: #a52436;
+    color: white;
+    width: 150px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+  }
+
+  .survey-section-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: white;
+    margin-bottom: 10px;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .survey-section-info--row-1 {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .survey-section-info input,
+  .survey-section-info textarea {
+    background-color: transparent;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #a52436;
+    border-radius: 2px;
+    font-size: 16px;
+    outline: none;
+  }
+
+  
+  .survey-section-info input {
+    margin-bottom: 10px;
+  }
+
+  .survey-section-info textarea {
+    height: 40px;
+  }
+
+  .survey-section-info input:focus,
+  .survey-section-info textarea:focus {
+    border-bottom: 4px solid #a52436;
+    outline: none;
+  }
+
+  .survey-section-info button {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 8px;
+
+    color: white;
+    border: none;
+  }
+
 
   /* Survey date fields styling */
   .survey-date-fields {
@@ -148,6 +236,25 @@
     margin-bottom: 20px;
     border: 1px solid #ddd;
     position: relative;
+  }
+
+  .survey-question-card--nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 20px
+  }
+
+  .survey-question--text {
+    flex: 1;
+    background-color: #eeefef;
+    border: none;
+  
+  }
+
+  .survey-question--select {
+    flex:0.5;
   }
 
   .survey-question-card .question-top-bar {
@@ -219,15 +326,10 @@
     margin-top: 20px;
   }
 
-  .survey-options .option-input-group {
+  .option-input-group--values {
     display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-
-  .option-input-group .option-input {
-    flex-grow: 1;
-    margin-right: 10px;
+    gap: 10px;
+    margin-top: 10px;
   }
 
   .option-input-group .btn-danger {
@@ -258,17 +360,13 @@
   /* Add Question Button */
   .add-question-btn {
     width: 100%;
-    padding: 15px;
-    background-color: #a52436;
-    color: white;
     border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    margin-top: 30px;
+    color: #424242;
   }
 
   .add-question-btn:hover {
-    background-color: #c62828;
+    cursor: pointer;
+    color: #424242;
   }
 
   /* Mobile Responsive Design */
