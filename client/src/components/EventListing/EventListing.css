@@ -107,6 +107,7 @@
   height: 40px;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding-right: 100px;
 }
 
 /* Right-Aligned Content */
@@ -227,7 +228,7 @@
 
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 1024px) {
   .event-listing-wrapper .event-listing {
     flex-direction: column;
     align-items: center;
@@ -273,6 +274,10 @@
     font-size: 15px;
     justify-content: center;
     text-align: center;
+  }
+
+  .event-listing-wrapper .event-description {
+    padding-right: 0px;
   }
 
   .event-listing-wrapper .event-type {
