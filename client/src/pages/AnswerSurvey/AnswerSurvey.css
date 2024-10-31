@@ -1,18 +1,16 @@
-/* Container and layout */
+/* Main container with light red background */
 .answer-survey-container {
   max-width: 800px;
   margin: 40px auto;
-  padding: 40px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-  font-family: 'Arial', sans-serif;
+  padding: 20px;
+  background-color: #ffebee; /* Light red background */
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  border-radius: 8px;
 }
 
-/* Back button container */
+/* Back button styling */
 .as-back-btn-container {
-  position: relative;
   margin-bottom: 20px;
 }
 
@@ -21,207 +19,208 @@
   align-items: center;
   background: none;
   border: none;
-  color: #a52436;
-  font-size: 18px;
-  font-weight: 500;
+  color: #b71c1c; /* Dark red for back button */
+  font-size: 16px;
   cursor: pointer;
-  transition: color 0.3s ease;
+  transition: color 0.2s;
 }
 
 .as-back-btn:hover {
-  color: #c62828;
+  color: #d32f2f;
 }
 
 .as-back-btn i {
   margin-right: 8px;
-  font-size: 22px;
+  font-size: 18px;
 }
 
-/* Survey information styling */
+/* Survey title and description styling */
 .survey-info {
-  text-align: center;
-  margin-bottom: 40px;
+  background-color: #ffffff;
+  padding: 20px 25px;
+  border-radius: 8px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  text-align: left;
 }
 
 .survey-title {
-  font-size: 32px;
+  font-size: 24px;
   font-weight: bold;
-  color: #333;
-  margin-bottom: 15px;
+  color: #b71c1c; /* Primary red color for title */
+  margin-bottom: 10px;
 }
 
 .survey-description {
-  font-size: 18px;
-  color: #555;
-  margin-top: 5px;
+  font-size: 16px;
+  color: #5f6368;
 }
 
-/* Survey questions section */
-.survey-questions {
+/* Section title styling */
+.section-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #b71c1c; /* Red color for section title */
   margin-top: 20px;
+  margin-bottom: 10px;
 }
 
-.survey-questions-header {
-  font-size: 26px;
-  font-weight: 600;
-  color: #424242;
-  margin-bottom: 30px;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+.section-description {
+  font-size: 16px;
+  color: #5f6368;
+  margin-bottom: 20px;
 }
 
-/* Survey question card styling */
+/* Individual question styling */
 .as-survey-question-card {
   background-color: #ffffff;
-  padding: 25px;
-  border-radius: 10px;
-  border: 1px solid #eee;
-  margin-bottom: 25px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.3s ease-in-out, transform 0.2s ease;
-}
-
-.as-survey-question-card:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
-}
-
-/* Top bar styling */
-.as-question-top-bar {
-  height: 6px;
-  background-color: #a52436;
-  border-radius: 10px 10px 0 0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 1px 3px rgba(60, 64, 67, 0.15);
   margin-bottom: 20px;
+  position: relative;
+  border-left: 4px solid transparent; /* Default transparent border */
+  transition: border-color 0.2s, box-shadow 0.2s ease;
+}
+
+/* Top border color for each question card */
+.as-question-top-bar {
+  height: 4px;
+  background-color: #b71c1c; /* Red top border */
+  border-radius: 8px 8px 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+/* Focus effect on question card */
+.as-survey-question-card:focus-within {
+  border-left-color: #1a73e8; /* Blue border when focused */
+  box-shadow: 0px 2px 6px rgba(60, 64, 67, 0.3);
 }
 
 .as-question-header {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .as-question-index {
-  font-size: 22px;
-  font-weight: bold;
-  color: #424242;
+  font-size: 16px;
+  font-weight: 500;
+  color: #b71c1c;
+  margin-right: 5px;
 }
 
 .as-question-title {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 500;
   color: #333;
 }
 
-/* Multiple choice options styling */
+/* Options for multiple-choice questions */
 .multiple-choice-options {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding-left: 15px;
+  gap: 8px;
 }
 
 .option-item {
   display: flex;
   align-items: center;
-  gap: 12px;
 }
 
 .option-item input[type="radio"] {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
 }
 
 .option-item label {
-  font-size: 18px;
-  color: #555;
+  font-size: 15px;
+  color: #333;
 }
 
-/* Open-ended question textarea */
+/* Textarea for open-ended questions */
 textarea.form-control {
   width: 100%;
   padding: 12px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #f7f7f7;
-  resize: none;
+  font-size: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
   outline: none;
-  transition: border-color 0.3s ease;
+  resize: vertical;
+  margin-top: 5px;
+  transition: border-color 0.2s;
 }
 
 textarea.form-control:focus {
-  border-color: #a52436;
+  border-color: #b71c1c;
 }
 
-/* Submit button styling */
-.submit-survey {
-  text-align: center;
-  margin-top: 40px;
+/* Navigation buttons */
+.section-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
-.submit-survey .btn {
-  background-color: #a52436;
-  color: white;
-  padding: 14px 32px;
-  font-size: 18px;
-  font-weight: 600;
-  border-radius: 8px;
+.section-navigation .btn {
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 4px;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.2s ease;
 }
 
-.submit-survey .btn:hover {
-  background-color: #c62828;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+.section-navigation .btn-primary {
+  background-color: #b71c1c; /* Red color for primary button */
+}
+
+.section-navigation .btn-primary:hover {
+  background-color: #d32f2f;
+}
+
+.section-navigation .btn-secondary {
+  background-color: #9e9e9e;
+}
+
+.section-navigation .btn-secondary:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Input for open-ended question */
+.form-control {
+  font-size: 15px;
+  color: #333;
+  background-color: #fafafa;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-control:focus {
+  border-color: #b71c1c;
 }
 
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
   .answer-survey-container {
-    padding: 20px;
+    padding: 15px;
   }
 
   .survey-title {
-    font-size: 26px;
-  }
-
-  .survey-description {
-    font-size: 16px;
-  }
-
-  .survey-questions-header {
     font-size: 22px;
   }
 
-  .as-survey-question-card {
-    padding: 20px;
+  .section-navigation .btn {
+    padding: 8px 16px;
+    font-size: 14px;
   }
-
-  .as-question-index {
-    font-size: 18px;
-  }
-
-  .as-question-title {
-    font-size: 18px;
-  }
-
-  .option-item label {
-    font-size: 16px;
-  }
-
-  .submit-survey .btn {
-    padding: 12px 24px;
-    font-size: 16px;
-  }
-}
-
-.error {
-  border-color: red;
-}
-.error-text {
-  color: red;
-  font-size: 0.9rem;
 }

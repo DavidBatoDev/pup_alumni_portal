@@ -15,8 +15,8 @@ const AnswerSurvey = () => {
   const [surveyData, setSurveyData] = useState(null);
   const [responses, setResponses] = useState({});
   const [loading, setLoading] = useState(true);
+  const [currentSection, setCurrentSection] = useState(0);
 
-  // Fetch survey questions on component mount
   useEffect(() => {
     const fetchSurveyQuestions = async () => {
       try {
@@ -34,7 +34,6 @@ const AnswerSurvey = () => {
 
   const handleCloseAlert = () => setStatus({ message: '', severity: '' });
 
-  // Handle changes for multiple-choice questions
   const handleOptionChange = (questionId, optionId) => {
     setResponses((prevResponses) => ({
       ...prevResponses,
@@ -42,7 +41,6 @@ const AnswerSurvey = () => {
     }));
   };
 
-  // Handle changes for open-ended questions
   const handleTextChange = (questionId, text) => {
     setResponses((prevResponses) => ({
       ...prevResponses,
@@ -50,25 +48,38 @@ const AnswerSurvey = () => {
     }));
   };
 
-  // Submit survey responses to the backend API
   const handleSubmit = async () => {
     const formattedResponses = Object.values(responses);
     try {
       const response = await api.post(`/api/survey/${surveyId}/submit`, { responses: formattedResponses });
       if (response.status === 201) {
-        // Success alert message
         setStatus({ message: 'Survey submitted successfully!', severity: 'success' });
-        setTimeout(() => navigate('/surveys'), 2000);  // Redirect after 2 seconds
+        setTimeout(() => navigate('/surveys'), 2000);
       }
     } catch (error) {
       console.error('Error submitting survey:', error);
       const errorMessage = error.response?.data?.message || 'Failed to submit survey. Please try again.';
-      // Error alert message
       setStatus({ message: errorMessage, severity: 'error' });
     }
   };
 
+  const handleNextSection = () => {
+    if (currentSection < surveyData.sections.length - 1) {
+      setCurrentSection((prev) => prev + 1);
+    } else {
+      handleSubmit();
+    }
+  };
+
+  const handlePreviousSection = () => {
+    if (currentSection > 0) {
+      setCurrentSection((prev) => prev - 1);
+    }
+  };
+
   if (loading) return <CircularLoader />;
+
+  const currentSectionData = surveyData.sections[currentSection];
 
   return (
     <div className="answer-survey-container">
@@ -87,13 +98,15 @@ const AnswerSurvey = () => {
       </div>
 
       <div className="survey-info">
-        <h2 className="survey-title">{surveyData?.title}</h2>
+        <h2 className="survey-title">{surveyData?.survey}</h2>
         <p className="survey-description">{surveyData?.description}</p>
       </div>
 
-      <div className="survey-questions">
-        <h3 className="survey-questions-header">Survey Questions</h3>
-        {surveyData.questions.map((question, index) => (
+      <div className="as-survey-section">
+        <h3 className="section-title">{currentSectionData.section_title}</h3>
+        <p className="section-description">{currentSectionData.section_description}</p>
+
+        {currentSectionData.questions.map((question, index) => (
           <div key={question.question_id} className="as-survey-question-card">
             <div className="as-question-top-bar" />
             <div className="as-question-header">
@@ -129,9 +142,16 @@ const AnswerSurvey = () => {
         ))}
       </div>
 
-      <div className="submit-survey">
-        <button className="btn btn-primary" onClick={handleSubmit}>
-          Submit Survey
+      <div className="section-navigation">
+        <button
+          className="btn btn-secondary"
+          onClick={handlePreviousSection}
+          disabled={currentSection === 0}
+        >
+          Previous Section
+        </button>
+        <button className="btn btn-primary" onClick={handleNextSection}>
+          {currentSection === surveyData.sections.length - 1 ? 'Submit Survey' : 'Next Section'}
         </button>
       </div>
     </div>
