@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './EventListing.css';
-import eventImg from '../../assets/images/eventimage1.png'; 
+import eventImg from '../../assets/images/eventimage1.png';
+import { useNavigate } from 'react-router-dom';
+
 const EventListing = ({ eventData, onEdit }) => {
+  const navigate = useNavigate();
+
   // Extract date information to display it in a specific format
   const eventDate = new Date(eventData.event_date);
   const day = eventDate.getDate();
@@ -15,8 +19,12 @@ const EventListing = ({ eventData, onEdit }) => {
       ? eventData.photos[0].photo_path // Use the first photo
       : eventImg; // Fallback to default image
 
+  const handleEventClick = () => {
+    navigate(`/admin/event/${eventData.event_id}`);
+  }
+
   return (
-    <div className="event-listing-wrapper">
+    <div className="event-listing-wrapper" >
       <div className="event-listing">
         {/* Left-Aligned Date Section */}
         <div className="event-date-section">
@@ -46,9 +54,10 @@ const EventListing = ({ eventData, onEdit }) => {
         </div>
 
         {/* Right-Aligned Content */}
-        <div className="event-additional-info">
+        <div className="event-interactions">
           <span className="event-type">{eventData.type}</span>
-          <span className="edit-icon" onClick={() => onEdit(eventData.event_id)}>✎</span>
+          <i className="view-icon btn btn-danger fa-regular fa-xl fa-address-book" onClick={handleEventClick}></i>
+          <i className="edit-icon btn btn-light fa-regular fa-xl fa-pen-to-square" onClick={() => onEdit(eventData.event_id)}></i>
         </div>
       </div>
     </div>
