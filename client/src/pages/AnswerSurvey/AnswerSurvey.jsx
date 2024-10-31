@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
 import api from '../../api';
 import { useParams, useNavigate } from 'react-router-dom';
 import './AnswerSurvey.css';
@@ -7,15 +6,15 @@ import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 
 const AnswerSurvey = () => {
-  const { surveyId } = useParams(); // Extract survey ID from the URL
+  const { surveyId } = useParams();
   const navigate = useNavigate();
   const [status, setStatus] = useState({
     message: '',
     severity: '',
-  }); // Store error message
-  const [surveyData, setSurveyData] = useState(null); // Store survey information
-  const [responses, setResponses] = useState({}); // Store user responses
-  const [loading, setLoading] = useState(true); // Track loading state
+  });
+  const [surveyData, setSurveyData] = useState(null);
+  const [responses, setResponses] = useState({});
+  const [loading, setLoading] = useState(true);
 
   // Fetch survey questions on component mount
   useEffect(() => {
@@ -23,9 +22,9 @@ const AnswerSurvey = () => {
       try {
         const response = await api.get(`/api/survey/${surveyId}/questions`);
         setSurveyData(response.data);
-        setLoading(false);
       } catch (error) {
         console.error('Error fetching survey questions:', error);
+      } finally {
         setLoading(false);
       }
     };
@@ -33,71 +32,74 @@ const AnswerSurvey = () => {
     fetchSurveyQuestions();
   }, [surveyId]);
 
-  const handleCloseAlert = () => {
-    setStatus({ message: '', severity: '' });
-  }
+  const handleCloseAlert = () => setStatus({ message: '', severity: '' });
 
   // Handle changes for multiple-choice questions
   const handleOptionChange = (questionId, optionId) => {
-    setResponses({ ...responses, [questionId]: { question_id: questionId, option_id: optionId, response_text: null } });
+    setResponses((prevResponses) => ({
+      ...prevResponses,
+      [questionId]: { question_id: questionId, option_id: optionId, response_text: null },
+    }));
   };
 
   // Handle changes for open-ended questions
   const handleTextChange = (questionId, text) => {
-    setResponses({ ...responses, [questionId]: { question_id: questionId, option_id: null, response_text: text } });
+    setResponses((prevResponses) => ({
+      ...prevResponses,
+      [questionId]: { question_id: questionId, option_id: null, response_text: text },
+    }));
   };
 
   // Submit survey responses to the backend API
   const handleSubmit = async () => {
     const formattedResponses = Object.values(responses);
-    console.log(JSON.stringify(formattedResponses));
     try {
       const response = await api.post(`/api/survey/${surveyId}/submit`, { responses: formattedResponses });
       if (response.status === 201) {
-        navigate('/surveys'); // Redirect to surveys page after successful submission
-      } else {
-        setStatus({ message: 'Failed to submit survey. Please try again.', severity: 'error' });
-        setResponses({}); // Clear responses on error
+        // Success alert message
+        setStatus({ message: 'Survey submitted successfully!', severity: 'success' });
+        setTimeout(() => navigate('/surveys'), 2000);  // Redirect after 2 seconds
       }
     } catch (error) {
       console.error('Error submitting survey:', error);
-      setStatus({ message: error.response.data.message, severity: 'error' });
-      setResponses({}); // Clear responses on error
+      const errorMessage = error.response?.data?.message || 'Failed to submit survey. Please try again.';
+      // Error alert message
+      setStatus({ message: errorMessage, severity: 'error' });
     }
   };
 
-  if (loading) {
-    return <CircularLoader />;
-  }
+  if (loading) return <CircularLoader />;
 
   return (
     <div className="answer-survey-container">
-      {status.message && <CustomAlert message={status.message} severity={status.severity} onClose={handleCloseAlert}/>}
-      
-      {/* Back Button with Font Awesome Icon */}
-      <div className='as-back-btn-container'>
-        <button className='as-back-btn' onClick={() => navigate(-1)}>
+      {status.message && (
+        <CustomAlert
+          message={status.message}
+          severity={status.severity}
+          onClose={handleCloseAlert}
+        />
+      )}
+
+      <div className="as-back-btn-container">
+        <button className="as-back-btn" onClick={() => navigate(-1)}>
           <i className="fas fa-arrow-left"></i> Back
         </button>
       </div>
 
-      {/* Survey Information */}
       <div className="survey-info">
         <h2 className="survey-title">{surveyData?.title}</h2>
         <p className="survey-description">{surveyData?.description}</p>
       </div>
 
-      {/* Survey Questions Section */}
       <div className="survey-questions">
         <h3 className="survey-questions-header">Survey Questions</h3>
         {surveyData.questions.map((question, index) => (
           <div key={question.question_id} className="as-survey-question-card">
-            <div className="as-question-top-bar" /> {/* Top bar styling */}
+            <div className="as-question-top-bar" />
             <div className="as-question-header">
               <span className="as-question-index">{index + 1}.)</span>
               <div className="as-question-title">{question.question_text}</div>
             </div>
-            {/* Display question based on its type */}
             <div className="as-question-content">
               {question.question_type === 'Open-ended' ? (
                 <textarea
@@ -127,7 +129,6 @@ const AnswerSurvey = () => {
         ))}
       </div>
 
-      {/* Submit Button */}
       <div className="submit-survey">
         <button className="btn btn-primary" onClick={handleSubmit}>
           Submit Survey
