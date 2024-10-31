@@ -40,7 +40,7 @@ const SurveyListing = ({ surveyData }) => {
         <h2 className="survey-listing-title">{title}</h2>
         <span className="survey-listing-date">Created: {formatDate(creation_date)}</span>
       </div>
-      
+
       {/* Survey Description */}
       <p className="survey-listing-description">{description}</p>
 

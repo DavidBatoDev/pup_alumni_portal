@@ -1,0 +1,99 @@
+/* src/pages/AdminSpecificEvent/AdminSpecificEvent.css */
+
+/* Container for the entire Admin Specific Event Page */
+.admin-specific-event-container {
+  margin-left: 250px; /* Adjust to match sidebar width */
+  padding: 20px;
+}
+
+/* Sidebar visibility */
+.admin-specific-event-container.mobile .admin-sidebar {
+  display: none; /* Hide sidebar in mobile view */
+}
+
+.admin-specific-event .back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.125rem 0.125rem;
+  width: 2rem;
+  height: 2rem;
+  text-decoration: none;
+  box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
+}
+
+/* Content area styling */
+.admin-specific-event-content {
+  flex-grow: 1;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff; /* Light gray background */
+  min-height: 100vh;
+  width: 100%;
+}
+
+.admin-specific-event-content.mobile-content {
+  margin-left: 0; /* Remove left margin for mobile */
+  padding: 10px; /* Adjust padding for mobile view */
+}
+
+/* Event title styling */
+.admin-specific-event-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.admin-specific-event-description {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.admin-specific-event-details-container {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.admin-specific-event-details {
+  font-size: 0.75rem;
+  min-width: fit-content;
+  color: #666;
+  padding: 0.1rem 0.75rem;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+/* Responsive Design: Tablet */
+@media only screen and (max-width: 768px) {
+  .admin-specific-event {
+    flex-direction: column; /* Stack sidebar on top of content */
+  }
+
+  .admin-specific-event-container {
+    margin-left: 0; /* Remove left margin for mobile */
+    padding: 10px; /* Adjust padding for mobile view */
+  }
+
+  .admin-specific-event-content {
+    padding: 20px;
+  }
+
+  .admin-specific-event-title {
+    font-size: 1.5rem;
+  }
+}
+/* Responsive Design: Mobile Screens */
+@media only screen and (max-width: 425) {
+  .admin-specific-event-title {
+    font-size: 20px;
+  }
+  .admin-specific-event-description {
+    font-size: 0.75rem;
+  }
+  .admin-specific-event-details {
+    font-size: 0.5rem;
+  }
+}
