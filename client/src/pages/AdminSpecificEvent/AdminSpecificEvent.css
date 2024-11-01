@@ -16,10 +16,26 @@
   align-items: center;
   justify-content: center;
   padding: 0.125rem 0.125rem;
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   text-decoration: none;
+  transition: color 0.3s ease;
   box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
+}
+
+.admin-specific-event .edit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.125rem 0.125rem;
+  width: 2.5rem;
+  height: 2.5rem;
+
+  box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
+  color: #a50000;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
 
 /* Content area styling */
@@ -39,7 +55,7 @@
 
 /* Event title styling */
 .admin-specific-event-title {
-  font-size: 28px;
+  font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 10px;
 }

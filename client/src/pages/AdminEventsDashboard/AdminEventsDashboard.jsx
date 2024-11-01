@@ -47,7 +47,6 @@ const AdminEventsDashboard = () => {
   const handleAddEvent = () => {
     setIsEditing(false);
     setCurrentEventId(null);
-    console.log('adding event');
     setShowModal(true);
   };
 
@@ -56,7 +55,6 @@ const AdminEventsDashboard = () => {
   const handleEditEvent = (eventId) => {
     setIsEditing(true);
     setCurrentEventId(eventId);
-    console.log('editing event id:', eventId);
     setShowModal(true);
   };
 
