@@ -5,9 +5,9 @@ import axios from 'axios';
 import AdminSidebar from '../../components/AdminSidebar/AdminSidebar';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
-import ModalContainer from '../../components/ModalContainer/ModalContainer';
+import AdminEventsFormModal from '../../components/AdminEventsFormModal/AdminEventsFormModal';
 import { Link } from 'react-router-dom';
-
+import { useMediaQuery } from 'react-responsive';
 import { useParams } from 'react-router-dom';
 
 
@@ -18,6 +18,20 @@ const AdminSpecificEvent = () => {
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
   const [formattedEventData, setFormattedEventData] = useState([]);
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [currentEventId, setCurrentEventId] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [eventsList, setEventsList] = useState([]);
+  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+
+  // Fetch event details and open modal for editing
+  const handleEditEvent = (eventId) => {
+    setIsEditing(true);
+    setCurrentEventId(eventId);
+    setShowModal(true);
+  };
 
   useEffect(() => {
     if (eventData) {
@@ -60,7 +74,7 @@ const AdminSpecificEvent = () => {
     };
 
     fetchSurveyData();
-  }, [eventId]);
+  }, [eventId, updateSuccess]);
 
   return (
     <div className='admin-specific-event'>
@@ -69,11 +83,25 @@ const AdminSpecificEvent = () => {
 
       <AdminSidebar />
 
+      <AdminEventsFormModal
+        showModal={showModal}
+        closeModal={() => setShowModal(false)}
+        isEditing={isEditing}
+        currentEventId={currentEventId}
+        eventsList={eventsList}
+        setEventsList={setEventsList}
+        setUpdateSuccess={setUpdateSuccess}
+        isMobile={isMobile}
+      />
+
       <div className="admin-specific-event-container">
         <div className="admin-specific-event-content">
           <div className='admin-specific-event-info'>
             <div className='d-flex flex-row justify-content-between align-content-end'>
-              <h1 className='admin-specific-event-title'>{eventData?.event_name}</h1>
+              <div className='d-flex flex-row gap-2'>
+                <h1 className='admin-specific-event-title'>{eventData?.event_name}</h1>
+                <i className="edit-btn btn btn-light rounded-circle fa-regular fa-xl fa-pen-to-square" onClick={() => handleEditEvent(eventData.event_id)}></i>
+              </div>
               <Link to="/admin/events" style={{ textDecoration: 'none' }}><i className="back-btn btn btn-light fa-solid fa-angle-left rounded-circle"></i></Link>
             </div>
 
@@ -84,7 +112,7 @@ const AdminSpecificEvent = () => {
                 </span>
               ))}
             </div>
-            <p className='admin-specific-event-description'>{eventData?.description}</p>
+            <p className='admin-specific-event-description' dangerouslySetInnerHTML={{__html: eventData?.description}}/>
           </div>
           {/* Table of Participants */}
           <div className='table-responsive'>
@@ -122,7 +150,7 @@ const AdminSpecificEvent = () => {
           </div>
         </div>
       </div>
-      
+
     </div>
   );
 };
