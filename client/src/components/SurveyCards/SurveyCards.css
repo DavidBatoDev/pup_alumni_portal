@@ -42,9 +42,9 @@
 }
 
 /* Survey information inside each card */
-.survey-card-information {
-  margin-bottom: 20px;
-}
+/* .survey-card-information {
+
+} */
 
 .survey-card-title {
   font-size: 22px; /* Slightly larger font */
@@ -56,7 +56,6 @@
 .survey-card-description {
   font-size: 16px;
   color: #7f8c8d; /* Muted color for description */
-  margin-bottom: 20px; /* More space before button */
   max-height: 70px; /* Limit description height */
   overflow: hidden; /* Hide overflow text */
 }

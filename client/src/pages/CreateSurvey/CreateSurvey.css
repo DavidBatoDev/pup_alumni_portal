@@ -15,7 +15,7 @@ input {
   /* Content area styling */
   .create-survey-content {
     flex-grow: 1;
-    padding: 30px 300px;
+    padding: 30px 350px;
     margin-left: 250px; /* Adjust to match sidebar width */
   }
 
@@ -150,7 +150,7 @@ input {
     gap: 20px;
     background-color: white;
     margin-bottom: 10px;
-    padding: 20px;
+    padding: 40px 20px;
     border-radius: 10px;
   }
 
@@ -230,7 +230,7 @@ input {
   /* Question Card Styling */
   .survey-question-card {
     background: #ffffff;
-    padding: 20px;
+    padding: 30px 20px;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
@@ -401,7 +401,8 @@ input {
     }
 
     .survey-question-card {
-      padding: 15px;
+      padding: 15px 15px;
+      background-color: black;
     }
 
     .question-header {

@@ -45,9 +45,10 @@ const Surveys = () => {
           },
         });
         setUnansweredSurveysData(response.data.surveys);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching surveys:", error);
+      }
+      finally {
         setLoading(false);
       }
     };
@@ -60,9 +61,10 @@ const Surveys = () => {
           },
         });
         setAnswerSurveyData(response.data.surveys);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching surveys:", error);
+      }
+      finally {
         setLoading(false);
       }
     };
@@ -88,7 +90,7 @@ const Surveys = () => {
       />
 
       {/* Main Survey Section */}
-      <div className="survey-section glass">
+      <div className="surveys-section glass">
         <div className="container">
           {/* Unanswered Surveys Section */}
           <div className="survey-header">

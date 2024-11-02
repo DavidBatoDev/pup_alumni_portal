@@ -4,7 +4,7 @@ import axios from 'axios';
 import AdminSidebar from '../../components/AdminSidebar/AdminSidebar';
 import './SurveyInformationResponses.css';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
-import { useMediaQuery } from 'react-responsive'; // Import useMediaQuery
+import { useMediaQuery } from 'react-responsive';
 
 const SurveyInformationResponses = () => {
   const { surveyId } = useParams();
@@ -12,7 +12,6 @@ const SurveyInformationResponses = () => {
   const [responses, setResponses] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Define media query for mobile responsiveness
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
   useEffect(() => {
@@ -20,7 +19,7 @@ const SurveyInformationResponses = () => {
       try {
         setLoading(true);
         const token = localStorage.getItem('token');
-        
+
         const surveyResponse = await axios.get(`/api/admin/survey/${surveyId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -29,8 +28,19 @@ const SurveyInformationResponses = () => {
         const responsesResponse = await axios.get(`/api/admin/survey/${surveyId}/responses`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setResponses(responsesResponse.data.data);
+        
+        // Organize responses by alumni
+        const organizedResponses = responsesResponse.data.data.sections.flatMap(section =>
+          section.questions.flatMap(question =>
+            question.responses.map(response => ({
+              ...response,
+              question_id: question.question_id,
+              question_text: question.question_text,
+            }))
+          )
+        );
 
+        setResponses(organizedResponses);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching survey data:', error);
@@ -41,48 +51,56 @@ const SurveyInformationResponses = () => {
     fetchSurveyData();
   }, [surveyId]);
 
-  // Function to export table data as CSV
+  // Function to group responses by alumni
+  const groupResponsesByAlumni = () => {
+    const grouped = {};
+
+    responses.forEach(response => {
+      const alumniKey = `${response.alumni_id}_${response.alumni_email}`;
+
+      if (!grouped[alumniKey]) {
+        grouped[alumniKey] = {
+          alumni_name: `${response.alumni_first_name} ${response.alumni_last_name}`,
+          alumni_email: response.alumni_email,
+          response_date: new Date().toLocaleDateString(),
+          answers: {},
+        };
+      }
+
+      // Store each question's answer for the alumni
+      grouped[alumniKey].answers[response.question_id] = response.response_text || response.option_text || 'No Response';
+    });
+
+    return Object.values(grouped);
+  };
+
+  // Prepare data for CSV export
   const exportAsCSV = () => {
     if (!survey || responses.length === 0) return;
 
-    // Create CSV headers
-    const headers = [
-      'Alumni Name',
-      'Email',
-      'Response Date',
-      ...survey.questions.map((_, index) => `Question ${index + 1}`)
-    ];
-
-    // Format the response data for CSV
-    const csvRows = responses.map((response) => {
-      const row = [
-        `${response.alumni_first_name} ${response.alumni_last_name}`,
-        response.alumni_email,
-        new Date(response.response_date).toLocaleDateString(),
-        ...response.question_responses.map((qr) =>
-          qr.response_text || qr.option_id ? qr.response_text || `Value - ${qr.option_value}` : 'No Response'
-        )
-      ];
-      return row;
+    const headers = ['Alumni Name', 'Email', 'Response Date'];
+    survey.sections.forEach(section => {
+      section.questions.forEach(question => {
+        headers.push(question.question_text);
+      });
     });
 
-    // Combine headers and rows for CSV content
-    const csvContent = [
-      headers.join(','), // Join headers with commas
-      ...csvRows.map((row) => row.join(',')) // Join each row with commas
-    ].join('\n'); // Separate each row with a newline
+    const csvRows = groupResponsesByAlumni().map(alumni => [
+      alumni.alumni_name,
+      alumni.alumni_email,
+      alumni.response_date,
+      ...survey.sections.flatMap(section =>
+        section.questions.map(question => alumni.answers[question.question_id] || 'No Response')
+      )
+    ]);
 
-    // Create a Blob from the CSV content
+    const csvContent = [headers.join(','), ...csvRows.map(row => row.join(','))].join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
-
-    // Create a link to download the file
     const a = document.createElement('a');
     a.href = url;
     a.download = `SurveyResponses_${surveyId}.csv`;
     a.click();
-
-    // Cleanup the URL object
     URL.revokeObjectURL(url);
   };
 
@@ -90,87 +108,74 @@ const SurveyInformationResponses = () => {
     <div className={`survey-info-responses-container ${isMobile ? 'mobile' : ''}`}>
       <AdminSidebar />
 
-      {loading && <CircularLoader />}
-
-      <div className={`survey-info-content ${isMobile ? 'mobile-content' : ''}`}>
-        <h1 className="survey-info-title">{survey?.survey}</h1>
-        <p className="survey-info-description">{survey?.description}</p>
-        <div className={`survey-info-dates ${isMobile ? 'mobile-dates' : ''}`}>
-          <span>Start Date: {new Date(survey?.start_date).toLocaleDateString()}</span>
-          <span>End Date: {new Date(survey?.end_date).toLocaleDateString()}</span>
-        </div>
-
-        {/* Survey Questions Section */}
-        <div className="survey-info-subtitle"> 
-          <h2>Survey Questions</h2>
-        </div>
-        {survey?.questions.map((question, index) => (
-          <div key={question.question_id} className={`survey-question ${isMobile ? 'mobile-question' : ''}`}>
-            <h5>{index + 1}. {question.question_text}</h5>
-            {(question.question_type === 'Multiple Choice' || question.question_type === 'Rating') && (
-              <ul>
-                {question.options.map((option) => (
-                  <li key={option.option_id}>{option.option_text} - {option.option_value}</li>
-                ))}
-              </ul>
-            )}
-            {question.question_type === 'Open-ended' && <p>(Open-ended response)</p>}
+      {loading ? <CircularLoader /> : (
+        <div className={`survey-info-content ${isMobile ? 'mobile-content' : ''}`}>
+          <h1 className="survey-info-title">{survey?.survey}</h1>
+          <p className="survey-info-description">{survey?.description}</p>
+          <div className={`survey-info-dates ${isMobile ? 'mobile-dates' : ''}`}>
+            <span>Start Date: {new Date(survey?.start_date).toLocaleDateString()}</span>
+            <span>End Date: {new Date(survey?.end_date).toLocaleDateString()}</span>
           </div>
-        ))}
 
-        {/* Survey Responses Section */}
-        <div className='d-flex justify-content-between align-items-center'>
-          <h2 className='survey-info-subtitle '>Survey Responses</h2>
+          {/* Survey Sections and Questions */}
+          {survey.sections.map(section => (
+            <div key={section.section_id}>
+              <h2 className="survey-info-subtitle">{section.section_title}</h2>
+              <p>{section.section_description}</p>
+              {section.questions.map(question => (
+                <div key={question.question_id} className={`survey-question ${isMobile ? 'mobile-question' : ''}`}>
+                  <h5>{question.question_text}</h5>
+                  {question.question_type === 'Multiple Choice' && (
+                    <ul>
+                      {question.options.map(option => (
+                        <li key={option.option_id}>{option.option_text} - {option.option_value}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {question.question_type === 'Open-ended' && <p>(Open-ended response)</p>}
+                </div>
+              ))}
+            </div>
+          ))}
 
-          {/* Export as CSV Button */}
-          <div 
-            className="export-as-csv-btn btn btn-light d-flex align-items-center"
-            onClick={exportAsCSV} // Attach the export function to the button click
-          >
-            Export as CSV
+          {/* Survey Responses Table */}
+          <div className='d-flex justify-content-between align-items-center'>
+            <h2 className='survey-info-subtitle'>Survey Responses</h2>
+            <button className="export-as-csv-btn" onClick={exportAsCSV}>Export as CSV</button>
           </div>
-        </div>
 
-        {/* Table of Responses */}
-        <div className="table-responsive">
-          <table className="table table-bordered table-hover">
-            <thead className="thead-light">
-              <tr>
-                <th>Alumni Name</th>
-                <th>Email</th>
-                <th>Response Date</th>
-                {/* Display "Question 1", "Question 2", etc., instead of question names */}
-                {survey?.questions.map((_, index) => (
-                  <th key={index}>Question {index + 1}</th> 
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {responses.length > 0 ? (
-                responses.map((response) => (
-                  <tr key={response.response_id}>
-                    <td>{response.alumni_first_name} {response.alumni_last_name}</td>
-                    <td>{response.alumni_email}</td>
-                    <td>{new Date(response.response_date).toLocaleDateString()}</td>
-                    {/* Render each question response in its corresponding cell */}
-                    {response.question_responses.map((qr, index) => (
-                      <td key={index}>
-                        {qr.response_text || qr.option_id ? qr.response_text || `Value - ${qr.option_value}` : 'No Response'}
-                      </td>
-                    ))}
-                  </tr>
-                ))
-              ) : (
+          <div className="table-responsive">
+            <table className="table table-bordered table-hover">
+              <thead className="thead-light">
                 <tr>
-                  <td colSpan={3 + survey?.questions.length} className="text-center">
-                    No responses available for this survey.
-                  </td>
+                  <th>Alumni Name</th>
+                  <th>Email</th>
+                  <th>Response Date</th>
+                  {survey.sections.flatMap(section =>
+                    section.questions.map(question => (
+                      <th key={question.question_id}>{question.question_text}</th>
+                    ))
+                  )}
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {groupResponsesByAlumni().map((alumni, index) => (
+                  <tr key={index}>
+                    <td>{alumni.alumni_name}</td>
+                    <td>{alumni.alumni_email}</td>
+                    <td>{alumni.response_date}</td>
+                    {survey.sections.flatMap(section =>
+                      section.questions.map(question => (
+                        <td key={question.question_id}>{alumni.answers[question.question_id] || 'No Response'}</td>
+                      ))
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
