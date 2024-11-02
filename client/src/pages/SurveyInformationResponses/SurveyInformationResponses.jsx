@@ -14,6 +14,8 @@ const SurveyInformationResponses = () => {
 
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
+  console.log(survey)
+
   useEffect(() => {
     const fetchSurveyData = async () => {
       try {
@@ -124,8 +126,8 @@ const SurveyInformationResponses = () => {
               <p>{section.section_description}</p>
               {section.questions.map(question => (
                 <div key={question.question_id} className={`survey-question ${isMobile ? 'mobile-question' : ''}`}>
-                  <h5>{question.question_text}</h5>
-                  {question.question_type === 'Multiple Choice' && (
+                  <h5>{question.question_text} <strong>{question.is_required ? '*' : ''} </strong></h5>
+                  {(question.question_type === 'Multiple Choice' || question.question_type === 'Rating' || question.question_type === 'Dropdown') && (
                     <ul>
                       {question.options.map(option => (
                         <li key={option.option_id}>{option.option_text} - {option.option_value}</li>

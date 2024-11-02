@@ -28,8 +28,9 @@ class SurveyController extends Controller
                 'sections.*.section_description' => 'nullable|string',
                 'sections.*.questions' => 'required|array',
                 'sections.*.questions.*.question_text' => 'required|string|max:255',
-                'sections.*.questions.*.question_type' => 'required|string|in:Multiple Choice,Open-ended,Rating',
-                'sections.*.questions.*.options' => 'array|required_if:sections.*.questions.*.question_type,Multiple Choice',
+                'sections.*.questions.*.question_type' => 'required|string|in:Multiple Choice,Open-ended,Rating,Dropdown',
+                'sections.*.questions.*.is_required' => 'nullable|boolean',
+                'sections.*.questions.*.options' => 'array|required_if:sections.*.questions.*.question_type,Multiple Choice,Dropdown,Rating',
                 'sections.*.questions.*.options.*.option_text' => 'required_with:sections.*.questions.*.options|string|max:255',
                 'sections.*.questions.*.options.*.option_value' => 'nullable|integer',
             ]);
@@ -70,17 +71,18 @@ class SurveyController extends Controller
                         'survey_id' => $survey->survey_id,
                         'section_id' => $section->section_id,
                         'question_text' => $questionData['question_text'],
-                        'question_type' => $questionData['question_type']
+                        'question_type' => $questionData['question_type'],
+                        'is_required' => $questionData['is_required'] ?? false,
                     ]);
     
                     // Log error if question creation failed
                     if (!$question || !$question->question_id) {
                         \Log::error('Failed to create question for section ID: ' . $section->section_id);
-                        continue; // Skip to the next question if question creation failed
+                        continue; 
                     }
     
-                    // If the question has options, add them
-                    if (isset($questionData['options']) && in_array($questionData['question_type'], ['Multiple Choice', 'Rating'])) {
+                    // If the question has options (for Multiple Choice, Dropdown, or Rating), add them
+                    if (isset($questionData['options']) && in_array($questionData['question_type'], ['Multiple Choice', 'Rating', 'Dropdown'])) {
                         foreach ($questionData['options'] as $optionData) {
                             SurveyOption::create([
                                 'question_id' => $question->question_id,
@@ -106,6 +108,8 @@ class SurveyController extends Controller
             ], 500);
         }
     }
+    
+    
     
     
 
@@ -155,12 +159,12 @@ class SurveyController extends Controller
         try {
             // Fetch the survey along with its sections, questions, and options
             $survey = Survey::with(['sections.questions.options'])->where('survey_id', $surveyId)->first();
-        
+
             // Check if the survey exists
             if (!$survey) {
                 return response()->json(['error' => 'Survey not found'], 404);
             }
-        
+
             // Format the response structure with sections, questions, and options
             return response()->json([
                 'survey' => $survey->title,
@@ -177,6 +181,7 @@ class SurveyController extends Controller
                                 'question_id' => $question->question_id,
                                 'question_text' => $question->question_text,
                                 'question_type' => $question->question_type,
+                                'is_required' => $question->is_required,
                                 'options' => $question->options->map(function ($option) {
                                     return [
                                         'option_id' => $option->option_id,
@@ -200,6 +205,7 @@ class SurveyController extends Controller
             ], 500);
         }
     }
+
 
 
     /**
@@ -332,6 +338,7 @@ class SurveyController extends Controller
                                 'question_id' => $question->question_id,
                                 'question_text' => $question->question_text,
                                 'question_type' => $question->question_type,
+                                'is_required' => $question->is_required,
                                 'options' => $question->options->map(function ($option) {
                                     return [
                                         'option_id' => $option->option_id,

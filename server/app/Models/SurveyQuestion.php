@@ -11,8 +11,7 @@ class SurveyQuestion extends Model
 
     protected $primaryKey = 'question_id'; // Define the primary key
 
-    protected $fillable = ['survey_id', 'section_id', 'question_text', 'question_type'];
-
+    protected $fillable = ['survey_id', 'section_id', 'question_text', 'question_type', 'is_required'];
     public function options()
     {
         return $this->hasMany(SurveyOption::class, 'question_id');
