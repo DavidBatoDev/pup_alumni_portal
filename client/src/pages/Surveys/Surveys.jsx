@@ -6,34 +6,13 @@ import "./Surveys.css"; // Updated CSS file for styling
 import axios from "axios";
 import '../../global.css';
 import SurveyCard from "../../components/SurveyCards/SurveyCards"; // Import the updated SurveyCard component
+import CustomAlert from "../../components/CustomAlert/CustomAlert"; // Import CustomAlert
 
 const Surveys = () => {
-  const DummyData = [
-    {
-      title: "Survey 1",
-      description: "Description of Survey 1",
-      link: "/survey/1",
-    },
-    {
-      title: "Survey 2",
-      description: "Description of Survey 2",
-      link: "/survey/2",
-    },
-    {
-      title: "Survey 3",
-      description: "Description of Survey 3",
-      link: "/survey/3",
-    },
-    {
-      title: "Survey 4",
-      description: "Description of Survey 4",
-      link: "/survey/4",
-    }
-  ];
-
   const [unansweredSurveysData, setUnansweredSurveysData] = useState([]);
   const [answerSurveyData, setAnswerSurveyData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); // State to handle API errors
 
   useEffect(() => {
     // Fetch surveys from the API
@@ -47,8 +26,8 @@ const Surveys = () => {
         setUnansweredSurveysData(response.data.surveys);
       } catch (error) {
         console.error("Error fetching surveys:", error);
-      }
-      finally {
+        setError(error.response?.data?.message || "Failed to load unanswered surveys. Please try again later.");
+      } finally {
         setLoading(false);
       }
     };
@@ -63,8 +42,8 @@ const Surveys = () => {
         setAnswerSurveyData(response.data.surveys);
       } catch (error) {
         console.error("Error fetching surveys:", error);
-      }
-      finally {
+        setError(error.response?.data?.message || "Failed to load answered surveys. Please try again later.");
+      } finally {
         setLoading(false);
       }
     };
@@ -72,6 +51,9 @@ const Surveys = () => {
     fetchAnsweredSurveys();
     fetchUnansweredSurveys();
   }, []);
+
+  // Clear the error message
+  const handleClearError = () => setError(null);
 
   return (
     <div>
@@ -88,6 +70,15 @@ const Surveys = () => {
           { label: "Surveys", link: "/surveys" },
         ]}
       />
+
+      {/* Display CustomAlert if there's an error */}
+      {error && (
+        <CustomAlert
+          message={error}
+          severity="error"
+          onClose={handleClearError} // Close alert handler
+        />
+      )}
 
       {/* Main Survey Section */}
       <div className="surveys-section glass">
@@ -113,7 +104,6 @@ const Surveys = () => {
 
           {/* Answered Surveys Section */}
           <div className="survey-header answered-section">
-            
             {answerSurveyData.length > 0 && (
               <>
                 <h2>Answered Surveys</h2>
@@ -133,7 +123,6 @@ const Surveys = () => {
             )}
           </div>
         </div>
-
       </div>
     </div>
   );

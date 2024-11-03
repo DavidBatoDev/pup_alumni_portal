@@ -1,11 +1,13 @@
 // src/components/EventFormModal/EventFormModal.jsx
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ModalContainer from '../ModalContainer/ModalContainer';
 import CircularLoader from '../CircularLoader/CircularLoader';
 import CustomAlert from '../CustomAlert/CustomAlert';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // Import styles for Quillimport './AdminEventsFormModal.css';
+import 'react-quill/dist/quill.snow.css';
+import './AdminEventsFormModal.css';
 import '../../pages/AdminEventsDashboard/AdminEventsDashboard.css';
 
 const AdminEventsFormModal = ({
@@ -28,13 +30,14 @@ const AdminEventsFormModal = ({
     organization: '',
   });
 
-  const [tempPhotos, setTempPhotos] = useState([]); // Store newly uploaded photos
-  const [photoPreviews, setPhotoPreviews] = useState([]); // Store preview URLs
-  const [specificEventPhotoIds, setSpecificEventPhotoIds] = useState([]); // Store specific event photo IDs
-  const [photosToDelete, setPhotosToDelete] = useState([]); // Track photos to delete
-  const [uploading, setUploading] = useState(false); // Uploading state
-  const [error, setError] = useState(null); // Error state
-  const [loading, setLoading] = useState(false); // Loading state for fetching details
+  const [tempPhotos, setTempPhotos] = useState([]);
+  const [photoPreviews, setPhotoPreviews] = useState([]);
+  const [specificEventPhotoIds, setSpecificEventPhotoIds] = useState([]);
+  const [photosToDelete, setPhotosToDelete] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null); // Success state
 
   const [validation, setValidation] = useState({
     event_name: true,
@@ -99,11 +102,10 @@ const AdminEventsFormModal = ({
     setSpecificEventPhotoIds([]);
     setPhotosToDelete([]);
     setError(null);
+    setSuccessMessage(null);
   };
 
-  // Fetch event details if editing
   useEffect(() => {
-
     const fetchEventDetails = async () => {
       if (isEditing && currentEventId) {
         try {
@@ -127,11 +129,10 @@ const AdminEventsFormModal = ({
           setPhotoPreviews(existingPhotoUrls);
           setSpecificEventPhotoIds(existingPhotoIds);
           setPhotosToDelete([]);
-
-          setLoading(false);
         } catch (error) {
           console.error('Error fetching event details:', error);
-          setError('Failed to fetch event details: ' + error.response.data.message);
+          setError('Failed to fetch event details: ' + (error.response?.data?.message || 'Unknown error occurred.'));
+        } finally {
           setLoading(false);
         }
       } else {
@@ -141,18 +142,19 @@ const AdminEventsFormModal = ({
 
     if (showModal) {
       fetchEventDetails();
-      console.log("showModal:", showModal);
     }
   }, [isEditing, currentEventId, showModal]);
 
+  const handleCloseAlert = () => {
+    setError(null);
+    setSuccessMessage(null);
+  };
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewEvent((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  // handlePhotoChange function
   const handlePhotoChange = (e) => {
     const files = Array.from(e.target.files);
     setTempPhotos((prevPhotos) => [...prevPhotos, ...files]);
@@ -160,20 +162,9 @@ const AdminEventsFormModal = ({
     const previewUrls = files.map((file) => URL.createObjectURL(file));
     setPhotoPreviews((prevPreviews) => [...prevPreviews, ...previewUrls]);
   };
-  // Handle photo removal
-  const handleRemovePhoto = (index) => {
-    const photoIdToDelete = specificEventPhotoIds[index];
-    setPhotosToDelete((prevToDelete) => [...prevToDelete, photoIdToDelete]);
-    setTempPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
-    setPhotoPreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
-    setSpecificEventPhotoIds((prevIds) => prevIds.filter((_, i) => i !== index));
-  };
 
-  // Handle form submission to save or update event
   const handleSaveEvent = async () => {
-    if (!validateFields()) {
-      return;
-    }
+    if (!validateFields()) return;
 
     try {
       setLoading(true);
@@ -187,31 +178,23 @@ const AdminEventsFormModal = ({
       formData.append('category', newEvent.category);
       formData.append('organization', newEvent.organization);
 
-      photosToDelete.forEach((photoId) => {
-        formData.append('photos_to_delete[]', photoId);
-      });
-
-      specificEventPhotoIds.forEach((photoId) => {
-        formData.append('existing_photos[]', photoId);
-      });
-
-      tempPhotos.forEach((photo) => {
-        formData.append('photos[]', photo);
-      });
+      photosToDelete.forEach((photoId) => formData.append('photos_to_delete[]', photoId));
+      specificEventPhotoIds.forEach((photoId) => formData.append('existing_photos[]', photoId));
+      tempPhotos.forEach((photo) => formData.append('photos[]', photo));
 
       const response = isEditing
         ? await axios.post(`/api/admin/update-event/${currentEventId}`, formData, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        })
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+              'Content-Type': 'multipart/form-data',
+            },
+          })
         : await axios.post('/api/admin/event', formData, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+              'Content-Type': 'multipart/form-data',
+            },
+          });
 
       if (response.status === 200 || response.status === 201) {
         const updatedEvent = response.data.event;
@@ -220,24 +203,24 @@ const AdminEventsFormModal = ({
             event.event_id === currentEventId ? { ...event, ...updatedEvent } : event
           );
           setEventsList(updatedEventList);
+          setSuccessMessage('Event updated successfully!');
         } else {
           setEventsList((prevList) => [...prevList, updatedEvent]);
+          setSuccessMessage('Event added successfully!');
         }
         setUpdateSuccess(true);
         closeModal();
         resetFormState();
       }
-      setLoading(false);
-      setUploading(false);
     } catch (error) {
       console.error('Error saving event:', error);
-      setError(error.response.data.message);
+      setError(error.response?.data?.message || 'Error occurred while saving the event.');
+    } finally {
       setLoading(false);
       setUploading(false);
     }
   };
 
-  // Handle event deletion
   const handleDeleteEvent = async () => {
     try {
       setLoading(true);
@@ -249,12 +232,14 @@ const AdminEventsFormModal = ({
       if (response.status === 200) {
         const updatedEventList = eventsList.filter((event) => event.event_id !== currentEventId);
         setEventsList(updatedEventList);
+        setSuccessMessage('Event deleted successfully!');
         setUpdateSuccess(true);
         closeModal();
-        setLoading(false);
       }
     } catch (error) {
       console.error('Error deleting event:', error);
+      setError(error.response?.data?.message || 'Error occurred while deleting the event.');
+    } finally {
       setLoading(false);
     }
   };
@@ -267,16 +252,32 @@ const AdminEventsFormModal = ({
       isMobile={isMobile}
     >
       <form className="events-form add-event-form">
-        {/* Photo Upload Section */}
-        {error && CustomAlert({ message: error, severity: 'error', onClose: () => setError(null) })}
-        {uploading || loading && <CircularLoader />}
+        {/* Display CustomAlert for errors or success */}
+        {error && (
+          <CustomAlert
+            message={error}
+            severity="error"
+            onClose={handleCloseAlert}
+          />
+        )}
+        {successMessage && (
+          <CustomAlert
+            message={successMessage}
+            severity="success"
+            onClose={handleCloseAlert}
+          />
+        )}
 
+        {/* Show loader if uploading or loading */}
+        {uploading || loading ? <CircularLoader /> : null}
+
+        {/* Rest of the form fields... */}
+        {/* Photo Upload Section */}
         <div className="events-form-row events-form-row-photos">
           <label className="events-form-label">
             Upload Photos:
             <input type="file" name="photos" className="events-form-input" multiple onChange={handlePhotoChange} />
           </label>
-
           <div className="photo-previews-container">
             {photoPreviews.length > 0 &&
               photoPreviews.map((preview, index) => (
@@ -484,7 +485,6 @@ const AdminEventsFormModal = ({
       </form>
     </ModalContainer>
   );
-
 };
 
 export default AdminEventsFormModal;

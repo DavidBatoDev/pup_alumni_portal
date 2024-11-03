@@ -6,7 +6,7 @@ import AdminEventsFormModal from '../../components/AdminEventsFormModal/AdminEve
 import './AdminEventsDashboard.css';
 import { useMediaQuery } from 'react-responsive';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
-import 'react-quill/dist/quill.snow.css'; // Import styles for Quill
+import 'react-quill/dist/quill.snow.css';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 
 const AdminEventsDashboard = () => {
@@ -18,7 +18,7 @@ const AdminEventsDashboard = () => {
   const [currentEventId, setCurrentEventId] = useState(null);
   const [updateSuccess, setUpdateSuccess] = useState(false);
 
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(null); // Error state
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
   const onClearError = () => {
@@ -31,10 +31,10 @@ const AdminEventsDashboard = () => {
         setLoading(true);
         const response = await axios.get('/api/events');
         setEventsList(response.data.events);
-        setLoading(false);
       } catch (error) {
         console.error('Error fetching events:', error);
-        setError(error.response.data.message);
+        setError(error.response?.data?.message || 'Failed to fetch events. Please try again later.');
+      } finally {
         setLoading(false);
       }
     };
@@ -42,14 +42,12 @@ const AdminEventsDashboard = () => {
     fetchEvents();
   }, [updateSuccess]);
 
-
   // Open modal for adding a new event
   const handleAddEvent = () => {
     setIsEditing(false);
     setCurrentEventId(null);
     setShowModal(true);
   };
-
 
   // Fetch event details and open modal for editing
   const handleEditEvent = (eventId) => {
@@ -64,7 +62,10 @@ const AdminEventsDashboard = () => {
 
   return (
     <div className="admin-dashboard">
-      {error && <CustomAlert message={error} severity='error' onClose={onClearError} />}
+      {/* Display CustomAlert for any errors */}
+      {error && <CustomAlert message={error} severity="error" onClose={onClearError} />}
+
+      {/* Display loader when data is being loaded */}
       {loading && <CircularLoader />}
 
       <AdminSidebar />
@@ -112,7 +113,6 @@ const AdminEventsDashboard = () => {
         setUpdateSuccess={setUpdateSuccess}
         isMobile={isMobile}
       />
-
     </div>
   );
 };

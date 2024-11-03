@@ -11,6 +11,7 @@
     font-weight: 700;
     z-index: 1;
     height: 100%;
+    overflow-x: hidden;
 }
 
 /* Add a pseudo-element for the greyish blur effect */

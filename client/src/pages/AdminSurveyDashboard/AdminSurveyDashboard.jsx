@@ -5,6 +5,7 @@ import axios from 'axios';
 import AdminSidebar from '../../components/AdminSidebar/AdminSidebar';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 import SurveyListing from '../../components/SurveyListing/SurveyListing';
+import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import './AdminSurveyDashboard.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,28 +14,33 @@ const AdminSurveyDashboard = () => {
   const [surveysList, setSurveysList] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState({ message: '', severity: '' }); // Unified state for alerts
 
   // Fetch surveys when the component mounts
   useEffect(() => {
     const fetchSurveys = async () => {
       try {
         setLoading(true);
-        // Fetch surveys from the server with token
         const response = await axios.get('/api/admin/surveys', {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
         });
         setSurveysList(response.data.surveys);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching surveys:', error);
+        const errorMessage = error.response?.data?.message || 'Failed to load surveys. Please try again.';
+        setStatus({ message: errorMessage, severity: 'error' }); // Set error message with severity
         setLoading(false);
       }
     };
 
     fetchSurveys();
   }, []);
+
+  // Close the alert by resetting status
+  const handleCloseAlert = () => setStatus({ message: '', severity: '' });
 
   // Filter surveys based on the search term
   const filteredSurveys = surveysList.filter((survey) =>
@@ -44,6 +50,15 @@ const AdminSurveyDashboard = () => {
   return (
     <div className="admin-survey-dashboard">
       {loading && <CircularLoader />}
+
+      {/* Display CustomAlert component for any alerts */}
+      {status.message && (
+        <CustomAlert
+          severity={status.severity}
+          message={status.message}
+          onClose={handleCloseAlert}
+        />
+      )}
 
       {/* Sidebar */}
       <AdminSidebar />

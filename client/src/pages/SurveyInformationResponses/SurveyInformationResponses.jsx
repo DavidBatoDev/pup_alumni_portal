@@ -143,7 +143,7 @@ const SurveyInformationResponses = () => {
           {/* Survey Responses Table */}
           <div className='d-flex justify-content-between align-items-center'>
             <h2 className='survey-info-subtitle'>Survey Responses</h2>
-            <button className="export-as-csv-btn" onClick={exportAsCSV}>Export as CSV</button>
+            <button className="btn export-as-csv-btn" onClick={exportAsCSV}>Export as CSV</button>
           </div>
 
           <div className="table-responsive">

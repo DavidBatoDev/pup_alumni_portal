@@ -256,7 +256,7 @@ const CreateSurvey = () => {
 
   // Cancel survey creation and navigate back
   const cancelSurveyCreation = () => {
-    navigate('/admin/surveys');
+    navigate('/admin/survey-feedback');
   };
 
   return (
@@ -268,7 +268,7 @@ const CreateSurvey = () => {
         <div className="create-survey-header">
           <h2>Create New Survey</h2>
           <div className="create-survey-actions">
-            <button className="btn btn-secondary" onClick={() => navigate('/admin/surveys')}>Cancel</button>
+            <button className="btn btn-secondary" onClick={() => navigate('/admin/survey-feedback')}>Cancel</button>
             <button className="btn btn-primary" onClick={saveSurvey}>Save Survey</button>
           </div>
         </div>
