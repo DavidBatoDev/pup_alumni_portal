@@ -6,10 +6,12 @@ import "./Events.css";
 import EventsFilterSection from "../../components/EventsFilterSection/EventsFilterSection";
 import EventAuth from "../../components/EventSectionAuth/EventAuth";
 import api from "../../api";
+import CustomAlert from "../../components/CustomAlert/CustomAlert"; // Import CustomAlert
 
 const Events = () => {
   const [eventsData, setEventsData] = useState([]); // Original event data from API
   const [filteredEvents, setFilteredEvents] = useState([]); // Filtered events based on user input
+  const [error, setError] = useState(null); // Error state for handling errors
 
   const [filters, setFilters] = useState({
     searchTerm: '',
@@ -28,6 +30,7 @@ const Events = () => {
         setFilteredEvents(response.data.events); // Initially show all events
       } catch (error) {
         console.error("Error fetching events:", error);
+        setError(error.response?.data?.message || "Failed to fetch events. Please try again later."); // Set error message
       }
     };
 
@@ -57,6 +60,9 @@ const Events = () => {
     setFilters(updatedFilters);
   };
 
+  // Clear the error message
+  const handleClearError = () => setError(null);
+
   return (
     <div>
       <Navbar />
@@ -69,9 +75,18 @@ const Events = () => {
         ]}
       />
 
-      <div className="event-section ">
+      {/* Display CustomAlert if there's an error */}
+      {error && (
+        <CustomAlert
+          message={error}
+          severity="error"
+          onClose={handleClearError} // Close alert handler
+        />
+      )}
+
+      <div className="event-section">
         <div className="container">
-          <div className="event-header ">
+          <div className="event-header">
             <h2>You're MORE than WELCOME to attend.</h2>
             <h5>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa

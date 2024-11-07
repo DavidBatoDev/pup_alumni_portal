@@ -10,8 +10,8 @@ import SpecificHistoryEventSidebar from '../../components/SpecificHistoryEventSi
 import image1 from '../../assets/images/eventImage1.png';
 import image2 from '../../assets/images/eventImage2.jpg';
 import image3 from '../../assets/images/eventImage3.jpg';
-import SpecificEventMainContent from '../../components/SpecificEventMainContent/SpecificEventMainContent';
 import SpecificHistoryEventMainContent from '../../components/SpecificHistoryEventMainContent/SpecificHistoryEventMainContent';
+import CustomAlert from '../../components/CustomAlert/CustomAlert'; // Import CustomAlert
 
 const SpecificHistoryPage = () => {
 
@@ -19,6 +19,7 @@ const SpecificHistoryPage = () => {
   /*
   const { eventId } = useParams(); // Get the eventId from the URL parameters
   const [eventData, setEventData] = useState(null); // State to store fetched event data
+  const [error, setError] = useState(null); // State to handle API errors
 
   useEffect(() => {
     // Function to fetch specific event data using the eventId
@@ -32,10 +33,15 @@ const SpecificHistoryPage = () => {
         setEventData(response.data.event); // Set the fetched event data
       } catch (error) {
         console.error("Error fetching event data:", error); // Log any errors during the fetch
+        setError(error.response?.data?.message || "Failed to fetch event details. Please try again later."); // Set error message
       }
     };
+
     fetchEventData();
   }, [eventId]);
+
+  // Clear the error message
+  const handleClearError = () => setError(null);
   */
 
   // Using dummy event data for now
@@ -78,6 +84,16 @@ const SpecificHistoryPage = () => {
       }}
     >
       <Navbar />
+      
+      {/* Display CustomAlert if there's an error */}
+      {error && (
+        <CustomAlert
+          message={error}
+          severity="error"
+          onClose={handleClearError} // Close alert handler
+        />
+      )}
+      
       <BannerSmall
         bannerTitle={singleEvent.event_name} // Use the event name as the banner title
         bannerImage={backgroundImage} // Use the selected background image

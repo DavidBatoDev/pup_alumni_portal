@@ -16,6 +16,7 @@
   font-family: "Crimson Text";
   min-height: 830px;
   display: flex;
+  max-width: 1015px;
 }
 
 /* Filter search section and categories */
@@ -92,10 +93,7 @@
 
 /* Pagination styling */
 .pagination-container {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  margin: 0 auto;
 }
 
 .pagination .page-item .page-link {
