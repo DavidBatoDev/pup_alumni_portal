@@ -209,6 +209,11 @@ textarea.form-control:focus {
   border-color: #b71c1c;
 }
 
+.as-option-others-input-text {
+  outline: none;
+  height: 20px;
+}
+
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
   .answer-survey-container {

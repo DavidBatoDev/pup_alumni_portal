@@ -14,6 +14,7 @@ const AnswerSurvey = () => {
   });
   const [surveyData, setSurveyData] = useState(null);
   const [responses, setResponses] = useState({});
+  const [otherResponses, setOtherResponses] = useState({}); 
   const [loading, setLoading] = useState(true);
   const [currentSection, setCurrentSection] = useState(0);
 
@@ -34,17 +35,39 @@ const AnswerSurvey = () => {
 
   const handleCloseAlert = () => setStatus({ message: '', severity: '' });
 
-  const handleOptionChange = (questionId, optionId) => {
+  const handleOptionChange = (questionId, optionId, optionText) => {
     setResponses((prevResponses) => ({
       ...prevResponses,
-      [questionId]: { question_id: questionId, option_id: optionId, response_text: null },
+      [questionId]: { question_id: questionId, option_id: optionId, response_text: optionText === 'Others' ? '' : null },
     }));
+
+    // Show input for "Others" if selected, otherwise clear it
+    if (optionText === 'Others') {
+      setOtherResponses((prev) => ({ ...prev, [questionId]: '' }));
+    } else {
+      setOtherResponses((prev) => {
+        const updated = { ...prev };
+        delete updated[questionId];
+        return updated;
+      });
+    }
   };
 
   const handleTextChange = (questionId, text) => {
     setResponses((prevResponses) => ({
       ...prevResponses,
       [questionId]: { question_id: questionId, option_id: null, response_text: text },
+    }));
+  };
+
+  const handleOtherTextChange = (questionId, text) => {
+    setOtherResponses((prev) => ({
+      ...prev,
+      [questionId]: text,
+    }));
+    setResponses((prevResponses) => ({
+      ...prevResponses,
+      [questionId]: { question_id: questionId, option_id: responses[questionId].option_id, response_text: text },
     }));
   };
 
@@ -129,10 +152,20 @@ const AnswerSurvey = () => {
                         type="radio"
                         name={`question-${question.question_id}`}
                         value={option.option_id}
-                        onChange={() => handleOptionChange(question.question_id, option.option_id)}
+                        onChange={() => handleOptionChange(question.question_id, option.option_id, option.option_text)}
                         required
                       />
                       <label>{option.option_text}</label>
+                      {/* Show additional input if "Others" is selected */}
+                      {option.option_text === 'Others' && responses[question.question_id]?.option_id === option.option_id && (
+                        <input
+                          type="text"
+                          className="as-option-others-input-text border-0 border-bottom mx-3"
+                          placeholder="Please specify..."
+                          value={otherResponses[question.question_id] || ''}
+                          onChange={(e) => handleOtherTextChange(question.question_id, e.target.value)}
+                        />
+                      )}
                     </div>
                   ))}
                 </div>

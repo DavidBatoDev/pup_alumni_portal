@@ -91,11 +91,12 @@ const CreateSurvey = () => {
       question_id: Date.now(), 
       question_text: '', 
       question_type: 'Open-ended', 
-      options: [] 
+      options: [],
+      is_other_option: false,
     };
     updatedSections[sectionIndex].questions.push(newQuestion);
     setSurvey({ ...survey, sections: updatedSections });
-
+  
     if (sectionIndex === survey.sections.length - 1) {
       setTimeout(() => {
         lastQuestionRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -117,26 +118,30 @@ const CreateSurvey = () => {
 
   const handleQuestionChange = (sectionIndex, questionIndex, field, value) => {
     const updatedSections = [...survey.sections];
+    const question = updatedSections[sectionIndex].questions[questionIndex];
+  
     if (field === 'question_type') {
       if (value === 'Multiple Choice' || value === 'Dropdown') {
-        updatedSections[sectionIndex].questions[questionIndex].options = [
-          { option_id: Date.now(), option_text: 'Option 1', option_value: '1' }
-        ];
+        question.options = [{ option_id: Date.now(), option_text: 'Option 1', option_value: '1' }];
+        question.is_other_option = false; // Reset is_other_option if changing type
       } else if (value === 'Rating') {
-        updatedSections[sectionIndex].questions[questionIndex].options = [
+        question.options = [
           { option_id: Date.now() + 5, option_text: 'Poorly', option_value: '1' },
           { option_id: Date.now() + 4, option_text: 'Unsatisfied', option_value: '2' },
           { option_id: Date.now() + 3, option_text: 'Neutral', option_value: '3' },
           { option_id: Date.now() + 2, option_text: 'Satisfied', option_value: '4' },
           { option_id: Date.now() + 1, option_text: 'Very Satisfied', option_value: '5' },
         ];
+        question.is_other_option = false; // Reset is_other_option if changing type
       } else {
-        updatedSections[sectionIndex].questions[questionIndex].options = [];
+        question.options = [];
+        question.is_other_option = false; // Reset is_other_option if changing type
       }
     }
-    updatedSections[sectionIndex].questions[questionIndex][field] = value;
+    question[field] = value;
     setSurvey({ ...survey, sections: updatedSections });
   };
+  
 
   // Validate options to ensure no duplicate option_value exists in a question
   const validateOptions = (questionIndex) => {
@@ -161,12 +166,41 @@ const CreateSurvey = () => {
   // Add an option to a specific question (if it's a multiple-choice or rating type)
   const addOptionToQuestion = (sectionIndex, questionIndex) => {
     const updatedSections = [...survey.sections];
+    const question = updatedSections[sectionIndex].questions[questionIndex];
+
+    const nextValue = question.options.filter(opt => opt.option_text !== 'Others').length + 1;
+
     updatedSections[sectionIndex].questions[questionIndex].options.push({ 
       option_text: '', 
-      option_value: updatedSections[sectionIndex].questions[questionIndex].options.length + 1 
+      option_value: nextValue
     });
     setSurvey({ ...survey, sections: updatedSections });
   };
+
+  const addOthersToMultipleQuestion = (sectionIndex, questionIndex) => {
+    const updatedSections = [...survey.sections];
+    const question = updatedSections[sectionIndex].questions[questionIndex];
+  
+    // Toggle "Others" option for Multiple Choice question
+    if (question.question_type === 'Multiple Choice') {
+      question.is_other_option = !question.is_other_option;
+  
+      // Add or remove the "Others" option from the options array
+      // if (question.is_other_option) {
+      //   question.options.push({
+      //     option_id: Date.now(),
+      //     option_text: 'Others',
+      //     option_value: null,
+      //   });
+      // } else {
+      //   // Remove the "Others" option
+      //   question.options = question.options.filter((option) => option.option_text !== 'Others');
+      // }
+    }
+  
+    setSurvey({ ...survey, sections: updatedSections });
+  };
+  
 
 
   const handleOptionChange = (sectionIndex, questionIndex, optionIndex, field, value) => {
@@ -211,6 +245,8 @@ const CreateSurvey = () => {
       questions: section.questions.map((question) => ({
         question_text: question.question_text,
         question_type: question.question_type,
+        is_required: question.is_required || false,
+        is_other_option: question.is_other_option || false, // Include is_other_option
         options: question.options.map((option) => ({
           option_text: option.option_text,
           option_value: option.option_value,
@@ -222,6 +258,8 @@ const CreateSurvey = () => {
   // Save survey to the server with proper payload structure
   const saveSurvey = async () => {
     const formattedSurvey = formatSurveyPayload();
+
+    console.log('Formatted Survey:', formattedSurvey);
 
     // Validate fields before sending
     if (!validateSurveyFields()) {
@@ -360,36 +398,59 @@ const CreateSurvey = () => {
                     {(question.question_type === 'Multiple Choice' || question.question_type === 'Rating' || question.question_type === 'Dropdown') && (
                       <div className="question-options">
                         {question.options.map((option, optionIndex) => (
-                          <div key={option.option_id} className="option-input-group"> 
-                            <div className='w-100 d-flex justify-content-between'>
-                              <div className='d-flex align-items-center flex-grow-1'>
-                                {(question?.question_type == 'Multiple Choice' || question?.question_type == 'Rating') && (<div>O</div>)}
+                          <div key={option.option_id} className="option-input-group">
+                            <div className="w-100 d-flex justify-content-between">
+                              {/* {option.option_text !== 'Others' && ( */}
+                              <div className="d-flex align-items-center flex-grow-1">
+                                {(question?.question_type === 'Multiple Choice' || question?.question_type === 'Rating') && (
+                                  <div>O</div>
+                                )}
                                 <input
                                   type="text"
                                   value={option.option_text}
                                   placeholder={`Option ${optionIndex + 1}`}
                                   onChange={(e) => handleOptionChange(sectionIndex, questionIndex, optionIndex, 'option_text', e.target.value)}
-                                  className={`${question?.question_type == 'Dropdown' ? '' : 'border-0'} border-bottom w-100`}
+                                  className={`${question?.question_type === 'Dropdown' ? '' : 'border-0'} border-bottom w-100`}
                                 />
                               </div>
-                            <div className='d-flex align-items-center'>
-                            <select
-                              value={option.option_value}
-                              onChange={(e) => handleOptionChange(sectionIndex, questionIndex, optionIndex, 'option_value', e.target.value)}
-                              className={`form-control option-value-selector ${errors[optionIndex] ? 'error' : ''}`}
-                            >
-                              {Array.from({ length: question.options.length }, (_, i) => i + 1).map((val) => (
-                                <option key={val} value={val}>{val}</option>
-                              ))}
-                            </select>
-                            <button className="btn btn-danger btn-sm" onClick={() => deleteOption(sectionIndex, questionIndex, optionIndex)}>✖</button>
-                            </div>
+                              {/* )} */}
+                              <div className="d-flex align-items-center">
+                                {/* {option.option_text !== 'Others' && ( */}
+                                  
+                                    <select
+                                      value={option.option_value}
+                                      onChange={(e) => handleOptionChange(sectionIndex, questionIndex, optionIndex, 'option_value', e.target.value)}
+                                      className={`form-control option-value-selector ${errors[optionIndex] ? 'error' : ''}`}
+                                    >
+                                      {/* Generate option values only for options excluding "Others" */}
+                                      {Array.from({ length: question.options.filter(opt => opt.option_text !== 'Others').length }, (_, i) => i + 1).map((val) => (
+                                        <option key={val} value={val}>{val}</option>
+                                      ))}
+                                    </select>
+                                    <button className="btn btn-danger btn-sm" onClick={() => deleteOption(sectionIndex, questionIndex, optionIndex)}>✖</button>
+                                
+                                {/* )} */}
+                              </div>
                             </div>
                           </div>
                         ))}
+                        {question.is_other_option && (
+                          <div className="d-flex align-items-center gap-2 pt-2">
+                            <div className='fs-6'>0</div>
+                            <div className='fs-6'>Others</div>
+                          </div>
+                        )}
+
                         <button className="btn add-option-btn" onClick={() => addOptionToQuestion(sectionIndex, questionIndex)}>+ Add Option</button>
+                        {(question.question_type === 'Multiple Choice') && (
+                        <button
+                          className="btn add-option-btn"
+                          onClick={() => addOthersToMultipleQuestion(sectionIndex, questionIndex)}
+                        >
+                          {question.is_other_option ? 'Remove "Others"' : '+ Add "Others"'}
+                        </button>
+                      )}
                       </div>
-                      
                     )}
                     <div className='d-flex justify-content-between align-items-center w-100'>
                       <button className="btn btn-outline-danger" onClick={() => deleteQuestion(sectionIndex, questionIndex)}>🗑️ Delete Question</button>

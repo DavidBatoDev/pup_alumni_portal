@@ -108,6 +108,7 @@ input {
 
   .survey-info textarea {
     border-bottom: 2px solid #a52436;
+    resize: vertical;
   }
 
 
@@ -118,9 +119,8 @@ input {
   }
 
   .survey-info textarea {
-    resize: none;
     height: 50px;
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid #a52436;
     outline: none;
   }
 

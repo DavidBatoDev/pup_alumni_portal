@@ -30,6 +30,7 @@ class SurveyController extends Controller
                 'sections.*.questions.*.question_text' => 'required|string|max:255',
                 'sections.*.questions.*.question_type' => 'required|string|in:Multiple Choice,Open-ended,Rating,Dropdown',
                 'sections.*.questions.*.is_required' => 'nullable|boolean',
+                'sections.*.questions.*.is_other_option' => 'nullable|boolean',
                 'sections.*.questions.*.options' => 'array|required_if:sections.*.questions.*.question_type,Multiple Choice,Dropdown,Rating',
                 'sections.*.questions.*.options.*.option_text' => 'required_with:sections.*.questions.*.options|string|max:255',
                 'sections.*.questions.*.options.*.option_value' => 'nullable|integer',
@@ -44,29 +45,14 @@ class SurveyController extends Controller
                 'end_date' => $validatedData['end_date']
             ]);
     
-            // Check if the survey was created successfully
-            if (!$survey || !$survey->survey_id) {
-                return response()->json(['error' => 'Failed to create survey.'], 500);
-            }
-    
-            // Loop through each section and create them with questions and options
             foreach ($validatedData['sections'] as $sectionData) {
-                // Create the section and link it to the survey
                 $section = SurveySection::create([
                     'survey_id' => $survey->survey_id,
                     'section_title' => $sectionData['section_title'],
                     'section_description' => $sectionData['section_description']
                 ]);
     
-                // Check if section was created successfully
-                if (!$section || !$section->section_id) {
-                    \Log::error('Failed to create section for survey ID: ' . $survey->survey_id);
-                    continue; // Skip to the next section if section creation failed
-                }
-    
-                // Loop through each question in the section
                 foreach ($sectionData['questions'] as $questionData) {
-                    // Create the question and link it to the section
                     $question = SurveyQuestion::create([
                         'survey_id' => $survey->survey_id,
                         'section_id' => $section->section_id,
@@ -75,12 +61,6 @@ class SurveyController extends Controller
                         'is_required' => $questionData['is_required'] ?? false,
                     ]);
     
-                    // Log error if question creation failed
-                    if (!$question || !$question->question_id) {
-                        \Log::error('Failed to create question for section ID: ' . $section->section_id);
-                        continue; 
-                    }
-    
                     // If the question has options (for Multiple Choice, Dropdown, or Rating), add them
                     if (isset($questionData['options']) && in_array($questionData['question_type'], ['Multiple Choice', 'Rating', 'Dropdown'])) {
                         foreach ($questionData['options'] as $optionData) {
@@ -88,20 +68,27 @@ class SurveyController extends Controller
                                 'question_id' => $question->question_id,
                                 'option_text' => $optionData['option_text'],
                                 'option_value' => $optionData['option_value'],
+                                'is_other_option' => false, // Default is_other_option to false for normal options
                             ]);
                         }
+                    }
+    
+                    // Add an "Others" option if specified and if question type is Multiple Choice
+                    if ($questionData['question_type'] === 'Multiple Choice' && !empty($questionData['is_other_option'])) {
+                        SurveyOption::create([
+                            'question_id' => $question->question_id,
+                            'option_text' => 'Others', // Text for the "Others" option
+                            'option_value' => null, // No predefined value for "Others"
+                            'is_other_option' => true,
+                        ]);
                     }
                 }
             }
     
-            // Return a successful response
             return response()->json(['message' => 'Survey with sections and questions created successfully.', 'survey' => $survey], 201);
     
         } catch (\Exception $e) {
-            // Log the error for debugging
             \Log::error('Error in saveSurvey: ' . $e->getMessage());
-    
-            // Return a response with error details
             return response()->json([
                 'error' => 'An error occurred while creating the survey.',
                 'message' => $e->getMessage()
@@ -109,9 +96,7 @@ class SurveyController extends Controller
         }
     }
     
-    
-    
-    
+
 
     ///////////////////////////////Deleting Surveys////////////////////////////////////
     /**
@@ -157,15 +142,12 @@ class SurveyController extends Controller
     public function getSurveyWithQuestions($surveyId)
     {
         try {
-            // Fetch the survey along with its sections, questions, and options
             $survey = Survey::with(['sections.questions.options'])->where('survey_id', $surveyId)->first();
 
-            // Check if the survey exists
             if (!$survey) {
                 return response()->json(['error' => 'Survey not found'], 404);
             }
 
-            // Format the response structure with sections, questions, and options
             return response()->json([
                 'survey' => $survey->title,
                 'description' => $survey->description,
@@ -187,6 +169,7 @@ class SurveyController extends Controller
                                         'option_id' => $option->option_id,
                                         'option_text' => $option->option_text,
                                         'option_value' => $option->option_value,
+                                        'is_other_option' => $option->is_other_option, // Include is_other_option
                                     ];
                                 })
                             ];
@@ -196,9 +179,7 @@ class SurveyController extends Controller
             ], 200);
 
         } catch (\Exception $e) {
-            // Log error and return a JSON response with an error message
             \Log::error('Error in getSurveyWithQuestions: ' . $e->getMessage());
-
             return response()->json([
                 'error' => 'An error occurred while fetching the survey details.',
                 'message' => $e->getMessage()
@@ -314,15 +295,12 @@ class SurveyController extends Controller
     public function getSurveyQuestions($surveyId)
     {
         try {
-            // Fetch the survey along with its sections, questions, and options
             $survey = Survey::with(['sections.questions.options'])->where('survey_id', $surveyId)->first();
-        
-            // Check if the survey exists
+
             if (!$survey) {
                 return response()->json(['error' => 'Survey not found'], 404);
             }
-        
-            // Format the response structure with sections, questions, and options
+
             return response()->json([
                 'survey' => $survey->title,
                 'description' => $survey->description,
@@ -344,6 +322,7 @@ class SurveyController extends Controller
                                         'option_id' => $option->option_id,
                                         'option_text' => $option->option_text,
                                         'option_value' => $option->option_value,
+                                        'is_other_option' => $option->is_other_option, // Include is_other_option
                                     ];
                                 })
                             ];
@@ -353,16 +332,13 @@ class SurveyController extends Controller
             ], 200);
 
         } catch (\Exception $e) {
-            // Log error and return a JSON response with an error message
             \Log::error('Error in getSurveyWithQuestions: ' . $e->getMessage());
-
             return response()->json([
                 'error' => 'An error occurred while fetching the survey details.',
                 'message' => $e->getMessage()
             ], 500);
         }
     }
-
     /**
      * Submit survey response by an alumni.
      *
@@ -400,14 +376,13 @@ class SurveyController extends Controller
                     'required',
                     'exists:survey_questions,question_id',
                     function ($attribute, $value, $fail) use ($surveyId, $surveyQuestionIds) {
-                        // Ensure question belongs to the survey
                         if (!in_array($value, $surveyQuestionIds)) {
                             $fail('The question does not belong to the specified survey.');
                         }
                     },
                 ],
-                'responses.*.option_id' => 'nullable|exists:survey_options,option_id', // Nullable for open-ended responses
-                'responses.*.response_text' => 'nullable|string' // Text response if option_id is not selected
+                'responses.*.option_id' => 'nullable|exists:survey_options,option_id',
+                'responses.*.response_text' => 'nullable|string', // Text response if option_id is not selected
             ]);
     
             // Check if all questions in the survey have been answered
@@ -427,21 +402,32 @@ class SurveyController extends Controller
     
             // Save individual question responses
             foreach ($validatedData['responses'] as $response) {
+                $optionId = $response['option_id'] ?? null;
+                $responseText = $response['response_text'] ?? null;
+    
+                // Check if the option selected is "Others" and requires additional text input
+                if ($optionId) {
+                    $option = SurveyOption::find($optionId);
+                    if ($option && $option->is_other_option && empty($responseText)) {
+                        return response()->json([
+                            'error' => 'Response text is required when selecting "Others" for question ID ' . $response['question_id']
+                        ], 422);
+                    }
+                }
+    
                 QuestionResponse::create([
                     'response_id' => $feedbackResponse->response_id,
                     'question_id' => $response['question_id'],
-                    'option_id' => $response['option_id'] ?? null,
-                    'response_text' => $response['response_text'] ?? null,
+                    'option_id' => $optionId,
+                    'response_text' => $responseText,
                 ]);
             }
     
             return response()->json(['message' => 'Survey responses submitted successfully.'], 201);
     
         } catch (\Exception $e) {
-            // Log the error for debugging
             \Log::error('Error in submitSurveyResponse: ' . $e->getMessage());
     
-            // Return a response with error details
             return response()->json([
                 'error' => 'An error occurred while submitting the survey response.',
                 'message' => $e->getMessage()
