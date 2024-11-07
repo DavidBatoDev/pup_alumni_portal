@@ -118,9 +118,10 @@ const CreateSurvey = () => {
   const handleQuestionChange = (sectionIndex, questionIndex, field, value) => {
     const updatedSections = [...survey.sections];
     if (field === 'question_type') {
-      if (value === 'Multiple Choice') {
+      if (value === 'Multiple Choice' || value === 'Dropdown') {
         updatedSections[sectionIndex].questions[questionIndex].options = [
-          { option_id: Date.now(), option_text: '1st option', option_value: '1' }];
+          { option_id: Date.now(), option_text: 'Option 1', option_value: '1' }
+        ];
       } else if (value === 'Rating') {
         updatedSections[sectionIndex].questions[questionIndex].options = [
           { option_id: Date.now() + 5, option_text: 'Poorly', option_value: '1' },
@@ -256,7 +257,7 @@ const CreateSurvey = () => {
 
   // Cancel survey creation and navigate back
   const cancelSurveyCreation = () => {
-    navigate('/admin/surveys');
+    navigate('/admin/survey-feedback');
   };
 
   return (
@@ -268,7 +269,7 @@ const CreateSurvey = () => {
         <div className="create-survey-header">
           <h2>Create New Survey</h2>
           <div className="create-survey-actions">
-            <button className="btn btn-secondary" onClick={() => navigate('/admin/surveys')}>Cancel</button>
+            <button className="btn btn-secondary" onClick={() => cancelSurveyCreation()}>Cancel</button>
             <button className="btn btn-primary" onClick={saveSurvey}>Save Survey</button>
           </div>
         </div>
@@ -350,22 +351,28 @@ const CreateSurvey = () => {
                         onChange={(e) => handleQuestionChange(sectionIndex, questionIndex, 'question_type', e.target.value)}
                         className="survey-question--select"
                       >
-                        <option value="Open-ended">💬 Open-ended</option>
-                        <option value="Multiple Choice">©️ Multiple Choice</option>
+                        <option value="Open-ended">Open-ended</option>
+                        <option value="Multiple Choice">Multiple Choice</option>
+                        <option value="Rating">Rating</option>
+                        <option value="Dropdown">Dropdown</option>
                       </select>
                     </div>
-                    {question.question_type === 'Multiple Choice' && (
+                    {(question.question_type === 'Multiple Choice' || question.question_type === 'Rating' || question.question_type === 'Dropdown') && (
                       <div className="question-options">
                         {question.options.map((option, optionIndex) => (
                           <div key={option.option_id} className="option-input-group"> 
-                            <div className='option-input-group--values'>
-                              <input
-                                type="text"
-                                value={option.option_text}
-                                placeholder={`Option ${optionIndex + 1}`}
-                                onChange={(e) => handleOptionChange(sectionIndex, questionIndex, optionIndex, 'option_text', e.target.value)}
-                                className=""
-                              />
+                            <div className='w-100 d-flex justify-content-between'>
+                              <div className='d-flex align-items-center flex-grow-1'>
+                                {(question?.question_type == 'Multiple Choice' || question?.question_type == 'Rating') && (<div>O</div>)}
+                                <input
+                                  type="text"
+                                  value={option.option_text}
+                                  placeholder={`Option ${optionIndex + 1}`}
+                                  onChange={(e) => handleOptionChange(sectionIndex, questionIndex, optionIndex, 'option_text', e.target.value)}
+                                  className={`${question?.question_type == 'Dropdown' ? '' : 'border-0'} border-bottom w-100`}
+                                />
+                              </div>
+                            <div className='d-flex align-items-center'>
                             <select
                               value={option.option_value}
                               onChange={(e) => handleOptionChange(sectionIndex, questionIndex, optionIndex, 'option_value', e.target.value)}
@@ -377,12 +384,24 @@ const CreateSurvey = () => {
                             </select>
                             <button className="btn btn-danger btn-sm" onClick={() => deleteOption(sectionIndex, questionIndex, optionIndex)}>✖</button>
                             </div>
+                            </div>
                           </div>
                         ))}
                         <button className="btn add-option-btn" onClick={() => addOptionToQuestion(sectionIndex, questionIndex)}>+ Add Option</button>
                       </div>
+                      
                     )}
-                    <button className="btn btn-outline-danger" onClick={() => deleteQuestion(sectionIndex, questionIndex)}>🗑️ Delete Question</button>
+                    <div className='d-flex justify-content-between align-items-center w-100'>
+                      <button className="btn btn-outline-danger" onClick={() => deleteQuestion(sectionIndex, questionIndex)}>🗑️ Delete Question</button>
+                      <label className="is-required-toggle">
+                        <input
+                          type="checkbox"
+                          checked={question.is_required || false}
+                          onChange={(e) => handleQuestionChange(sectionIndex, questionIndex, 'is_required', e.target.checked)}
+                        />
+                        Required
+                      </label>
+                    </div>
                   </div>
                 ))}
                 <button className="add-question-btn" onClick={() => addNewQuestion(sectionIndex)}>+ Add Question</button>
