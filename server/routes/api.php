@@ -47,7 +47,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post('/event/{eventId}/register', [EventController::class, 'registerAlumniToEvent']);
 
     // Check if the user is registered for an event
-    Route::get('/event/{eventId}/details-with-status', [EventController::class, 'getEventDetailsWithStatus']); 
+    Route::get('/event/{eventId}/details-with-status', [EventController::class, 'getEventDetailsWithStatus']);  
 
     // Route to fetch all events that the alumni has registered for
     Route::get('/surveys', [SurveyController::class, 'getAllSurveys']);
