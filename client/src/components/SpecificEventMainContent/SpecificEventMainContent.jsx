@@ -8,12 +8,18 @@ import CircularLoader from '../CircularLoader/CircularLoader';
 const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_registered }) => {
   const [loading, setLoading] = useState(false); // State for loading
   const [alert, setAlert] = useState({ message: '', severity: '' }); // State for alert messages
-  const navigate = useNavigate(); // Hook for 
+  const navigate = useNavigate(); // Hook for navigation
   
   console.log('eventId:', eventId);
 
   // Function to handle RSVP click
   const handleRSVP = async () => {
+    if (is_registered) {
+      // If the user is already registered, display an alert and prevent further requests
+      setAlert({ message: 'You are already registered for this event!', severity: 'info' });
+      return; // Exit the function
+    }
+
     try {
       setLoading(true); // Show loader
       const token = localStorage.getItem('token');
@@ -37,7 +43,14 @@ const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_reg
       setTimeout(() => navigate('/events'), 2000);
     } catch (error) {
       setLoading(false); // Hide loader
-      setAlert({ message: 'Failed to register for the event. Please try again.', severity: 'error' });
+
+      // Check if the error is due to already being registered
+      if (error.response && error.response.status === 400 && error.response.data === 'You are already registered on the event.') {
+        setAlert({ message: 'You are already registered for this event!', severity: 'info' }); // Show info alert without changing the UI
+      } else {
+        setAlert({ message: 'Failed to register for the event. Please try again.', severity: 'error' });
+      }
+
       console.error('RSVP Error:', error);
     }
   };
@@ -52,7 +65,7 @@ const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_reg
         <CustomAlert
           severity={alert.severity}
           message={alert.message}
-          onClose={() => setAlert({ message: '', severity: '' })}
+          onClose={() => setAlert({ message: '', severity: '' })} // Clear alert on close
         />
       )}
 
@@ -69,7 +82,7 @@ const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_reg
               </button>
             )}
           </div>
-          <p className="specific-event-description" dangerouslySetInnerHTML={{__html: details}} />
+          <p className="specific-event-description" dangerouslySetInnerHTML={{ __html: details }} />
         </div>
 
         {/* Date and Location Section */}
