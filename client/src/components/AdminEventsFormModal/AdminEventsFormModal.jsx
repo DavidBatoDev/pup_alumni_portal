@@ -1,5 +1,3 @@
-// src/components/EventFormModal/EventFormModal.jsx
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ModalContainer from '../ModalContainer/ModalContainer';
@@ -36,8 +34,7 @@ const AdminEventsFormModal = ({
   const [photosToDelete, setPhotosToDelete] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null); // Success state
+  const [alert, setAlert] = useState({ message: '', severity: '' }); // Alert state
 
   const [validation, setValidation] = useState({
     event_name: true,
@@ -101,8 +98,7 @@ const AdminEventsFormModal = ({
     setTempPhotos([]);
     setSpecificEventPhotoIds([]);
     setPhotosToDelete([]);
-    setError(null);
-    setSuccessMessage(null);
+    setAlert({ message: '', severity: '' });
   };
 
   useEffect(() => {
@@ -131,7 +127,7 @@ const AdminEventsFormModal = ({
           setPhotosToDelete([]);
         } catch (error) {
           console.error('Error fetching event details:', error);
-          setError('Failed to fetch event details: ' + (error.response?.data?.message || 'Unknown error occurred.'));
+          setAlert({ message: 'Failed to fetch event details. Please try again.', severity: 'error' });
         } finally {
           setLoading(false);
         }
@@ -146,8 +142,7 @@ const AdminEventsFormModal = ({
   }, [isEditing, currentEventId, showModal]);
 
   const handleCloseAlert = () => {
-    setError(null);
-    setSuccessMessage(null);
+    setAlert({ message: '', severity: '' });
   };
 
   const handleChange = (e) => {
@@ -165,7 +160,7 @@ const AdminEventsFormModal = ({
 
   const handleSaveEvent = async () => {
     if (!validateFields()) return;
-
+  
     try {
       setLoading(true);
       setUploading(true);
@@ -177,11 +172,11 @@ const AdminEventsFormModal = ({
       formData.append('type', newEvent.type);
       formData.append('category', newEvent.category);
       formData.append('organization', newEvent.organization);
-
+  
       photosToDelete.forEach((photoId) => formData.append('photos_to_delete[]', photoId));
       specificEventPhotoIds.forEach((photoId) => formData.append('existing_photos[]', photoId));
       tempPhotos.forEach((photo) => formData.append('photos[]', photo));
-
+  
       const response = isEditing
         ? await axios.post(`/api/admin/update-event/${currentEventId}`, formData, {
             headers: {
@@ -195,7 +190,7 @@ const AdminEventsFormModal = ({
               'Content-Type': 'multipart/form-data',
             },
           });
-
+  
       if (response.status === 200 || response.status === 201) {
         const updatedEvent = response.data.event;
         if (isEditing) {
@@ -203,23 +198,30 @@ const AdminEventsFormModal = ({
             event.event_id === currentEventId ? { ...event, ...updatedEvent } : event
           );
           setEventsList(updatedEventList);
-          setSuccessMessage('Event updated successfully!');
+          setAlert({ message: 'Event updated successfully!', severity: 'success' });
         } else {
           setEventsList((prevList) => [...prevList, updatedEvent]);
-          setSuccessMessage('Event added successfully!');
+          setAlert({ message: 'Event added successfully!', severity: 'success' });
         }
         setUpdateSuccess(true);
-        closeModal();
-        resetFormState();
+  
+        // Delay modal closure to display alert
+        setTimeout(() => {
+          resetFormState();
+          closeModal();
+        }, 2000); // Keep the modal open for 2 seconds
+      } else {
+        setAlert({ message: 'Failed to save event. Please try again.', severity: 'error' });
       }
     } catch (error) {
       console.error('Error saving event:', error);
-      setError(error.response?.data?.message || 'Error occurred while saving the event.');
+      setAlert({ message: 'Error occurred while saving the event. Please try again.', severity: 'error' });
     } finally {
       setLoading(false);
       setUploading(false);
     }
   };
+  
 
   const handleDeleteEvent = async () => {
     try {
@@ -229,20 +231,33 @@ const AdminEventsFormModal = ({
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
+  
       if (response.status === 200) {
         const updatedEventList = eventsList.filter((event) => event.event_id !== currentEventId);
         setEventsList(updatedEventList);
-        setSuccessMessage('Event deleted successfully!');
+  
+        // Display success alert and delay modal closure
+        setAlert({ message: 'Event deleted successfully!', severity: 'success' });
+  
         setUpdateSuccess(true);
-        closeModal();
+        
+        // Delay modal close to let the alert display
+        setTimeout(() => {
+          closeModal();
+        }, 2000); // Keep the modal open for 2 seconds
+  
+      } else {
+        setAlert({ message: 'Failed to delete event. Please try again.', severity: 'error' });
       }
     } catch (error) {
       console.error('Error deleting event:', error);
-      setError(error.response?.data?.message || 'Error occurred while deleting the event.');
+      setAlert({ message: 'Error occurred while deleting the event. Please try again.', severity: 'error' });
     } finally {
       setLoading(false);
     }
   };
+  
+  
 
   return (
     <ModalContainer
@@ -252,18 +267,11 @@ const AdminEventsFormModal = ({
       isMobile={isMobile}
     >
       <form className="events-form add-event-form">
-        {/* Display CustomAlert for errors or success */}
-        {error && (
+        {/* Display CustomAlert for success or error */}
+        {alert.message && (
           <CustomAlert
-            message={error}
-            severity="error"
-            onClose={handleCloseAlert}
-          />
-        )}
-        {successMessage && (
-          <CustomAlert
-            message={successMessage}
-            severity="success"
+            message={alert.message}
+            severity={alert.severity}
             onClose={handleCloseAlert}
           />
         )}
@@ -271,7 +279,6 @@ const AdminEventsFormModal = ({
         {/* Show loader if uploading or loading */}
         {uploading || loading ? <CircularLoader /> : null}
 
-        {/* Rest of the form fields... */}
         {/* Photo Upload Section */}
         <div className="events-form-row events-form-row-photos">
           <label className="events-form-label">
@@ -480,7 +487,6 @@ const AdminEventsFormModal = ({
               Delete Event
             </button>
           )}
-
         </div>
       </form>
     </ModalContainer>

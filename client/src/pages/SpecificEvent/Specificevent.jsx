@@ -10,25 +10,28 @@ import './SpecificEvent.css';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 import 'swiper/css/bundle';
 import { Navigation } from 'swiper/modules';
-import SwiperCore from 'swiper'
+import SwiperCore from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 const SpecificEvent = () => {
   SwiperCore.use([Navigation]);
   const { eventId } = useParams();
   const [eventData, setEventData] = useState(null);
+  const [isRegistered, setIsRegistered] = useState(null); // Separate state for registration status
 
-  console.log(eventData)
+  console.log('Event Data:', eventData);
+  console.log('Registration Status:', isRegistered);
 
+  // Fetch event data only
   useEffect(() => {
     const fetchEventData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/event/${eventId}`, {
+        const response = await axios.get(`http://localhost:8000/api/events/${eventId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         });
-        setEventData(response.data.event);
+        setEventData(response.data.event); // Set the event details
       } catch (error) {
         console.error("Error fetching event data:", error);
       }
@@ -36,11 +39,26 @@ const SpecificEvent = () => {
     fetchEventData();
   }, [eventId]);
 
-  console.log('eventData:', eventData);
+  // Fetch registration status only
+  useEffect(() => {
+    const fetchRegistrationStatus = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/event/${eventId}/details-with-status`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        setIsRegistered(response.data.event.is_alumni_registered); // Set the registration status
+      } catch (error) {
+        console.error("Error fetching registration status:", error);
+      }
+    };
 
-  if (!eventData) return <CircularLoader />;
+    fetchRegistrationStatus();
+  }, [eventId]);
 
-  // Set the background image if available, otherwise use a default image
+  if (!eventData || isRegistered === null) return <CircularLoader />;
+
   const backgroundImage = eventData?.photos[0]?.photo_path || bannerImage;
 
   return (
@@ -55,7 +73,7 @@ const SpecificEvent = () => {
       }}
     >
       <Navbar />
-      <Swiper navigation style={{height: '100%'}}>
+      <Swiper navigation style={{ height: '100%' }}>
         {eventData.photos.map((photo, index) => (
           <SwiperSlide key={index} style={{ height: '100%' }}>
             <BannerSmall
@@ -69,7 +87,6 @@ const SpecificEvent = () => {
             />
           </SwiperSlide>
         ))}
-
       </Swiper>
       <div className="specific-event-section">
         <SpecificEventSidebar
@@ -86,7 +103,7 @@ const SpecificEvent = () => {
           date={eventData.event_date}
           venue={eventData.location}
           details={eventData.description}
-          is_registered={eventData.is_alumni_registered}
+          is_registered={isRegistered} // Pass registration status directly
         />
       </div>
     </div>
