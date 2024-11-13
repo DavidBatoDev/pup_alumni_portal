@@ -7,6 +7,7 @@ import axios from "axios";
 import '../../global.css';
 import SurveyCard from "../../components/SurveyCards/SurveyCards"; // Import the updated SurveyCard component
 import CustomAlert from "../../components/CustomAlert/CustomAlert"; // Import CustomAlert
+import SurveySearchBar from "../../components/SurveySearchBar/SurveySearchBar";
 
 const Surveys = () => {
   const [unansweredSurveysData, setUnansweredSurveysData] = useState([]);
@@ -96,7 +97,10 @@ const Surveys = () => {
                 <h3>Loading Surveys...</h3>
               </div>
             ) : (
-              <SurveyCard surveys={unansweredSurveysData} answered={false} />
+              <div className="survey-list-container">
+                <SurveySearchBar surveys={unansweredSurveysData} answered={false} />
+                <SurveyCard surveys={unansweredSurveysData} answered={false} />
+              </div>
             )}
           </div>
 
@@ -119,7 +123,10 @@ const Surveys = () => {
                 <h3>Loading Surveys...</h3>
               </div>
             ) : (
-              <SurveyCard surveys={answerSurveyData} answered={true} />
+              <div className="survey-list-container">
+                <SurveySearchBar surveys={answerSurveyData} answered={true} />
+                <SurveyCard surveys={answerSurveyData} answered={true} />
+              </div>
             )}
           </div>
         </div>

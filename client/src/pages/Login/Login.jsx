@@ -64,6 +64,7 @@ const Login = () => {
       // Store the token in localStorage
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('showSurveyModal', true);
 
       // Redirect to the events page
       navigate('/events');

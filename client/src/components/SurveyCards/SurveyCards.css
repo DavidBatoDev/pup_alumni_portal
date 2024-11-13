@@ -5,11 +5,7 @@
 
 /* General styling for the survey card container */
 .survey-card-container {
-  /* background: #ffffff; */
   border-radius: 16px; /* More rounded corners for a modern look */
-  /* border: 1px solid #e0e0e0; */
-  padding: 30px;
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); Softer shadow */
 }
 
 /* Styling for survey card grid */
@@ -17,6 +13,13 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   row-gap: 20px;
+}
+
+.survey-col-layout {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 /* Each survey card item styling */
@@ -34,6 +37,10 @@
   position: relative; /* Allow better control over child elements */
   height: 250px;
   margin-top: 0;
+}
+
+.survey-col-item {
+  width: 100%;
 }
 
 .survey-card-item:hover {
@@ -118,7 +125,6 @@
 /* Responsive styling for screens 768px and below */
 @media screen and (max-width: 768px) {
   .survey-card-grid {
-    display: grid;
     grid-template-columns: 1fr; /* Stacks items in a single column */
     gap: 10px;
   }
@@ -143,7 +149,7 @@
   .survey-card-description {
     font-size: 14px;
   }
-  
+
   .survey-card-btn-primary {
     padding: 8px 16px;
     font-size: 12px;
@@ -153,4 +159,3 @@
     width: 350px;
   }
 }
- 
