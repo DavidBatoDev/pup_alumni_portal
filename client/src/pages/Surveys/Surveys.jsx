@@ -26,7 +26,6 @@ const Surveys = () => {
         setUnansweredSurveysData(response.data.surveys);
       } catch (error) {
         console.error("Error fetching surveys:", error);
-        setError(error.response?.data?.message || "Failed to load unanswered surveys. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -42,7 +41,6 @@ const Surveys = () => {
         setAnswerSurveyData(response.data.surveys);
       } catch (error) {
         console.error("Error fetching surveys:", error);
-        setError(error.response?.data?.message || "Failed to load answered surveys. Please try again later.");
       } finally {
         setLoading(false);
       }
