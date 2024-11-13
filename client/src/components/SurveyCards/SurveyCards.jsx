@@ -2,35 +2,17 @@ import React from 'react';
 import './SurveyCards.css'; // Import the updated CSS file for styling
 import { useNavigate } from 'react-router-dom';
 
-const SurveyCard = ({ surveys, answered }) => {
+const SurveyCard = ({ surveys, answered, isRowLayout = true }) => {
   const navigate = useNavigate();
 
-
   return (
-    <div className="survey-list-container">
+    <>
       {/* Search Bar and Available Surveys Count */}
-      <div className="survey-card-container p-4 ">
-        {surveys.length > 0 && (
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <div className="survey-input-group input-group" style={{ maxWidth: '400px' }}>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search for a survey"
-              aria-label="Search for a survey"
-            />
-          </div>
-          {/* Dynamically display the survey count */}
-          <h3 className="survey-text-muted">
-            {!answered ? "Available Surveys: " : "Surveys Answered: "} <span className="survey-text-danger text-danger">{surveys.length}</span>
-          </h3>
-        </div>
-        )}
-
+      <div className="survey-card-container">
         {/* Map over the surveys data and render each survey card */}
-        <div className="survey-card-grid">
+        <div className={`survey-card-grid ${isRowLayout ? '' : 'survey-col-layout'}`}>
           {surveys.length > 0 ? surveys.map((survey, index) => (
-            <div key={index} className="survey-card-item">
+            <div key={index} className={`survey-card-item ${isRowLayout ? '' : 'survey-col-item'}`}>
               <div className="survey-card-information">
                 <h4 className="survey-card-title">{survey.title}</h4>
                 <p className="survey-card-description">{survey.description}</p>
@@ -66,7 +48,7 @@ const SurveyCard = ({ surveys, answered }) => {
         }
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

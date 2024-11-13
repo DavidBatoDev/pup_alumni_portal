@@ -668,6 +668,7 @@ class ComposerStaticInit528ca6ddeb3e87df9d0c273e147b1717
     );
 
     public static $classMap = array (
+        'App\\Events\\EventCreated' => __DIR__ . '/../..' . '/app/Events/EventCreated.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\AdminAuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AdminAuthController.php',
         'App\\Http\\Controllers\\AlumniController' => __DIR__ . '/../..' . '/app/Http/Controllers/AlumniController.php',
@@ -691,6 +692,7 @@ class ComposerStaticInit528ca6ddeb3e87df9d0c273e147b1717
         'App\\Models\\Survey' => __DIR__ . '/../..' . '/app/Models/Survey.php',
         'App\\Models\\SurveyOption' => __DIR__ . '/../..' . '/app/Models/SurveyOption.php',
         'App\\Models\\SurveyQuestion' => __DIR__ . '/../..' . '/app/Models/SurveyQuestion.php',
+        'App\\Models\\SurveySection' => __DIR__ . '/../..' . '/app/Models/SurveySection.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',

@@ -5,3 +5,6 @@ start cmd /k "cd client & npm run dev"
 
 REM Open terminal 2 (Backend)
 start cmd /k "cd server & php artisan serve"
+
+REM Open terminal 3 (Backend: Reverb Server)
+start cmd /k "cd server & php artisan reverb:start"

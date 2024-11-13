@@ -1,5 +1,5 @@
 // src/App.js
-import React, {useEffect} from 'react';
+import React, { useState, useEffect} from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Homepage from './pages/Homepage/Homepage';
 import Login from './pages/Login/Login';
@@ -29,6 +29,7 @@ import SpecificHistoryPage from './pages/SpecificHistoryPage/SpecificHistoryPage
 import Alumni from './pages/Alumni/Alumni';
 import OtherProfile from './pages/Profile/OtherProfile';
 import echo from './echo';
+import SurveyPopupModal from './components/SurveyPopupModal/SurveyPopupModal';
 
 function App() {
   useEffect(() => {
@@ -38,8 +39,11 @@ function App() {
       });
   }, []);
 
+  const [showSurvey, setShowSurvey] = useState(true);
+
   return (
     <Router>
+      {showSurvey && <SurveyPopupModal />}
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Homepage />} />
