@@ -11,10 +11,12 @@
   margin-bottom: 15px;
   transition: box-shadow 0.3s ease;
   border: 1px solid #e5e5e5; /* Light border for the card */
+  cursor: pointer;
 }
 
 /* Card hover effect */
 .survey-listing-card:hover {
+  background-color: #d9d9d9; /* Light gray background on hover */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 

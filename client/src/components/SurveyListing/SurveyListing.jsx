@@ -37,7 +37,11 @@ const SurveyListing = ({ surveyData }) => {
     <div className="survey-listing-card" onClick={handleSurveyClick}>
       {/* Survey Header Section */}
       <div className="survey-listing-header">
-        <h2 className="survey-listing-title">{title}</h2>
+        {/* Icon here */}
+        <div className='d-flex align-items-center gap-2'>
+          <i className="fas fa-file-alt survey-icon"></i>
+          <h2 className="survey-listing-title">{title}</h2>
+        </div>
         <span className="survey-listing-date">Created: {formatDate(creation_date)}</span>
       </div>
 

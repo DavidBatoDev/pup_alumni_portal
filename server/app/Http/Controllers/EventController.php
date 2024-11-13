@@ -231,7 +231,10 @@ class EventController extends Controller
     public function getEvents()
     {
         // Fetch all events with their associated photos
-        $events = Event::with('photos')->orderBy('event_date', 'desc')->get();
+        $events = Event::with('photos')
+            ->where('is_active', true)
+            ->orderBy('event_date', 'desc')
+            ->get();
     
         // Update photo_path to include the full URL
         $events->transform(function ($event) {
