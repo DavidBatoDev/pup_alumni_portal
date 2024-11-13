@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Events\\EventCreated' => $baseDir . '/app/Events/EventCreated.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\AdminAuthController' => $baseDir . '/app/Http/Controllers/AdminAuthController.php',
     'App\\Http\\Controllers\\AlumniController' => $baseDir . '/app/Http/Controllers/AlumniController.php',
@@ -29,6 +30,7 @@ return array(
     'App\\Models\\Survey' => $baseDir . '/app/Models/Survey.php',
     'App\\Models\\SurveyOption' => $baseDir . '/app/Models/SurveyOption.php',
     'App\\Models\\SurveyQuestion' => $baseDir . '/app/Models/SurveyQuestion.php',
+    'App\\Models\\SurveySection' => $baseDir . '/app/Models/SurveySection.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
     'Brick\\Math\\BigDecimal' => $vendorDir . '/brick/math/src/BigDecimal.php',
