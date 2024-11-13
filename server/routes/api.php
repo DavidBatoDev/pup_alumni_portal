@@ -21,6 +21,8 @@ Route::post('admin/logout', [AdminAuthController::class, 'logout'])->middleware(
 
 // Route to list event/s
 Route::get('/events', [EventController::class, 'getEvents']);
+// Route to get inactive events
+Route::get('/events/inactive', [EventController::class, 'getInactiveEvents']);
 Route::get('/events/{eventId}', [EventController::class, 'getEventDetails']);
 
 

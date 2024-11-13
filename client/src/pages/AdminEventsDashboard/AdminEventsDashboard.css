@@ -10,6 +10,7 @@
 
 /* Header Styling */
 .admin-events-dashboard-header {
+  position: relative;
   margin-top: 5px;
   display: flex;
   justify-content: space-between;
@@ -51,6 +52,7 @@
 
 /* Container for the Entire Event List */
 .admin-dashboard-events-container {
+  position: relative;
   border-radius: 15px; /* Rounded corners */
   background: rgba(255, 255, 255, 0.60); /* Transparent white background */
   padding: 30px; /* Padding around the entire container */
@@ -340,4 +342,31 @@
 .ql-toolbar {
   overflow: visible !important;
   position: relative;
+}
+
+/* CSS for segmented toggle button */
+.ae-toggle-segmented-control {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+
+.ae-toggle-option {
+  padding: 8px 16px;
+  cursor: pointer;
+  background-color: #ccc;
+  color: black;
+  border: none;
+  outline: none;
+  transition: background-color 0.3s, color 0.3s;
+  font-weight: 500;
+}
+
+.ae-toggle-option.active {
+  background-color: #a52436;
+  color: white;
+}
+
+.ae-toggle-option:not(.active):hover {
+  background-color: #e9f3ff;
 }

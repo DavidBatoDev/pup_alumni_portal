@@ -248,6 +248,44 @@ class EventController extends Controller
     
         return response()->json(['success' => true, 'events' => $events], 200);
     }
+
+    public function getInactiveEvents()
+    {
+        try {
+            // Fetch all events with their associated photos
+            $events = Event::with(['photos', 'postEventPhotos'])
+                ->where('is_active', false)
+                ->orderBy('event_date', 'desc')
+                ->get();
+    
+            if ($events->isEmpty()) {
+                // Return empty response if no inactive events are found
+                return response()->json(['success' => true, 'events' => $events], 200);
+            }
+    
+            // Update photo_path to include the full URL for both photos and postEventPhotos
+            $events->transform(function ($event) {
+                // Transform regular photos
+                $event->photos->transform(function ($photo) {
+                    $photo->photo_path = url('storage/' . $photo->photo_path);
+                    return $photo;
+                });
+    
+                // Transform post event photos
+                $event->postEventPhotos->transform(function ($postPhoto) {
+                    $postPhoto->photo_path = url('storage/' . $postPhoto->photo_path);
+                    return $postPhoto;
+                });
+    
+                return $event;
+            });
+    
+            return response()->json(['success' => true, 'events' => $events], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+    
     
 
 
@@ -280,6 +318,12 @@ class EventController extends Controller
                 return [
                     'photo_id' => $photo->photo_id,
                     'photo_path' => url('storage/' . $photo->photo_path), // Return full URL to the image
+                ];
+            }),
+            'post_event_photos' => $event->postEventPhotos->map(function ($postPhoto) {
+                return [
+                    'photo_id' => $postPhoto->photo_id,
+                    'photo_path' => url('storage/' . $postPhoto->photo_path), // Return full URL to the image
                 ];
             }),
             'registered_alumni' => $event->alumniEvents->map(function ($alumniEvent) {

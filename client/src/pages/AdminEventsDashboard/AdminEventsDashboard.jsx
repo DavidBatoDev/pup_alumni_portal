@@ -11,19 +11,21 @@ import CustomAlert from '../../components/CustomAlert/CustomAlert';
 
 const AdminEventsDashboard = () => {
   const [eventsList, setEventsList] = useState([]);
+  const [inactiveEventsList, setInactiveEventsList] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [currentEventId, setCurrentEventId] = useState(null);
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [showInactive, setShowInactive] = useState(false); // Toggle state
 
-  const [error, setError] = useState(null); // Error state
+  const [error, setError] = useState(null); 
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
   const onClearError = () => {
     setError(null);
-  }
+  };
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -39,35 +41,47 @@ const AdminEventsDashboard = () => {
       }
     };
 
+    const fetchInactiveEvents = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get('/api/events/inactive');
+        setInactiveEventsList(response.data.events);
+      } catch (error) {
+        console.error('Error fetching inactive events:', error);
+        setError(error.response?.data?.error || 'Failed to fetch inactive events. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchEvents();
+    fetchInactiveEvents();
   }, [updateSuccess]);
 
-  // Open modal for adding a new event
   const handleAddEvent = () => {
     setIsEditing(false);
     setCurrentEventId(null);
     setShowModal(true);
   };
 
-  // Fetch event details and open modal for editing
   const handleEditEvent = (eventId) => {
     setIsEditing(true);
     setCurrentEventId(eventId);
     setShowModal(true);
   };
 
-  const filteredEvents = eventsList.filter((eventItem) =>
+  const filteredEvents = (showInactive ? inactiveEventsList : eventsList).filter((eventItem) =>
     eventItem.event_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleToggle = () => {
+    setShowInactive(!showInactive);
+  };
+
   return (
     <div className="admin-dashboard">
-      {/* Display CustomAlert for any errors */}
       {error && <CustomAlert message={error} severity="error" onClose={onClearError} />}
-
-      {/* Display loader when data is being loaded */}
       {loading && <CircularLoader />}
-
       <AdminSidebar />
 
       <div className="admin-dashboard-content">
@@ -85,18 +99,39 @@ const AdminEventsDashboard = () => {
         </div>
 
         <div className="admin-dashboard-events-container">
-          <div className="admin-dashboard-events-list">
+          
+          {/* Toggle button */}
+          <div className="ae-toggle-segmented-control">
+            <button
+              onClick={() => setShowInactive(false)}
+              className={`ae-toggle-option ${!showInactive ? 'active' : ''}`}
+            >
+              Active
+            </button>
+            <button
+              onClick={() => setShowInactive(true)}
+              className={`ae-toggle-option ${showInactive ? 'active' : ''}`}
+            >
+              Inactive
+            </button>
+          </div>
+
+          <div className="admin-dashboard-events-list mt-3">
             {filteredEvents.length > 0 ? (
               filteredEvents.map((eventItem) => (
                 <EventListing key={eventItem.event_id} eventData={eventItem} onEdit={handleEditEvent} />
               ))
             ) : (
               <div className="no-events-created-message-container">
-                <h3 className="text-center">No Events Found.</h3>
-                <p className="text-center">You have not added any events yet. Click the button below to add an event.</p>
-                <button className="btn btn-danger" onClick={handleAddEvent}>
-                  Add Event
-                </button>
+                <h3 className="text-center">No {showInactive ? 'Inactive' : 'Active'} Events Found.</h3>
+                {!showInactive && (
+                  <>
+                    <p className="text-center">You have not added any events yet. Click the button below to add an event.</p>
+                    <button className="btn btn-danger" onClick={handleAddEvent}>
+                      Add Event
+                    </button>
+                  </>
+                )}
               </div>
             )}
           </div>
