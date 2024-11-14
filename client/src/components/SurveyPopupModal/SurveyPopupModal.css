@@ -13,3 +13,20 @@
 .survey-popup-icon {
   color: #2c3e50;
 }
+
+.survey-card-popup{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.survey-card-popup .survey-card-container{
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.survey-card-popup .survey-card-container .survey-card-grid{
+  grid-template-columns: 1fr auto;
+  column-gap: 20px;
+}
