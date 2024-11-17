@@ -369,6 +369,10 @@ input {
     color: #424242;
   }
 
+  .is-required-toggle input{
+    margin-right: 5px;
+  }
+
   /* Mobile Responsive Design */
   @media (max-width: 768px) {
     /* Mobile adjustments */

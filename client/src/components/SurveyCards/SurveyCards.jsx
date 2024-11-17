@@ -9,44 +9,45 @@ const SurveyCard = ({ surveys, answered, isRowLayout = true }) => {
     <>
       {/* Search Bar and Available Surveys Count */}
       <div className="survey-card-container">
-        {/* Map over the surveys data and render each survey card */}
-        <div className={`survey-card-grid ${isRowLayout ? '' : 'survey-col-layout'}`}>
-          {surveys.length > 0 ? surveys.map((survey, index) => (
-            <div key={index} className={`survey-card-item ${isRowLayout ? '' : 'survey-col-item'}`}>
-              <div className="survey-card-information">
-                <h4 className="survey-card-title">{survey.title}</h4>
-                <p className="survey-card-description">{survey.description}</p>
+        {/* Render survey-card-grid only if surveys exist */}
+        {surveys?.length > 0 ? (
+          <div className={`survey-card-grid ${isRowLayout ? '' : 'survey-col-layout'}`}>
+            {/* Map over the surveys data and render each survey card */}
+            {surveys.map((survey, index) => (
+              <div key={index} className={`survey-card-item ${isRowLayout ? '' : 'survey-col-item'}`}>
+                <div className="survey-card-information">
+                  <h4 className="survey-card-title">{survey.title}</h4>
+                  <p className="survey-card-description">{survey.description}</p>
+                </div>
+                {!answered && (
+                  <button
+                    onClick={() => navigate(`/survey/${survey.survey_id}`)}
+                    className="survey-card-btn-primary"
+                  >
+                    Take Survey
+                  </button>
+                )}
               </div>
-              {
-                !answered && (
-                  <button onClick={() => navigate(`/survey/${survey.survey_id}`)} className="survey-card-btn-primary">Take Survey</button>
-                )
-              }
-            </div>
-          ))
-        :
-          (
-            <div className='no-survey-message-container'>
+            ))}
+          </div>
+        ) : (
+          // Render fallback message when no surveys are available
+          <div className="no-survey-message-container">
+            <div className="no-survey-message">
               {answered ? (
                 <>
                   <h1>You did not answer any surveys yet</h1>
-                  <p>
-                    help us improve our services by answering our surveys
-                  </p>
+                  <p>Help us improve our services by answering our surveys.</p>
                 </>
               ) : (
                 <>
                   <h1>No surveys available</h1>
-                  <p>
-                    Please check back later for more surveys
-                  </p>
+                  <p>Please check back later for more surveys.</p>
                 </>
-              )
-              }
+              )}
             </div>
-          )
-        }
-        </div>
+          </div>
+        )}
       </div>
     </>
   );
