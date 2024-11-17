@@ -1,0 +1,33 @@
+.discussions-page {
+    position: relative;
+    font-family: "Crimson Text", serif;
+    line-height: normal;
+}
+
+.discussion-background {
+    background-image: url('../../assets/images/discussionimage.jpg');
+}
+
+.discussion-content {
+    padding: 42px 128px;
+    gap: 30px;
+    height: 100%;
+}
+
+.discussion-container {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.discussion-row {
+    display: flex;
+    min-height: 100vh; /* Ensure full viewport height */
+    height: 100%;
+    position: relative;
+    overflow-y: auto;
+}
+
+.discussions-page .card-list {
+  margin: 0 10rem 0 10rem;
+}

@@ -76,7 +76,7 @@ const AuthenticatedNavbar = () => {
               <button className="nav-link" onClick={() => handleNavLinkClick('career')}>Career</button>
             </li>
             <li className="nav-item">
-              <button className="nav-link" onClick={() => handleNavLinkClick('discussion')}>Discussion</button>
+              <button className="nav-link" onClick={() => handleNavLinkClick('discussions')}>Discussions</button>
             </li>
           </ul>
           <div className="auth-container">
@@ -113,10 +113,10 @@ const AuthenticatedNavbar = () => {
             <button className="drawer-link" onClick={() => handleNavLinkClick('surveys')}>Survey</button>
           </li>
           <li className="drawer-item">
-            <button className="drawer-link" onClick={() => handleNavLinkClick('career')}>Career</button>
+            <button className="drawer-link" onClick={() => handleNavLinkClick('careers')}>Career</button>
           </li>
           <li className="drawer-item">
-            <button className="drawer-link" onClick={() => handleNavLinkClick('discussion')}>Discussion</button>
+            <button className="drawer-link" onClick={() => handleNavLinkClick('discussions')}>Discussions</button>
           </li>
           {/* Notification bell icon */}
           <NotificationMenu />

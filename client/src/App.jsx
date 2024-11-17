@@ -77,6 +77,9 @@ function App() {
             <Route path="/events/events-history" element={<EventHistory />} />
             <Route path="/events/events-history/:eventId" element={<SpecificHistoryPage />} />
 
+            {/* */}
+            <Route path="/discussions" element={<Discussions />} />
+
         </Route>
 
         {/* Protected Routes for Admin */}
