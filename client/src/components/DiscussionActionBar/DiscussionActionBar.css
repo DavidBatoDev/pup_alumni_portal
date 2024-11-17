@@ -1,0 +1,43 @@
+.discussion-actionbar {
+  line-height: normal;
+  font-family: "Raleway";
+}
+
+
+.discussion-actionbar
+.discussion-selection,
+.discussion-actionbar
+.btn {
+    padding: 0.5rem 0.625rem !important;
+    line-height: normal !important;
+
+    min-width: fit-content;
+    border: none;
+    border-radius: 100px;
+    box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(0.625rem);
+
+    font-family: "Raleway";
+    text-decoration: none;
+    color: #1E1E1E;
+    font-size: 0.875rem;
+    font-style: normal;
+}
+
+.discussion-actionbar .discussion-search {
+  flex-grow: 1;
+}
+
+.discussion-actionbar
+.btn-primary {
+  border: 0.125rem solid #800000;
+  background-color: #800000;
+  color: white;
+  transition: all 0.2s ease-in-out;
+}
+
+.discussion-actionbar
+.btn-primary:hover {
+  border: 0.125rem solid #570505;
+  background-color: #570505;
+}
