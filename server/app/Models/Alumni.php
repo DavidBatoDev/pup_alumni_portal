@@ -45,6 +45,21 @@ class Alumni extends Authenticatable implements JWTSubject
         return $this->hasMany(EducationHistory::class, 'alumni_id', 'alumni_id');
     }
 
+    public function threads()
+    {
+        return $this->hasMany(Thread::class, 'author_id', 'alumni_id');
+    }
+
+    public function votes()
+    {
+        return $this->hasMany(Vote::class, 'alumni_id', 'alumni_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'alumni_id', 'alumni_id');
+    }
+
     // JWT methods
     public function getJWTIdentifier()
     {
