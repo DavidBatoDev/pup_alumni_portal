@@ -101,7 +101,7 @@ const SurveyInformationResponses = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `SurveyResponses_${surveyId}.csv`;
+    a.download = `${survey.survey}_${surveyId}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };

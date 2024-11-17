@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { useParams } from 'react-router-dom';
 
-
 const AdminSpecificEvent = () => {
   const { eventId } = useParams();
   const [eventData, setEventData] = useState(null);
@@ -49,7 +48,6 @@ const AdminSpecificEvent = () => {
   useEffect(() => {
     const fetchSurveyData = async () => {
       try {
-
         setLoading(true);
         const token = localStorage.getItem('token');
 
@@ -75,6 +73,38 @@ const AdminSpecificEvent = () => {
 
     fetchSurveyData();
   }, [eventId, updateSuccess]);
+
+  // Function to export participant data as CSV
+  const exportAsCSV = () => {
+    if (participantData.length === 0) return;
+
+    // Prepare CSV headers
+    const headers = ['#', 'ID', 'First Name', 'Last Name', 'Email', 'Phone Number', 'Graduation Year', 'Registration Date'];
+    
+    // Map participant data into rows
+    const csvRows = participantData.map((participant, index) => [
+      index + 1,
+      participant.alumni_id,
+      participant.first_name,
+      participant.last_name,
+      participant.email,
+      participant.phone_number || 'None Provided',
+      participant.graduation_year,
+      new Date(participant.registration_date).toLocaleDateString()
+    ]);
+
+    // Combine headers and rows
+    const csvContent = [headers.join(','), ...csvRows.map(row => row.join(','))].join('\n');
+
+    // Create a Blob and trigger the download
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${eventData.event_name}_${eventId}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <div className='admin-specific-event'>
@@ -114,7 +144,13 @@ const AdminSpecificEvent = () => {
             </div>
             <p className='admin-specific-event-description' dangerouslySetInnerHTML={{__html: eventData?.description}}/>
           </div>
-          {/* Table of Participants */}
+          
+          {/* Table and Export Button */}
+          <div className='d-flex justify-content-between align-items-center'>
+            <h2 className='survey-info-subtitle'>Participants</h2>
+            <button className="btn export-as-csv-btn" onClick={exportAsCSV}>Export as CSV</button>
+          </div>
+
           <div className='table-responsive'>
             <table className='table table-striped table-hover'>
               <thead className='thead-light'>
@@ -150,10 +186,8 @@ const AdminSpecificEvent = () => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };
-
 
 export default AdminSpecificEvent;
