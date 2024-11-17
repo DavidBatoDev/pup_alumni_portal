@@ -262,10 +262,10 @@ const CreateSurvey = () => {
     console.log('Formatted Survey:', formattedSurvey);
 
     // Validate fields before sending
-    if (!validateSurveyFields()) {
-      setAlert({ message: 'Please fill out all required fields correctly.', severity: 'warning' });
-      return;
-    }
+    // if (!validateSurveyFields()) {
+    //   setAlert({ message: 'Please fill out all required fields correctly.', severity: 'warning' });
+    //   return;
+    // }
 
     try {
       const response = await axios.post('/api/admin/save-survey', formattedSurvey, {

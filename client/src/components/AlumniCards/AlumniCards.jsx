@@ -11,29 +11,30 @@ const AlumniCards = ({ viewMode, profiles, loading }) => {
     <div className={`container alumni-cards-container ${viewMode}`}>
       {loading && <p>Loading...</p>}
 
+
+
       {!loading && profiles.length > 0 ? (
         <>
           {profiles.map((profile) => (
             <div className={`alumni-card mb-4 ${viewMode}`} key={profile.alumni_id}>
               <div className="alumni-profile-section">
                 <img
-                  src={profile.profile_picture}
+                  src={profile?.profile_picture || "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"}
                   className="img-fluid rounded-circle alumni-profile-img mr-2"
-                  alt="Profile"
+                  alt=""
                 />
 
                 <div className="d-flex flex-column">
                   <h5 className="card-title mb-1">
                     {`${profile.first_name} ${profile.last_name}`}
                   </h5>
-                  <p className="card-text mb-0 w-5">
-                    <span>{profile.current_job_title}</span> at{" "}
-                    <span>{profile.current_employer}</span>
+                  <p className="mb-0 w-5">
+                    <span className="">{profile.current_job_title}</span><span>{profile.current_employer}</span>
                   </p>
-                  <p className="card-text text-muted mb-0">
+                  <p className="ac-address-text">
                     {profile?.address[0]?.city}, {profile?.address[0]?.country}
                   </p>
-                  <p className="card-text mb-0 w-5 font-italic">
+                  <p className="ac-batch-year">
                     Batch {profile.graduation_year}
                   </p>
                 </div>

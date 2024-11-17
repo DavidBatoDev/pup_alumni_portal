@@ -29,14 +29,26 @@
   }
 
   .alumni-profile-section .card-title {
-    margin-bottom: 0.1rem;
-    font-weight: bold;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .alumni-profile-section .ac-address-text{
+    font-size: 10px;
+    font-weight: 600;
   }
 
   .alumni-profile-section .card-text {
     font-size: 0.85rem;
     font-weight: 600;
   }
+
+  .alumni-profile-section .ac-batch-year {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  
 
   .alumni-profile-section .card-text span:nth-child(1) {
     color: #870000;
@@ -55,46 +67,42 @@
 
   /* --- GRID VIEW --- */
   /* Grid View Container */
-.alumni-cards-container.grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
-    gap: 20px; /* Add space between the grid items */
-  }
+  .alumni-cards-container.grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+      gap: 20px; /* Add space between the grid items */
+    }
 
-  /* Grid View: Alumni Card */
-  .alumni-card.grid {
-    display: flex;
-    flex-direction: column; /* Stack profile pic and details vertically */
-    justify-content: space-between; /* Push content to the top and the button to the bottom */
-    height: 100%; /* Ensure all cards have equal height */
-    text-align: center;
-    padding: 20px;
-  }
+    /* Grid View: Alumni Card */
+    .alumni-card.grid {
+      display: flex;
+      flex-direction: column; /* Stack profile pic and details vertically */
+      justify-content: space-between; /* Push content to the top and the button to the bottom */
+      height: 100%; /* Ensure all cards have equal height */
+      text-align: center;
+      padding: 20px;
+    }
 
-  /* Image Styling for Grid View */
-  .alumni-card.grid img {
-    width: 90px;
-    height: 90px;
-    object-fit: cover;
-  }
+    /* Image Styling for Grid View */
+    .alumni-card.grid img {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+    }
 
-  /* Profile Section: Align center and stack content vertically */
-  .alumni-card.grid .alumni-profile-section {
-    justify-content: center;
-    align-items: center;
-    flex-direction: column; /* Stack image and text vertically */
-    padding: 0;
-  }
+    /* Profile Section: Align center and stack content vertically */
+    .alumni-card.grid .alumni-profile-section {
+      justify-content: center;
+      align-items: center;
+      flex-direction: column; /* Stack image and text vertically */
+      padding: 0;
+    }
 
-  /* Connect Button Styling: Push to the bottom */
-  .alumni-card.grid .connect-btn-container {
-    justify-content: center;
-    margin-top: auto; /* Push the button to the bottom */
-  }
-
- .alumni-section .container p {
-  font-size: 30px;
- }
+    /* Connect Button Styling: Push to the bottom */
+    .alumni-card.grid .connect-btn-container {
+      justify-content: center;
+      margin-top: auto; /* Push the button to the bottom */
+    }
 
 
   @media (max-width: 768px) {

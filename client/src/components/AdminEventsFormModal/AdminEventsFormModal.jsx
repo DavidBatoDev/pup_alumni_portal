@@ -256,6 +256,20 @@ const AdminEventsFormModal = ({
       setLoading(false);
     }
   };
+
+  const handleRemovePhoto = (index) => {
+    const updatedPreviews = photoPreviews.filter((_, i) => i !== index);
+    setPhotoPreviews(updatedPreviews);
+
+    const deletedPhoto = tempPhotos[index];
+    setTempPhotos((prevPhotos) => prevPhotos.filter((photo) => photo !== deletedPhoto));
+
+    const deletedPhotoId = specificEventPhotoIds[index];
+    if (deletedPhotoId) {
+      setPhotosToDelete((prevPhotos) => [...prevPhotos, deletedPhotoId]);
+    }
+    
+  }
   
   
 

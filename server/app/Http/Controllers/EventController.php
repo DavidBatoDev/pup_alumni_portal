@@ -48,7 +48,7 @@ class EventController extends Controller
         }
 
         // broadcast(new EventCreated($event))->toOthers();
-        event(new EventCreated($event));
+        // event(new EventCreated($event));
 
     
         return response()->json(['success' => true, 'event' => $event], 201);

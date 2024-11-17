@@ -93,6 +93,10 @@
 
 /* Pagination styling */
 .pagination-container {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   margin: 0 auto;
 }
 
