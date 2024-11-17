@@ -1,15 +1,11 @@
 /* Prefix styles with .survey- to prevent conflicts */
 .surveys-section {
-  padding-top: 50px;
+  padding: 50px 0;
   height: 100%;
 }
 
 .survey-header {
   margin-bottom: 20px;
-}
-
-.survey-header:nth-child(1) {
-  margin-bottom: 80px;
 }
 
 .survey-header h2 {
@@ -61,6 +57,11 @@
   align-items: center;
   min-height: 200px;
   width: 100vw;
+}
+
+.loading-surveys h3{
+  font-size: 24px;
+  color: #6c757d;
 }
 
 @media screen and (max-width: 768px) {
