@@ -3,6 +3,10 @@
     margin: 0 auto;
   }
 
+.alumni-cards-container p {
+  font-size: 50px;
+}
+
   /* Default list view */
   .alumni-card {
     border: 1px solid #ddd;
