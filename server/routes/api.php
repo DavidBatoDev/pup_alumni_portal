@@ -6,6 +6,7 @@ use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\DiscussionController;
 
 // Authentication routes for alumni
 Route::post('login', [AuthController::class, 'login']);
@@ -24,6 +25,12 @@ Route::get('/events', [EventController::class, 'getEvents']);
 // Route to get inactive events
 Route::get('/events/inactive', [EventController::class, 'getInactiveEvents']);
 Route::get('/events/{eventId}', [EventController::class, 'getEventDetails']);
+
+// Route to get all discussions
+Route::get('/threads', [DiscussionController::class, 'getThreads']);
+
+// Route to get a specific discussion
+Route::get('/threads/{id}', [DiscussionController::class, 'getThread']);
 
 
 // Protected alumni routes (Require JWT Authentication)
@@ -68,6 +75,20 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     // Get a specific alumni with their employment and education history
     Route::get('/alumni/{id}', [AlumniController::class, 'getSpecificAlumni']);
 
+    // Create a new thread
+    Route::post('/threads', [DiscussionController::class, 'createThread']);
+
+    // Update a thread
+    Route::put('/threads/{id}', [DiscussionController::class, 'updateThread']);
+
+    // Delete a thread
+    Route::delete('/threads/{id}', [DiscussionController::class, 'deleteThread']);
+
+    // Add a comment to a thread
+    Route::post('/threads/{threadId}/comment', [DiscussionController::class, 'addComment']);
+
+    // Vote on a thread
+    Route::post('/threads/{threadId}/vote', [DiscussionController::class, 'voteThread']);
 });
 
 // Protected admin routes (Require JWT Authentication for admin)

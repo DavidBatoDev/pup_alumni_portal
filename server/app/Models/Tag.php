@@ -5,36 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class Tag extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'comment_id';
+    protected $primaryKey = 'tag_id';
 
     protected $fillable = [
-        'thread_id',
-        'alumni_id',
-        'parent_comment_id',
-        'content',
+        'name',
     ];
 
-    public function thread()
+    public function threads()
     {
-        return $this->belongsTo(Thread::class, 'thread_id', 'thread_id');
-    }
-
-    public function alumni()
-    {
-        return $this->belongsTo(Alumni::class, 'alumni_id', 'alumni_id');
-    }
-
-    public function parent()
-    {
-        return $this->belongsTo(Comment::class, 'parent_comment_id', 'comment_id');
-    }
-
-    public function replies()
-    {
-        return $this->hasMany(Comment::class, 'parent_comment_id', 'comment_id');
+        return $this->belongsToMany(Thread::class, 'thread_tags', 'tag_id', 'thread_id', 'tag_id', 'thread_id');
     }
 }
