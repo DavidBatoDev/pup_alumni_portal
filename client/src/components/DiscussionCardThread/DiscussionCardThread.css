@@ -18,7 +18,7 @@
     font-family: 'Raleway', sans-serif;
     font-size: 0.875rem;
     font-weight: 400;
-    margin: 0 !important;
+    margin: 0;
 }
 
 .discussion-card-thread .thread-author {
@@ -31,10 +31,10 @@
     color: white;
     font-family: 'Raleway', sans-serif;
     font-size: 0.875rem;
-    font-weight: 400;
-    background-color: #6D6D6D;
+    font-weight: 500;
+    background-color: #800000;
     border-radius: 0.25rem;
-    padding: 1px 3px;
+    padding: 3px 5px;
     user-select: none;
 }
 
@@ -109,4 +109,22 @@
 .btn-reply:active {
     border: none;
     box-shadow: none;
+}
+
+.upvote.active {
+    background-color: #f0f8ff;
+    color: #800000;
+}
+
+.downvote.active {
+    background-color: #ffe6e6;
+    color: #3B71CA;
+}
+
+.vote-count.upvote {
+    color: #800000; /* Green for upvote */
+}
+
+.vote-count.downvote {
+    color: #3B71CA; /* Red for downvote */
 }
