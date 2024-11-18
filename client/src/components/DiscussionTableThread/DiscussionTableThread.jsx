@@ -1,34 +1,42 @@
 import React, { useState } from 'react';
 import './DiscussionTableThread.css';
 
+const tag_colors = [
+  '#FF5733', // Red
+  '#33FF57', // Green
+  '#3357FF', // Blue
+  '#FF33A5', // Pink
+  '#FFA533', // Orange
+  '#A533FF', // Purple
+  '#33FFF0', // Cyan
+];
+
 const DiscussionTableThread = ({ thread }) => {
   const [vote, setVote] = useState(null); // null: no vote, 'up': upvoted, 'down': downvoted
-  const [voteCount, setVoteCount] = useState(thread?.votes || 0);
+  const [voteCount, setVoteCount] = useState(thread?.up_votes - thread?.down_votes || 0);
 
-  // Handles the upvote button click
-  const handleUpvote = () => {
-    if (vote === 'up') {
-      // If already upvoted, undo the vote
+  // Handles the vote button click
+  const handleVote = (newVote) => {
+    if (vote === newVote) {
+      // If already voted the same way, undo the vote
       setVote(null);
-      setVoteCount((prev) => prev - 1);
+      setVoteCount((prev) => (newVote === 'upvote' ? prev - 1 : prev + 1));
     } else {
-      // Apply upvote; adjust vote count based on current state
-      setVote('up');
-      setVoteCount((prev) => (vote === 'down' ? prev + 2 : prev + 1));
+      // Apply new vote; adjust vote count based on current state
+      setVote(newVote);
+      setVoteCount((prev) => {
+        if (newVote === 'upvote') {
+          return vote === 'downvote' ? prev + 2 : prev + 1;
+        } else {
+          return vote === 'upvote' ? prev - 2 : prev - 1;
+        }
+      });
     }
   };
 
-  // Handles the downvote button click
-  const handleDownvote = () => {
-    if (vote === 'down') {
-      // If already downvoted, undo the vote
-      setVote(null);
-      setVoteCount((prev) => prev + 1);
-    } else {
-      // Apply downvote; adjust vote count based on current state
-      setVote('down');
-      setVoteCount((prev) => (vote === 'up' ? prev - 2 : prev - 1));
-    }
+  const getColorByTagId = (tagId) => {
+    const index = tagId % tag_colors.length;
+    return tag_colors[index];
   };
 
   return (
@@ -47,9 +55,12 @@ const DiscussionTableThread = ({ thread }) => {
             <h3 className="thread-title">{thread?.title}</h3>
             <p className="thread-author">{thread?.author}</p>
           </div>
-          <div className="d-flex flex-wrap">
-            {thread?.tags.map((tag, index) => (
-              <p key={index} className="thread-tag">{tag}</p>
+          <div className="d-flex flex-wrap gap-2">
+            {thread?.tags.map((tag) => (
+              <div key={tag.tag_id} className='d-flex justify-content-start align-items-center tag-container'>
+                <i className="fa-solid fa-2xs fa-circle" style={{ color: getColorByTagId(tag.tag_id) }}></i>
+                <p className="thread-tag">{tag.name}</p>
+              </div>
             ))}
           </div>
         </div>
@@ -57,7 +68,7 @@ const DiscussionTableThread = ({ thread }) => {
 
       {/* Thread Replies */}
       <td>
-        <p className='thread-num'>{thread?.replies}</p>
+        <p className='thread-num'>{thread?.comments.length}</p>
       </td>
 
       {/* Thread Views */}
@@ -67,7 +78,7 @@ const DiscussionTableThread = ({ thread }) => {
 
       {/* Thread Activity */}
       <td>
-        <p className='thread-num'>{thread?.activity}</p>
+        <p className='thread-num'>{thread?.updated_at}</p>
       </td>
 
       {/* Thread Interactions */}
@@ -75,24 +86,24 @@ const DiscussionTableThread = ({ thread }) => {
         <div className='btn-group vote-group' role="vote" aria-label="Vote Buttons">
           {/* Upvote Button */}
           <button
-            className={`btn btn-primary upvote ${vote === 'up' ? 'active' : ''}`}
-            onClick={handleUpvote}
+            className={`btn btn-primary upvote ${vote === 'upvote' ? 'active' : ''}`}
+            onClick={() => handleVote('upvote')}
           >
             <i className="fas fa-up-long"></i>
           </button>
 
-           {/* Display Vote Count with Dynamic Styling */}
-           <button
-              className={`btn vote-count ${vote === 'up' ? 'upvote' : vote === 'down' ? 'downvote' : ''}`}
-              disabled
-            >
-              {voteCount}
-            </button>
+          {/* Display Vote Count with Dynamic Styling */}
+          <button
+            className={`btn vote-count ${vote}`}
+            disabled
+          >
+            {voteCount}
+          </button>
 
           {/* Downvote Button */}
           <button
-            className={`btn btn-primary downvote ${vote === 'down' ? 'active' : ''}`}
-            onClick={handleDownvote}
+            className={`btn btn-primary downvote ${vote === 'downvote' ? 'active' : ''}`}
+            onClick={() => handleVote('downvote')}
           >
             <i className="fas fa-down-long"></i>
           </button>

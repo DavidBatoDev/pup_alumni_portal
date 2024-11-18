@@ -33,8 +33,8 @@
     font-size: 0.875rem;
     font-weight: 500;
     background-color: #800000;
-    border-radius: 0.25rem;
-    padding: 3px 5px;
+    border-radius: 1rem;
+    padding: 0.1875rem 0.625rem;
     user-select: none;
 }
 
