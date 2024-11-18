@@ -3,6 +3,10 @@
     margin: 0 auto;
   }
 
+.alumni-cards-container p {
+  font-size: 50px;
+}
+
   /* Default list view */
   .alumni-card {
     border: 1px solid #ddd;
@@ -29,12 +33,12 @@
   }
 
   .alumni-profile-section .card-title {
-    font-size: 1.25rem;
+    font-size: 1.8rem;
     font-weight: 700;
   }
 
   .alumni-profile-section .ac-address-text{
-    font-size: 10px;
+    font-size: 15px;
     font-weight: 600;
   }
 
@@ -44,7 +48,7 @@
   }
 
   .alumni-profile-section .ac-batch-year {
-    font-size: 0.85rem;
+    font-size: 1rem;
     font-weight: 600;
   }
 

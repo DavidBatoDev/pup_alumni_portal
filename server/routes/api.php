@@ -67,6 +67,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     // Route to fetch all surveys that the alumni has answered
     Route::get('survey/answered-surveys', [SurveyController::class, 'getAnsweredSurveys']);
 
+    // Route to fetch all events that the alumni has registered for
     Route::get('/event/{eventId}', [EventController::class, 'getEventDetails']);
 
      // Get all alumni except the authenticated user

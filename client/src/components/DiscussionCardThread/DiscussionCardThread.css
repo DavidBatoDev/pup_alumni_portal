@@ -1,0 +1,130 @@
+.discussion-card-thread {
+    background-color: white;
+    transition: ease-in 0.1s;
+
+    line-height: normal;
+    font-style: normal;
+
+    border-radius: 10px;
+}
+
+.discussion-card-thread:hover {
+    transform: translateY(-0.2rem);
+    box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
+}
+
+.discussion-card-thread p {
+    color: #6D6D6D;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+.discussion-card-thread .thread-author {
+    color: #1E1E1E;
+    font-family: 'Crimson Text', sans-serif;
+    font-size: 1rem;
+}
+
+.discussion-card-thread .thread-tag {
+    color: white;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background-color: #800000;
+    border-radius: 0.25rem;
+    padding: 3px 5px;
+    user-select: none;
+}
+
+.discussion-card-thread .thread-title {
+    color: #1E1E1E;
+    font-family: "Crimson Text";
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.discussion-card-thread .thread-num {
+    color: #6D6D6D;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    align-items: end;
+}
+
+.discussion-card-thread .thread-body {
+    color: #1E1E1E;
+    font-family: 'Crimson Text', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: justify;
+    text-rendering: optimizeSpeed;
+    overflow: hidden;
+}
+
+.discussion-card-thread .image-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 aspect ratio */
+    overflow: hidden;
+    border-radius: 8px; /* Optional: for rounded corners */
+}
+
+.discussion-card-thread .image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem; /* Optional: for rounded corners */
+}
+
+.discussion-card-thread .thread-actions {
+    font-family: 'Raleway', sans-serif;
+}
+
+.btn-reply {
+    background-color: white;
+    color: #6D6D6D;
+    box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
+}
+
+.btn-reply:hover {
+    color: #1E1E1E;
+    box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.5);
+    transition: ease-out 0.1s;
+    transform: translateY(-0.2rem);
+    transform: translateY(0.1rem);
+}
+
+.discussion-card-thread
+.btn-group > .btn {
+  background-color: white;
+  border: none;
+  box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
+}
+
+.btn-reply:active {
+    border: none;
+    box-shadow: none;
+}
+
+.upvote.active {
+    background-color: #f0f8ff;
+    color: #800000;
+}
+
+.downvote.active {
+    background-color: #ffe6e6;
+    color: #3B71CA;
+}
+
+.vote-count.upvote {
+    color: #800000; /* Green for upvote */
+}
+
+.vote-count.downvote {
+    color: #3B71CA; /* Red for downvote */
+}

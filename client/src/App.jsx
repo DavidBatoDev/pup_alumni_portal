@@ -16,7 +16,6 @@ import AdminSpecificEvent from './pages/AdminSpecificEvent/AdminSpecificEvent';
 import CreateSurvey from './pages/CreateSurvey/CreateSurvey';
 import Surveys from './pages/Surveys/Surveys';
 import AnswerSurvey from './pages/AnswerSurvey/AnswerSurvey';
-import Profile from './pages/Profile/Profile';
 import ProfileLayout from './components/ProfileLayout/ProfileLayout';
 import ProfileOverview from './pages/Profile/ProfileOverview';
 import ProfileSettings from './pages/Profile/ProfileSettings';
@@ -30,6 +29,7 @@ import Alumni from './pages/Alumni/Alumni';
 import OtherProfile from './pages/Profile/OtherProfile';
 import echo from './echo';
 import SurveyPopupModal from './components/SurveyPopupModal/SurveyPopupModal';
+import Discussions from './pages/Discussions/Discussions';
 
 function App() {
   useEffect(() => {
@@ -54,9 +54,6 @@ function App() {
         {/* Protected Routes for Alumni */}
         <Route > {/*element={<ProtectedRoute allowedRoles={['alumni']} />*/}
 
-            {/* Profile */}
-            <Route path="/old-profile" element={<Profile />} /> {/* Deprecated */}
-
             <Route path="profile" element={<ProfileLayout />}>
               <Route index element={<ProfileOverview />} />
               <Route path="settings" element={<ProfileSettings />} />
@@ -79,6 +76,9 @@ function App() {
             <Route path="/events/:eventId" element={<SpecificEvent />} />
             <Route path="/events/events-history" element={<EventHistory />} />
             <Route path="/events/events-history/:eventId" element={<SpecificHistoryPage />} />
+
+            {/* */}
+            <Route path="/discussions" element={<Discussions />} />
 
         </Route>
 
