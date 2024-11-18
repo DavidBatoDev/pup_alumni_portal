@@ -90,8 +90,8 @@ class DiscussionController extends Controller
     public function getThreads()
     {
         try {
-            // Fetch threads with tags and comments
-            $threads = Thread::with(['tags', 'comments'])
+            // Fetch threads with tags, comments, author information, and vote counts
+            $threads = Thread::with(['tags', 'comments', 'author'])
                 ->withCount([
                     'votes as upvotes' => function ($query) {
                         $query->where('vote', 'upvote'); // Count upvotes
@@ -125,8 +125,8 @@ class DiscussionController extends Controller
     public function getThread($id)
     {
         try {
-            // Fetch thread with tags, comments, and vote counts
-            $thread = Thread::with(['tags', 'comments'])
+            // Fetch thread with tags, comments, author information, and vote counts
+            $thread = Thread::with(['tags', 'comments', 'author'])
                 ->withCount([
                     'votes as upvotes' => function ($query) {
                         $query->where('vote', 'upvote'); // Count upvotes
@@ -149,6 +149,7 @@ class DiscussionController extends Controller
             ], 404);
         }
     }
+    
 
     /**
      * Update a thread.
