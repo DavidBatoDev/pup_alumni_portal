@@ -1,0 +1,38 @@
+.discussion-navbar
+.discussion-navbar-item {
+  display: flex;
+  padding: 0.625rem 0.625rem;
+  justify-content: start;
+  align-items: center;
+  text-decoration: none;
+  font-family: "Raleway";
+
+  color: #1E1E1E;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
+  border-radius: 100px;
+}
+
+.discussion-navbar ul {
+  list-style: none;
+}
+
+.discussion-navbar li {
+  user-select: none;
+}
+
+.discussion-navbar
+.discussion-navbar-item.active {
+  background: #fff;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+}
+
+.discussion-navbar
+.discussion-navbar-item:hover {
+  background: #F5F5F5;
+  transition: all 0.1s ease-in-out;
+}

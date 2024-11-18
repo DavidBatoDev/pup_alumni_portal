@@ -99,3 +99,29 @@
   }
   
 }
+
+/* for Ipad */
+@media screen and (max-width: 1024px) {
+  .desktop-modal-content {
+    width: 100%;
+  }
+
+  .desktop-modal-content {
+    max-height: 100%;
+  }
+
+  .desktop-modal-body {
+    margin-top: 50px;
+    height: 100vh;
+    border-radius: 0px;
+  }
+
+  .desktop-modal-header {
+    display: flex !important;
+    position: fixed;
+    width: 100%;
+    border-radius: 0px;
+  }
+  
+}
+
