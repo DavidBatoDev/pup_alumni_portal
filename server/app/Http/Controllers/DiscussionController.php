@@ -314,6 +314,7 @@ class DiscussionController extends Controller
                             'name' => $comment->alumni->first_name . ' ' . $comment->alumni->last_name,
                             'email' => $comment->alumni->email,
                         ],
+                        'parent_comment_id' => $comment->parent_comment_id,
                         'created_at' => $comment->created_at,
                     ];
                 }),
