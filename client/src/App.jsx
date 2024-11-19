@@ -30,6 +30,7 @@ import OtherProfile from './pages/Profile/OtherProfile';
 import echo from './echo';
 import SurveyPopupModal from './components/SurveyPopupModal/SurveyPopupModal';
 import Discussions from './pages/Discussions/Discussions';
+import SpecificDiscussion from './pages/SpecificDiscussion/SpecificDiscussion';
 
 function App() {
   useEffect(() => {
@@ -79,6 +80,7 @@ function App() {
 
             {/* */}
             <Route path="/discussions" element={<Discussions />} />
+            <Route path="/discussions/:threadId" element={<SpecificDiscussion />} />
 
         </Route>
 

@@ -1,0 +1,31 @@
+.specific-discussions-page {
+  position: relative;
+  font-family: "Crimson Text", serif;
+  line-height: normal;
+}
+
+.specific-discussion-background {
+  background-image: url('../../assets/images/discussionimage.jpg');
+}
+
+.specific-discussion-content {
+  padding: 42px 128px;
+  gap: 30px;
+  height: 100%;
+}
+
+.specific-discussion-container {
+  background-color: white;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.specific-discussion-search {
+  flex-grow: 1;
+}
+
+/* Disable default card hover animations */
+.specific-discussions-page .discussion-card-thread:hover {
+  box-shadow: none;
+  transform: none;
+}

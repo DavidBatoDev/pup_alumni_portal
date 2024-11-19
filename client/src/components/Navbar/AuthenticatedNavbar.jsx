@@ -80,19 +80,16 @@ const AuthenticatedNavbar = () => {
             </li>
           </ul>
           <div className="auth-container">
-          <NotificationMenu />
+            <NotificationMenu />
             <div className="profile-container">
-              <Link to="/profile" className='profile-container'>
               {
-                user ? (
-                  <Link to="/profile" className="nav-link">
-                    <img src={userIcon} alt="User" width="30" height="30" />
+                user ?
+                  <Link to="/profile" className="profile-link">
+                    <img src={`http://localhost:8000/storage/${user?.profile_picture}`} alt={`${user.first_name}'s profile`} className='img-fluid rounded-circle navbar-profile-image' />
                   </Link>
-                ) : (
+                  :
                   <button onClick={() => navigate('/login')} className="btn btn-nav-signin ms-3">Sign In</button>
-                )
               }
-              </Link>
             </div>
           </div>
 
@@ -123,13 +120,9 @@ const AuthenticatedNavbar = () => {
           {/* <button className="btn btn-notification"> */}
           {/* </button> */}
           <a className="drawer-item">
-            { user ? (
+            {user ? (
               <Link to="/profile" className="drawer-link">
-                <img src={userIcon}
-                  alt="User"
-                  width="30"
-                  height="30"
-                />
+                <img src={`http://localhost:8000/storage/${user?.profile_picture}`} alt={`${user.first_name}'s profile`} className='img-fluid rounded-circle navbar-profile-image' />
               </Link>
             ) : (
               <button onClick={() => { setDrawerOpen(false); navigate('/login'); }} className="btn btn-nav-signin mt-3">Sign In</button>

@@ -1,0 +1,52 @@
+.comment-card {
+  display: flex;
+  background-color: white;
+  border-radius: 15px;
+  transition: ease-in 0.3s;
+}
+
+.comment-card p {
+  margin: 0 !important;
+}
+
+/* ensure :hover effect applies to .comment-card and not its child elements (during recursive) */
+.comment-card:not(.comment-card .comment-card):hover {
+  transform: translateY(-0.2rem);
+  box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
+}
+
+
+.comment-card .comment-card {
+  background-color: #f7f5f5 !important;
+  border-radius: 5px;
+}
+
+.comment-card .alumni-profile-img {
+  width: 3rem;
+  height: 3rem;
+  object-fit: cover;
+}
+
+.comment-card .comment-author {
+  color: #1E1E1E;
+  font-family: 'Crimson Text', sans-serif;
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.comment-card .comment-num {
+  color: #6D6D6D;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  align-items: end;
+}
+
+.reply-line {
+  width: 0.3rem;
+  height: 100%;
+  background-color: #d9d7d7;
+  border-radius: 50rem;
+  flex-grow: 1 !important;
+}
+
