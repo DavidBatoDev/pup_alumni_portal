@@ -3,32 +3,26 @@ import './DiscussionCardThread.css';
 
 const DiscussionCardThread = ({ thread }) => {
   const [vote, setVote] = useState(null); // null: no vote, 'up': upvoted, 'down': downvoted
-  const [voteCount, setVoteCount] = useState(thread?.votes || 0);
+  const [voteCount, setVoteCount] = useState(thread?.up_votes - thread?.down_votes || 0);
 
-  // Handles the upvote button click
-  const handleUpvote = () => {
-    if (vote === 'up') {
-      // If already upvoted, undo the vote
+  // Handles the vote button click
+  const handleVote = (newVote) => {
+    if (vote === newVote) {
+      // If already voted the same way, undo the vote
       setVote(null);
-      setVoteCount((prev) => prev - 1);
+      setVoteCount((prev) => (newVote === 'upvote' ? prev - 1 : prev + 1));
     } else {
-      // Apply upvote; adjust vote count based on current state
-      setVote('up');
-      setVoteCount((prev) => (vote === 'down' ? prev + 2 : prev + 1));
+      // Apply new vote; adjust vote count based on current state
+      setVote(newVote);
+      setVoteCount((prev) => {
+        if (newVote === 'upvote') {
+          return vote === 'downvote' ? prev + 2 : prev + 1;
+        } else {
+          return vote === 'upvote' ? prev - 2 : prev - 1;
+        }
+      });
     }
-  };
-
-  // Handles the downvote button click
-  const handleDownvote = () => {
-    if (vote === 'down') {
-      // If already downvoted, undo the vote
-      setVote(null);
-      setVoteCount((prev) => prev + 1);
-    } else {
-      // Apply downvote; adjust vote count based on current state
-      setVote('down');
-      setVoteCount((prev) => (vote === 'up' ? prev - 2 : prev - 1));
-    }
+    console.log('Voted:', newVote);
   };
 
   return (
@@ -38,23 +32,23 @@ const DiscussionCardThread = ({ thread }) => {
         <div className='d-flex gap-2 w-100 mb-2 align-bottom align-items-center'>
           <p className="thread-author">{thread?.author}</p>
           <span>&middot;</span>
-          <p className='thread-num'>Active {thread?.activity} ago</p>
+          <p className='thread-num'>Active {thread?.updated_at}</p>
           <span>&middot;</span>
           <p className='thread-num'>{thread?.views} views</p>
         </div>
-        
+
         {/* Thread Title */}
         <h3 className="thread-title mb-2">{thread?.title}</h3>
 
         {/* Thread Tags */}
         <div className="d-flex flex-wrap gap-2 mb-2">
-          {thread?.tags.map((tag, index) => (
-            <p key={index} className="thread-tag">{tag}</p>
+          {thread?.tags.map((tag) => (
+            <p key={tag.tag_id} className="thread-tag">{tag.name}</p>
           ))}
         </div>
 
         {/* Thread Body */}
-        <p className="thread-body my-1">{thread?.body}</p>
+        <p className="thread-body my-1">{thread?.description}</p>
 
         {/* Thread Image */}
         <div className="image-container">
@@ -66,15 +60,15 @@ const DiscussionCardThread = ({ thread }) => {
           <div className='btn-group vote-group' role="vote" aria-label="Vote Buttons">
             {/* Upvote Button */}
             <button
-              className={`btn btn-primary upvote ${vote === 'up' ? 'active' : ''}`}
-              onClick={handleUpvote}
+              className={`btn btn-primary upvote ${vote === 'upvote' ? 'active' : ''}`}
+              onClick={() => handleVote('upvote')}
             >
               <i className="fas fa-up-long"></i>
             </button>
 
             {/* Display Vote Count with Dynamic Styling */}
             <button
-              className={`btn vote-count ${vote === 'up' ? 'upvote' : vote === 'down' ? 'downvote' : ''}`}
+              className={`btn vote-count ${vote}`}
               disabled
             >
               {voteCount}
@@ -83,8 +77,8 @@ const DiscussionCardThread = ({ thread }) => {
 
             {/* Downvote Button */}
             <button
-              className={`btn btn-primary downvote ${vote === 'down' ? 'active' : ''}`}
-              onClick={handleDownvote}
+              className={`btn btn-primary downvote ${vote === 'downvote' ? 'active' : ''}`}
+              onClick={() => handleVote('downvote')}
             >
               <i className="fas fa-down-long"></i>
             </button>

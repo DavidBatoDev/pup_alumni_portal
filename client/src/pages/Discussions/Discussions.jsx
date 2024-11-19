@@ -7,6 +7,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import MainFooter from '../../components/MainFooter/MainFooter';
 import api from "../../api";
 import CustomAlert from "../../components/CustomAlert/CustomAlert"; // Import CustomAlert
+import CircularLoader from '../../components/CircularLoader/CircularLoader';
 
 import DiscussionNavbar from '../../components/DiscussionNavbar/DiscussionNavbar';
 import DiscussionActionBar from '../../components/DiscussionActionBar/DiscussionActionBar';
@@ -17,34 +18,74 @@ import DiscussionCardThread from '../../components/DiscussionCardThread/Discussi
 import "./Discussions.css";
 
 const Discussions = () => {
-  const [threads, setThreads] = useState([
-    {
-      id: 1,
-      title: "Thread 1",
-      body: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum accusamus necessitatibus repellat amet, laudantium, tenetur expedita incidunt harum, consequatur iusto ab ut. Sed, et quae adipisci voluptatum alias doloribus omnis?",
-      author: "Author 1",
-      tags: ["Moderators"],
-      replies: 10,
-      views: 100,
-      activity: '1w',
-      votes: 10,
-    },
-    {
-      id: 2,
-      title: "Thread 2",
-      body: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum accusamus necessitatibus repellat amet, laudantium, tenetur expedita incidunt harum, consequatur iusto ab ut. Sed, et quae adipisci voluptatum alias doloribus omnis?",
-      author: "Author 2",
-      tags: ["PUP Event", "Social Talk"],
-      replies: 10,
-      views: 100,
-      activity: '2d',
-      votes: 10,
-    }
-  ]);
+  const [threads, setThreads] = useState([]);
   const [sortBy, setSortBy] = useState();
+  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('Best');
   const [viewMode, setViewMode] = useState('compact');
   const [error, setError] = useState(false);
+
+  // Fetch Thread
+  useEffect(() => {
+    const fetchThreads = async () => {
+      try {
+        setLoading(true);
+        const response = await api.get('/api/threads');
+        console.log(response.data);
+
+        const formattedThreads = response.data.data.map(thread => ({
+          ...thread,
+          author: thread.author.first_name + ' ' + thread.author.last_name,
+          updated_at: timeAgo(thread.updated_at)
+        }));
+
+        setThreads(formattedThreads);
+      } catch (error) {
+        setError(error.message);
+        console.error('Error fetching threads:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchThreads();
+  }, []);
+
+
+  const timeAgo = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
+
+    const intervals = {
+      year: 60 * 60 * 24 * 365,
+      month: 60 * 60 * 24 * 30,
+      week: 60 * 60 * 24 * 7,
+      day: 60 * 60 * 24,
+      hour: 60 * 60,
+      minute: 60,
+      second: 1
+    };
+
+    for (const [key, value] of Object.entries(intervals)) {
+      const count = Math.floor(diffInSeconds / value);
+      if (count >= 1) {
+        return `${count}${key.charAt(0)} ago`;
+      }
+    }
+    return 'just now';
+  };
+
+  // Vote a thread if thread has been voted
+  const voteThread = async (threadId, vote) => {
+    try {
+      const response = await api.post(`/api/threads/${threadId}/vote`, { vote: vote });
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error voting thread:', error);
+      setError(error);
+    }
+  };
 
   useEffect(() => {
     console.log(`Filter changed to: ${filter}`);
@@ -65,12 +106,14 @@ const Discussions = () => {
       />
       <div className='background discussion-background'></div>
 
+      {loading && <CircularLoader />}
       {error && (
         <CustomAlert message={error}
           severity="error"
           onClose={() => setError(false)}
         />
       )}
+
 
       {/* Content Container */}
       <div className="container-fluid glass discussion-content">
@@ -85,7 +128,7 @@ const Discussions = () => {
                   <table className="thread-list table table-hover mt-3">
                     <DiscussionTableHeader />
                     <tbody className="thread-list">
-                      {threads.map((thread) => (<DiscussionTableThread key={thread.id} thread={thread} />))}
+                      {threads?.map((thread) => (<DiscussionTableThread key={thread.id} thread={thread} voteThread={voteThread} />))}
                     </tbody>
                   </table>
                 )
@@ -93,7 +136,7 @@ const Discussions = () => {
                 // Card View (Flex + Cards)
                 : viewMode == 'card' &&
                 <div className='card-list d-flex flex-column py-4 gap-4'>
-                  {threads.map((thread) => (
+                  {threads?.map((thread) => (
                     <DiscussionCardThread key={thread.id} thread={thread} />
                   ))}
                 </div>
