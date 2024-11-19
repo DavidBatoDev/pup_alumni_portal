@@ -46,11 +46,17 @@ const DiscussionCardThread = ({ thread }) => {
         <h3 className="thread-title mb-2">{thread?.title}</h3>
 
         {/* Thread Tags */}
-        <div className="d-flex flex-wrap gap-2 mb-2">
-          {thread?.tags.map((tag) => (
-            <p key={tag.tag_id} className="thread-tag">{tag.name}</p>
+        <div className="d-flex flex-wrap gap-2">
+          {thread?.tags?.map((tag) => (
+            <div
+              key={tag.tag_id}
+              className="d-flex justify-content-start align-items-center tag-container"
+            >
+              <p className="thread-tag">{tag.name}</p>
+            </div>
           ))}
-        </div>
+      </div>
+
 
         {/* Thread Body */}
         <p className="thread-body my-1">{thread?.description}</p>

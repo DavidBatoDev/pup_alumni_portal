@@ -63,9 +63,15 @@ const DiscussionTableThread = ({ thread }) => {
             <p className="thread-author">{thread?.author}</p>
           </div>
           <div className="d-flex flex-wrap gap-2">
-            {thread?.tags.map((tag) => (
-              <div key={tag.tag_id} className='d-flex justify-content-start align-items-center tag-container'>
-                <i className="fa-solid fa-2xs fa-circle" style={{ color: getColorByTagId(tag.tag_id) }}></i>
+            {thread?.tags?.map((tag) => (
+              <div
+                key={tag.tag_id}
+                className="d-flex justify-content-start align-items-center tag-container"
+              >
+                <i
+                  className="fa-solid fa-circle fa-2xs"
+                  style={{ color: getColorByTagId(tag.tag_id) }}
+                ></i>
                 <p className="thread-tag">{tag.name}</p>
               </div>
             ))}
