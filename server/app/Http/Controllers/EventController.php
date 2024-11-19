@@ -8,6 +8,9 @@ use App\Models\EventPhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Events\EventCreated;
+use App\Models\Notification;
+use App\Models\Alumni;
+use App\Models\AlumniNotification;
 
 class EventController extends Controller
 {
@@ -17,6 +20,42 @@ class EventController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
+    // public function createEvent(Request $request)
+    // {
+    //     // Validate the input data and the image files
+    //     $validatedData = $request->validate([
+    //         'event_name' => 'required|string|max:255',
+    //         'event_date' => 'required|date',
+    //         'location' => 'required|string|max:255',
+    //         'type' => 'required|string|max:100',
+    //         'category' => 'required|string|max:100',
+    //         'organization' => 'nullable|string|max:100',
+    //         'description' => 'nullable|string',
+    //         'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048', // Validate multiple images
+    //     ]);
+    
+    //     // Create the event
+    //     $event = Event::create($validatedData);
+    
+    //     // Handle file uploads
+    //     if ($request->hasFile('photos')) {
+    //         foreach ($request->file('photos') as $photo) {
+    //             $path = $photo->store('event_photos', 'public'); // Store in the 'public' disk
+    
+    //             // Save the photo path in the event_photos table
+    //             EventPhoto::create([
+    //                 'event_id' => $event->event_id,
+    //                 'photo_path' => $path,
+    //             ]);
+    //         }
+    //     }
+
+    //     // broadcast(new EventCreated($event))->toOthers();
+    //     // event(new EventCreated($event));
+
+    
+    //     return response()->json(['success' => true, 'event' => $event], 201);
+    // }
     public function createEvent(Request $request)
     {
         // Validate the input data and the image files
@@ -30,29 +69,55 @@ class EventController extends Controller
             'description' => 'nullable|string',
             'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048', // Validate multiple images
         ]);
-    
-        // Create the event
-        $event = Event::create($validatedData);
-    
-        // Handle file uploads
-        if ($request->hasFile('photos')) {
-            foreach ($request->file('photos') as $photo) {
-                $path = $photo->store('event_photos', 'public'); // Store in the 'public' disk
-    
-                // Save the photo path in the event_photos table
-                EventPhoto::create([
-                    'event_id' => $event->event_id,
-                    'photo_path' => $path,
+
+        try {
+            // Create the event
+            $event = Event::create($validatedData);
+
+            // Handle file uploads
+            if ($request->hasFile('photos')) {
+                foreach ($request->file('photos') as $photo) {
+                    $path = $photo->store('event_photos', 'public'); // Store in the 'public' disk
+
+                    // Save the photo path in the event_photos table
+                    EventPhoto::create([
+                        'event_id' => $event->event_id,
+                        'photo_path' => $path,
+                    ]);
+                }
+            }
+
+            // Create a notification for the event
+            $notification = Notification::create([
+                'type' => 'eventInvitation',
+                'alert' => 'New Event Created',
+                'title' => $validatedData['event_name'],
+                'message' => 'You are invited to the event: ' . $validatedData['event_name'] . ' on ' . $validatedData['event_date'] . ' at ' . $validatedData['location'],
+                'link' => '/events/' . $event->event_id, // Link to the event details
+            ]);
+
+            // Fetch all alumni IDs
+            $alumniIds = Alumni::pluck('alumni_id');
+
+            // Attach the notification to all alumni
+            foreach ($alumniIds as $alumniId) {
+                AlumniNotification::create([
+                    'alumni_id' => $alumniId,
+                    'notification_id' => $notification->notification_id,
+                    'is_read' => false,
                 ]);
             }
+
+            return response()->json(['success' => true, 'event' => $event], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to create event.',
+                'error' => $e->getMessage(),
+            ], 500);
         }
-
-        // broadcast(new EventCreated($event))->toOthers();
-        // event(new EventCreated($event));
-
-    
-        return response()->json(['success' => true, 'event' => $event], 201);
     }
+
     
     /**
      * Update an existing event.

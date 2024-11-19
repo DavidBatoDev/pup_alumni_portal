@@ -60,6 +60,12 @@ class Alumni extends Authenticatable implements JWTSubject
         return $this->hasMany(Comment::class, 'alumni_id', 'alumni_id');
     }
 
+    public function notifications()
+    {
+        return $this->belongsToMany(Notification::class, 'alumni_notifications', 'alumni_id', 'notification_id')
+            ->withPivot('is_read', 'created_at', 'updated_at');
+    }
+
     // JWT methods
     public function getJWTIdentifier()
     {

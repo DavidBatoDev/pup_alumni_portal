@@ -38,6 +38,10 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('/profile', [AlumniController::class, 'profile']);
     Route::post('/update-profile', [AlumniController::class, 'updateProfile']);
 
+    // Route to get notifications for the authenticated alumni
+    Route::get('/notifications', [AlumniController::class, 'getNotifications'])->middleware('jwt.verify');
+
+
     // Routes for managing employment and education history
     Route::post('/add-employment-history', [AlumniController::class, 'addEmploymentHistory']);
     Route::put('/update-employment-history/{id}', [AlumniController::class, 'updateEmploymentHistory']);

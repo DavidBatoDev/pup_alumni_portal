@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import './NotificationMenu.css';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 import NotificationItem from '../NotificationItem/NotificationItem';
 
@@ -10,6 +11,19 @@ const NotificationMenu = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const menuRef = useRef(null);
+
+  // useEffect(() => {
+  //   const fetchEvents = async () => {
+  //     try {
+  //       const response = await axios.get('/api/notification');
+  //       setNotifications(response.data.notifications);
+  //     } catch (error) {
+  //       console.log('Error fetching notification:', error);
+  //     } 
+  //   };
+
+  //   fetchEvents();
+  // }, []);  
 
   /////// dummy notifications ///////
   const dummyNotifications = [
@@ -22,14 +36,25 @@ const NotificationMenu = () => {
   //////////////////////////////////
 
   useEffect(() => {
-    setNotifications(dummyNotifications);
-
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get('/api/notifications', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        console.log(response.data);
+        setNotifications(response.data.data);
+      } catch (error) {
+        console.log('Error fetching notification:', error);
+      } 
+    };
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsOpen(false);
       }
     };
-
+    fetchEvents();
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
