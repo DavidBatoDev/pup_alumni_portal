@@ -12,6 +12,10 @@
     font-family: 'Raleway', sans-serif;
 }
 
+.crimson-text {
+  font-family: 'Crimson Text', serif;
+}
+
 .background {
     background-size: cover;
     background-attachment: fixed;

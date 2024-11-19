@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './DiscussionCardThread.css';
 
-const DiscussionCardThread = ({ thread }) => {
+const DiscussionCardThread = ({ thread, handleComment }) => {
   const [vote, setVote] = useState(null); // null: no vote, 'upvote': upvoted, 'downvote': downvoted
   const [voteCount, setVoteCount] = useState(thread?.up_votes - thread?.down_votes || 0);
 
@@ -36,16 +36,16 @@ const DiscussionCardThread = ({ thread }) => {
       <div className="d-flex flex-column">
         {/* Thread Metadata */}
         <div className="d-flex gap-2 w-100 mb-2 align-bottom align-items-center author-section">
-          <Link to={`/profile/${thread?.author.alumni_id}`}>
+          <Link to={`/profile/${thread?.author?.alumni_id}`}>
             <img
-              src={thread?.author.profile_picture || "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"}
+              src={thread?.author?.profile_picture || "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"}
               className="img-fluid rounded-circle alumni-profile-img mr-2"
               alt=""
             />
           </Link>
           <div className='d-flex flex-column'>
-            <Link style={{ textDecoration: 'none' }}  to={`/profile/${thread?.author.alumni_id}`}>
-              <p className="thread-author">{thread?.author.name}</p>
+            <Link style={{ textDecoration: 'none' }}  to={`/profile/${thread?.author?.alumni_id}`}>
+              <p className="thread-author">{thread?.author?.name}</p>
             </Link>
             <div className='d-flex gap-2 align-bottom align-items-center'>
               <p className="thread-num">Active {thread?.updated_at}</p>
@@ -62,10 +62,10 @@ const DiscussionCardThread = ({ thread }) => {
         <div className="d-flex flex-wrap gap-2">
           {thread?.tags?.map((tag) => (
             <div
-              key={tag.tag_id}
+              key={tag?.tag_id}
               className="d-flex justify-content-start align-items-center tag-container"
             >
-              <p className="thread-tag">{tag.name}</p>
+              <p className="thread-tag">{tag?.name}</p>
             </div>
           ))}
         </div>
@@ -108,10 +108,13 @@ const DiscussionCardThread = ({ thread }) => {
           </div>
 
           {/* Reply Button */}
-          <a className="btn btn-reply d-inline-flex gap-2 align-items-center justify-content-center">
+          <button
+            className="btn btn-reply d-inline-flex gap-2 align-items-center justify-content-center"
+            onClick={handleComment}
+          >
             <i className="fas fa-reply"></i>
-            {thread?.comments_count}
-          </a>
+            {thread?.comments_count || thread?.comment?.length}
+          </button>
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import BannerSmall from '../../components/Banner/BannerSmall';
 import bannerImage from '../../assets/images/discussionimage.jpg';
@@ -27,6 +28,7 @@ const Discussions = () => {
 
   // Modal visibility state
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   // Fetch threads
   useEffect(() => {
@@ -85,14 +87,26 @@ const Discussions = () => {
     setThreads((prevThreads) => [
       ...prevThreads,
       {
-        ...threadData,
-        tags: threadData.tags.map((tag) => ({ name: tag, tag_id: Math.random() })), // Ensure tags have name and tag_id
-        author: "You", // Replace with current user's name or author data
-        updated_at: timeAgo(now), // Use the `timeAgo` function to calculate the time difference
+        thread_id: threadData.thread_id,
+        title: threadData.title,
+        description: threadData.description,
         views: 0, // Default view count
-        up_votes: 0, // Default votes
-        down_votes: 0,
-        comments: 0, // Default comment count
+        author: {
+          alumni_id: threadData.author.alumni_id,
+          name: threadData.author.name,
+          email: threadData.author.email,
+          profile_picture: threadData.author.profile_picture,
+        },
+        upvotes: 0, // Default votes
+        downvotes: 0,
+        tags: threadData.tags.map((tag) => ({
+          tag_id: tag.tag_id,
+          name: tag.name,
+        })),
+        images: threadData.images || [],
+        comments: threadData.comments || [],
+        created_at: now,
+        updated_at: timeAgo(now), // Use the `timeAgo` function to calculate the time difference
       },
     ]);
 
@@ -141,7 +155,7 @@ const Discussions = () => {
                 <tbody className="thread-list">
                   {threads?.map((thread) => (
                     <DiscussionTableThread
-                      key={thread.id}
+                      key={thread.thread_id}
                       thread={thread}
                       voteThread={() => console.log('Vote thread')} // Placeholder
                     />
@@ -152,7 +166,7 @@ const Discussions = () => {
               <div className="card-list d-flex flex-column py-4 gap-4">
                 {threads?.map((thread) => (
                   <>
-                    <DiscussionCardThread key={thread.id} thread={thread} />
+                    <DiscussionCardThread key={thread.thread_id} thread={thread} handleComment={() => navigate(`/discussions/${thread.thread_id}`)}/>
                     <hr />
                   </>
                 ))}
