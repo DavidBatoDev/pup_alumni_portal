@@ -2,50 +2,61 @@ import React, { useState } from 'react';
 import './DiscussionCardThread.css';
 
 const DiscussionCardThread = ({ thread }) => {
-  const [vote, setVote] = useState(null); // null: no vote, 'up': upvoted, 'down': downvoted
+  const [vote, setVote] = useState(null); // null: no vote, 'upvote': upvoted, 'downvote': downvoted
   const [voteCount, setVoteCount] = useState(thread?.up_votes - thread?.down_votes || 0);
 
-  // Handles the vote button click
   const handleVote = (newVote) => {
+    if (newVote === 'downvote' && voteCount === 0) {
+      // Prevent downvote if vote count is 0
+      return;
+    }
+  
     if (vote === newVote) {
-      // If already voted the same way, undo the vote
+      // Undo the current vote
       setVote(null);
-      setVoteCount((prev) => (newVote === 'upvote' ? prev - 1 : prev + 1));
+      setVoteCount((prev) => (newVote === 'upvote' ? prev - 1 : Math.max(0, prev - 1)));
     } else {
-      // Apply new vote; adjust vote count based on current state
+      // Apply or switch vote
       setVote(newVote);
       setVoteCount((prev) => {
         if (newVote === 'upvote') {
-          return vote === 'downvote' ? prev + 2 : prev + 1;
+          // Switching from downvote to upvote
+          return vote === 'downvote' ? prev + 1 : prev + 1;
         } else {
-          return vote === 'upvote' ? prev - 2 : prev - 1;
+          // Switching from upvote to downvote
+          return vote === 'upvote' ? prev - 1 : prev;
         }
       });
     }
-    console.log('Voted:', newVote);
   };
 
   return (
     <div className="p-3 discussion-card-thread">
       <div className="d-flex flex-column">
         {/* Thread Metadata */}
-        <div className='d-flex gap-2 w-100 mb-2 align-bottom align-items-center'>
+        <div className="d-flex gap-2 w-100 mb-2 align-bottom align-items-center">
           <p className="thread-author">{thread?.author}</p>
           <span>&middot;</span>
-          <p className='thread-num'>Active {thread?.updated_at}</p>
+          <p className="thread-num">Active {thread?.updated_at}</p>
           <span>&middot;</span>
-          <p className='thread-num'>{thread?.views} views</p>
+          <p className="thread-num">{thread?.views} views</p>
         </div>
 
         {/* Thread Title */}
         <h3 className="thread-title mb-2">{thread?.title}</h3>
 
         {/* Thread Tags */}
-        <div className="d-flex flex-wrap gap-2 mb-2">
-          {thread?.tags.map((tag) => (
-            <p key={tag.tag_id} className="thread-tag">{tag.name}</p>
+        <div className="d-flex flex-wrap gap-2">
+          {thread?.tags?.map((tag) => (
+            <div
+              key={tag.tag_id}
+              className="d-flex justify-content-start align-items-center tag-container"
+            >
+              <p className="thread-tag">{tag.name}</p>
+            </div>
           ))}
-        </div>
+      </div>
+
 
         {/* Thread Body */}
         <p className="thread-body my-1">{thread?.description}</p>
@@ -57,7 +68,7 @@ const DiscussionCardThread = ({ thread }) => {
 
         {/* Thread Actions */}
         <div className="thread-actions d-flex gap-2 mt-2">
-          <div className='btn-group vote-group' role="vote" aria-label="Vote Buttons">
+          <div className="btn-group vote-group" role="vote" aria-label="Vote Buttons">
             {/* Upvote Button */}
             <button
               className={`btn btn-primary upvote ${vote === 'upvote' ? 'active' : ''}`}
@@ -66,14 +77,13 @@ const DiscussionCardThread = ({ thread }) => {
               <i className="fas fa-up-long"></i>
             </button>
 
-            {/* Display Vote Count with Dynamic Styling */}
+            {/* Vote Count */}
             <button
-              className={`btn vote-count ${vote}`}
+              className={`btn vote-count ${vote === 'upvote' ? 'upvote' : vote === 'downvote' ? 'downvote' : ''}`}
               disabled
             >
               {voteCount}
             </button>
-
 
             {/* Downvote Button */}
             <button

@@ -6,7 +6,7 @@ import bannerImage from '../../assets/images/discussionimage.jpg';
 import Navbar from '../../components/Navbar/Navbar';
 import MainFooter from '../../components/MainFooter/MainFooter';
 import api from "../../api";
-import CustomAlert from "../../components/CustomAlert/CustomAlert"; // Import CustomAlert
+import CustomAlert from "../../components/CustomAlert/CustomAlert";
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 
 import DiscussionNavbar from '../../components/DiscussionNavbar/DiscussionNavbar';
@@ -14,6 +14,7 @@ import DiscussionActionBar from '../../components/DiscussionActionBar/Discussion
 import DiscussionTableHeader from '../../components/DiscussionTableHeader/DiscussionTableheader';
 import DiscussionTableThread from '../../components/DiscussionTableThread/DiscussionTableThread';
 import DiscussionCardThread from '../../components/DiscussionCardThread/DiscussionCardThread';
+import DiscussionThreadModal from '../../components/DiscussionThreadModal/DiscussionThreadModal'; // Import DiscussionThreadModal
 
 import "./Discussions.css";
 
@@ -25,7 +26,10 @@ const Discussions = () => {
   const [viewMode, setViewMode] = useState('compact');
   const [error, setError] = useState(false);
 
-  // Fetch Thread
+  // Modal visibility state
+  const [showModal, setShowModal] = useState(false);
+
+  // Fetch threads
   useEffect(() => {
     const fetchThreads = async () => {
       try {
@@ -33,10 +37,10 @@ const Discussions = () => {
         const response = await api.get('/api/threads');
         console.log(response.data);
 
-        const formattedThreads = response.data.data.map(thread => ({
+        const formattedThreads = response.data.data.map((thread) => ({
           ...thread,
           author: thread.author.first_name + ' ' + thread.author.last_name,
-          updated_at: timeAgo(thread.updated_at)
+          updated_at: timeAgo(thread.updated_at),
         }));
 
         setThreads(formattedThreads);
@@ -51,7 +55,6 @@ const Discussions = () => {
     fetchThreads();
   }, []);
 
-
   const timeAgo = (dateString) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -64,7 +67,7 @@ const Discussions = () => {
       day: 60 * 60 * 24,
       hour: 60 * 60,
       minute: 60,
-      second: 1
+      second: 1,
     };
 
     for (const [key, value] of Object.entries(intervals)) {
@@ -76,78 +79,98 @@ const Discussions = () => {
     return 'just now';
   };
 
-  // Vote a thread if thread has been voted
-  const voteThread = async (threadId, vote) => {
-    try {
-      const response = await api.post(`/api/threads/${threadId}/vote`, { vote: vote });
-      console.log(response.data);
-    } catch (error) {
-      console.error('Error voting thread:', error);
-      setError(error);
-    }
+  const handleCreateThread = (threadData) => {
+    const now = new Date().toISOString(); // Get the current timestamp
+    console.log('New thread created:', threadData);
+  
+    // Add new thread locally
+    setThreads((prevThreads) => [
+      ...prevThreads,
+      {
+        ...threadData,
+        tags: threadData.tags.map((tag) => ({ name: tag, tag_id: Math.random() })), // Ensure tags have name and tag_id
+        author: "You", // Replace with current user's name or author data
+        updated_at: timeAgo(now), // Use the `timeAgo` function to calculate the time difference
+        views: 0, // Default view count
+        up_votes: 0, // Default votes
+        down_votes: 0,
+        comments: 0, // Default comment count
+      },
+    ]);
+  
+    setShowModal(false); // Close modal
   };
-
-  useEffect(() => {
-    console.log(`Filter changed to: ${filter}`);
-  }, [filter]);
-
-  useEffect(() => {
-    console.log(`ViewMode changed to: ${viewMode}`);
-  }, [viewMode]);
-
+  
+  
   return (
     <div className="discussions-page">
       <Navbar />
-      <BannerSmall bannerTitle={'Discussions'} bannerImage={bannerImage}
+      <BannerSmall
+        bannerTitle={'Discussions'}
+        bannerImage={bannerImage}
         breadcrumbs={[
-          { label: "Home", link: "/" },
-          { label: "Discussions", link: "/discussions" },
+          { label: 'Home', link: '/' },
+          { label: 'Discussions', link: '/discussions' },
         ]}
       />
-      <div className='background discussion-background'></div>
+      <div className="background discussion-background"></div>
 
       {loading && <CircularLoader />}
       {error && (
-        <CustomAlert message={error}
+        <CustomAlert
+          message={error}
           severity="error"
           onClose={() => setError(false)}
         />
       )}
-
 
       {/* Content Container */}
       <div className="container-fluid glass discussion-content">
         <DiscussionNavbar viewMode={viewMode} />
         <div className="row discussion-container">
           <div className="col-md-12">
-            <DiscussionActionBar filter={filter} setFilter={setFilter} viewMode={viewMode} setViewMode={setViewMode} />
-            {
-              // Compact View (Table)
-              viewMode == 'compact' ?
-                (
-                  <table className="thread-list table table-hover mt-3">
-                    <DiscussionTableHeader />
-                    <tbody className="thread-list">
-                      {threads?.map((thread) => (<DiscussionTableThread key={thread.id} thread={thread} voteThread={voteThread} />))}
-                    </tbody>
-                  </table>
-                )
-
-                // Card View (Flex + Cards)
-                : viewMode == 'card' &&
-                <div className='card-list d-flex flex-column py-4 gap-4'>
+            {/* Pass modal trigger to the action bar */}
+            <DiscussionActionBar
+              filter={filter}
+              setFilter={setFilter}
+              viewMode={viewMode}
+              setViewMode={setViewMode}
+              onCreate={() => setShowModal(true)} // Open modal
+            />
+            {viewMode === 'compact' ? (
+              <table className="thread-list table table-hover mt-3">
+                <DiscussionTableHeader />
+                <tbody className="thread-list">
                   {threads?.map((thread) => (
-                    <DiscussionCardThread key={thread.id} thread={thread} />
+                    <DiscussionTableThread
+                      key={thread.id}
+                      thread={thread}
+                      voteThread={() => console.log('Vote thread')} // Placeholder
+                    />
                   ))}
-                </div>
-            }
+                </tbody>
+              </table>
+            ) : (
+              <div className="card-list d-flex flex-column py-4 gap-4">
+                {threads?.map((thread) => (
+                  <DiscussionCardThread key={thread.id} thread={thread} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
 
+      {/* Discussion Thread Modal */}
+      <DiscussionThreadModal
+        showModal={showModal}
+        closeModal={() => setShowModal(false)}
+        onCreateThread={handleCreateThread} // Pass handler
+      />
+
       <MainFooter />
     </div>
-  )
-}
+  );
+};
 
 export default Discussions;

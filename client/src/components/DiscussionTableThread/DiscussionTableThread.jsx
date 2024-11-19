@@ -17,18 +17,25 @@ const DiscussionTableThread = ({ thread }) => {
 
   // Handles the vote button click
   const handleVote = (newVote) => {
+    if (newVote === 'downvote' && voteCount === 0) {
+      // Prevent downvote if votes are 0
+      return;
+    }
+  
     if (vote === newVote) {
-      // If already voted the same way, undo the vote
+      // Undo the current vote
       setVote(null);
-      setVoteCount((prev) => (newVote === 'upvote' ? prev - 1 : prev + 1));
+      setVoteCount((prev) => Math.max(0, newVote === 'upvote' ? prev - 1 : prev + 1));
     } else {
-      // Apply new vote; adjust vote count based on current state
+      // Switching votes or applying a new vote
       setVote(newVote);
       setVoteCount((prev) => {
         if (newVote === 'upvote') {
-          return vote === 'downvote' ? prev + 2 : prev + 1;
+          // If switching from downvote to upvote
+          return vote === 'downvote' ? prev + 1 : prev + 1;
         } else {
-          return vote === 'upvote' ? prev - 2 : prev - 1;
+          // If switching from upvote to downvote
+          return vote === 'upvote' ? prev - 1 : Math.max(0, prev - 1);
         }
       });
     }
@@ -56,9 +63,15 @@ const DiscussionTableThread = ({ thread }) => {
             <p className="thread-author">{thread?.author}</p>
           </div>
           <div className="d-flex flex-wrap gap-2">
-            {thread?.tags.map((tag) => (
-              <div key={tag.tag_id} className='d-flex justify-content-start align-items-center tag-container'>
-                <i className="fa-solid fa-2xs fa-circle" style={{ color: getColorByTagId(tag.tag_id) }}></i>
+            {thread?.tags?.map((tag) => (
+              <div
+                key={tag.tag_id}
+                className="d-flex justify-content-start align-items-center tag-container"
+              >
+                <i
+                  className="fa-solid fa-circle fa-2xs"
+                  style={{ color: getColorByTagId(tag.tag_id) }}
+                ></i>
                 <p className="thread-tag">{tag.name}</p>
               </div>
             ))}
@@ -68,7 +81,7 @@ const DiscussionTableThread = ({ thread }) => {
 
       {/* Thread Replies */}
       <td>
-        <p className='thread-num'>{thread?.comments.length}</p>
+        <p className='thread-num'>{thread?.comments}</p>
       </td>
 
       {/* Thread Views */}
