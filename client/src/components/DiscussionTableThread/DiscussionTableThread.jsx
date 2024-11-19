@@ -21,7 +21,7 @@ const DiscussionTableThread = ({ thread }) => {
       // Prevent downvote if votes are 0
       return;
     }
-  
+
     if (vote === newVote) {
       // Undo the current vote
       setVote(null);
@@ -60,7 +60,7 @@ const DiscussionTableThread = ({ thread }) => {
         <div className="d-flex flex-column justify-content-between thread-details h-100">
           <div className='d-flex flex-column m-0'>
             <h3 className="thread-title">{thread?.title}</h3>
-            <p className="thread-author">{thread?.author}</p>
+            <p className="thread-author">{thread?.author.name}</p>
           </div>
           <div className="d-flex flex-wrap gap-2">
             {thread?.tags?.map((tag) => (
@@ -81,7 +81,7 @@ const DiscussionTableThread = ({ thread }) => {
 
       {/* Thread Replies */}
       <td>
-        <p className='thread-num'>{thread?.comments}</p>
+        <p className='thread-num'>{thread?.comments_count}</p>
       </td>
 
       {/* Thread Views */}

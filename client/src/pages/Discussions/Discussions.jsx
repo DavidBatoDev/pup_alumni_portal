@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import BannerSmall from '../../components/Banner/BannerSmall';
 import bannerImage from '../../assets/images/discussionimage.jpg';
@@ -39,7 +38,6 @@ const Discussions = () => {
 
         const formattedThreads = response.data.data.map((thread) => ({
           ...thread,
-          author: thread.author.first_name + ' ' + thread.author.last_name,
           updated_at: timeAgo(thread.updated_at),
         }));
 
@@ -82,7 +80,7 @@ const Discussions = () => {
   const handleCreateThread = (threadData) => {
     const now = new Date().toISOString(); // Get the current timestamp
     console.log('New thread created:', threadData);
-  
+
     // Add new thread locally
     setThreads((prevThreads) => [
       ...prevThreads,
@@ -97,11 +95,11 @@ const Discussions = () => {
         comments: 0, // Default comment count
       },
     ]);
-  
+
     setShowModal(false); // Close modal
   };
-  
-  
+
+
   return (
     <div className="discussions-page">
       <Navbar />
@@ -153,8 +151,13 @@ const Discussions = () => {
             ) : (
               <div className="card-list d-flex flex-column py-4 gap-4">
                 {threads?.map((thread) => (
-                  <DiscussionCardThread key={thread.id} thread={thread} />
+                  <>
+                    <DiscussionCardThread key={thread.id} thread={thread} />
+                    <hr />
+                  </>
                 ))}
+                {/* Put a pagination feature here  */}
+                <p className='mx-auto text-secondary raleway'>Looks like you’re all caught up!</p>
               </div>
             )}
           </div>

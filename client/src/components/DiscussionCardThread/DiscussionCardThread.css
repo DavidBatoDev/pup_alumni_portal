@@ -13,6 +13,12 @@
     box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
 }
 
+.discussion-card-thread .author-section img {
+  width: 3rem;
+  height: 3rem;
+  object-fit: cover;
+}
+
 .discussion-card-thread p {
     color: #6D6D6D;
     font-family: 'Raleway', sans-serif;
@@ -25,6 +31,7 @@
     color: #1E1E1E;
     font-family: 'Crimson Text', sans-serif;
     font-size: 1rem;
+    text-decoration: none;
 }
 
 .discussion-card-thread .thread-tag {

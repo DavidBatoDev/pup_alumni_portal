@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './DiscussionCardThread.css';
 
 const DiscussionCardThread = ({ thread }) => {
@@ -10,7 +11,7 @@ const DiscussionCardThread = ({ thread }) => {
       // Prevent downvote if vote count is 0
       return;
     }
-  
+
     if (vote === newVote) {
       // Undo the current vote
       setVote(null);
@@ -34,12 +35,24 @@ const DiscussionCardThread = ({ thread }) => {
     <div className="p-3 discussion-card-thread">
       <div className="d-flex flex-column">
         {/* Thread Metadata */}
-        <div className="d-flex gap-2 w-100 mb-2 align-bottom align-items-center">
-          <p className="thread-author">{thread?.author}</p>
-          <span>&middot;</span>
-          <p className="thread-num">Active {thread?.updated_at}</p>
-          <span>&middot;</span>
-          <p className="thread-num">{thread?.views} views</p>
+        <div className="d-flex gap-2 w-100 mb-2 align-bottom align-items-center author-section">
+          <Link to={`/profile/${thread?.author.alumni_id}`}>
+            <img
+              src={thread?.author.profile_picture || "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"}
+              className="img-fluid rounded-circle alumni-profile-img mr-2"
+              alt=""
+            />
+          </Link>
+          <div className='d-flex flex-column'>
+            <Link style={{ textDecoration: 'none' }}  to={`/profile/${thread?.author.alumni_id}`}>
+              <p className="thread-author">{thread?.author.name}</p>
+            </Link>
+            <div className='d-flex gap-2 align-bottom align-items-center'>
+              <p className="thread-num">Active {thread?.updated_at}</p>
+              <span>&middot;</span>
+              <p className="thread-num">{thread?.views} views</p>
+            </div>
+          </div>
         </div>
 
         {/* Thread Title */}
@@ -55,7 +68,7 @@ const DiscussionCardThread = ({ thread }) => {
               <p className="thread-tag">{tag.name}</p>
             </div>
           ))}
-      </div>
+        </div>
 
 
         {/* Thread Body */}
@@ -97,7 +110,7 @@ const DiscussionCardThread = ({ thread }) => {
           {/* Reply Button */}
           <a className="btn btn-reply d-inline-flex gap-2 align-items-center justify-content-center">
             <i className="fas fa-reply"></i>
-            {thread?.replies}
+            {thread?.comments_count}
           </a>
         </div>
       </div>
