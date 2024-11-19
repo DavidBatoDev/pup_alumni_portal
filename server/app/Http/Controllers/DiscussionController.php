@@ -313,6 +313,9 @@ class DiscussionController extends Controller
                             'alumni_id' => $comment->alumni->alumni_id,
                             'name' => $comment->alumni->first_name . ' ' . $comment->alumni->last_name,
                             'email' => $comment->alumni->email,
+                            'profile_picture' => $thread->alumni->profile_picture
+                                ? url('storage/' . $thread->alumni->profile_picture)
+                                : null,
                         ],
                         'parent_comment_id' => $comment->parent_comment_id,
                         'created_at' => $comment->created_at,
