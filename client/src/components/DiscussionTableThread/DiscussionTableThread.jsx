@@ -81,7 +81,7 @@ const DiscussionTableThread = ({ thread }) => {
 
       {/* Thread Replies */}
       <td>
-        <p className='thread-num'>{thread?.comments}</p>
+        <p className='thread-num'>{thread?.comments_count}</p>
       </td>
 
       {/* Thread Views */}

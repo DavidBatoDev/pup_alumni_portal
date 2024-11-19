@@ -110,7 +110,7 @@ const DiscussionCardThread = ({ thread }) => {
           {/* Reply Button */}
           <a className="btn btn-reply d-inline-flex gap-2 align-items-center justify-content-center">
             <i className="fas fa-reply"></i>
-            {thread?.replies}
+            {thread?.comments_count}
           </a>
         </div>
       </div>
