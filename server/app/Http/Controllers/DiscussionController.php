@@ -266,7 +266,12 @@ class DiscussionController extends Controller
     {
         try {
             // Fetch thread with tags, comments, author information, images, and vote counts
-            $thread = Thread::with(['tags', 'comments', 'author', 'images'])
+            $thread = Thread::with([
+                    'tags', 
+                    'comments.alumni', // Eager load alumni relationship for comments
+                    'author', 
+                    'images'
+                ])
                 ->withCount([
                     'votes as upvotes' => function ($query) {
                         $query->where('vote', 'upvote'); // Count upvotes
@@ -276,7 +281,7 @@ class DiscussionController extends Controller
                     }
                 ])
                 ->findOrFail($id);
-
+    
             // Format the response
             $threadDetails = [
                 'thread_id' => $thread->thread_id,
@@ -313,8 +318,8 @@ class DiscussionController extends Controller
                             'alumni_id' => $comment->alumni->alumni_id,
                             'name' => $comment->alumni->first_name . ' ' . $comment->alumni->last_name,
                             'email' => $comment->alumni->email,
-                            'profile_picture' => $thread->alumni->profile_picture
-                                ? url('storage/' . $thread->alumni->profile_picture)
+                            'profile_picture' => $comment->alumni->profile_picture
+                                ? url('storage/' . $comment->alumni->profile_picture)
                                 : null,
                         ],
                         'parent_comment_id' => $comment->parent_comment_id,
@@ -324,7 +329,7 @@ class DiscussionController extends Controller
                 'created_at' => $thread->created_at,
                 'updated_at' => $thread->updated_at,
             ];
-
+    
             return response()->json([
                 'success' => true,
                 'data' => $threadDetails,
@@ -337,6 +342,7 @@ class DiscussionController extends Controller
             ], 404);
         }
     }
+    
 
     
 
