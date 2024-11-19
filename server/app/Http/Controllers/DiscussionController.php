@@ -184,6 +184,7 @@ class DiscussionController extends Controller
                     'thread_id' => $thread->thread_id,
                     'title' => $thread->title,
                     'description' => $thread->description,
+                    'views' => $thread->views,
                     'author' => [
                         'alumni_id' => $thread->author->alumni_id,
                         'name' => $thread->author->first_name . ' ' . $thread->author->last_name,
@@ -281,6 +282,7 @@ class DiscussionController extends Controller
                 'thread_id' => $thread->thread_id,
                 'title' => $thread->title,
                 'description' => $thread->description,
+                'views' => $thread->views,
                 'author' => [
                     'alumni_id' => $thread->author->alumni_id,
                     'name' => $thread->author->first_name . ' ' . $thread->author->last_name,
