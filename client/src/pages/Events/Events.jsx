@@ -44,7 +44,7 @@ const Events = () => {
       try {
         const response = await api.get("/api/events");
         setEventsData(response.data.events);
-        setFilteredEvents(response.data.events); // Initially show all events
+        setFilteredEvents(response.data.events);
       } catch (error) {
         console.error("Error fetching events:", error);
         setError(error.response?.data?.message || "Failed to fetch events. Please try again later."); // Set error message

@@ -20,12 +20,20 @@ const NotificationMenu = () => {
     { id: 3, type: 'forumPost', alert: 'New Discussion', title: 'I just want to discuss with Graduate Alumni',  message: 'This will be a message for PUP Graduate alumni. I want to talk PUP graduate alumni', time: '3 days ago', link: '/forum' },
     { id: 4, type: 'directMessage', alert: 'New Message', title: 'hey  i want to talk to you', message: 'John Doe has been stalking your profile.', time: '4 days ago', link: '/discussions' },
     { id: 5, type: 'eventInvitation', alert: 'Event Invitation', title: 'PUP Alumni Homecoming Reunion', message: 'You are invited to the PUP Alumni Reunion. Please join.', time: '5 days ago', link:'/events' },
+    // add for survey
+    { id: 6, type: 'surveyInvitation', alert: 'Survey Invitation', title: 'PUP Alumni Survey', message: 'Please take a moment to answer the survey.', time: '6 days ago', link:'/survey' },
   ];
   //////////////////////////////////
 
   useEffect(() => {
     echo.channel('alumni')
       .listen('EventCreated', (data) => {
+        setNotifications((prevState) => {
+          const alreadyExists = prevState.some((n) => n.notification_id === data.notification.notification_id);
+          if (alreadyExists) return prevState;
+          return [...prevState, data.notification];
+        });
+      }).listen('SurveyCreated', (data) => {
         setNotifications((prevState) => {
           const alreadyExists = prevState.some((n) => n.notification_id === data.notification.notification_id);
           if (alreadyExists) return prevState;

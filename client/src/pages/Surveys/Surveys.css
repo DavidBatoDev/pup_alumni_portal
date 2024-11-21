@@ -64,6 +64,10 @@
   color: #6c757d;
 }
 
+.surveys-section {
+  height: 100vh;
+}
+
 @media screen and (max-width: 768px) {
 
   .survey-section .container {

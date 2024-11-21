@@ -8,6 +8,7 @@ import '../../global.css';
 import SurveyCard from "../../components/SurveyCards/SurveyCards"; // Import the updated SurveyCard component
 import CustomAlert from "../../components/CustomAlert/CustomAlert"; // Import CustomAlert
 import SurveySearchBar from "../../components/SurveySearchBar/SurveySearchBar";
+import echo from "../../echo"; 
 
 const Surveys = () => {
   const [unansweredSurveysData, setUnansweredSurveysData] = useState([]);
@@ -49,6 +50,22 @@ const Surveys = () => {
 
     fetchAnsweredSurveys();
     fetchUnansweredSurveys();
+  }, []);
+
+  useEffect(() => {
+    echo.channel('alumni')
+      .listen('SurveyCreated', (data) => {
+        console.log(data)
+        setUnansweredSurveysData((prevState) => {
+          const alreadyExists = prevState.some((e) => e.survey_id === data.survey.survey_id);
+          if (alreadyExists) return prevState;
+          return [...prevState, data.survey];
+        });
+      });
+
+    return () => {
+      echo.leaveChannel('alumni');
+    };
   }, []);
 
   // Clear the error message

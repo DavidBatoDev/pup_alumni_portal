@@ -1,7 +1,9 @@
 import React from 'react';
 import './NotificationItem.css';
+import { useNavigate } from 'react-router-dom';
 
 const NotificationItem = ({ notification }) => {
+  const navigate = useNavigate();
 
   // Function to get the appropriate class name CSS styling based on the notification type
   const getNotificationIcon = (type) => {
@@ -21,6 +23,10 @@ const NotificationItem = ({ notification }) => {
     }
   };
 
+  const handleNavigate = () => {
+    navigate(notification.link);
+  }
+
   return (
     <div className={`notification-item glass p-2 mb-3 rounded d-flex flex-row`}>
       <div className='notification-icon-container mx-2 my-2'>
@@ -33,7 +39,7 @@ const NotificationItem = ({ notification }) => {
         <div className='notification-content bg-gray d-flex mt-2 flex-column flex-start p-2 w-100'>
           <p className='notification-title'>{notification?.title}</p>
           <p className="notification-message">{notification?.message}</p>
-          <button className="btn btn-danger justify-content-center d-flex align-items-center">Read</button>
+          <button onClick={handleNavigate} className="btn btn-danger justify-content-center d-flex align-items-center">Read</button>
         </div>
 
       </div>

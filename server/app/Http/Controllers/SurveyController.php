@@ -10,6 +10,10 @@ use App\Models\SurveyOption;
 use App\Models\FeedbackResponse; 
 use App\Models\QuestionResponse; 
 use App\Models\SurveySection;
+use App\Models\Alumni;
+use App\Models\Notification;
+use App\Models\AlumniNotification;
+use App\Events\SurveyCreated;
 
 class SurveyController extends Controller
 {
@@ -74,7 +78,7 @@ class SurveyController extends Controller
                     }
     
                     // Add an "Others" option if specified and if question type is Multiple Choice
-                    if ($questionData['question_type'] === 'Multiple Choice' && !empty($questionData['is_other_option'])) {
+                    if (in_array($questionData['question_type'], ['Multiple Choice', 'Dropdown']) && !empty($questionData['is_other_option'])) {
                         SurveyOption::create([
                             'question_id' => $question->question_id,
                             'option_text' => 'Others', // Text for the "Others" option
@@ -84,6 +88,28 @@ class SurveyController extends Controller
                     }
                 }
             }
+
+            $notification = Notification::create([
+                'type' => 'surveyInvitation',
+                'alert' => 'SurveyInviation',
+                'title' => $validatedData['title'],
+                'message' => 'A new survey has been created: ' . $validatedData['title'] . '. Please participate before ' . $validatedData['end_date'],
+                'link' => '/survey/' . $survey->survey_id,
+            ]);
+    
+            // Fetch all alumni IDs
+            $alumniIds = Alumni::pluck('alumni_id');
+    
+            // Attach the notification to all alumni
+            foreach ($alumniIds as $alumniId) {
+                AlumniNotification::create([
+                    'alumni_id' => $alumniId,
+                    'notification_id' => $notification->notification_id,
+                    'is_read' => false,
+                ]);
+            }
+
+            broadcast(new SurveyCreated($notification, $survey))->toOthers();
     
             return response()->json(['message' => 'Survey with sections and questions created successfully.', 'survey' => $survey], 201);
     
@@ -422,7 +448,24 @@ class SurveyController extends Controller
                     'response_text' => $responseText,
                 ]);
             }
-    
+
+            $expectedLink = '/survey/' . $surveyId;
+
+            // Remove the survey notification for this alumni
+            $notification = Notification::where('type', 'surveyInvitation')
+                ->where('link', $expectedLink)
+                ->first();
+
+            if ($notification) {
+                $alumniNotification = AlumniNotification::where('alumni_id', $alumniId)
+                    ->where('notification_id', $notification->notification_id)
+                    ->first();
+
+                $alumniNotification->update(['is_read' => true]);
+            } else {
+                \Log::info("No matching notification found for survey ID: " . $surveyId);
+            }
+
             return response()->json(['message' => 'Survey responses submitted successfully.'], 201);
     
         } catch (\Exception $e) {

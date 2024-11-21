@@ -369,39 +369,40 @@ class AlumniController extends Controller
     }
 
     public function getNotifications()
-{
-    try {
-        // Get the authenticated alumni
-        $alumni = Auth::user();
+    {
+        try {
+            // Get the authenticated alumni
+            $alumni = Auth::user();
 
-        // Fetch notifications with the pivot data (e.g., is_read)
-        $notifications = $alumni->notifications()
-            ->withPivot('is_read', 'created_at', 'updated_at')
-            ->get()
-            ->map(function ($notification) {
-                return [
-                    'notification_id' => $notification->notification_id,
-                    'type' => $notification->type,
-                    'alert' => $notification->alert,
-                    'title' => $notification->title,
-                    'message' => $notification->message,
-                    'link' => $notification->link,
-                    'is_read' => $notification->pivot->is_read,
-                    'received_at' => $notification->pivot->created_at,
-                ];
-            });
+            // Fetch notifications with the pivot data (e.g., is_read)
+            $notifications = $alumni->notifications()
+                ->wherePivot('is_read', false)
+                ->withPivot('is_read', 'created_at', 'updated_at')
+                ->get()
+                ->map(function ($notification) {
+                    return [
+                        'notification_id' => $notification->notification_id,
+                        'type' => $notification->type,
+                        'alert' => $notification->alert,
+                        'title' => $notification->title,
+                        'message' => $notification->message,
+                        'link' => $notification->link,
+                        'is_read' => $notification->pivot->is_read,
+                        'received_at' => $notification->pivot->created_at,
+                    ];
+                });
 
-        return response()->json([
-            'success' => true,
-            'data' => $notifications,
-        ], 200);
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Failed to fetch notifications.',
-            'error' => $e->getMessage(),
-        ], 500);
+            return response()->json([
+                'success' => true,
+                'data' => $notifications,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch notifications.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
-}
 
 }

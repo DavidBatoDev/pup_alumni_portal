@@ -264,29 +264,44 @@ class EventController extends Controller
     public function registerAlumniToEvent(Request $request, $eventId)
     {
         $alumniId = Auth::id(); // Get the authenticated alumni ID
-
+    
         // Check if the event exists
         $event = Event::find($eventId);
         if (!$event) {
             return response()->json(['error' => 'Event not found'], 404);
         }
-
+    
         // Check if the alumni is already registered for the event
         $existingRegistration = AlumniEvent::where('event_id', $eventId)
             ->where('alumni_id', $alumniId)
             ->first();
-
+    
         if ($existingRegistration) {
             return response()->json(['error' => 'You are already registered for this event.'], 400);
         }
-
+    
         // Register the alumni to the event
         $alumniEvent = AlumniEvent::create([
             'alumni_id' => $alumniId,
             'event_id' => $eventId,
             'registration_date' => now(),
         ]);
-
+    
+        // Mark the event notification as read
+        $notification = Notification::where('type', 'eventInvitation')
+            ->where('link', '/events/' . $eventId)
+            ->first();
+    
+        if ($notification) {
+            $alumniNotification = AlumniNotification::where('alumni_id', $alumniId)
+                ->where('notification_id', $notification->notification_id)
+                ->first();
+    
+            if ($alumniNotification) {
+                $alumniNotification->update(['is_read' => true]);
+            }
+        }
+    
         return response()->json(['success' => true, 'registration' => $alumniEvent], 201);
     }
 
