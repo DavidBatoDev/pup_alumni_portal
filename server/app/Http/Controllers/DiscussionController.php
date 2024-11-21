@@ -166,6 +166,9 @@ class DiscussionController extends Controller
     public function getThreads()
     {
         try {
+            // Get the authenticated user
+            $alumni = Auth::user();
+    
             // Fetch threads with tags, comments, author information, images, and vote counts
             $threads = Thread::with(['tags', 'comments', 'author', 'images'])
                 ->withCount([
@@ -179,7 +182,12 @@ class DiscussionController extends Controller
                 ->get();
     
             // Format the response for each thread
-            $formattedThreads = $threads->map(function ($thread) {
+            $formattedThreads = $threads->map(function ($thread) use ($alumni) {
+                // Fetch the user vote
+                $userVote = $thread->votes()
+                    ->where('alumni_id', $alumni->alumni_id)
+                    ->first();
+    
                 return [
                     'thread_id' => $thread->thread_id,
                     'title' => $thread->title,
@@ -195,6 +203,7 @@ class DiscussionController extends Controller
                     ],
                     'upvotes' => $thread->upvotes,
                     'downvotes' => $thread->downvotes,
+                    'user_vote' => $userVote ? $userVote->vote : null, // 'upvote', 'downvote', or null if no vote
                     'tags' => $thread->tags->map(function ($tag) {
                         return [
                             'tag_id' => $tag->tag_id,
@@ -225,6 +234,7 @@ class DiscussionController extends Controller
             ], 500);
         }
     }
+    
     
     
 
@@ -265,6 +275,9 @@ class DiscussionController extends Controller
     public function getThread($id)
     {
         try {
+            // Get the authenticated user
+            $alumni = Auth::user();
+    
             // Fetch thread with tags, comments, author information, images, and vote counts
             $thread = Thread::with([
                     'tags', 
@@ -282,6 +295,11 @@ class DiscussionController extends Controller
                 ])
                 ->findOrFail($id);
     
+            // Check if the authenticated user has voted on this thread
+            $userVote = $thread->votes()
+                ->where('alumni_id', $alumni->alumni_id)
+                ->first();
+    
             // Format the response
             $threadDetails = [
                 'thread_id' => $thread->thread_id,
@@ -298,6 +316,7 @@ class DiscussionController extends Controller
                 ],
                 'upvotes' => $thread->upvotes,
                 'downvotes' => $thread->downvotes,
+                'user_vote' => $userVote ? $userVote->vote : null, // 'upvote', 'downvote', or null if no vote
                 'tags' => $thread->tags->map(function ($tag) {
                     return [
                         'tag_id' => $tag->tag_id,
@@ -341,10 +360,7 @@ class DiscussionController extends Controller
                 'error' => $e->getMessage(),
             ], 404);
         }
-    }
-    
-
-    
+    }    
 
     /**
      * Update a thread.

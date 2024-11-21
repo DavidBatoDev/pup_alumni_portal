@@ -26,12 +26,6 @@ Route::get('/events', [EventController::class, 'getEvents']);
 Route::get('/events/inactive', [EventController::class, 'getInactiveEvents']);
 Route::get('/events/{eventId}', [EventController::class, 'getEventDetails']);
 
-// Route to get all discussions
-Route::get('/threads', [DiscussionController::class, 'getThreads']);
-
-// Route to get a specific discussion
-Route::get('/threads/{id}', [DiscussionController::class, 'getThread']);
-
 
 // Protected alumni routes (Require JWT Authentication)
 Route::group(['middleware' => ['jwt.verify']], function () {
@@ -82,6 +76,12 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     // Create a new thread
     Route::post('/threads', [DiscussionController::class, 'createThread']);
+
+    // Route to get all discussions
+    Route::get('/threads', [DiscussionController::class, 'getThreads']);
+
+    // Route to get a specific discussion
+    Route::get('/threads/{id}', [DiscussionController::class, 'getThread']);
 
     // Update a thread
     Route::put('/threads/{id}', [DiscussionController::class, 'updateThread']);
