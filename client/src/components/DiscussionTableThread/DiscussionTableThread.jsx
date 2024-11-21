@@ -11,35 +11,32 @@ const tag_colors = [
   '#33FFF0', // Cyan
 ];
 
-const DiscussionTableThread = ({ thread }) => {
-  const [vote, setVote] = useState(null); // null: no vote, 'up': upvoted, 'down': downvoted
-  const [voteCount, setVoteCount] = useState(thread?.up_votes - thread?.down_votes || 0);
+const DiscussionTableThread = ({ thread, submitVote }) => {
+  const [vote, setVote] = useState(thread?.user_vote || null); // null: no vote, 'upvote': upvoted, 'downvote': downvoted
+  const [voteCount, setVoteCount] = useState(thread?.upvotes - thread?.downvotes || 0);
 
   // Handles the vote button click
   const handleVote = (newVote) => {
-    if (newVote === 'downvote' && voteCount === 0) {
-      // Prevent downvote if votes are 0
-      return;
-    }
-
     if (vote === newVote) {
-      // Undo the current vote
+      // If already voted the same way, undo the vote
       setVote(null);
-      setVoteCount((prev) => Math.max(0, newVote === 'upvote' ? prev - 1 : prev + 1));
+      setVoteCount((prev) => (newVote === 'upvote' ? prev - 1 : prev + 1));
+      submitVote(thread.thread_id, "null");
     } else {
-      // Switching votes or applying a new vote
+      // Apply new vote; adjust vote count based on current state
       setVote(newVote);
       setVoteCount((prev) => {
         if (newVote === 'upvote') {
-          // If switching from downvote to upvote
-          return vote === 'downvote' ? prev + 1 : prev + 1;
+          return vote === 'downvote' ? prev + 2 : prev + 1;
         } else {
-          // If switching from upvote to downvote
-          return vote === 'upvote' ? prev - 1 : Math.max(0, prev - 1);
+          return vote === 'upvote' ? prev - 2 : prev - 1;
         }
       });
+      submitVote(thread.thread_id, newVote);
     }
+    console.log(thread.thread_id, newVote);
   };
+
 
   const getColorByTagId = (tagId) => {
     const index = tagId % tag_colors.length;
@@ -81,7 +78,7 @@ const DiscussionTableThread = ({ thread }) => {
 
       {/* Thread Replies */}
       <td>
-        <p className='thread-num'>{thread?.comments_count}</p>
+        <p className='thread-num'>{thread?.comments_count || thread?.comment?.length}</p>
       </td>
 
       {/* Thread Views */}

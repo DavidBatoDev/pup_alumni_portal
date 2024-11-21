@@ -89,8 +89,7 @@
 }
 
 .upvote:focus,
-.downvote:focus {
-  color: #1E1E1E;
+.downvote:focus {  
   transform: translateY(0rem);
   box-shadow: none;
 }

@@ -55,6 +55,34 @@ const Discussions = () => {
     fetchThreads();
   }, []);
 
+  const submitVote = async (threadId, vote) => {           
+    try { 
+      const response = await api.post(`api/threads/${threadId}/vote`, { vote: vote })      
+
+      if (response.status !== 201 && response.status !== 200) {
+        // Handle HTTP errors
+        const errorData = response.data
+        const message = errorData.message ?? "An error has occurred.";
+        const errorMsg = errorData.error ?? '';
+        console.error(`Error voting thread ${threadId}: ${vote} -> ${message} : ${errorMsg}`);
+        setError(`${message} ${errorMsg}`);
+        return;
+      }
+
+      if (response.status === 201) { 
+        console.log(`Thread ID: ${threadId} has been successfully ${vote}d`);
+      }
+
+      if (response.status === 200) { 
+        console.log(`Vote for Thread ID ${threadId} has been nullified`);
+      }
+    }
+    catch (error) {       
+      console.error('Network error or no response:', error);
+      setError("Network error or no response from the server.");
+    }    
+  };
+
   const timeAgo = (dateString) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -157,7 +185,7 @@ const Discussions = () => {
                     <DiscussionTableThread
                       key={thread.thread_id}
                       thread={thread}
-                      voteThread={() => console.log('Vote thread')} // Placeholder
+                      submitVote={submitVote}
                     />
                   ))}
                 </tbody>
@@ -166,7 +194,11 @@ const Discussions = () => {
               <div className="card-list d-flex flex-column py-4 gap-4">
                 {threads?.map((thread) => (
                   <>
-                    <DiscussionCardThread key={thread.thread_id} thread={thread} handleComment={() => navigate(`/discussions/${thread.thread_id}`)}/>
+                    <DiscussionCardThread key={thread.thread_id}
+                    thread={thread}
+                    handleComment={() => navigate(`/discussions/${thread.thread_id}`)}
+                    submitVote={submitVote}
+                    />
                     <hr />
                   </>
                 ))}
