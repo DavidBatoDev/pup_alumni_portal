@@ -92,7 +92,6 @@ const SpecificDiscussion = () => {
       try {
         setLoading(true);
         const response = await api.get(`/api/threads/${threadId}`);
-        console.log(response.data.data);
 
         const thread = response.data.data;
 
@@ -125,13 +124,16 @@ const SpecificDiscussion = () => {
     fetchThread();
   }, [threadId]);
 
-  // create new comment
-  const createComment = async (comment) => {
+  // Create new comment or reply
+  const createCommentOrReply = async (comment, parent_comment_id = null) => {
     try {
       setLoading(true);
-      const response = await api.post(`/api/threads/${threadId}/comment`, {
-        content: comment
-      });
+      const body = { content: comment };
+      if (parent_comment_id !== null) {
+        body.parent_comment_id = parent_comment_id;
+      }
+
+      const response = await api.post(`/api/threads/${threadId}/comment`, body);
       console.log(response.data);
 
       const newComment = response.data.data;
@@ -182,7 +184,7 @@ const SpecificDiscussion = () => {
   const handleCommentSubmit = (e) => {
     e.preventDefault();
     if (newComment.trim()) {
-      createComment(newComment);
+      createCommentOrReply(newComment);
       setNewComment('');
     }
   };
@@ -222,7 +224,7 @@ const SpecificDiscussion = () => {
           <form onSubmit={handleCommentSubmit} className="w-100 mb-3" ref={commentSectionRef}>
             <input
               type="text"
-              className="form-control py-0 specific-discussion-search flex-grow-1"
+              className="form-control py-0 px-3 raleway specific-discussion-search flex-grow-1"
               placeholder="Add a Comment"
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
