@@ -73,24 +73,34 @@
   .survey-section .container {
     margin: 20px 5px;
   }
+
+  .survey-header{
+    padding: 10px;
+  }
   .survey-header h2 {
-    font-size: 20px;
+    font-size: 24px;
   }
 
   .survey-header h5 {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .answered-section h2 {
-    font-size: 20px;
+    font-size: 24px;
   }
 
   .answered-section h5 {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .line-seperator {
     margin: 20px 0;
   }
   
+}
+
+@media screen and (min-width: 1200px) {
+  .surveys-section {
+    padding-top: 50px;
+  }
 }

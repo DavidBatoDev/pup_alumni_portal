@@ -131,6 +131,14 @@
     gap: 10px;
   }
 
+  .survey-list-container {
+    padding: 20px 0;
+  }
+
+  .survey-header {
+    margin-bottom: 0px;
+  }
+
   .survey-text-muted {
     font-size: 12px;
     margin-left: 20px;
@@ -145,11 +153,11 @@
   }
 
   .survey-card-title {
-    font-size: 16px;
+    font-size: 22px;
   }
 
   .survey-card-description {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .survey-card-btn-primary {

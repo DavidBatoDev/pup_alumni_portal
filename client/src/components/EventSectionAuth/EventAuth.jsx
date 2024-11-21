@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 const EventAuth = ({ events }) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const eventsPerPage = 5;
+    const eventsPerPage = 3;
 
     // State for managing the visibility of the filter sidebar
     const [isFilterSectionVisible, setIsFilterSectionVisible] = useState(false);
@@ -146,7 +146,7 @@ const EventAuth = ({ events }) => {
 
                 {/* View Events History Link - Shown only on the last page of pagination */}
                 {currentPage === totalPages && (
-                    <div className="d-flex justify-content-center mt-4">
+                    <div className="d-flex justify-content-start mt-4">
                         <Link to={`/events/events-history`} className="view-event-history">
                             View Events History
                         </Link>

@@ -37,7 +37,6 @@
 /* Filter event wrapper alignment */
 .filter-event-wrapper {
   display: flex;
-  justify-content: flex-end;
   text-align: end;
   width: 100%;
   align-items: center;
@@ -254,6 +253,12 @@
     flex-direction: column;
     gap: 20px;
   }
+
+  .view-event-history {
+    position: absolute;
+    top: 145px;
+    right: 20px;
+  } 
 
   .container {
     margin-top: 20px;

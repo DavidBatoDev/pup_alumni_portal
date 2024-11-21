@@ -166,6 +166,7 @@
       }
       
     .event-header{
+        z-index: 2000;
         flex-direction: column;
         gap:20px;
     }

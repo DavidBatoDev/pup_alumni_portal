@@ -24,11 +24,12 @@
     bottom: 0;
     background: rgba(255, 255, 255, 0.79);
     backdrop-filter: blur(19.4px);
-    z-index: 1;
+    z-index: 0.1;
 }
 
 /* Styles for the event header */
 .history-event-section .event-header {
+    z-index: 1000 ;
     padding: 20px 0;
 }
 
@@ -69,6 +70,7 @@
     }
 
     .history-event-section .event-header {
+        z-index: 1000;
         flex-direction: column;
         text-align: center;
         margin-bottom: 0;
@@ -86,6 +88,7 @@
 
 @media (max-width: 1000px) {
     .history-event-section .event-header {
+        z-index: 1000;
         flex-direction: column;
         margin-bottom: 20px;
         gap: 20px;

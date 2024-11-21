@@ -68,7 +68,7 @@
   .event-details-auth {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center text vertically */
+    /* justify-content: center; Center text vertically */
     flex: 1;
   }
   
@@ -191,7 +191,7 @@
     }
   
     .event-details-auth {
-      text-align: center;
+      /* text-align: center; */
     }
   
     .event-title-auth {

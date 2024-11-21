@@ -12,7 +12,7 @@ const NotificationItem = ({ notification }) => {
         return 'fa-solid fa-champagne-glasses';
       case 'profileUpdate':
         return 'fa-regular fa-user';
-      case 'forumPost':
+      case 'surveyInvitation':
         return 'text-dark fa-regular fa-comment-dots';
       case 'directMessage':
         return 'text-dark fa-regular fa-envelope';
@@ -28,7 +28,7 @@ const NotificationItem = ({ notification }) => {
   }
 
   return (
-    <div className={`notification-item glass p-2 mb-3 rounded d-flex flex-row`}>
+    <div className={`notification-item glass pmd-2 mb-3 rounded d-flex flex-row`}>
       <div className='notification-icon-container mx-2 my-2'>
         <i className={`notification-icon fa-xl ${getNotificationIcon(notification?.type)}`}></i>
       </div>
