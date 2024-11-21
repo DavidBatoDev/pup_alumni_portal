@@ -22,9 +22,9 @@
   align-items: center;
   justify-content: center;
   width: 70px; /* Width for date section */
-  margin-right: 20px; /* Spacing between date and content */
   font-size: 18px;
   color: #a50000; /* Date color */
+  margin-right: 0px !important;
 }
 
 .event-date-month-auth {
@@ -65,7 +65,6 @@
 .event-details-auth {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center text vertically */
   flex: 1;
 }
 
@@ -73,6 +72,7 @@
   font-size: 22px;
   font-weight: bold;
   color: #333;
+  text-align: justify !important;
   margin: 0 0 5px; /* Adjust margin for better spacing */
 }
 
@@ -82,13 +82,14 @@
   color: #555; /* Text color for better readability */
   margin-bottom: 10px; /* Spacing below the info */
   display: flex; /* Flex container */
-  flex-wrap: wrap; /* Wrap content if necessary */
-  align-items: center; /* Center vertically */
+  flex-wrap: wrap; 
+  text-align: justify !important;
 }
 
 .event-info-listing-auth strong {
   font-weight: 600; /* Make the location bold */
   margin-right: 5px; /* Spacing between location and date */
+  
 }
 
 .event-info-listing-auth span {
@@ -102,6 +103,8 @@
   color: #666;
   margin-bottom: 10px;
   max-width: 550px;
+  text-align: justify !important;
+
 }
 
 /* Right-Aligned Content */
@@ -113,7 +116,6 @@
   position: absolute;
   right: 20px;
   top: 20px;
-  text-align: right;
 }
 
 .event-type-auth {
@@ -155,6 +157,7 @@
   }
 
   .event-date-auth-section {
+    display: none !important; /* Hide date section for mobile */
     flex-direction: row;
     width: 100%;
     padding: 10px 0;
@@ -180,7 +183,6 @@
   }
 
   .event-details-auth {
-    text-align: center;
     max-width: 500px;
   }
 
@@ -191,8 +193,6 @@
   .event-info-listing-auth,
   .event-description-auth {
     font-size: 14px;
-    text-align: center; /* Center text for mobile */
-    justify-content: center;
   }
 
   .event-info-listing-auth strong {
@@ -203,7 +203,6 @@
     position: static;
     align-items: center;
     margin-top: 15px;
-    text-align: center;
   }
 
   .edit-icon {
@@ -250,15 +249,12 @@
 
   .event-title-auth {
     font-size: 30px; /* Smaller font for mobile */
-    text-align: center;
     margin-bottom: 10px;
   }
 
   .event-info-listing-auth,
   .event-description-auth {
     font-size: 15px;
-    justify-content: center;
-    text-align: center;
   }
 
   .event-type-auth {
@@ -274,7 +270,6 @@
     position: static;
     align-items: center;
     margin-top: 15px;
-    text-align: center;
     margin-bottom: 10px;
   }
 

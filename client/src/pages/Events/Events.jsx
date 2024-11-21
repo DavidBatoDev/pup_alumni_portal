@@ -102,7 +102,7 @@ const Events = () => {
       )}
 
       <div className="event-section">
-        <div className="container">
+        <div className="event-section-container">
           <div className="event-header">
             <h2>You're MORE than WELCOME to attend.</h2>
             <h5>

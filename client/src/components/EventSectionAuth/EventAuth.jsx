@@ -88,9 +88,9 @@ const EventAuth = ({ events }) => {
     };
 
     return (
-        <div className="container">
+        <div className="event-auth-container">
             <div className="events-card-container card p-4 shadow-sm">
-                <div className="d-flex justify-content-between align-items-center mb-4 event-header">
+                <div className="d-flex justify-content-between align-items-center event-header">
                     {/* Search Bar */}
                     <div className="input-group">
                         <input
