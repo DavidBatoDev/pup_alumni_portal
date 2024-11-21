@@ -2,8 +2,16 @@ import { useState } from 'react';
 import './DiscussionComment.css';
 import { Link } from 'react-router-dom';
 
-const DiscussionComment = ({ comment, replies }) => {
+const DiscussionComment = ({ comment, replies, submitReply }) => {
+  const [replyContent, setReplyContent] = useState('');
   const [showReplyBox, setShowReplyBox] = useState(false);
+
+  const handleReply = (e) => {
+    e.preventDefault();
+    submitReply(replyContent, comment?.comment_id);
+    setReplyContent('');
+    setShowReplyBox(false);
+  }
 
   return (
     <div className='comment-card d-flex p-3 gap-2 w-100'>
@@ -27,12 +35,14 @@ const DiscussionComment = ({ comment, replies }) => {
 
         {/* Reply Box  */}
         {showReplyBox ? (
-          <form className="w-100">
+          <form onSubmit={handleReply} className="w-100">
             <input
               type="text"
               className="form-control py-0 px-3 reply-input flex-grow-1 raleway"
               placeholder="Write a reply..."
               autoFocus
+              value={replyContent}
+              onChange={(e) => setReplyContent(e.target.value)}
             />
             <div className='d-flex justify-content-end gap-2 mb-3 mt-1'>
               <button className='btn btn-cancel btn-light btn-primary raleway' onClick={() => setShowReplyBox(false)}>Cancel</button>
@@ -50,7 +60,7 @@ const DiscussionComment = ({ comment, replies }) => {
         {replies?.length > 0 && (
           <div className="replies">
             {replies?.map((reply) => (
-              <DiscussionComment key={reply.comment_id} comment={reply} replies={reply.replies} />
+              <DiscussionComment key={reply.comment_id} comment={reply} replies={reply.replies} submitReply={submitReply}/>
             ))}
           </div>
         )}
