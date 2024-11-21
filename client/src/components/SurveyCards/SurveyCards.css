@@ -49,10 +49,11 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12); /* Enhanced shadow on hover */
 }
 
-/* Survey information inside each card */
-/* .survey-card-information {
-
-} */
+.survey-card-information {
+  max-height: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .survey-card-title {
   font-size: 22px; /* Slightly larger font */
@@ -65,7 +66,7 @@
   font-size: 16px;
   color: #7f8c8d; /* Muted color for description */
   max-height: 70px; /* Limit description height */
-  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis;
 }
 
 /* Button styling */

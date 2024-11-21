@@ -3,10 +3,21 @@
     font-size: 128px;
     font-style: normal;
     font-weight: 700;
+    min-width: 350px;
+    flex: 1;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
 }
 
 .filter-section label{
     font-family: "Crimson Text";
+}
+
+.filter-events-container {
+    max-width: 90%;
+    padding: 20px;
+
 }
 
 .filter-title{
@@ -34,7 +45,6 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-left: 20px;
 }
 
 .date-box {
@@ -93,11 +103,15 @@
 
 
 @media (max-width: 768px) {
-    /* Gawa ka bagong filter na container, tapos display mo yung mag mobile view */
-    /*  */
     
     .filter-container{
         display: none;
+    }
+
+    .date-picker {
+        display: flex;
+        gap: 5px;
+        min-width:20px;
     }
 }
 

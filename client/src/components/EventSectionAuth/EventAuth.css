@@ -11,12 +11,19 @@
   height: 20px;
 }
 
+.event-auth-container {
+  height: 100%;
+  width: 100%;
+  /* flex: 1; */
+}
+
 /* Event card container styling */
 .events-card-container {
   font-family: "Crimson Text";
   min-height: 830px;
   display: flex;
-  max-width: 1015px;
+  height: 100%;
+  width: 100%;
 }
 
 /* Filter search section and categories */

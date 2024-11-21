@@ -29,6 +29,7 @@
 
 .event-header{
     margin-bottom: 32px;
+    padding: 0 100px;
 }
 
 .event-header h2{
@@ -48,15 +49,18 @@
   font-size: 20px ;
 }
 
-.container {
+.event-section-container {
     position: relative; /* Ensure the content is above the blur effect */
     z-index: 2; /* Higher z-index to be above the pseudo-element */
+    display: flex;
+    flex-direction: column;
 }
 
 /* Default - Desktop */
 .events-container {
     display: flex;
-    justify-content: space-between; /* Ensure items are spaced well */
+    gap: 10px;
+    justify-content: center;
   }
   
   /* Mobile View */
@@ -65,6 +69,7 @@
     .events-container {
       flex-direction: column; /* Switch to column direction */
       align-items: center; /* Center-align the items */
+      padding: 0px 0px;
     }
   
     /* Ensure both sections take full width */
@@ -75,21 +80,34 @@
     .event-header{
         flex-direction: column;
         margin-bottom: 0;
+        padding: 0 10px;
     }
-  
-    /* Optional: Center the text inside the event headers and content */
+
+    .event-header h2 {
+      font-size: 20px;
+    }
+
+    .event-header h5 {
+      font-size: 16px;
+    }
     .event-header h2, .event-header h5 {
       text-align: center;
     }
   }
 
-  @media (max-width: 1000px) {
+  @media (min-width: 1200px) {
+
+    .events-container {
+      padding: 0px 100px;
+    }
 
     .event-header{
         flex-direction: column;
         margin-bottom: 20px;
         gap: 20px;
     }
+
+
 
   }
 

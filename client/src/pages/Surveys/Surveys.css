@@ -1,7 +1,7 @@
 /* Prefix styles with .survey- to prevent conflicts */
 .surveys-section {
-  padding: 50px 0;
-  height: 100%;
+  padding-top: 50px;
+  height: max-content;
 }
 
 .survey-header {

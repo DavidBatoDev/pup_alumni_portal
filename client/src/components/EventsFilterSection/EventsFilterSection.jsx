@@ -40,7 +40,7 @@ const EventsFilterSection = ({ filters = {}, onFilterChange = () => {} }) => {
     <div>
       <div className="filter-section">
         <div className="col-md-12 filter-container">
-          <div className="card shadow-sm p-4 bg-white rounded">
+          <div className="filter-events-container">
             <div className="box-header d-flex">
               <h4 className="filter-title mb-3">FILTER</h4>
               <img className="filter-icon" src={filterIcon} alt="Filter Icon" />
@@ -50,7 +50,6 @@ const EventsFilterSection = ({ filters = {}, onFilterChange = () => {} }) => {
             <div className="form-group mb-4">
               <input
                 type="text"
-                className="form-control"
                 placeholder="Search for a tag"
                 name="searchTerm"
                 value={localFilters.searchTerm}
