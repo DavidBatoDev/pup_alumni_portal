@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './DiscussionTableThread.css';
 
 const tag_colors = [
@@ -14,6 +15,11 @@ const tag_colors = [
 const DiscussionTableThread = ({ thread, submitVote }) => {
   const [vote, setVote] = useState(thread?.user_vote || null); // null: no vote, 'upvote': upvoted, 'downvote': downvoted
   const [voteCount, setVoteCount] = useState(thread?.upvotes - thread?.downvotes || 0);
+  const navigate = useNavigate();
+
+  const handleRowClick = () => {
+    navigate(`/discussions/${thread?.thread_id}`);
+  };
 
   // Handles the vote button click
   const handleVote = (newVote) => {
@@ -21,7 +27,7 @@ const DiscussionTableThread = ({ thread, submitVote }) => {
       // If already voted the same way, undo the vote
       setVote(null);
       setVoteCount((prev) => (newVote === 'upvote' ? prev - 1 : prev + 1));
-      submitVote(thread.thread_id, "null");
+      submitVote(thread?.thread_id, "null");
     } else {
       // Apply new vote; adjust vote count based on current state
       setVote(newVote);
@@ -32,9 +38,9 @@ const DiscussionTableThread = ({ thread, submitVote }) => {
           return vote === 'upvote' ? prev - 2 : prev - 1;
         }
       });
-      submitVote(thread.thread_id, newVote);
+      submitVote(thread?.thread_id, newVote);
     }
-    console.log(thread.thread_id, newVote);
+    console.log(thread?.thread_id, newVote);
   };
 
 
@@ -44,7 +50,7 @@ const DiscussionTableThread = ({ thread, submitVote }) => {
   };
 
   return (
-    <tr className="discussion-table-thread">
+    <tr className="discussion-table-thread" onClick={handleRowClick}>
       {/* Thread Image */}
       <td>
         <div className="image-container">

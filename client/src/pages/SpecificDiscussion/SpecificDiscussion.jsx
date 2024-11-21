@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import BannerSmall from '../../components/Banner/BannerSmall';
@@ -47,6 +47,44 @@ const SpecificDiscussion = () => {
 
   const { threadId } = useParams();
   const [newComment, setNewComment] = useState('');
+  const commentSectionRef = useRef(null);
+
+  const scrollToCommentSection = () => {
+    if (commentSectionRef.current) {
+      commentSectionRef.current.scrollIntoView({
+        behavior: 'smooth', // Ensures smooth scrolling
+        block: 'start', // Aligns to the top of the container
+      });
+    }
+  };
+
+  const submitVote = async (threadId, vote) => {
+    try {
+      const response = await api.post(`api/threads/${threadId}/vote`, { vote: vote })
+
+      if (response.status !== 201 && response.status !== 200) {
+        // Handle HTTP errors
+        const errorData = response.data
+        const message = errorData.message ?? "An error has occurred.";
+        const errorMsg = errorData.error ?? '';
+        console.error(`Error voting thread ${threadId}: ${vote} -> ${message} : ${errorMsg}`);
+        setError(`${message} ${errorMsg}`);
+        return;
+      }
+
+      if (response.status === 201) {
+        console.log(`Thread ID: ${threadId} has been successfully ${vote}d`);
+      }
+
+      if (response.status === 200) {
+        console.log(`Vote for Thread ID ${threadId} has been nullified`);
+      }
+    }
+    catch (error) {
+      console.error('Network error or no response:', error);
+      setError("Network error or no response from the server.");
+    }
+  };
 
   // Fetch threads
   useEffect(() => {
@@ -178,10 +216,10 @@ const SpecificDiscussion = () => {
         <div className="row specific-discussion-container">
 
           {/* DiscussionCardThread Post */}
-          {!loading && <DiscussionCardThread thread={thread} handleComment={() => { console.log(thread.thread_id) }} />}
+          {!loading && <DiscussionCardThread thread={thread} handleComment={scrollToCommentSection} submitVote={submitVote}/>}
 
           {/* Comments Input */}
-          <form onSubmit={handleCommentSubmit} className="w-100 mb-3">
+          <form onSubmit={handleCommentSubmit} className="w-100 mb-3" ref={commentSectionRef}>
             <input
               type="text"
               className="form-control py-0 specific-discussion-search flex-grow-1"
@@ -191,7 +229,7 @@ const SpecificDiscussion = () => {
             />
           </form>
 
-          {/* Comments */}
+          {/* Comments Section */}
           <div className='d-flex flex-column gap-2'>
             {comments.length > 0 ? (
               comments.map(comment => (
