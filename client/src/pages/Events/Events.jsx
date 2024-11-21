@@ -6,6 +6,7 @@ import "./Events.css";
 import EventsFilterSection from "../../components/EventsFilterSection/EventsFilterSection";
 import EventAuth from "../../components/EventSectionAuth/EventAuth";
 import api from "../../api";
+import echo from "../../echo";
 import CustomAlert from "../../components/CustomAlert/CustomAlert"; // Import CustomAlert
 
 const Events = () => {
@@ -21,6 +22,22 @@ const Events = () => {
     categories: [],
     organizations: []
   });
+
+  useEffect(() => {
+    echo.channel('alumni')
+      .listen('EventCreated', (data) => {
+        console.log(data)
+        setEventsData((prevState) => {
+          const alreadyExists = prevState.some((e) => e.event_id === data.events.event_id);
+          if (alreadyExists) return prevState;
+          return [...prevState, data.events];
+        });
+      });
+
+    return () => {
+      echo.leaveChannel('alumni');
+    };
+  }, []);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -40,9 +57,9 @@ const Events = () => {
   // Filtering logic based on user inputs
   useEffect(() => {
     const filtered = eventsData.filter(event => {
-      const matchesSearchTerm = event.event_name.toLowerCase().includes(filters.searchTerm.toLowerCase());
+      const matchesSearchTerm = event?.event_name.toLowerCase().includes(filters.searchTerm.toLowerCase());
 
-      const matchesStartDate = filters.startDate === '' || new Date(event.event_date) >= new Date(filters.startDate);
+      const matchesStartDate = filters.startDate === '' || new Date(event?.event_date) >= new Date(filters.startDate);
       const matchesEndDate = filters.endDate === '' || new Date(event.event_date) <= new Date(filters.endDate);
 
       const matchesType = filters.types.length === 0 || filters.types.includes(event.type);

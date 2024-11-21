@@ -4,21 +4,22 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Event;
+use App\Models\Notification;
 
 class EventCreated implements ShouldBroadcast
 {
     use InteractsWithSockets, SerializesModels;
 
     public $event;
+    public $notification;
 
-    public function __construct(Event $event)
+    public function __construct(Notification $notification, Event $event,)
     {
         $this->event = $event;
+        $this->notification = $notification;
     }
 
     public function broadcastOn()
@@ -29,10 +30,18 @@ class EventCreated implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'id' => $this->event->id,
-            'name' => $this->event->event_name,
-            'date' => $this->event->event_date,
-            'location' => $this->event->location,
+            // 'notification' => [
+            //     'notification_id' => $this->notification->notification_id,
+            //     'type' => $this->notification->type,
+            //     'alert' =>  $this->notification->alert,
+            //     'title' => $this->notification->title,
+            //     'message' => $this->notification->message,
+            //     'link' => $this->notification->link,
+            // ]
+
+            "notification" => $this->notification,
+            'events' => $this->event
+
         ];
     }
 }

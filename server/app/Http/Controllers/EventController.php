@@ -108,6 +108,8 @@ class EventController extends Controller
                 ]);
             }
 
+            broadcast(new EventCreated($notification, $event))->toOthers();
+
             return response()->json(['success' => true, 'event' => $event], 201);
         } catch (\Exception $e) {
             return response()->json([

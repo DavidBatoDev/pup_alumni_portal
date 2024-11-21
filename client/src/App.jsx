@@ -33,12 +33,12 @@ import Discussions from './pages/Discussions/Discussions';
 import SpecificDiscussion from './pages/SpecificDiscussion/SpecificDiscussion';
 
 function App() {
-  useEffect(() => {
-    echo.channel('alumni')
-      .listen('EventCreated', (event) => {
-        console.log('New event created:', event);
-      });
-  }, []);
+  // useEffect(() => {
+  //   echo.channel('alumni')
+  //     .listen('EventCreated', (event) => {
+  //       console.log('New event created:', event);
+  //     });
+  // }, []);
 
   const [showSurvey, setShowSurvey] = useState(true);
 

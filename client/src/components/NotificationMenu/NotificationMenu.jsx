@@ -3,6 +3,7 @@ import './NotificationMenu.css';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import echo from '../../echo';
 
 import NotificationItem from '../NotificationItem/NotificationItem';
 
@@ -11,19 +12,6 @@ const NotificationMenu = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const menuRef = useRef(null);
-
-  // useEffect(() => {
-  //   const fetchEvents = async () => {
-  //     try {
-  //       const response = await axios.get('/api/notification');
-  //       setNotifications(response.data.notifications);
-  //     } catch (error) {
-  //       console.log('Error fetching notification:', error);
-  //     } 
-  //   };
-
-  //   fetchEvents();
-  // }, []);  
 
   /////// dummy notifications ///////
   const dummyNotifications = [
@@ -36,6 +24,21 @@ const NotificationMenu = () => {
   //////////////////////////////////
 
   useEffect(() => {
+    echo.channel('alumni')
+      .listen('EventCreated', (data) => {
+        setNotifications((prevState) => {
+          const alreadyExists = prevState.some((n) => n.notification_id === data.notification.notification_id);
+          if (alreadyExists) return prevState;
+          return [...prevState, data.notification];
+        });
+      });
+
+    return () => {
+      echo.leaveChannel('alumni');
+    };
+  }, []);
+
+  useEffect(() => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get('/api/notifications', {
@@ -43,7 +46,6 @@ const NotificationMenu = () => {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         });
-        console.log(response.data);
         setNotifications(response.data.data);
       } catch (error) {
         console.log('Error fetching notification:', error);
@@ -61,12 +63,7 @@ const NotificationMenu = () => {
   }, []);
 
   const toggleMenu = () => {
-    setIsOpen(!isOpen);
-    if (!isOpen) {
-        document.querySelector('.notification-menu').classList.add('open');
-    } else {
-        document.querySelector('.notification-menu').classList.remove('open');
-    }
+    setIsOpen((prevState) => !prevState);
   };
 
   return (
@@ -81,7 +78,7 @@ const NotificationMenu = () => {
 
 
       {isOpen && (
-        <div className='notification-menu glass d-flex flex-column flex-start px-3 py-3 rounded gap-2'>
+        <div className={`${isOpen && 'open'} notification-menu glass d-flex flex-column flex-start px-3 py-3 rounded gap-2`}>
 
           {/* Notification Header & Controls */}
           <div className='notification-header d-flex flex-row align-content-center'>
