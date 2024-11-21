@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import useNode from '../../hooks/useNode';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import BannerSmall from '../../components/Banner/BannerSmall';
@@ -15,30 +16,6 @@ import DiscussionComment from '../../components/DiscussionComment/DiscussionComm
 
 import "./SpecificDiscussion.css";
 
-const buildCommentTree = (comments) => {
-  const commentMap = {};
-  const roots = [];
-
-  // Initialize the comment map
-  comments.forEach(comment => {
-    comment.replies = [];
-    commentMap[comment.comment_id] = comment;
-  });
-
-  // Build the tree
-  comments.forEach(comment => {
-    if (comment.parent_comment_id) {
-      if (commentMap[comment.parent_comment_id]) {
-        commentMap[comment.parent_comment_id].replies.push(comment);
-      }
-    } else {
-      roots.push(comment);
-    }
-  });
-
-  return roots;
-};
-
 const SpecificDiscussion = () => {
   const [thread, setThread] = useState({});
   const [comments, setComments] = useState([]);
@@ -48,6 +25,9 @@ const SpecificDiscussion = () => {
   const { threadId } = useParams();
   const [newComment, setNewComment] = useState('');
   const commentSectionRef = useRef(null);
+
+  const [commentTree, setCommentTree] = useState([]);
+  const { insertNode, editNode, deleteNode, buildTree } = useNode();
 
   const scrollToCommentSection = () => {
     if (commentSectionRef.current) {
@@ -88,11 +68,10 @@ const SpecificDiscussion = () => {
 
   // Fetch threads
   useEffect(() => {
-    const fetchThread = async () => {
+    const fetchThreadData = async () => {
       try {
         setLoading(true);
         const response = await api.get(`/api/threads/${threadId}`);
-        console.log(response.data.data);
 
         const thread = response.data.data;
 
@@ -101,18 +80,19 @@ const SpecificDiscussion = () => {
           updated_at: timeAgo(thread.updated_at),
           created_at: timeAgo(thread.created_at),
         }
+        setThread(formattedThread);
+        console.log("Threads:", formattedThread);
 
-        const comments = thread.comments.map((comment) => ({
+        const formattedComments = thread.comments.map((comment) => ({
           ...comment,
           created_at: timeAgo(comment.created_at),
         }));
-
-        const commentTree = buildCommentTree(comments);
-
+        setComments(formattedComments);
         console.log('Comments:', commentTree)
 
-        setThread(formattedThread);
-        setComments(commentTree);
+        // Build the initial comment tree
+        const tree = buildTree(formattedComments);
+        setCommentTree(tree);
 
       } catch (error) {
         setError(error.message);
@@ -122,16 +102,19 @@ const SpecificDiscussion = () => {
       }
     };
 
-    fetchThread();
+    fetchThreadData();
   }, [threadId]);
 
-  // create new comment
-  const createComment = async (comment) => {
+  // Create new comment or reply
+  const createCommentOrReply = async (comment, parent_comment_id = null) => {
     try {
       setLoading(true);
-      const response = await api.post(`/api/threads/${threadId}/comment`, {
-        content: comment
-      });
+      const body = { content: comment };
+      if (parent_comment_id !== null) {
+        body.parent_comment_id = parent_comment_id;
+      }
+
+      const response = await api.post(`/api/threads/${threadId}/comment`, body);
       console.log(response.data);
 
       const newComment = response.data.data;
@@ -142,11 +125,14 @@ const SpecificDiscussion = () => {
         replies: []
       };
 
-      setComments((prevComments) => {
-        const updatedComments = [...prevComments, formattedComment];
-        return buildCommentTree(updatedComments);
-      });
+      setComments((prevComments) => [...prevComments, formattedComment]);
 
+      // Update the comment tree
+      setCommentTree((prevTree) =>
+        parent_comment_id
+          ? prevTree.map((root) => insertNode(root, parent_comment_id, formattedComment))
+          : [...prevTree, formattedComment]
+      );
     } catch (error) {
       setError(error.message);
       console.error('Error creating comment:', error);
@@ -182,7 +168,7 @@ const SpecificDiscussion = () => {
   const handleCommentSubmit = (e) => {
     e.preventDefault();
     if (newComment.trim()) {
-      createComment(newComment);
+      createCommentOrReply(newComment);
       setNewComment('');
     }
   };
@@ -196,7 +182,7 @@ const SpecificDiscussion = () => {
         breadcrumbs={[
           { label: 'Home', link: '/' },
           { label: 'Discussions', link: '/discussions' },
-          { label: thread?.title || '...' , link: "" },
+          { label: thread?.title || '...', link: "" },
         ]}
       />
       <div className="background discussion-background"></div>
@@ -216,13 +202,13 @@ const SpecificDiscussion = () => {
         <div className="row specific-discussion-container">
 
           {/* DiscussionCardThread Post */}
-          {!loading && <DiscussionCardThread thread={thread} handleComment={scrollToCommentSection} submitVote={submitVote}/>}
+          {!loading && <DiscussionCardThread thread={thread} handleComment={scrollToCommentSection} submitVote={submitVote} />}
 
           {/* Comments Input */}
           <form onSubmit={handleCommentSubmit} className="w-100 mb-3" ref={commentSectionRef}>
             <input
               type="text"
-              className="form-control py-0 specific-discussion-search flex-grow-1"
+              className="form-control py-0 px-3 raleway specific-discussion-search flex-grow-1"
               placeholder="Add a Comment"
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
@@ -231,16 +217,15 @@ const SpecificDiscussion = () => {
 
           {/* Comments Section */}
           <div className='d-flex flex-column gap-2'>
-            {comments.length > 0 ? (
-              comments.map(comment => (
-                <DiscussionComment key={comment.comment_id} comment={comment} replies={comment.replies} />
+            {commentTree.length > 0 ? (
+              commentTree.map(comment => (
+                <DiscussionComment key={comment.comment_id} comment={comment} replies={comment.replies} submitReply={createCommentOrReply} />
               ))
             ) : (
               <div className="d-flex justify-content-center align-items-center w-100">
                 <p className="text-center">No comments yet. Be the first to comment!</p>
               </div>
             )}
-
           </div>
 
         </div>
