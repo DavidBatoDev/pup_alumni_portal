@@ -182,7 +182,7 @@ const CreateSurvey = () => {
     const question = updatedSections[sectionIndex].questions[questionIndex];
   
     // Toggle "Others" option for Multiple Choice question
-    if (question.question_type === 'Multiple Choice') {
+    if (question.question_type === 'Multiple Choice' || question.question_type === 'Dropdown') {
       question.is_other_option = !question.is_other_option;
   
       // Add or remove the "Others" option from the options array
@@ -200,7 +200,6 @@ const CreateSurvey = () => {
   
     setSurvey({ ...survey, sections: updatedSections });
   };
-  
 
 
   const handleOptionChange = (sectionIndex, questionIndex, optionIndex, field, value) => {
@@ -442,7 +441,7 @@ const CreateSurvey = () => {
                         )}
 
                         <button className="btn add-option-btn" onClick={() => addOptionToQuestion(sectionIndex, questionIndex)}>+ Add Option</button>
-                        {(question.question_type === 'Multiple Choice') && (
+                        {(question.question_type === 'Multiple Choice' || question.question_type === 'Dropdown') && (
                         <button
                           className="btn add-option-btn"
                           onClick={() => addOthersToMultipleQuestion(sectionIndex, questionIndex)}

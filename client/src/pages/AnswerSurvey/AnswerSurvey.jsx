@@ -23,15 +23,32 @@ const AnswerSurvey = () => {
       try {
         const response = await api.get(`/api/survey/${surveyId}/questions`);
         setSurveyData(response.data);
+  
+        // Restore saved state from localStorage
+        const savedResponses = JSON.parse(localStorage.getItem(`survey_${surveyId}_responses`)) || {};
+        const savedOtherResponses = JSON.parse(localStorage.getItem(`survey_${surveyId}_otherResponses`)) || {};
+        const savedSection = parseInt(localStorage.getItem(`survey_${surveyId}_currentSection`)) || 0;
+  
+        setResponses(savedResponses);
+        setOtherResponses(savedOtherResponses);
+        setCurrentSection(savedSection);
       } catch (error) {
         console.error('Error fetching survey questions:', error);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchSurveyQuestions();
   }, [surveyId]);
+
+  useEffect(() => {
+    localStorage.setItem(`survey_${surveyId}_responses`, JSON.stringify(responses));
+    localStorage.setItem(`survey_${surveyId}_otherResponses`, JSON.stringify(otherResponses));
+    localStorage.setItem(`survey_${surveyId}_currentSection`, currentSection);
+  }, [surveyId, responses, otherResponses, currentSection]);
+
+
 
   const handleCloseAlert = () => setStatus({ message: '', severity: '' });
 
@@ -77,6 +94,12 @@ const AnswerSurvey = () => {
       const response = await api.post(`/api/survey/${surveyId}/submit`, { responses: formattedResponses });
       if (response.status === 201) {
         setStatus({ message: 'Survey submitted successfully!', severity: 'success' });
+  
+        // Clear saved data from localStorage
+        localStorage.removeItem(`survey_${surveyId}_responses`);
+        localStorage.removeItem(`survey_${surveyId}_otherResponses`);
+        localStorage.removeItem(`survey_${surveyId}_currentSection`);
+  
         setTimeout(() => navigate('/surveys'), 2000);
       }
     } catch (error) {
@@ -85,6 +108,7 @@ const AnswerSurvey = () => {
       setStatus({ message: errorMessage, severity: 'error' });
     }
   };
+  
 
   const handleNextSection = () => {
     if (currentSection < surveyData.sections.length - 1) {
@@ -134,16 +158,49 @@ const AnswerSurvey = () => {
             <div className="as-question-top-bar" />
             <div className="as-question-header">
               <span className="as-question-index">{index + 1}.)</span>
-              <div className="as-question-title">{question.question_text}</div>
+              <div className="as-question-title">{question.question_text} {question.is_required ? <span className='question-required-asterisk'>*</span> : ""}</div>
             </div>
             <div className="as-question-content">
               {question.question_type === 'Open-ended' ? (
                 <textarea
                   className="form-control"
                   placeholder="Type your answer here..."
+                  value={responses[question.question_id]?.response_text || ''}
                   onChange={(e) => handleTextChange(question.question_id, e.target.value)}
                   required
                 />
+              ) : question.question_type === 'Dropdown' ? (
+                <div className="dropdown-options">
+                  <select
+                    className="form-select mb-3"
+                    onChange={(e) => handleOptionChange(
+                      question.question_id,
+                      e.target.value, // This is the selected option's ID
+                      question.options.find(opt => opt.option_id.toString() === e.target.value)?.option_text || '' // Match the option text
+                    )}
+                    value={responses[question.question_id]?.option_id || ''}
+                    required
+                  >
+                    <option value="">Select an option</option>
+                    {question.options.map((option) => (
+                      <option key={option.option_id} value={option.option_id}>
+                        {option.option_text}
+                      </option>
+                    ))}
+                  </select>
+
+                  {/* Show additional input for "Others" if selected */}
+                  {responses[question.question_id]?.option_id &&
+                    question.options.find(opt => opt.option_id === parseInt(responses[question.question_id]?.option_id))?.option_text === 'Others' && (
+                      <input
+                        type="text"
+                        className="as-option-others-input-text border-0 border-bottom"
+                        placeholder="Please specify..."
+                        value={otherResponses[question.question_id] || ''}
+                        onChange={(e) => handleOtherTextChange(question.question_id, e.target.value)}
+                      />
+                    )}
+                </div>
               ) : (
                 <div className="multiple-choice-options">
                   {question.options.map((option) => (
@@ -152,15 +209,17 @@ const AnswerSurvey = () => {
                         type="radio"
                         name={`question-${question.question_id}`}
                         value={option.option_id}
+                        checked={responses[question.question_id]?.option_id === option.option_id}
                         onChange={() => handleOptionChange(question.question_id, option.option_id, option.option_text)}
                         required
                       />
                       <label>{option.option_text}</label>
-                      {/* Show additional input if "Others" is selected */}
+
+                      {/* Show additional input for "Others" if selected */}
                       {option.option_text === 'Others' && responses[question.question_id]?.option_id === option.option_id && (
                         <input
                           type="text"
-                          className="as-option-others-input-text border-0 border-bottom mx-3"
+                          className="as-option-others-input-text border-0 border-bottom "
                           placeholder="Please specify..."
                           value={otherResponses[question.question_id] || ''}
                           onChange={(e) => handleOtherTextChange(question.question_id, e.target.value)}

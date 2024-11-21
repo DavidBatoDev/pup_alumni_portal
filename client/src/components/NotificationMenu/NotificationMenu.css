@@ -48,16 +48,20 @@
     scrollbar-width: thin; /* "auto" or "thin" */
     scrollbar-color: #888 #f1f1f1; /* Thumb and track color */
     padding-right: 0.5rem;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
 }
 
 /* WebKit browsers (Chrome, Safari) */
 .notification-list::-webkit-scrollbar {
-    width: 8px; /* Width of the entire scrollbar */
+    /* width: 8px; Width of the entire scrollbar */
+    display: none;
   }
 
 .notification-list::-webkit-scrollbar-track {
-background: #f1f1f1; /* Background color of the scrollbar track */
-border-radius: 10px; /* Rounded corners for the track */
+/* background: #f1f1f1; /* Background color of the scrollbar track */
+/* border-radius: 10px; Rounded corners for the track  */
+display: none;
 }
 
 .notification-list::-webkit-scrollbar-thumb {
@@ -67,6 +71,7 @@ border-radius: 10px; /* Rounded corners for the thumb */
 
 .notification-list::-webkit-scrollbar-thumb:hover {
 background: #555; /* Color of the scrollbar thumb when hovered */
+display: none;
 }
 .notification-empty {
     padding: 10px;

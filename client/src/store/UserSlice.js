@@ -5,6 +5,7 @@ const initialState = {
   user: null,
   isAuthenticated: false,
   role: null,
+  notifications: [],
 };
 
 const userSlice = createSlice({

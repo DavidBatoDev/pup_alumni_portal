@@ -77,7 +77,7 @@ class SurveyController extends Controller
                         }
                     }
     
-                    // Add an "Others" option if specified and if question type is Multiple Choice
+                    // Add an "Others" option if specified and if question type is Multiple Choice or Dropdown
                     if (in_array($questionData['question_type'], ['Multiple Choice', 'Dropdown']) && !empty($questionData['is_other_option'])) {
                         SurveyOption::create([
                             'question_id' => $question->question_id,
