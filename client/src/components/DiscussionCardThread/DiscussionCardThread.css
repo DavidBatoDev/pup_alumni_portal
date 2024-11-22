@@ -148,8 +148,8 @@
 }
 
 @media (max-width: 768px) {
-  .discussion-page .card-list{
-    margin: 0;
+  .discussions-page .card-list{
+    margin: 0 !important;
   }
 
   .discussion-card-thread .thread-title {
