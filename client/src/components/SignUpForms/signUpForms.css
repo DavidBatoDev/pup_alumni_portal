@@ -79,7 +79,7 @@ select.form-control {
     font-size: 14px;
 }
 
-.is-invalid {
+.form-section .input-group > .is-invalid {
     border-radius: 0 100px 100px 0 !important;
 }
 

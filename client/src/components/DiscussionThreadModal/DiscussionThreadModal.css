@@ -4,7 +4,7 @@
     gap: 1rem;
     padding: 1rem;
   }
-  
+
   .discussion-modal-header {
     display: flex;
     align-items: center;
@@ -13,41 +13,45 @@
     padding-bottom: 1rem;
     gap: 10px;
   }
-  
+
   .discussion-profile-img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
   }
-  
+
   .discussion-username {
     flex-grow: 1;
     margin: 0;
-    font-size: 15px;
-    font-weight: bold;
+    font-size: 1rem;
+    font-weight: normal;
   }
-  
+
   .discussion-modal-body {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
   }
-  
+
   .discussion-thread-title-input {
     width: 100%;
     border: none;
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 1.5rem;
+    font-weight: 600;
     outline: none;
     resize: none;
     padding: 15px 20px;
-    border-radius: 5px;
+    border-radius: 10rem !important;
   }
 
   .discussion-thread-title-input:focus{
     border: 1px solid #800000;
   }
-  
+
+  .discussion-thread-modal .is-invalid {
+    border: 1px solid #dc3545;
+  }
+
   .discussion-thread-description-input {
     width: 100%;
     border: none;
@@ -62,7 +66,7 @@
   .discussion-thread-description-input:focus{
     border: 1px solid #800000;
   }
-  
+
   .discussion-modal-footer {
     display: flex;
     justify-content: space-between;
@@ -71,12 +75,12 @@
     margin-top: 10px;
     padding-top: 1rem;
   }
-  
+
   .discussion-post-options {
     display: flex;
     gap: 1rem;
   }
-  
+
   .discussion-option-btn {
     background: none;
     border: none;
@@ -84,7 +88,7 @@
     font-size: 18px;
     cursor: pointer;
   }
-  
+
   .discussion-option-btn:hover {
     color: #800000;
   }
@@ -92,7 +96,7 @@
   .discussion-option-btn.active {
     color: #800000; /* Adjust to match your theme */
   }
-  
+
   .discussion-post-btn {
     padding: 0.5rem 1.5rem;
     font-size: 14px;
@@ -105,7 +109,7 @@
   .discussion-post-btn:hover{
     background-color: #9f0202;
   }
-  
+
   .discussion-post-btn:disabled {
     background: #ccc;
     color: #666;
@@ -127,7 +131,7 @@
   .discussion-photo-upload p{
     margin-bottom: 0;
   }
-  
+
   .discussion-photo-upload-area {
     display: flex;
     flex-direction: column;
@@ -136,19 +140,19 @@
     color: #666;
     gap: 0.5rem;
   }
-  
+
   .discussion-photo-upload-icon {
     font-size: 24px;
     color: #800000;
   }
-  
+
   .discussion-photo-preview-container {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     align-items: center;
   }
-  
+
   .discussion-photo-preview {
     position: relative;
     width: 150px;
@@ -157,13 +161,13 @@
     overflow: hidden;
     border: 1px solid #ddd;
   }
-  
+
   .discussion-photo-preview img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-  
+
   .discussion-remove-photo-btn {
     position: absolute;
     top: 5px;
@@ -177,17 +181,17 @@
     height: 20px;
     cursor: pointer;
   }
-  
+
   .discussion-remove-photo-btn:hover {
     background: rgba(0, 0, 0, 0.8);
   }
-  
+
   /* Add Photos Button Below */
   .discussion-add-more-container {
     text-align: center;
     margin-top: 1rem;
   }
-  
+
   .discussion-add-more-btn {
     background-color: #e9e9e9;
     color: gray;
@@ -197,24 +201,24 @@
     padding: 0.5rem 1rem;
     cursor: pointer;
   }
-  
+
   .discussion-add-more-btn:hover {
     background-color: #800000;
     color: white;
   }
-  
+
   /* Tags Section */
   .discussion-tags {
     margin: 3rem 0 0 0;
   }
-  
+
   .tags-container {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-bottom: 10px;
   }
-  
+
   .tag {
     background-color: #830000;
     color: #f9f9f9;
@@ -224,7 +228,7 @@
     align-items: center;
     gap: 0.5rem;
   }
-  
+
   .remove-tag-btn {
     background: none;
     border: none;
@@ -232,11 +236,11 @@
     font-size: 16px;
     cursor: pointer;
   }
-  
+
   .remove-tag-btn:hover {
     color:  rgba(0, 0, 0, 0.8);
   }
-  
+
   .add-tag-input {
     width: 100%;
     padding: 0.5rem;
@@ -246,8 +250,7 @@
     font-size: 14px;
     margin-bottom:10px ;
   }
-  
+
   .add-tag-input:focus {
     border-color: #800000;
   }
-  

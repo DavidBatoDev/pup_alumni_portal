@@ -1,18 +1,42 @@
 import React, { useState } from "react";
+import { useSelector } from 'react-redux';
 import ReactQuill from "react-quill"; // Import ReactQuill
 import "react-quill/dist/quill.snow.css"; // Quill's default theme
 import ModalContainer from "../ModalContainer/ModalContainer";
 import "./DiscussionThreadModal.css";
 
 const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
+  const { user } = useSelector((state) => state.user); // Get user data
+
+  // Thread Data (Request Body)
   const [threadData, setThreadData] = useState({
     title: "",
     description: "",
   });
-
+  const [tags, setTags] = useState([]); // Manage tags
   const [showPhotoUpload, setShowPhotoUpload] = useState(false); // Toggle photo upload section visibility
   const [photos, setPhotos] = useState([]); // Store uploaded photos
-  const [tags, setTags] = useState([]); // Manage tags
+  const [validation, setValidation] = useState({
+    title: true,
+    description: true
+  })
+
+  const resetValidation = () => {
+    setValidation({
+      title: true,
+      description: true
+    });
+  };
+
+  const validateFields = () => {
+    const newValidation = {
+      title: threadData.title.trim().length > 0 && threadData.title !== "",
+      description: threadData.description.replace(/<(.|\n)*?>/g, '').trim() === '' ? false : true
+    }
+    console.log(newValidation);
+    setValidation(newValidation);
+    return Object.values(newValidation).every((value) => value === true);
+  };
 
   // Handle input changes for thread title/description
   const handleInputChange = (e) => {
@@ -53,37 +77,46 @@ const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
 
   // Handle submit
   const handleSubmit = () => {
-    if (!threadData.title.trim() || !threadData.description.trim()) {
-      alert("Both title and description are required.");
-      return;
-    }
+    // Validation
+    validateFields();
 
-    console.log("Thread Data:", threadData);
-    console.log("Uploaded Photos:", photos);
-    console.log("Tags:", tags); // Log tags
+    // Pass thread data to the parent component for API call and reset form state
+    const linkForPhotos = photos.map((photo) => photo.split(',')[1]); // Extract base64 data
+    onCreateThread({ ...threadData, tags, photos });
 
-    onCreateThread({ ...threadData, tags }); // Pass thread data to the parent
+    setTimeout(() => {
+      resetFormState();
+      closeModal();
+    }, 2000); // Keep the modal open for 2 seconds
+  };
+
+  const resetFormState = () => {
+    resetValidation();
     setThreadData({ title: "", description: "" }); // Reset form
     setPhotos([]); // Clear uploaded photos
-    setTags([]); // Clear tags
+    setTags([]);
+  }
+
+  const handleUserClose = () => {
+    resetFormState();
     closeModal();
-  };
+  }
 
   return (
     <ModalContainer
       showModal={showModal}
-      closeModal={closeModal}
+      closeModal={handleUserClose}
       title="Create Thread"
     >
       <div className="discussion-thread-modal">
         {/* Header */}
         <div className="discussion-modal-header d-flex align-items-center">
           <img
-            src="https://via.placeholder.com/40" // Replace with user's profile picture if available
+            src={`http://localhost:8000/storage/${user?.profile_picture}`}
             alt="User"
             className="discussion-profile-img"
           />
-          <h6 className="discussion-username">Your Name</h6>
+          <h6 className="discussion-username">{`${user?.first_name} ${user?.last_name}`}</h6>
         </div>
 
         {/* Body */}
@@ -91,15 +124,21 @@ const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
           {/* Thread Title */}
           <textarea
             name="title"
-            className="discussion-thread-title-input"
+            className={`discussion-thread-title-input ${validation.title ? '' : 'is-invalid'}`}
             placeholder="Title"
             rows="1"
             value={threadData.title}
             onChange={handleInputChange}
           ></textarea>
+          {!validation.title && (
+            <div className="invalid-feedback m-0 raleway">Title is required</div>
+          )}
+          {!validation.description && (
+            <div className="invalid-feedback m-0 raleway">Your post description is required</div>
+          )}
 
           {/* Thread Description with Markdown Support */}
-          <div className="discussion-thread-description">
+          <div className={`discussion-thread-description `}>
             <ReactQuill
               theme="snow"
               value={threadData.description}
@@ -149,6 +188,7 @@ const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
               ))}
             </div>
           </div>
+
 
           {/* Photo Upload Section */}
           {showPhotoUpload && (
@@ -209,9 +249,8 @@ const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
         <div className="discussion-modal-footer d-flex justify-content-between align-items-center">
           <div className="discussion-post-options d-flex gap-3">
             <button
-              className={`discussion-option-btn ${
-                showPhotoUpload ? "active" : ""
-              }`}
+              className={`discussion-option-btn ${showPhotoUpload ? "active" : ""
+                }`}
               onClick={() => setShowPhotoUpload(!showPhotoUpload)}
             >
               <i className="fas fa-image"></i>
@@ -220,9 +259,6 @@ const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
           <button
             className="btn btn-primary discussion-post-btn"
             onClick={handleSubmit}
-            disabled={
-              !threadData.title.trim() || !threadData.description.trim()
-            }
           >
             Post
           </button>

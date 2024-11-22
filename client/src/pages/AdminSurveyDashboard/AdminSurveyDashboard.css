@@ -75,9 +75,9 @@
     align-items: center;
   }
 
-    .is-invalid {
+  .admin-survey-dashboard .is-invalid {
     border-radius: 0 100px 100px 0 !important;
-    }
+  }
 
   .no-survey-created-message-container h3 {
     font-size: 30px;
