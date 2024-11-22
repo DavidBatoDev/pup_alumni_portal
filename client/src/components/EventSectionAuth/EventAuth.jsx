@@ -146,7 +146,7 @@ const EventAuth = ({ events }) => {
 
                 {/* View Events History Link - Shown only on the last page of pagination */}
                 {currentPage === totalPages && (
-                    <div className="d-flex justify-content-start mt-4">
+                    <div className="d-flex justify-content-center mt-4">
                         <Link to={`/events/events-history`} className="view-event-history">
                             View Events History
                         </Link>
@@ -154,7 +154,7 @@ const EventAuth = ({ events }) => {
                 )}
 
                 {/* Pagination */}
-                <div className="pagination-container d-flex justify-content-center mt-2">
+                <div className="pagination-container d-flex justify-content-center mt-4">
                     <nav aria-label="Page navigation example">
                         <ul className="pagination">
                             <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
