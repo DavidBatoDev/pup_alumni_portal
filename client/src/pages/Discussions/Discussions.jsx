@@ -17,6 +17,7 @@ import DiscussionCardThread from '../../components/DiscussionCardThread/Discussi
 import DiscussionThreadModal from '../../components/DiscussionThreadModal/DiscussionThreadModal'; // Import DiscussionThreadModal
 
 import "./Discussions.css";
+import axios from 'axios';
 
 const Discussions = () => {
   const [threads, setThreads] = useState([]);
@@ -55,9 +56,9 @@ const Discussions = () => {
     fetchThreads();
   }, []);
 
-  const submitVote = async (threadId, vote) => {           
-    try { 
-      const response = await api.post(`api/threads/${threadId}/vote`, { vote: vote })      
+  const submitVote = async (threadId, vote) => {
+    try {
+      const response = await api.post(`api/threads/${threadId}/vote`, { vote: vote })
 
       if (response.status !== 201 && response.status !== 200) {
         // Handle HTTP errors
@@ -69,18 +70,18 @@ const Discussions = () => {
         return;
       }
 
-      if (response.status === 201) { 
+      if (response.status === 201) {
         console.log(`Thread ID: ${threadId} has been successfully ${vote}d`);
       }
 
-      if (response.status === 200) { 
+      if (response.status === 200) {
         console.log(`Vote for Thread ID ${threadId} has been nullified`);
       }
     }
-    catch (error) {       
+    catch (error) {
       console.error('Network error or no response:', error);
       setError("Network error or no response from the server.");
-    }    
+    }
   };
 
   const timeAgo = (dateString) => {
@@ -107,38 +108,37 @@ const Discussions = () => {
     return 'just now';
   };
 
-  const handleCreateThread = (threadData) => {
-    const now = new Date().toISOString(); // Get the current timestamp
-    console.log('New thread created:', threadData);
+  const handleCreateThread = async (threadBody) => {
+    console.log('New thread created (body):', threadBody);
 
-    // Add new thread locally
-    setThreads((prevThreads) => [
-      ...prevThreads,
-      {
-        thread_id: threadData.thread_id,
-        title: threadData.title,
-        description: threadData.description,
-        views: 0, // Default view count
-        author: {
-          alumni_id: threadData.author.alumni_id,
-          name: threadData.author.name,
-          email: threadData.author.email,
-          profile_picture: threadData.author.profile_picture,
-        },
-        upvotes: 0, // Default votes
-        downvotes: 0,
-        tags: threadData.tags.map((tag) => ({
-          tag_id: tag.tag_id,
-          name: tag.name,
-        })),
-        images: threadData.images || [],
-        comments: threadData.comments || [],
-        created_at: now,
-        updated_at: timeAgo(now), // Use the `timeAgo` function to calculate the time difference
-      },
-    ]);
+    try{
+      setLoading(true);
+      const response = await axios.post('/api/threads',
+        threadBody, {
+          headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'multipart/form-data',
+        }
+      });
 
-    setShowModal(false); // Close modal
+      if (response.status == 200 || response.status == 201) {
+        // Get the new Thread Data from response
+        const newThreadData = response.data;
+
+        console.log("Thread Created: ", newThreadData);
+
+        // Add new thread locally and close
+        setThreads((prevThreads) => [...prevThreads, newThreadData]);
+        setShowModal(false);
+      }
+    }
+    catch (error) {
+      console.error('Error creating thread:', error);
+      setError('Error creating thread. Please try again later.');
+    }
+    finally {
+      setLoading(false);
+    }
   };
 
 

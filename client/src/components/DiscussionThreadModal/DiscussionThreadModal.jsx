@@ -14,8 +14,9 @@ const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
     description: "",
   });
   const [tags, setTags] = useState([]); // Manage tags
-  const [showPhotoUpload, setShowPhotoUpload] = useState(false); // Toggle photo upload section visibility
-  const [photos, setPhotos] = useState([]); // Store uploaded photos
+  const [showImageUpload, setShowImageUpload] = useState(false); // Toggle image upload section visibility
+  const [images, setImages] = useState([]); // Store uploaded images
+  const [imageFiles, setImageFiles] = useState([]); // Store actual file objects
   const [validation, setValidation] = useState({
     title: true,
     description: true
@@ -51,12 +52,13 @@ const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
   // Handle file uploads
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files); // Get selected files
-    const photoPreviews = files.map((file) => URL.createObjectURL(file)); // Generate preview URLs
-    setPhotos((prevPhotos) => [...prevPhotos, ...photoPreviews]); // Add to existing photos
+    const imagePreviews = files.map((file) => URL.createObjectURL(file)); // Generate preview URLs
+    setImages((prevImages) => [...prevImages, ...imagePreviews]); // Add to existing images
+    setImageFiles((prevFiles) => [...prevFiles, ...files]); // Add to existing file objects
   };
 
-  const handleRemovePhoto = (index) => {
-    setPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index)); // Remove photo at specific index
+  const handleRemoveImage = (index) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index)); // Remove image at specific index
   };
 
   // Handle tags
@@ -80,9 +82,19 @@ const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
     // Validation
     validateFields();
 
+    // Create FormData object
+    const formData = new FormData();
+    formData.append('title', threadData.title);
+    formData.append('description', threadData.description);
+    tags.forEach((tag, index) => {
+      formData.append(`tags[${index}]`, tag);
+    });
+    imageFiles.forEach((file, index) => {
+      formData.append(`images[${index}]`, file);
+    });
+
     // Pass thread data to the parent component for API call and reset form state
-    const linkForPhotos = photos.map((photo) => photo.split(',')[1]); // Extract base64 data
-    onCreateThread({ ...threadData, tags, photos });
+    onCreateThread(formData);
 
     setTimeout(() => {
       resetFormState();
@@ -93,7 +105,8 @@ const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
   const resetFormState = () => {
     resetValidation();
     setThreadData({ title: "", description: "" }); // Reset form
-    setPhotos([]); // Clear uploaded photos
+    setImages([]); // Clear uploaded images
+    setImageFiles([]); // Clear file objects
     setTags([]);
   }
 
@@ -191,37 +204,37 @@ const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
 
 
           {/* Photo Upload Section */}
-          {showPhotoUpload && (
-            <div className="discussion-photo-upload">
+          {showImageUpload && (
+            <div className="discussion-image-upload">
               <input
                 type="file"
-                id="photo-upload-input"
+                id="image-upload-input"
                 multiple
                 accept="image/*"
                 style={{ display: "none" }}
                 onChange={handleFileChange}
               />
-              {photos.length === 0 ? (
+              {images.length === 0 ? (
                 <div
-                  className="discussion-photo-upload-area"
+                  className="discussion-image-upload-area"
                   onClick={() =>
-                    document.getElementById("photo-upload-input").click()
+                    document.getElementById("image-upload-input").click()
                   }
                 >
-                  <i className="fas fa-plus-circle discussion-photo-upload-icon"></i>
+                  <i className="fas fa-plus-circle discussion-image-upload-icon"></i>
                   <p>Add Photos</p>
                 </div>
               ) : (
                 <>
-                  <div className="discussion-photo-preview-container">
-                    {photos.map((photo, index) => (
-                      <div key={index} className="discussion-photo-preview">
-                        <img src={photo} alt={`Preview ${index}`} />
+                  <div className="discussion-image-preview-container">
+                    {images.map((image, index) => (
+                      <div key={index} className="discussion-image-preview">
+                        <img src={image} alt={`Preview ${index}`} />
                         <button
-                          className="discussion-remove-photo-btn"
+                          className="discussion-remove-image-btn"
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleRemovePhoto(index);
+                            handleRemoveImage(index);
                           }}
                         >
                           &times;
@@ -233,7 +246,7 @@ const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
                     <button
                       className="discussion-add-more-btn"
                       onClick={() =>
-                        document.getElementById("photo-upload-input").click()
+                        document.getElementById("image-upload-input").click()
                       }
                     >
                       + Add More Photos
@@ -249,9 +262,9 @@ const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
         <div className="discussion-modal-footer d-flex justify-content-between align-items-center">
           <div className="discussion-post-options d-flex gap-3">
             <button
-              className={`discussion-option-btn ${showPhotoUpload ? "active" : ""
+              className={`discussion-option-btn ${showImageUpload ? "active" : ""
                 }`}
-              onClick={() => setShowPhotoUpload(!showPhotoUpload)}
+              onClick={() => setShowImageUpload(!showImageUpload)}
             >
               <i className="fas fa-image"></i>
             </button>

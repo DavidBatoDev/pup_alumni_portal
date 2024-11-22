@@ -118,7 +118,7 @@
   }
 
   /* Photo Upload Section */
-  .discussion-photo-upload {
+  .discussion-image-upload {
     background-color: #f9f9f9;
     border: 1px dashed #ccc;
     border-radius: 5px;
@@ -128,11 +128,11 @@
     position: relative;
   }
 
-  .discussion-photo-upload p{
+  .discussion-image-upload p{
     margin-bottom: 0;
   }
 
-  .discussion-photo-upload-area {
+  .discussion-image-upload-area {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -141,19 +141,19 @@
     gap: 0.5rem;
   }
 
-  .discussion-photo-upload-icon {
+  .discussion-image-upload-icon {
     font-size: 24px;
     color: #800000;
   }
 
-  .discussion-photo-preview-container {
+  .discussion-image-preview-container {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     align-items: center;
   }
 
-  .discussion-photo-preview {
+  .discussion-image-preview {
     position: relative;
     width: 150px;
     height: 150px;
@@ -162,13 +162,13 @@
     border: 1px solid #ddd;
   }
 
-  .discussion-photo-preview img {
+  .discussion-image-preview img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  .discussion-remove-photo-btn {
+  .discussion-remove-image-btn {
     position: absolute;
     top: 5px;
     right: 5px;
@@ -182,7 +182,7 @@
     cursor: pointer;
   }
 
-  .discussion-remove-photo-btn:hover {
+  .discussion-remove-image-btn:hover {
     background: rgba(0, 0, 0, 0.8);
   }
 

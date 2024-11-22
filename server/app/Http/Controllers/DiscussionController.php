@@ -9,6 +9,7 @@ use App\Models\Tag;
 use App\Models\ThreadTag;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Models\ThreadImage;
 
 
 class DiscussionController extends Controller
@@ -28,49 +29,49 @@ class DiscussionController extends Controller
     //         'tags' => 'nullable|array',
     //         'tags.*' => 'string|max:255', // Validate tags as strings
     //     ]);
-    
+
     //     if ($validator->fails()) {
     //         return response()->json([
     //             'success' => false,
     //             'message' => $validator->errors(),
     //         ], 422);
     //     }
-    
+
     //     try {
     //         $alumni = Auth::user(); // Get authenticated alumni
-    
+
     //         // Create the thread
     //         $thread = Thread::create([
     //             'title' => $request->title,
     //             'description' => $request->description,
     //             'author_id' => $alumni->alumni_id,
     //         ]);
-    
+
     //         // Process tags
     //         if (!empty($request->tags)) {
     //             $tagIds = [];
-    
+
     //             foreach ($request->tags as $tagName) {
     //                 // Check if the tag already exists
     //                 $tag = Tag::where('name', $tagName)->first();
-    
+
     //                 if (!$tag) {
     //                     // If the tag doesn't exist, create it
     //                     $tag = Tag::create(['name' => $tagName]);
     //                 }
-    
+
     //                 // Add the tag ID to the list
     //                 $tagIds[] = $tag->tag_id;
     //             }
-    
+
     //             // Sync tags to the thread
     //             $thread->tags()->sync($tagIds);
     //         }
-    
+
     //         return response()->json([
     //             'success' => true,
     //             'message' => 'Thread created successfully.',
-    //             'data' => $thread->load('tags'), 
+    //             'data' => $thread->load('tags'),
     //         ], 201);
     //     } catch (\Exception $e) {
     //         return response()->json([
@@ -156,7 +157,7 @@ class DiscussionController extends Controller
             ], 500);
         }
     }
-    
+
 
     /**
      * Get all threads with tags and comments count.
@@ -168,7 +169,7 @@ class DiscussionController extends Controller
         try {
             // Get the authenticated user
             $alumni = Auth::user();
-    
+
             // Fetch threads with tags, comments, author information, images, and vote counts
             $threads = Thread::with(['tags', 'comments', 'author', 'images'])
                 ->withCount([
@@ -180,14 +181,14 @@ class DiscussionController extends Controller
                     }
                 ])
                 ->get();
-    
+
             // Format the response for each thread
             $formattedThreads = $threads->map(function ($thread) use ($alumni) {
                 // Fetch the user vote
                 $userVote = $thread->votes()
                     ->where('alumni_id', $alumni->alumni_id)
                     ->first();
-    
+
                 return [
                     'thread_id' => $thread->thread_id,
                     'title' => $thread->title,
@@ -221,7 +222,7 @@ class DiscussionController extends Controller
                     'updated_at' => $thread->updated_at,
                 ];
             });
-    
+
             return response()->json([
                 'success' => true,
                 'data' => $formattedThreads,
@@ -234,9 +235,9 @@ class DiscussionController extends Controller
             ], 500);
         }
     }
-    
-    
-    
+
+
+
 
     /**
      * Get a specific thread by ID.
@@ -258,7 +259,7 @@ class DiscussionController extends Controller
     //                 }
     //             ])
     //             ->findOrFail($id);
-    
+
     //         return response()->json([
     //             'success' => true,
     //             'data' => $thread,
@@ -277,12 +278,12 @@ class DiscussionController extends Controller
         try {
             // Get the authenticated user
             $alumni = Auth::user();
-    
+
             // Fetch thread with tags, comments, author information, images, and vote counts
             $thread = Thread::with([
-                    'tags', 
+                    'tags',
                     'comments.alumni', // Eager load alumni relationship for comments
-                    'author', 
+                    'author',
                     'images'
                 ])
                 ->withCount([
@@ -294,12 +295,12 @@ class DiscussionController extends Controller
                     }
                 ])
                 ->findOrFail($id);
-    
+
             // Check if the authenticated user has voted on this thread
             $userVote = $thread->votes()
                 ->where('alumni_id', $alumni->alumni_id)
                 ->first();
-    
+
             // Format the response
             $threadDetails = [
                 'thread_id' => $thread->thread_id,
@@ -348,7 +349,7 @@ class DiscussionController extends Controller
                 'created_at' => $thread->created_at,
                 'updated_at' => $thread->updated_at,
             ];
-    
+
             return response()->json([
                 'success' => true,
                 'data' => $threadDetails,
@@ -360,7 +361,7 @@ class DiscussionController extends Controller
                 'error' => $e->getMessage(),
             ], 404);
         }
-    }    
+    }
 
     /**
      * Update a thread.
@@ -378,18 +379,18 @@ class DiscussionController extends Controller
     //         'tags' => 'nullable|array',
     //         'tags.*' => 'string|max:255', // Validate tags as strings
     //     ]);
-    
+
     //     if ($validator->fails()) {
     //         return response()->json([
     //             'success' => false,
     //             'message' => $validator->errors(),
     //         ], 422);
     //     }
-    
+
     //     try {
     //         $alumni = Auth::user(); // Get authenticated alumni
     //         $thread = Thread::findOrFail($id); // Find the thread
-    
+
     //         // Check if the authenticated user is the author
     //         if ($thread->author_id !== $alumni->alumni_id) {
     //             return response()->json([
@@ -397,31 +398,31 @@ class DiscussionController extends Controller
     //                 'message' => 'Unauthorized.',
     //             ], 403);
     //         }
-    
+
     //         // Update thread title and description
     //         $thread->update($request->only(['title', 'description']));
-    
+
     //         // Process tags
     //         if (isset($request->tags)) {
     //             $tagIds = []; // Array to store tag IDs
-    
+
     //             foreach ($request->tags as $tagName) {
     //                 // Check if the tag already exists
     //                 $tag = Tag::where('name', $tagName)->first();
-    
+
     //                 if (!$tag) {
     //                     // If the tag doesn't exist, create it
     //                     $tag = Tag::create(['name' => $tagName]);
     //                 }
-    
+
     //                 // Add the tag ID to the array
     //                 $tagIds[] = $tag->tag_id;
     //             }
-    
+
     //             // Sync the tags with the thread
     //             $thread->tags()->sync($tagIds);
     //         }
-    
+
     //         return response()->json([
     //             'success' => true,
     //             'message' => 'Thread updated successfully.',
@@ -534,7 +535,7 @@ class DiscussionController extends Controller
         }
     }
 
-    
+
 
     /**
      * Delete a thread.
@@ -547,7 +548,7 @@ class DiscussionController extends Controller
         try {
             $alumni = Auth::user();
             $thread = Thread::findOrFail($id);
-    
+
             // Check if the authenticated user is the author
             if ($thread->author_id !== $alumni->alumni_id) {
                 return response()->json([
@@ -555,21 +556,21 @@ class DiscussionController extends Controller
                     'message' => 'Unauthorized.',
                 ], 403);
             }
-    
+
             // Check if the thread has any tags
             if ($thread->tags()->exists()) {
                 // Get tag IDs associated with the thread
                 $tagIds = $thread->tags()->pluck('tags.tag_id')->toArray();
-    
+
                 // Delete the thread
                 $thread->delete();
-    
+
                 // Check if any of the tags are no longer associated with other threads
                 foreach ($tagIds as $tagId) {
                     $isTagAssociatedWithOtherThreads = \DB::table('thread_tags') // Explicitly reference the correct pivot table
                         ->where('tag_id', $tagId)
                         ->exists();
-    
+
                     if (!$isTagAssociatedWithOtherThreads) {
                         Tag::find($tagId)->delete(); // Delete tag if not associated with other threads
                     }
@@ -578,7 +579,7 @@ class DiscussionController extends Controller
                 // Delete the thread if no tags are associated
                 $thread->delete();
             }
-    
+
             return response()->json([
                 "success" => true,
                 "message" => "Thread deleted successfully."
@@ -591,9 +592,9 @@ class DiscussionController extends Controller
             ], 500);
         }
     }
-    
-    
-    
+
+
+
 
     /**
      * Add a comment to a thread.
@@ -652,34 +653,34 @@ class DiscussionController extends Controller
         $validator = Validator::make($request->all(), [
             'vote' => 'required|in:upvote,downvote,null',
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => $validator->errors(),
             ], 422);
         }
-    
+
         try {
             $alumni = Auth::user();
             $thread = Thread::findOrFail($threadId);
-    
+
             if ($request->vote === 'null') {
                 // Remove the vote
                 $thread->votes()->where('alumni_id', $alumni->alumni_id)->delete();
-    
+
                 return response()->json([
                     'success' => true,
                     'message' => 'Vote removed successfully.',
                 ], 200);
             }
-    
+
             // Create or update the vote
             $vote = $thread->votes()->updateOrCreate(
                 ['alumni_id' => $alumni->alumni_id],
                 ['vote' => $request->vote]
             );
-    
+
             return response()->json([
                 'success' => true,
                 'message' => 'Vote cast successfully.',
@@ -693,5 +694,5 @@ class DiscussionController extends Controller
             ], 500);
         }
     }
-    
+
 }
