@@ -7,12 +7,13 @@ import menuIcon from "../../assets/svgs/menu-outline.svg";
 import { Link } from 'react-router-dom';
 
 const EventAuth = ({ events }) => {
-    const [currentPage, setCurrentPage] = useState(1);
-    const eventsPerPage = 3;
+    const [currentPage, setCurrentPage] = useState(1); // State for managing the current page
+    const eventsPerPage = 3; // Number of events to display per page
 
-    // State for managing the visibility of the filter sidebar
-    const [isFilterSectionVisible, setIsFilterSectionVisible] = useState(false);
-    const filterRef = useRef(null);  // <== Initialize filterRef here
+    const [isFilterSectionVisible, setIsFilterSectionVisible] = useState(false); // Sidebar visibility state
+    const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768); // Check if screen is mobile size
+    const filterRef = useRef(null); // Reference for the filter section container
+
     const [filters, setFilters] = useState({
         searchTerm: '',
         startDate: '',
@@ -21,29 +22,31 @@ const EventAuth = ({ events }) => {
         categories: [],
         organizations: []
     });
-    const [maxVisibleCategories, setMaxVisibleCategories] = useState(4); // Maximum visible categories based on screen size
 
-    const categories = ['Career', 'Social', 'Science', 'Computer', 'Education', 'Technology'];
+    const [maxVisibleCategories, setMaxVisibleCategories] = useState(4); // Max number of visible categories
+    const categories = ['Career', 'Social', 'Science', 'Computer', 'Education', 'Technology']; // Example categories
 
+    // Function to toggle the visibility of the filter sidebar
     const toggleFilterSection = () => setIsFilterSectionVisible(!isFilterSectionVisible);
 
-    // Update maxVisibleCategories based on screen width
-    const updateMaxVisibleCategories = () => {
+    // Function to update the number of visible categories and check for mobile view
+    const updateView = () => {
         const screenWidth = window.innerWidth;
+        setIsMobileView(screenWidth <= 768); // Update state for mobile view
         if (screenWidth < 400) setMaxVisibleCategories(1);
         else if (screenWidth < 600) setMaxVisibleCategories(2);
         else if (screenWidth < 768) setMaxVisibleCategories(3);
         else setMaxVisibleCategories(4);
     };
 
-    // Setup resize listener for updating the number of visible categories
+    // Add event listener for window resize to update view dynamically
     useEffect(() => {
-        updateMaxVisibleCategories();
-        window.addEventListener('resize', updateMaxVisibleCategories);
-        return () => window.removeEventListener('resize', updateMaxVisibleCategories);
+        updateView();
+        window.addEventListener('resize', updateView);
+        return () => window.removeEventListener('resize', updateView);
     }, []);
 
-    // Handle category selection for filtering
+    // Handle click events for category selection
     const handleCategoryClick = (category) => {
         setFilters((prevFilters) => ({
             ...prevFilters,
@@ -53,7 +56,7 @@ const EventAuth = ({ events }) => {
         }));
     };
 
-    // Filtered events based on applied filters
+    // Apply filters to the events
     const filteredEvents = events.filter((event) => {
         const matchesSearch = filters.searchTerm
             ? event.name.toLowerCase().includes(filters.searchTerm.toLowerCase())
@@ -79,6 +82,7 @@ const EventAuth = ({ events }) => {
     const currentEvents = filteredEvents.slice(indexOfFirstEvent, indexOfLastEvent);
     const totalPages = Math.ceil(filteredEvents.length / eventsPerPage);
 
+    // Handle page change in pagination
     const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
     // Update filters with new values
@@ -119,8 +123,6 @@ const EventAuth = ({ events }) => {
                                 </div>
                             ))}
                         </div>
-
-                        {/* Divider and All Button */}
                         <div className="filter-search-all" onClick={toggleFilterSection}>
                             <img src={menuIcon} alt="Menu Icon" />
                             <div className="filter-search">All</div>
@@ -132,6 +134,13 @@ const EventAuth = ({ events }) => {
                         <h3 className="text-muted">
                             Upcoming Events: <span className="text-danger">{filteredEvents.length}</span>
                         </h3>
+
+                        {/* Render link inside filter-event-wrapper for mobile */}
+                        {isMobileView && currentPage === totalPages && (
+                            <Link to={`/events/events-history`} className="view-event-history">
+                                View Events History
+                            </Link>
+                        )}
                     </div>
                 </div>
 
@@ -144,9 +153,9 @@ const EventAuth = ({ events }) => {
                     ))}
                 </div>
 
-                {/* View Events History Link - Shown only on the last page of pagination */}
-                {currentPage === totalPages && (
-                    <div className="d-flex justify-content-start mt-4">
+                {/* Render link outside for non-mobile view */}
+                {!isMobileView && currentPage === totalPages && (
+                    <div className="d-flex justify-content-center mt-4">
                         <Link to={`/events/events-history`} className="view-event-history">
                             View Events History
                         </Link>
@@ -154,7 +163,7 @@ const EventAuth = ({ events }) => {
                 )}
 
                 {/* Pagination */}
-                <div className="pagination-container d-flex justify-content-center mt-2">
+                <div className="pagination-container d-flex justify-content-center mt-4">
                     <nav aria-label="Page navigation example">
                         <ul className="pagination">
                             <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>

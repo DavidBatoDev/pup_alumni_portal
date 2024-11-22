@@ -36,3 +36,16 @@
   background: #F5F5F5;
   transition: all 0.1s ease-in-out;
 }
+
+@media (max-width: 768px) {
+  .discussion-navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .discussion-navbar ul{
+    padding: 0;
+  }
+  
+}

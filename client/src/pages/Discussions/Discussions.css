@@ -31,3 +31,9 @@
 .discussions-page .card-list {
   margin: 0 10rem 0 10rem;
 }
+
+@media (max-width: 768px) {
+    .discussion-content  {
+        padding: 42px 30px;
+    }
+  }
