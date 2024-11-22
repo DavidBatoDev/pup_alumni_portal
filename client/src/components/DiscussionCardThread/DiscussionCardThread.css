@@ -146,3 +146,17 @@
   color: #3B71CA;
   /* Red for downvote */
 }
+
+@media (max-width: 768px) {
+  .discussion-page .card-list{
+    margin: 0;
+  }
+
+  .discussion-card-thread .thread-title {
+    font-size: 1.25rem;
+  }
+
+  .discussion-card-thread .thread-body {
+    font-size: .90rem;
+  }
+}
