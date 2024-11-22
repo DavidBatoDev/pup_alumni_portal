@@ -71,7 +71,7 @@ const DiscussionTableThread = ({ thread, submitVote }) => {
         <div className="d-flex flex-column justify-content-between thread-details h-100">
           <div className='d-flex flex-column m-0'>
             <h3 className="thread-title">{thread?.title}</h3>
-            <p className="thread-author">{thread?.author.name}</p>
+            <p className="thread-author">{thread?.author?.name}</p>
           </div>
           <div className="d-flex flex-wrap gap-2">
             {thread?.tags?.map((tag) => (

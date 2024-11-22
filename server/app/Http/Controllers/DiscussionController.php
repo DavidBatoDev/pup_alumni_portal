@@ -147,8 +147,19 @@ class DiscussionController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Thread created successfully.',
-                'data' => $thread->load('tags', 'images'), // Load tags and images relationships for response
+                'data' => [
+                    'thread' => $thread->load('tags', 'images'),
+                    'author' => [
+                        'alumni_id' => $alumni->alumni_id,
+                        'name' => $alumni->first_name . ' ' . $alumni->last_name,
+                        'email' => $alumni->email,
+                        'profile_picture' => $alumni->profile_picture
+                            ? url('storage/' . $alumni->profile_picture)
+                            : null,
+                    ],
+                ],
             ], 201);
+            // Paayos lang dito sa response ng createThread, katulad ng get all thread
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
