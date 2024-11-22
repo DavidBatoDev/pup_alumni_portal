@@ -53,9 +53,17 @@ const DiscussionTableThread = ({ thread, submitVote }) => {
     <tr className="discussion-table-thread" onClick={handleRowClick}>
       {/* Thread Image */}
       <td>
+        {
+        thread?.images && thread?.images.length > 0 ? (
         <div className="image-container">
-          <img src="https://placehold.co/16x9" alt={thread?.title} className="thread-image" />
+          <img src={thread?.images[0].image_path} alt={thread?.title} className="thread-image" />
         </div>
+        ) : (
+        <div className='w-100 h-100'>
+          <i className="fa-2x fa-regular fa-comments mx-auto"></i>
+        </div>
+        )
+        }
       </td>
 
       {/* Thread Title Detail */}

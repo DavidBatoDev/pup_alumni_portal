@@ -110,6 +110,18 @@
   transform: translateY(0.1rem);
 }
 
+.btn-read-more {
+  font-size: 1rem;
+  width: fit-content;
+  background-color: white;
+  color: #6D6D6D;
+  transition: ease-in 0.3s;
+}
+
+.btn-read-more:hover {
+  color: #1E1E1E;
+}
+
 .discussion-card-thread .btn-group>.btn {
   background-color: white;
   border: none;

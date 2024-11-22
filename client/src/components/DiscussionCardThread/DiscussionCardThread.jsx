@@ -6,6 +6,22 @@ const DiscussionCardThread = ({ thread, handleComment, submitVote }) => {
   const [vote, setVote] = useState(thread?.user_vote || null); // null: no vote, 'upvote': upvoted, 'downvote': downvoted
   const [voteCount, setVoteCount] = useState(thread?.upvotes - thread?.downvotes || 0);
 
+  const [isExpanded, setIsExpanded] = useState(false);
+  const maxLength = 100; // Maximum length of the truncated text
+
+  const toggleReadMore = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const getTruncatedText = (text) => {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return text.substring(0, maxLength) + '...';
+  };
+
+
+
   const handleVote = (newVote) => {
     if (vote === newVote) {
       // If already voted the same way, undo the vote
@@ -53,8 +69,9 @@ const DiscussionCardThread = ({ thread, handleComment, submitVote }) => {
           </div>
           {/* Thread Title */}
           <h3 className="thread-title mb-2">{thread?.title}</h3>
+
           {/* Thread Tags */}
-          <div className="d-flex flex-wrap gap-2">
+          <div className="d-flex flex-wrap gap-2 mb-2">
             {thread?.tags?.map((tag) => (
               <div
                 key={tag?.tag_id}
@@ -64,12 +81,26 @@ const DiscussionCardThread = ({ thread, handleComment, submitVote }) => {
               </div>
             ))}
           </div>
+
           {/* Thread Body */}
-          <p className="thread-body my-1">{thread?.description}</p>
-          {/* Thread Image */}
-          <div className="image-container">
-            <img src="https://placehold.co/500x800" alt={thread?.title} className="thread-image" />
-          </div>
+          <p dangerouslySetInnerHTML={{ __html: isExpanded ? thread?.description : getTruncatedText(thread?.description) }} />
+          {thread?.description.length > maxLength && (
+            <button onClick={toggleReadMore} className="btn-read-more btn crimson-text mb-2">
+              {isExpanded ? 'Read Less' : 'Read More'}
+            </button>
+          )}
+
+          {/* Thread Image(s) */}
+          {thread?.images && thread?.images.length > 0 &&
+            (<div className="image-container">{
+              thread?.images.map((image) => (
+                <img src={image?.image_path} alt={thread?.title} className="thread-image" />
+              ))
+            }
+            </div>
+            )
+          }
+
           {/* Thread Actions */}
           <div className="thread-actions d-flex gap-2 mt-2">
             <div className="btn-group vote-group" role="vote" aria-label="Vote Buttons">
