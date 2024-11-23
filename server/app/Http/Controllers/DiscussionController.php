@@ -89,77 +89,90 @@ class DiscussionController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'tags' => 'nullable|array',
-            'tags.*' => 'string|max:255', // Validate tags as strings
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048', // Validate multiple images
+            'tags.*' => 'string|max:255',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048',
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => $validator->errors(),
             ], 422);
         }
-
+    
         try {
-            $alumni = Auth::user(); // Get authenticated alumni
-
+            $alumni = Auth::user();
+    
             // Create the thread
             $thread = Thread::create([
                 'title' => $request->title,
                 'description' => $request->description,
                 'author_id' => $alumni->alumni_id,
             ]);
-
+    
             // Process tags
             if (!empty($request->tags)) {
                 $tagIds = [];
-
                 foreach ($request->tags as $tagName) {
-                    // Check if the tag already exists
-                    $tag = Tag::where('name', $tagName)->first();
-
-                    if (!$tag) {
-                        // If the tag doesn't exist, create it
-                        $tag = Tag::create(['name' => $tagName]);
-                    }
-
-                    // Add the tag ID to the list
+                    $tag = Tag::firstOrCreate(['name' => $tagName]);
                     $tagIds[] = $tag->tag_id;
                 }
-
-                // Sync tags to the thread
                 $thread->tags()->sync($tagIds);
             }
-
+    
             // Handle image uploads
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
-                    $path = $image->store('thread_images', 'public'); // Store images in the 'public/thread_images' directory
-
-                    // Save the image path in the ThreadImage table
+                    $path = $image->store('thread_images', 'public');
                     ThreadImage::create([
                         'thread_id' => $thread->thread_id,
                         'image_path' => $path,
                     ]);
                 }
             }
-
+    
+            // Load relationships for the response
+            $thread->load(['tags', 'author', 'images']);
+    
+            // Format the response to match `getThreads`
+            $responseThread = [
+                'thread_id' => $thread->thread_id,
+                'title' => $thread->title,
+                'description' => $thread->description,
+                'views' => $thread->views ?? 0,
+                'author' => [
+                    'alumni_id' => $thread->author->alumni_id,
+                    'name' => $thread->author->first_name . ' ' . $thread->author->last_name,
+                    'email' => $thread->author->email,
+                    'profile_picture' => $thread->author->profile_picture
+                        ? url('storage/' . $thread->author->profile_picture)
+                        : null,
+                ],
+                'upvotes' => $thread->votes()->where('vote', 'upvote')->count(),
+                'downvotes' => $thread->votes()->where('vote', 'downvote')->count(),
+                'user_vote' => null, // Assuming no user vote yet
+                'tags' => $thread->tags->map(function ($tag) {
+                    return [
+                        'tag_id' => $tag->tag_id,
+                        'name' => $tag->name,
+                    ];
+                }),
+                'images' => $thread->images->map(function ($image) {
+                    return [
+                        'image_id' => $image->thread_image_id,
+                        'image_path' => url('storage/' . $image->image_path),
+                    ];
+                }),
+                'comments_count' => 0, // Newly created thread has no comments
+                'created_at' => $thread->created_at,
+                'updated_at' => $thread->updated_at,
+            ];
+    
             return response()->json([
                 'success' => true,
                 'message' => 'Thread created successfully.',
-                'data' => [
-                    'thread' => $thread->load('tags', 'images'),
-                    'author' => [
-                        'alumni_id' => $alumni->alumni_id,
-                        'name' => $alumni->first_name . ' ' . $alumni->last_name,
-                        'email' => $alumni->email,
-                        'profile_picture' => $alumni->profile_picture
-                            ? url('storage/' . $alumni->profile_picture)
-                            : null,
-                    ],
-                ],
+                'data' => $responseThread,
             ], 201);
-            // Paayos lang dito sa response ng createThread, katulad ng get all thread
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -168,6 +181,7 @@ class DiscussionController extends Controller
             ], 500);
         }
     }
+    
 
 
     /**
