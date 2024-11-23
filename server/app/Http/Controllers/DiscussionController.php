@@ -180,26 +180,26 @@ class DiscussionController extends Controller
         try {
             // Get the authenticated user
             $alumni = Auth::user();
-
-            // Fetch threads with tags, comments, author information, images, and vote counts
-            $threads = Thread::with(['tags', 'comments', 'author', 'images'])
+    
+            // Fetch threads with necessary relationships and vote counts
+            $threads = Thread::with(['tags', 'comments.alumni', 'author', 'images'])
                 ->withCount([
                     'votes as upvotes' => function ($query) {
-                        $query->where('vote', 'upvote'); // Count upvotes
+                        $query->where('vote', 'upvote');
                     },
                     'votes as downvotes' => function ($query) {
-                        $query->where('vote', 'downvote'); // Count downvotes
+                        $query->where('vote', 'downvote');
                     }
                 ])
                 ->get();
-
+    
             // Format the response for each thread
             $formattedThreads = $threads->map(function ($thread) use ($alumni) {
                 // Fetch the user vote
                 $userVote = $thread->votes()
                     ->where('alumni_id', $alumni->alumni_id)
                     ->first();
-
+    
                 return [
                     'thread_id' => $thread->thread_id,
                     'title' => $thread->title,
@@ -215,7 +215,7 @@ class DiscussionController extends Controller
                     ],
                     'upvotes' => $thread->upvotes,
                     'downvotes' => $thread->downvotes,
-                    'user_vote' => $userVote ? $userVote->vote : null, // 'upvote', 'downvote', or null if no vote
+                    'user_vote' => $userVote ? $userVote->vote : null,
                     'tags' => $thread->tags->map(function ($tag) {
                         return [
                             'tag_id' => $tag->tag_id,
@@ -225,15 +225,30 @@ class DiscussionController extends Controller
                     'images' => $thread->images->map(function ($image) {
                         return [
                             'image_id' => $image->thread_image_id,
-                            'image_path' => url('storage/' . $image->image_path), // Return full URL to the image
+                            'image_path' => url('storage/' . $image->image_path),
                         ];
                     }),
-                    'comments_count' => $thread->comments->count(), // Count the number of comments
+                    'comments' => $thread->comments->map(function ($comment) {
+                        return [
+                            'comment_id' => $comment->comment_id,
+                            'content' => $comment->content,
+                            'author' => [
+                                'alumni_id' => $comment->alumni->alumni_id,
+                                'name' => $comment->alumni->first_name . ' ' . $comment->alumni->last_name,
+                                'email' => $comment->alumni->email,
+                                'profile_picture' => $comment->alumni->profile_picture
+                                    ? url('storage/' . $comment->alumni->profile_picture)
+                                    : null,
+                            ],
+                            'parent_comment_id' => $comment->parent_comment_id,
+                            'created_at' => $comment->created_at,
+                        ];
+                    }),
                     'created_at' => $thread->created_at,
                     'updated_at' => $thread->updated_at,
                 ];
             });
-
+    
             return response()->json([
                 'success' => true,
                 'data' => $formattedThreads,
@@ -246,6 +261,7 @@ class DiscussionController extends Controller
             ], 500);
         }
     }
+    
 
 
 
