@@ -123,12 +123,14 @@ const Discussions = () => {
 
       if (response.status == 200 || response.status == 201) {
         // Get the new Thread Data from response
-        const newThreadData = response.data.data;
+        const newThread = response.data.data;
+		
+		const formattedNewThread = {...newThread, updated_at: timeAgo(newThread.updated_at)};
 
-        console.log("Thread Created: ", newThreadData);
+        console.log("Thread Created: ", formattedNewThread);
 
         // // Add new thread locally and close
-        setThreads((prevThreads) => [...prevThreads, newThreadData]);
+        setThreads((prevThreads) => [...prevThreads, formattedNewThread]);
         setShowModal(false);
       }
     }
