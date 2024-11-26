@@ -31,6 +31,11 @@
 }
 
 @media (max-width: 768px) {
+
+  .specific-discussion-container {
+    padding: 5px;
+  }
+
   .specific-discussion-content {
     padding: 42px 30px;
   }
