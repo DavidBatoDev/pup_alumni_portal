@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\DiscussionController;
+use App\Mail\TestEmail;
 
 // Authentication routes for alumni
 Route::post('login', [AuthController::class, 'login']);
@@ -27,7 +28,16 @@ Route::get('/events/inactive', [EventController::class, 'getInactiveEvents']);
 Route::get('/events/{eventId}', [EventController::class, 'getEventDetails']);
 
 
+// test email
+Route::get('/send-test-email', function () {
+    $data = [
+        'name' => 'John Doe',
+        'message' => 'This is a test email without using a view.',
+    ];
 
+    Mail::to('recipient@example.com')->send(new TestEmail($data));
+    return 'Test email sent!';
+});
 
 // Protected alumni routes (Require JWT Authentication)
 Route::group(['middleware' => ['jwt.verify']], function () {
