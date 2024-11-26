@@ -1,33 +1,35 @@
 // src/components/SurveyPopupModal/SurveyPopupModal.jsx
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import ModalContainer from '../ModalContainer/ModalContainer';
-import CustomAlert from '../CustomAlert/CustomAlert'; // Uncomment if using CustomAlert
-import SurveyCard from '../SurveyCards/SurveyCards';
-import './SurveyPopupModal.css';
-import api from '../../api';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import ModalContainer from "../ModalContainer/ModalContainer";
+import CustomAlert from "../CustomAlert/CustomAlert"; // Uncomment if using CustomAlert
+import SurveyCard from "../SurveyCards/SurveyCards";
+import "./SurveyPopupModal.css";
+import api from "../../api";
+import { useSelector } from "react-redux";
 
 const SurveyPopupModal = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const { user, isAuthenticated } = useSelector((state) => state.user);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(true);
   const [loading, setLoading] = useState(false);
   const [surveys, setSurveys] = useState([
     {
-      survey_id: '1',
-      title: 'TITLE EXAMPLE',
-      description: 'DESCRIPTION EXAMPLE',
-      start_date: '',
-      end_date: '',
+      survey_id: "1",
+      title: "TITLE EXAMPLE",
+      description: "DESCRIPTION EXAMPLE",
+      start_date: "",
+      end_date: "",
     },
     {
-      survey_id: '2',
-      title: 'TITLE EXAMPLE',
-      description: 'DESCRIPTION EXAMPLE',
-      start_date: '',
-      end_date: '',
+      survey_id: "2",
+      title: "TITLE EXAMPLE",
+      description: "DESCRIPTION EXAMPLE",
+      start_date: "",
+      end_date: "",
     },
   ]);
 
@@ -35,6 +37,10 @@ const SurveyPopupModal = () => {
   useEffect(() => {
     const fetchSurveys = async () => {
       try {
+        if (!isAuthenticated) {
+          setShowModal(false);
+          return;
+        }
         setLoading(true);
         const response = await api.get("/api/survey/unanswered-surveys");
         console.log("Unanswered Surveys: ", response.data.surveys);
@@ -50,11 +56,13 @@ const SurveyPopupModal = () => {
     fetchSurveys();
   }, []);
 
-
   useEffect(() => {
-    if (localStorage.getItem('showSurveyModal') === 'true' && location.pathname !== '/login') {
+    if (
+      localStorage.getItem("showSurveyModal") === "true" &&
+      location.pathname !== "/login"
+    ) {
       setShowModal(true);
-      localStorage.removeItem('showSurveyModal');
+      localStorage.removeItem("showSurveyModal");
     }
   }, [location]);
 
@@ -77,27 +85,31 @@ const SurveyPopupModal = () => {
     >
       {loading && <div>Loading...</div>}
 
-
       {/* Render error message if exists */}
-      {error && <div className="error-message">{error.message || 'An error occurred.'}</div>}
+      {error && (
+        <div className="error-message">
+          {error.message || "An error occurred."}
+        </div>
+      )}
 
       {!loading && !error && surveys.length > 0 && (
         <>
-          <div className='d-flex flex-column justify-content-center align-items-center my-4 gap-3'>
+          <div className="d-flex flex-column justify-content-center align-items-center my-4 gap-3">
             <div className="survey-popup-icon-container">
               <i className="survey-popup-icon fa-regular fa-2xl fa-bell"></i>
             </div>
-            <h4>{surveys.length > 1 ? `You have ${surveys.length} surveys to complete!` : 'lol'}</h4>
+            <h4>
+              {surveys.length > 1
+                ? `You have ${surveys.length} surveys to complete!`
+                : "lol"}
+            </h4>
           </div>
-          <div className='survey-card-popup'>
-            {surveys?.length > 0 ?
-              (
-                <SurveyCard surveys={surveys} answered={false} />
-              ) :
-              (
-                !loading && <p>No surveys available.</p>
-              )
-            }
+          <div className="survey-card-popup">
+            {surveys?.length > 0 ? (
+              <SurveyCard surveys={surveys} answered={false} />
+            ) : (
+              !loading && <p>No surveys available.</p>
+            )}
           </div>
         </>
       )}
@@ -111,11 +123,10 @@ const SurveyPopupModal = () => {
       {error && (
         <CustomAlert
           severity="error"
-          message={error.message || 'An error occurred.'}
+          message={error.message || "An error occurred."}
           onClose={() => setError(null)}
         />
       )}
-
     </ModalContainer>
   );
 };

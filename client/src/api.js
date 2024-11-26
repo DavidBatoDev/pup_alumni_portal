@@ -1,6 +1,6 @@
 import axios from "axios";
-// import store from "./store"; // Import your Redux store
-// import { clearUser } from "./store/UserSlice"; // Import the action to clear user state
+import { store } from "./store/store.js";
+import { logout } from "./store/userSlice";
 
 // Create an Axios instance
 const api = axios.create({
@@ -52,7 +52,7 @@ api.interceptors.response.use(
       try {
         // Send a request to refresh the token using the refresh token
         const refreshTokenResponse = await axios.post(
-          "http://localhost:8000/refresh-token",
+          "http://localhost:8000/api/refresh-token",
           null,
           {
             headers: { Authorization: `Bearer ${getToken()}` },
@@ -60,16 +60,16 @@ api.interceptors.response.use(
         );
 
         // Save the new token
-        const newToken = refreshTokenResponse.data.access_token;
+        const newToken = refreshTokenResponse.data.token;
         saveToken(newToken);
 
         // Retry the original request with the new token
         originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
         return api(originalRequest);
       } catch (refreshError) {
-        // If refresh fails, remove tokens and clear Redux state
+        // If the refresh token request fails, log out the user
+        store.dispatch(logout());
         localStorage.removeItem("token");
-        // store.dispatch(clearUser()); // Clear Redux state using the store's dispatch method
         window.location.href = "/login"; // Redirect to login page
         return Promise.reject(refreshError);
       }

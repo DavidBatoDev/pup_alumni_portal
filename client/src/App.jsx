@@ -32,14 +32,20 @@ import SurveyPopupModal from './components/SurveyPopupModal/SurveyPopupModal';
 import Discussions from './pages/Discussions/Discussions';
 import SpecificDiscussion from './pages/SpecificDiscussion/SpecificDiscussion';
 import api from './api';
+import { useSelector } from 'react-redux';
 
 function App() {
+  const {user, isAuthenticated} = useSelector((state) => state.user);
 
   const [showSurvey, setShowSurvey] = useState(true);
 
   useEffect(() => {
     const fetchUnansweredSurveys = async () => {
+
+      console.log("isAuthenticated: ", isAuthenticated);
+      console.log("user: ", user);
       try {
+        if (!isAuthenticated) return;
         const response = await api.get("/api/survey/unanswered-surveys");
         console.log("Unanswered Surveys: ", response.data.surveys);
         setShowSurvey(response.data?.surveys.length > 0);

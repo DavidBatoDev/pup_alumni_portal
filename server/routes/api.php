@@ -27,8 +27,13 @@ Route::get('/events/inactive', [EventController::class, 'getInactiveEvents']);
 Route::get('/events/{eventId}', [EventController::class, 'getEventDetails']);
 
 
+
+
 // Protected alumni routes (Require JWT Authentication)
 Route::group(['middleware' => ['jwt.verify']], function () {
+    // route for refreshin the token 
+    Route::post('/refresh-token', [AuthController::class, 'refreshToken']);
+
     Route::get('/profile', [AlumniController::class, 'profile']);
     Route::post('/update-profile', [AlumniController::class, 'updateProfile']);
 

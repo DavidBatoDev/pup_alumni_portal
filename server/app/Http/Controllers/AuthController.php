@@ -18,22 +18,35 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    /**
+     * Handle refreshing the JWT token.
+     */
+
+    /**
+     * Handle refreshing the JWT token.
+     */
     public function refreshToken(Request $request)
     {
         try {
-            // Get the current token and refresh it
+            // Refresh the token
             $newToken = JWTAuth::refresh(JWTAuth::getToken());
 
             // Return the new token in the response
             return response()->json([
-                'access_token' => $newToken,
-            ]);
-        } catch (TokenExpiredException $e) {
-            return response()->json(['error' => 'Refresh token has expired'], 401);
-        } catch (JWTException $e) {
-            return response()->json(['error' => 'Token is invalid'], 401);
+                'success' => true,
+                'token' => $newToken,
+            ], 200);
+        } catch (\Exception $e) {
+            // Handle exceptions such as expired token or no token found
+            return response()->json([
+                'success' => false,
+                'message' => 'Unable to refresh token: ' . $e->getMessage(),
+            ], 400);
         }
     }
+
+    
+
 
     // Register a new alumni
     public function register(Request $request)

@@ -23,7 +23,22 @@ class JwtMiddleware
             $user = JWTAuth::parseToken()->authenticate();
         } catch (TokenExpiredException $e) {
             // Return a 401 response for expired tokens
-            return response()->json(['error' => 'Token has expired'], 401);
+            try {
+                // Refresh the token
+                $newToken = JWTAuth::refresh(JWTAuth::getToken());
+    
+                // Return the new token in the response
+                return response()->json([
+                    'success' => true,
+                    'token' => $newToken,
+                ], 200);
+            } catch (\Exception $e) {
+                // Handle exceptions such as expired token or no token found
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unable to refresh token: ' . $e->getMessage(),
+                ], 400);
+            }
         } catch (TokenInvalidException $e) {
             // Return a 401 response for invalid tokens
             return response()->json(['error' => 'Token is invalid'], 401);
