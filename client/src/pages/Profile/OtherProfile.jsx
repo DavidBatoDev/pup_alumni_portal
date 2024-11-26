@@ -86,16 +86,10 @@ const OtherProfile = () => {
                     {address?.city}, {address?.state}
                   </p> */}
                   <p className="card-subtitle mb-2">
+                    {/* work icon */}
+                    <i className="fas fa-briefcase mx-1"></i>
                     {profile?.employment_history?.length > 0
-                      ? `${
-                          profile?.employment_history[
-                            profile?.employment_history.length - 1
-                          ].job_title
-                        } at ${
-                          profile?.employment_history[
-                            profile?.employment_history.length - 1
-                          ].company
-                        }`
+                      ? `${sortedEmploymentHistory[0].job_title} at ${sortedEmploymentHistory[0].company}`
                       : "No current job title and employer"}
                   </p>
                 </div>
@@ -192,9 +186,16 @@ const OtherProfile = () => {
                       <p className="card-text">{education?.degree}</p>
                       <p className="card-text">{education?.field_of_study}</p>
                       <p className="card-subtitle">
-                        {new Date(education?.start_date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} -{" "}
+                        {new Date(education?.start_date).toLocaleDateString(
+                          "en-US",
+                          { month: "long", year: "numeric" }
+                        )}{" "}
+                        -{" "}
                         {education?.end_date
-                          ? new Date(education?.end_date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+                          ? new Date(education?.end_date).toLocaleDateString(
+                              "en-US",
+                              { month: "long", year: "numeric" }
+                            )
                           : "Present"}
                       </p>
                     </div>
