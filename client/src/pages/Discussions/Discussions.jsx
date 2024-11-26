@@ -29,7 +29,26 @@ const Discussions = () => {
 
   // Modal visibility state
   const [showModal, setShowModal] = useState(false);
+
+  // Track mobile view state
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
   const navigate = useNavigate();
+
+  // Handle window resizing to update mobile view state
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // Add event listener for window resizing
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   // Fetch threads
   useEffect(() => {
@@ -56,13 +75,14 @@ const Discussions = () => {
     fetchThreads();
   }, []);
 
+  // Submit vote for a thread
   const submitVote = async (threadId, vote) => {
     try {
-      const response = await api.post(`api/threads/${threadId}/vote`, { vote: vote })
+      const response = await api.post(`api/threads/${threadId}/vote`, { vote: vote });
 
       if (response.status !== 201 && response.status !== 200) {
         // Handle HTTP errors
-        const errorData = response.data
+        const errorData = response.data;
         const message = errorData.message ?? "An error has occurred.";
         const errorMsg = errorData.error ?? '';
         console.error(`Error voting thread ${threadId}: ${vote} -> ${message} : ${errorMsg}`);
@@ -77,13 +97,13 @@ const Discussions = () => {
       if (response.status === 200) {
         console.log(`Vote for Thread ID ${threadId} has been nullified`);
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.error('Network error or no response:', error);
       setError("Network error or no response from the server.");
     }
   };
 
+  // Format time ago from a date string
   const timeAgo = (dateString) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -108,41 +128,39 @@ const Discussions = () => {
     return 'just now';
   };
 
+  // Handle thread creation
   const handleCreateThread = async (threadBody) => {
     console.log('New thread created (body):', threadBody);
 
-    try{
+    try {
       setLoading(true);
       const response = await axios.post('/api/threads',
         threadBody, {
           headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'multipart/form-data',
-        }
-      });
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'multipart/form-data',
+          }
+        });
 
-      if (response.status == 200 || response.status == 201) {
+      if (response.status === 200 || response.status === 201) {
         // Get the new Thread Data from response
         const newThread = response.data.data;
-		
-		const formattedNewThread = {...newThread, updated_at: timeAgo(newThread.updated_at)};
+
+        const formattedNewThread = { ...newThread, updated_at: timeAgo(newThread.updated_at) };
 
         console.log("Thread Created: ", formattedNewThread);
 
-        // // Add new thread locally and close
+        // Add new thread locally and close modal
         setThreads((prevThreads) => [...prevThreads, formattedNewThread]);
         setShowModal(false);
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.error('Error creating thread:', error);
       setError('Error creating thread. Please try again later.');
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   };
-
 
   return (
     <div className="discussions-page">
@@ -181,7 +199,8 @@ const Discussions = () => {
             />
             {viewMode === 'compact' ? (
               <table className="thread-list table table-hover mt-3">
-                <DiscussionTableHeader />
+                {/* Conditionally render the table header */}
+                {!isMobile && <DiscussionTableHeader />}
                 <tbody className="thread-list">
                   {threads?.map((thread) => (
                     <DiscussionTableThread
@@ -196,15 +215,16 @@ const Discussions = () => {
               <div className="card-list d-flex flex-column py-4 gap-4">
                 {threads?.map((thread) => (
                   <>
-                    <DiscussionCardThread key={thread.thread_id}
-                    thread={thread}
-                    handleComment={() => navigate(`/discussions/${thread.thread_id}`)}
-                    submitVote={submitVote}
+                    <DiscussionCardThread
+                      key={thread.thread_id}
+                      thread={thread}
+                      handleComment={() => navigate(`/discussions/${thread.thread_id}`)}
+                      submitVote={submitVote}
                     />
                     <hr />
                   </>
                 ))}
-                {/* Put a pagination feature here  */}
+                {/* Put a pagination feature here */}
                 <p className='mx-auto text-secondary raleway'>Looks like you’re all caught up!</p>
               </div>
             )}

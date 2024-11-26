@@ -2,7 +2,6 @@
   margin: 10px 0 10px 0;
   border-radius: 0.5rem;
   white-space: nowrap;
-
   font-family: 'Crimson Text', sans-serif;
   font-style: normal;
   line-height: normal;
@@ -27,7 +26,7 @@
 
 .discussion-table-thread .tag-container {
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   margin: 0.5rem 0;
 }
@@ -92,4 +91,83 @@
 .downvote:focus {  
   transform: translateY(0rem);
   box-shadow: none;
+}
+
+.discussion-table-thread .tags{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 5px;
+}
+
+/** FOR MOBILE LAYOUT **/
+.mobile-layout {
+  padding: 10px 0;
+  border-radius: 8px; /* Rounded edges */
+  transition: transform 0.2s ease, background-color 0.2s ease; /* Smooth transition for transform and background */
+}
+
+.discussion-table-thread .image-container:hover img {
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+.discussion-table-thread .tag-container {
+  justify-content: center;
+  transition: color 0.2s ease-in-out; /* Smooth transition for text color */
+}
+
+.discussion-table-thread .tag-container:hover .thread-tag {
+  color: #800000; /* Changes the tag text color on hover */
+}
+
+.discussion-table-thread .thread-num {
+  font-size: 0.9rem;
+  transition: color 0.2s ease; /* Adds smooth transition to color */
+}
+
+.discussion-table-thread .thread-num:hover {
+  color: #333; /* Slightly darkens the text on hover */
+}
+
+.discussion-table-thread .voting-group {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .mobile-layout {
+    margin: 0.5rem 0; /* Adds spacing between cards in mobile view */
+  }
+
+  .mobile-layout:hover {
+    transform: translateY(-4px); /* Adds a slight lift effect on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* More pronounced shadow on hover */
+  }
+
+  .discussion-table-thread .image-container {
+    padding-top: 30px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .discussion-table-thread .tags{
+    justify-content: center;
+  }
+
+  .discussion-table-thread .tag-container {
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .discussion-table-thread .thread-num {
+    font-size: 0.8rem;
+  }
+
+  .discussion-table-thread .voting-group {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
 }
