@@ -1,5 +1,5 @@
 import React from 'react';
-import './CircularLoader.css'; // Import the CSS file for styling
+import './CircularLoader.css';
 
 const CircularLoader = () => {
   return (

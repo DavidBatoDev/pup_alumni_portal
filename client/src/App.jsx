@@ -31,16 +31,26 @@ import echo from './echo';
 import SurveyPopupModal from './components/SurveyPopupModal/SurveyPopupModal';
 import Discussions from './pages/Discussions/Discussions';
 import SpecificDiscussion from './pages/SpecificDiscussion/SpecificDiscussion';
+import api from './api';
 
 function App() {
-  // useEffect(() => {
-  //   echo.channel('alumni')
-  //     .listen('EventCreated', (event) => {
-  //       console.log('New event created:', event);
-  //     });
-  // }, []);
 
   const [showSurvey, setShowSurvey] = useState(true);
+
+  useEffect(() => {
+    const fetchUnansweredSurveys = async () => {
+      try {
+        const response = await api.get("/api/survey/unanswered-surveys");
+        console.log("Unanswered Surveys: ", response.data.surveys);
+        setShowSurvey(response.data?.surveys.length > 0);
+      } catch (error) {
+        console.error("Error fetching surveys:", error);
+        setShowSurvey(false);
+      }
+    };
+
+    fetchUnansweredSurveys();
+  }, []);
 
   return (
     <Router>
@@ -78,10 +88,9 @@ function App() {
             <Route path="/events/events-history" element={<EventHistory />} />
             <Route path="/events/events-history/:eventId" element={<SpecificHistoryPage />} />
 
-            {/* */}
+            {/* Threads */}
             <Route path="/discussions" element={<Discussions />} />
             <Route path="/discussions/:threadId" element={<SpecificDiscussion />} />
-
         </Route>
 
         {/* Protected Routes for Admin */}
@@ -93,7 +102,6 @@ function App() {
           <Route path="/admin/survey/:surveyId" element={<SurveyInformationResponses />} />
           <Route path="/admin/create-survey" element={<CreateSurvey />} />
         </Route>
-
       </Routes>
     </Router>
   );

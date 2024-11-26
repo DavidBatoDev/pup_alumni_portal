@@ -5,6 +5,7 @@ import ModalContainer from '../ModalContainer/ModalContainer';
 import CustomAlert from '../CustomAlert/CustomAlert'; // Uncomment if using CustomAlert
 import SurveyCard from '../SurveyCards/SurveyCards';
 import './SurveyPopupModal.css';
+import api from '../../api';
 
 const SurveyPopupModal = () => {
   const navigate = useNavigate();
@@ -29,6 +30,26 @@ const SurveyPopupModal = () => {
       end_date: '',
     },
   ]);
+
+  // Fetch surveys
+  useEffect(() => {
+    const fetchSurveys = async () => {
+      try {
+        setLoading(true);
+        const response = await api.get("/api/survey/unanswered-surveys");
+        console.log("Unanswered Surveys: ", response.data.surveys);
+        setSurveys(response.data?.surveys || []);
+      } catch (error) {
+        console.error("Error fetching surveys:", error);
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSurveys();
+  }, []);
+
 
   useEffect(() => {
     if (localStorage.getItem('showSurveyModal') === 'true' && location.pathname !== '/login') {

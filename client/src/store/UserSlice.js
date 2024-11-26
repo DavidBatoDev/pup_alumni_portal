@@ -6,6 +6,7 @@ const initialState = {
   isAuthenticated: false,
   role: null,
   notifications: [],
+  userLoading: false
 };
 
 const userSlice = createSlice({
@@ -30,9 +31,12 @@ const userSlice = createSlice({
       state.isAuthenticated = false;
       state.role = null;
     },
+    setLoading: (state, action) => {
+      state.userLoading = action.payload;
+    },
   },
 });
 
 // Export the actions and the reducer
-export const { login, logout, updateUser, clearUser } = userSlice.actions;
+export const { login, logout, updateUser, clearUser, setLoading } = userSlice.actions;
 export default userSlice.reducer;

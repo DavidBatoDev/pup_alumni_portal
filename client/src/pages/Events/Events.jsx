@@ -7,12 +7,14 @@ import EventsFilterSection from "../../components/EventsFilterSection/EventsFilt
 import EventAuth from "../../components/EventSectionAuth/EventAuth";
 import api from "../../api";
 import echo from "../../echo";
-import CustomAlert from "../../components/CustomAlert/CustomAlert"; // Import CustomAlert
+import CustomAlert from "../../components/CustomAlert/CustomAlert"; 
+import CircularLoader from "../../components/CircularLoader/CircularLoader";
 
 const Events = () => {
-  const [eventsData, setEventsData] = useState([]); // Original event data from API
-  const [filteredEvents, setFilteredEvents] = useState([]); // Filtered events based on user input
-  const [error, setError] = useState(null); // Error state for handling errors
+  const [eventsData, setEventsData] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]); 
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const [filters, setFilters] = useState({
     searchTerm: '',
@@ -42,12 +44,15 @@ const Events = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
+        setLoading(true);
         const response = await api.get("/api/events");
         setEventsData(response.data.events);
         setFilteredEvents(response.data.events);
       } catch (error) {
         console.error("Error fetching events:", error);
         setError(error.response?.data?.message || "Failed to fetch events. Please try again later."); // Set error message
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -82,6 +87,7 @@ const Events = () => {
 
   return (
     <div>
+      {loading && <CircularLoader />}
       <Navbar />
       <BannerSmall
         bannerTitle={"Events Page"}
@@ -92,12 +98,11 @@ const Events = () => {
         ]}
       />
 
-      {/* Display CustomAlert if there's an error */}
       {error && (
         <CustomAlert
           message={error}
           severity="error"
-          onClose={handleClearError} // Close alert handler
+          onClose={handleClearError}
         />
       )}
 

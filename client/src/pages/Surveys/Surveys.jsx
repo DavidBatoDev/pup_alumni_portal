@@ -2,24 +2,25 @@ import React, { useState, useEffect } from "react";
 import BannerSmall from "../../components/Banner/BannerSmall";
 import Navbar from "../../components/Navbar/Navbar";
 import bannerImage from "../../assets/images/eventbanner.png";
-import "./Surveys.css"; // Updated CSS file for styling
+import "./Surveys.css";
 import axios from "axios";
 import '../../global.css';
-import SurveyCard from "../../components/SurveyCards/SurveyCards"; // Import the updated SurveyCard component
-import CustomAlert from "../../components/CustomAlert/CustomAlert"; // Import CustomAlert
+import SurveyCard from "../../components/SurveyCards/SurveyCards";
+import CustomAlert from "../../components/CustomAlert/CustomAlert"; 
 import SurveySearchBar from "../../components/SurveySearchBar/SurveySearchBar";
 import echo from "../../echo"; 
+import CircularLoader from "../../components/CircularLoader/CircularLoader";
 
 const Surveys = () => {
   const [unansweredSurveysData, setUnansweredSurveysData] = useState([]);
   const [answerSurveyData, setAnswerSurveyData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // State to handle API errors
+  const [error, setError] = useState(null); 
 
   useEffect(() => {
-    // Fetch surveys from the API
     const fetchUnansweredSurveys = async () => {
       try {
+        setLoading(true);
         const response = await axios.get("/api/survey/unanswered-surveys", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -74,6 +75,8 @@ const Surveys = () => {
   return (
     <div>
       {/* Authenticated Navigation Bar */}
+
+      {loading && <CircularLoader />}
       <Navbar />
       <div className="background login-background"></div>
 

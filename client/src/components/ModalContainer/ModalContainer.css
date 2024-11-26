@@ -33,20 +33,23 @@
 
 .desktop-modal-content {
   position: relative;
-  width: 50%;
+  width: 100%;
   max-width: 800px;
   background: #ffffff;
   z-index: 2;
   border-radius: 10px; /* Rounded corners */
   overflow: hidden;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Shadow for elevation effect */
-  max-height: 700px;
+  min-height: 600px;
+  max-height: 600px;
   overflow-y: scroll;
   scrollbar-width: none;
 }
 
 .desktop-modal-header {
-  display: none ;
+  position: sticky;
+  top: 0;
+  display: none;
   padding: 10px 30px;
   display: flex;
   justify-content: space-between;
@@ -55,6 +58,7 @@
   color: #fff;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  z-index: 1000;
 }
 
 .desktop-modal-title {
@@ -63,10 +67,10 @@
 }
 
 .desktop-modal-body {
-  padding: 20px 30px;
+  padding: 10px 30px;
   background: #f4f4f4;
+  position: relative;
 }
-
 
 .close-btn {
   background: none;
@@ -86,7 +90,7 @@
   }
 
   .desktop-modal-body {
-    margin-top: 50px;
+    /* margin-top: 50px; */
     height: 100vh;
     border-radius: 0px;
   }
@@ -97,7 +101,6 @@
     width: 100%;
     border-radius: 0px;
   }
-  
 }
 
 /* for Ipad */
@@ -122,6 +125,4 @@
     width: 100%;
     border-radius: 0px;
   }
-  
 }
-

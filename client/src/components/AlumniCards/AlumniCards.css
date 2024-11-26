@@ -1,145 +1,149 @@
+/* Container Styling */
 .alumni-cards-container {
-    max-width: 100%;
-    margin: 0 auto;
-  }
-
-.alumni-cards-container p {
-  font-size: 50px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px 0;
 }
 
-  /* Default list view */
-  .alumni-card {
-    border: 1px solid #ddd;
-    padding: 12px 24px;
-    border-radius: 8px;
-    max-width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
+/* Card Styling */
+.alumni-card {
+  border: none; /* Removed the border */
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  background-color: #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for modern design */
+}
 
-  .alumni-card img {
-    width: 5.25rem;
-    height: 5.25rem;
-    object-fit: cover;
+/* Card Hover Effect */
+.alumni-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on hover */
+  transform: translateY(-5px); /* Lift effect */
+}
+
+/* Image Styling */
+.alumni-card img {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e0e0e0; /* Subtle border for profile image */
+}
+
+/* Profile Section */
+.alumni-profile-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.alumni-profile-section p {
+  font-size: 10px;
+}
+
+.alumni-profile-section span {
+  font-size: 10px;
+}
+
+.alumni-profile-section .card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333333; /* Dark gray for modern look */
+}
+
+.alumni-card-contents {
+  display: flex;
+  flex-direction: column;
+  max-height: 100px;
+}
+
+.alumni-profile-section .ac-address-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #555555;
+}
+
+.alumni-profile-section .card-text {
+  font-size: 1rem;
+  color: #777777;
+}
+
+.alumni-profile-section .ac-batch-year {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #870000; /* Accent color */
+}
+
+/* Connect Button */
+.connect-btn-container .btn {
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 24px;
+  background-color: #a50000; /* Primary button color */
+  color: #ffffff;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.connect-btn-container .btn:hover {
+  background-color: #870000; /* Slightly darker shade on hover */
+  transform: scale(1.05); /* Slight zoom effect */
+}
+
+/* Grid View */
+.alumni-cards-container.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px; /* Space between grid items */
+}
+
+.alumni-card.grid {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  height: 100%; /* Uniform card height */
+}
+
+.alumni-card.grid img {
+  width: 80px;
+  height: 80px;
+}
+
+.alumni-card.grid .connect-btn-container {
+  margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .alumni-cards-container.grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .alumni-card {
+    flex-direction: column; /* Stack content for smaller screens */
+    text-align: center;
+    padding: 15px;
   }
 
   .alumni-profile-section {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    box-shadow: none;
+    flex-direction: column; /* Stack profile image and text */
+    gap: 10px;
   }
 
-  .alumni-profile-section .card-title {
-    font-size: 1.8rem;
-    font-weight: 700;
+  .connect-btn-container {
+    margin-top: 10px;
   }
+}
 
-  .alumni-profile-section .ac-address-text{
-    font-size: 15px;
-    font-weight: 600;
-  }
-
-  .alumni-profile-section .card-text {
-    font-size: 0.85rem;
-    font-weight: 600;
-  }
-
-  .alumni-profile-section .ac-batch-year {
-    font-size: 1rem;
-    font-weight: 600;
-  }
-
-  
-
-  .alumni-profile-section .card-text span:nth-child(1) {
-    color: #870000;
-  }
-
-  .alumni-cards-container .btn {
-    width: 80px;
-    font-size: 0.85rem;
-    background-color: #a50000;
-    border: none;
-  }
-
-  .alumni-cards-container .btn:hover {
-    background-color: #870000;
-  }
-
-  /* --- GRID VIEW --- */
-  /* Grid View Container */
+@media (max-width: 600px) {
   .alumni-cards-container.grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
-      gap: 20px; /* Add space between the grid items */
-    }
-
-    /* Grid View: Alumni Card */
-    .alumni-card.grid {
-      display: flex;
-      flex-direction: column; /* Stack profile pic and details vertically */
-      justify-content: space-between; /* Push content to the top and the button to the bottom */
-      height: 100%; /* Ensure all cards have equal height */
-      text-align: center;
-      padding: 20px;
-    }
-
-    /* Image Styling for Grid View */
-    .alumni-card.grid img {
-      width: 90px;
-      height: 90px;
-      object-fit: cover;
-    }
-
-    /* Profile Section: Align center and stack content vertically */
-    .alumni-card.grid .alumni-profile-section {
-      justify-content: center;
-      align-items: center;
-      flex-direction: column; /* Stack image and text vertically */
-      padding: 0;
-    }
-
-    /* Connect Button Styling: Push to the bottom */
-    .alumni-card.grid .connect-btn-container {
-      justify-content: center;
-      margin-top: auto; /* Push the button to the bottom */
-    }
-
-
-  @media (max-width: 768px) {
-    .alumni-cards-container.grid {
-      grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
-    }
+    grid-template-columns: 1fr; /* 1 column for mobile */
   }
-
-  /* Media query for mobile devices */
-  @media (max-width: 600px) {
-    /* For List */
-    .alumni-card {
-      display: grid; /* Switch from flex to grid for stacking */
-      grid-template-columns: 1fr;
-      text-align: center; /* Center the text in mobile view */
-    }
-
-    .alumni-profile-section {
-      justify-content: center;
-      flex-direction: column; /* Stack image and text vertically */
-      text-align: center;
-      padding: 20px 10px;
-    }
-
-    .alumni-cards-container .connect-btn-container {
-      justify-content: center;
-      margin: 5px 0;
-    }
-
-    /* For Grid */
-    .alumni-cards-container.grid {
-      grid-template-columns: 1fr; /* 1 card per row */
-    }
-  }
-
-
+}

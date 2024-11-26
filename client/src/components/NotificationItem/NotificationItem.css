@@ -1,57 +1,60 @@
 .notification-item {
-    font-family: 'Raleway', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
-    z-index: 1000 !important;
+  font-family: "Raleway", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out,
+    background-color 0.3s ease-in-out;
+  z-index: 1000 !important;
+  background-color: transparent !important;
+  border-top: 1px solid black;
+  padding: 5px 0;
 }
 
 .notification-item:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transform: translateY(-5px);
-    background-color: rgb(255, 255, 255, 0.9);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  background-color: rgb(255, 255, 255, 0.9);
 }
 
 .notification-item > h5 {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 
 .notification-alert {
-    margin: 0;
-    font-weight: 700;
-    font-size: 1rem;
+  margin: 0;
+  font-weight: 700;
+  font-size: 1rem;
 }
 
 .notification-time {
-    color: #6D6D6D;
+  color: #6d6d6d;
 }
 
 .notification-item .btn {
-    height: 1.5rem;
-    padding: 0;
-    margin: 0;
-    font-size: 0.875rem;
-    font-weight: 700;
-    min-width: 60px;
-    width: 10%;
-    /* width: 10%; */
-    border: none;
+  height: 1.5rem;
+  padding: 0;
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  min-width: 60px;
+  width: 10%;
+  /* width: 10%; */
+  border: none;
 }
 
 .notification-message {
-    font-weight: 400;
-    font-size: 0.75rem;
-    margin: 0;
+  font-weight: 400;
+  font-size: 0.75rem;
+  margin: 0;
 }
 
 .notification-title {
-    font-weight: 700;
-    font-size: 0.75rem;
-    margin: 0;
+  font-weight: 700;
+  font-size: 0.75rem;
+  margin: 0;
 }
 
 .notification-content {
-    background-color: #E7E7E7;
-    border-radius: 0.1875rem;
+  /* background-color: #E7E7E7; */
+  border-radius: 0.1875rem;
 }
-

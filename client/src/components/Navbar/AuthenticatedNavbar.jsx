@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import './AuthenticatedNavbar.css';
-import { useNavigate } from 'react-router-dom';
-import { Link, useLocation } from 'react-router-dom';
-import PupLogo from '../../assets/images/pup-logo.png';
-import OtherLogo from '../../assets/images/graduate-logo.png';
-import NotificationMenu from '../NotificationMenu/NotificationMenu';
-import userIcon from '../../assets/images/user.png';
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import "./AuthenticatedNavbar.css";
+import { useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import PupLogo from "../../assets/images/pup-logo.png";
+import OtherLogo from "../../assets/images/graduate-logo.png";
+import NotificationMenu from "../NotificationMenu/NotificationMenu";
+import userIcon from "../../assets/images/user.png";
 
 const AuthenticatedNavbar = () => {
   const navigate = useNavigate();
@@ -56,64 +56,120 @@ const AuthenticatedNavbar = () => {
           </div>
         </Link>
         {/* Hamburger button for mobile view */}
-        <button className="navbar-toggler" type="button" aria-label="Toggle navigation" onClick={toggleDrawer}>
+        <button
+          className="navbar-toggler"
+          type="button"
+          aria-label="Toggle navigation"
+          onClick={toggleDrawer}
+        >
           <span className="navbar-toggler-icon"></span>
         </button>
 
         {/* Desktop menu */}
-        <div className="collapse navbar-collapse d-none d-lg-block" id="navbarNav">
+        <div
+          className="collapse navbar-collapse d-none d-lg-block"
+          id="navbarNav"
+        >
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <button className="nav-link" onClick={() => handleNavLinkClick('events')}>Events</button>
+              <button
+                className="nav-link"
+                onClick={() => handleNavLinkClick("events")}
+              >
+                Events
+              </button>
             </li>
             <li className="nav-item">
-              <button className="nav-link" onClick={() => handleNavLinkClick('surveys')}>Surveys</button>
+              <button
+                className="nav-link"
+                onClick={() => handleNavLinkClick("surveys")}
+              >
+                Surveys
+              </button>
             </li>
             <li className="nav-item">
-              <button className="nav-link" onClick={() => handleNavLinkClick('alumni')}>Alumni</button>
+              <button
+                className="nav-link"
+                onClick={() => handleNavLinkClick("alumni")}
+              >
+                Alumni
+              </button>
             </li>
             <li className="nav-item">
-              <button className="nav-link" onClick={() => handleNavLinkClick('career')}>Career</button>
-            </li>
-            <li className="nav-item">
-              <button className="nav-link" onClick={() => handleNavLinkClick('discussions')}>Discussions</button>
+              <button
+                className="nav-link"
+                onClick={() => handleNavLinkClick("discussions")}
+              >
+                Discussions
+              </button>
             </li>
           </ul>
           <div className="auth-container">
             <NotificationMenu />
             <div className="profile-container">
-              {
-                user ?
-                  <Link to="/profile" className="profile-link">
-                    <img src={`http://localhost:8000/storage/${user?.profile_picture}`} alt={`${user.first_name}'s profile`} className='img-fluid rounded-circle navbar-profile-image' />
-                  </Link>
-                  :
-                  <button onClick={() => navigate('/login')} className="btn btn-nav-signin ms-3">Sign In</button>
-              }
+              {user ? (
+                <Link to="/profile" className="profile-link">
+                  <img
+                    src={`http://localhost:8000/storage/${user?.profile_picture}`}
+                    alt={`${user.first_name}'s profile`}
+                    className="img-fluid rounded-circle navbar-profile-image"
+                  />
+                </Link>
+              ) : (
+                <button
+                  onClick={() => navigate("/login")}
+                  className="btn btn-nav-signin ms-3"
+                >
+                  Sign In
+                </button>
+              )}
             </div>
           </div>
-
         </div>
       </div>
 
       {/* Sidebar drawer for mobile view */}
-      <div className={`drawer ${drawerOpen ? 'drawer-open' : 'none'}`}>
+      <div className={`drawer ${drawerOpen ? "drawer-open" : "none"}`}>
         {/* Close button inside the drawer */}
-        <button className="drawer-close-btn" aria-label="Close Drawer" onClick={toggleDrawer}>
+        <button
+          className="drawer-close-btn"
+          aria-label="Close Drawer"
+          onClick={toggleDrawer}
+        >
           &times;
         </button>
         <ul className="drawer-nav">
           <li className="drawer-item">
-            <button className="drawer-link" onClick={() => handleNavLinkClick('events')}>Events</button>
+            <button
+              className="drawer-link"
+              onClick={() => handleNavLinkClick("events")}
+            >
+              Events
+            </button>
           </li>
           <li className="drawer-item">
-            <button className="drawer-link" onClick={() => handleNavLinkClick('surveys')}>Survey</button>
+            <button
+              className="drawer-link"
+              onClick={() => handleNavLinkClick("surveys")}
+            >
+              Survey
+            </button>
           </li>
           <li className="drawer-item">
-            <button className="drawer-link" onClick={() => handleNavLinkClick('careers')}>Career</button>
+            <button
+              className="drawer-link"
+              onClick={() => handleNavLinkClick("careers")}
+            >
+              Career
+            </button>
           </li>
           <li className="drawer-item">
-            <button className="drawer-link" onClick={() => handleNavLinkClick('discussions')}>Discussions</button>
+            <button
+              className="drawer-link"
+              onClick={() => handleNavLinkClick("discussions")}
+            >
+              Discussions
+            </button>
           </li>
           {/* Notification bell icon */}
           <NotificationMenu />
@@ -122,17 +178,31 @@ const AuthenticatedNavbar = () => {
           <a className="drawer-item">
             {user ? (
               <Link to="/profile" className="drawer-link">
-                <img src={`http://localhost:8000/storage/${user?.profile_picture}`} alt={`${user.first_name}'s profile`} className='img-fluid rounded-circle navbar-profile-image' />
+                <img
+                  src={`http://localhost:8000/storage/${user?.profile_picture}`}
+                  alt={`${user.first_name}'s profile`}
+                  className="img-fluid rounded-circle navbar-profile-image"
+                />
               </Link>
             ) : (
-              <button onClick={() => { setDrawerOpen(false); navigate('/login'); }} className="btn btn-nav-signin mt-3">Sign In</button>
+              <button
+                onClick={() => {
+                  setDrawerOpen(false);
+                  navigate("/login");
+                }}
+                className="btn btn-nav-signin mt-3"
+              >
+                Sign In
+              </button>
             )}
           </a>
         </ul>
       </div>
 
       {/* Overlay to close drawer when clicking outside */}
-      {drawerOpen && <div className="drawer-overlay" onClick={() => setDrawerOpen(false)} />}
+      {drawerOpen && (
+        <div className="drawer-overlay" onClick={() => setDrawerOpen(false)} />
+      )}
     </nav>
   );
 };
