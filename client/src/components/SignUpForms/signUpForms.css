@@ -1,54 +1,58 @@
 /* General Styles for Form Section */
 .form-section {
-    padding: 20px;
-    border-radius: 10px;
-    border: 1px solid #800000;
-    background: rgba(255, 255, 255, 0.80);
-    width: 100%;
-    /* max-width: 700px; Limit the form width for large screens */
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #800000;
+  background: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  /* max-width: 700px; Limit the form width for large screens */
+}
+
+.modal-email-verification {
+  background-color: white;
 }
 
 .section-title {
-    font-size: 24px;
-    font-family: "Crimson Text", "Times New Roman", Times, serif;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: #800000;
-    text-align: center; /* Center the section title */
+  font-size: 24px;
+  font-family: "Crimson Text", "Times New Roman", Times, serif;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #800000;
+  text-align: center; /* Center the section title */
 }
 
 .important-txt {
-    color: #800000;
+  color: #800000;
 }
 
 .form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  gap: 10px;
 }
 
 .sign-in-link {
-    color: #a50000;
-    font-weight: bold;
+  color: #a50000;
+  font-weight: bold;
 }
 .sign-in-link:hover {
-    text-decoration: underline;
-    color: #870000;
+  text-decoration: underline;
+  color: #870000;
 }
 
 .form-group label {
-    color: #1E1E1E;
-    font-family: "Raleway";
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
+  color: #1e1e1e;
+  font-family: "Raleway";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
 
 .name-fields {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 10px;
 }
 
 /* Input Field Styles */
@@ -57,186 +61,185 @@ input[type="email"],
 input[type="password"],
 input[type="date"],
 select {
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100%;
 }
 
 .form-footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  align-items: flex-start;
 }
 
 input.form-control,
 select.form-control {
-    height: 45px;
-    padding: 10px 15px;
-    border-radius: 100px;
-    font-size: 14px;
+  height: 45px;
+  padding: 10px 15px;
+  border-radius: 100px;
+  font-size: 14px;
 }
 
 .form-section .input-group > .is-invalid {
-    border-radius: 0 100px 100px 0 !important;
+  border-radius: 0 100px 100px 0 !important;
 }
 
 .input-group-text {
-    border-radius: 100px 0 0 100px;
-    border: 1px solid #ced4da;
-    border-right: none;
+  border-radius: 100px 0 0 100px;
+  border: 1px solid #ced4da;
+  border-right: none;
 }
 
 .checkbox-section {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .checkbox-section input[type="checkbox"] {
-    margin: 0;
+  margin: 0;
 }
 
 .checkbox-section label {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .checkbox-section a {
-    color: #800000;
-    text-decoration: underline;
+  color: #800000;
+  text-decoration: underline;
 }
 
 /* Submit Button Styles */
 .form-submit button {
-    align-self: flex-end;
-    padding: 10px 20px;
-    background-color: #800000;
-    color: #fff;
-    border: none;
-    border-radius: 100px;
-    cursor: pointer;
-    width: 100%;
-    max-width: 200px; /* Set max width for larger screens */
+  align-self: flex-end;
+  padding: 10px 20px;
+  background-color: #800000;
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 200px; /* Set max width for larger screens */
 }
 
 .form-submit button:hover {
-    background-color: #a00000;
+  background-color: #a00000;
 }
 
 .submit-box {
-    border-top: 1px solid #ccc;
-    padding-top: 20px;
-    text-align: center;
-    gap: 10px;
+  border-top: 1px solid #ccc;
+  padding-top: 20px;
+  text-align: center;
+  gap: 10px;
 }
 
 /* Media Queries for Different Screen Sizes */
 @media (max-width: 768px) {
-    /* Smaller font size for section title on tablets */
-    .section-title {
-        font-size: 20px;
-    }
+  /* Smaller font size for section title on tablets */
+  .section-title {
+    font-size: 20px;
+  }
 
-    /* Reduce padding for form fields */
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    input[type="date"],
-    select {
-        padding: 8px;
-    }
+  /* Reduce padding for form fields */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="date"],
+  select {
+    padding: 8px;
+  }
 
-    /* Adjust button width for smaller screens */
-    .form-submit button {
-        width: 100%;
-    }
+  /* Adjust button width for smaller screens */
+  .form-submit button {
+    width: 100%;
+  }
 }
 
 @media (max-width: 576px) {
-    /* Adjustments for mobile screens */
-    .form-section {
-        padding: 14px;
-        border-radius: 8px;
-        /* max-width: 440px; */
-    }
+  /* Adjustments for mobile screens */
+  .form-section {
+    padding: 14px;
+    border-radius: 8px;
+    /* max-width: 440px; */
+  }
 
-    .section-title {
-        font-size: 18px;
-        margin-bottom: 15px;
-    }
+  .section-title {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
 
-    /* Smaller padding and font size for form controls */
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    input[type="date"],
-    select {
-        padding: 6px;
-        font-size: 14px;
-    }
+  /* Smaller padding and font size for form controls */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="date"],
+  select {
+    padding: 6px;
+    font-size: 14px;
+  }
 
-    .input-group-text {
-        padding: 8px;
-    }
+  .input-group-text {
+    padding: 8px;
+  }
 
-    /* Center-align the submit button */
-    .form-submit button {
-        width: 100%;
-        max-width: none;
-        border-radius: 50px;
-        font-size: 16px;
-    }
+  /* Center-align the submit button */
+  .form-submit button {
+    width: 100%;
+    max-width: none;
+    border-radius: 50px;
+    font-size: 16px;
+  }
 
-    .checkbox-section label {
-        font-size: 12px;
-    }
+  .checkbox-section label {
+    font-size: 12px;
+  }
 }
 
 /* for smaller screen */
 @media (max-width: 480px) {
-    .form-section {
-        padding: 10px;
-        /* max-width: 100%; */
-    }
+  .form-section {
+    padding: 10px;
+    /* max-width: 100%; */
+  }
 
-    .section-title {
-        font-size: 16px;
-    }
+  .section-title {
+    font-size: 16px;
+  }
 
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    input[type="date"],
-    select {
-        padding: 5px;
-        font-size: 12px;
-    }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="date"],
+  select {
+    padding: 5px;
+    font-size: 12px;
+  }
 
-    .input-group-text {
-        padding: 6px;
-    }
+  .input-group-text {
+    padding: 6px;
+  }
 
-    .form-submit button {
-        padding: 8px 16px;
-        font-size: 12px;
-    }
+  .form-submit button {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
 
-    .checkbox-section label {
-        font-size: 10px;
-    }
+  .checkbox-section label {
+    font-size: 10px;
+  }
 }
 
-
 .email-popup {
-    position: fixed; /* Fixed position to cover the entire screen */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex; /* Flexbox to center the content */
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+  position: fixed; /* Fixed position to cover the entire screen */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex; /* Flexbox to center the content */
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }

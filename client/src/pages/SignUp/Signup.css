@@ -2,95 +2,95 @@
 
 /* Signup Page Styling */
 .signup-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow-x: hidden;
-    position: relative
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-x: hidden;
+  position: relative;
 }
 
 .login-background {
-    background-image: url('../../assets/images/pup-login-banner.jpg');
+  background-image: url("../../assets/images/pup-login-banner.jpg");
 }
 
 .signup-page .banner-section {
-    background-image: url('../../assets/images/pup-login-banner.jpg');
-    background-size: cover;
-    background-position: center;
-    height: 240px;
-    display: flex;
-    padding: 40px 128px;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-start;
-    flex-shrink: 0;
+  background-image: url("../../assets/images/pup-login-banner.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 240px;
+  display: flex;
+  padding: 40px 128px;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  flex-shrink: 0;
 }
 
 .signup-header {
-    display: none;
-    font-size: 48px;
-    font-weight: bold;
-    padding: 0px 128px;
-    max-width: 1486px;
+  display: none;
+  font-size: 48px;
+  font-weight: bold;
+  padding: 0px 128px;
+  max-width: 1486px;
 }
 
 .signup-title {
-    color: #FFF;
-    font-family: "Crimson Text";
-    font-size: 128px;
-    font-style: normal;
-    font-weight: 700;
+  color: #fff;
+  font-family: "Crimson Text";
+  font-size: 128px;
+  font-style: normal;
+  font-weight: 700;
 }
 
 .signup-description {
-    font-size: 20px;
-    font-weight: lighter;
+  font-size: 20px;
+  font-weight: lighter;
 }
 
 .sign-up-glass-container {
-    padding-bottom: 40px;
-    padding-top: 0px;
+  padding-bottom: 40px;
+  padding-top: 0px;
+  min-height: 500px;
 }
 
-.forms-container{
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    width: 100vw;
+.forms-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100vw;
 }
 
 .form-section {
-    padding: 20px;
-    border-radius: 10px;
-    border: 1px solid #800000;
-    background: rgba(255, 255, 255, 0.80);
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #800000;
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .form-section:nth-child(1) {
-    width: 487px;
+  width: 487px;
 }
 
 .section-title {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #800000;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #800000;
 }
 
 .important-txt {
-    color: #800000;
+  color: #800000;
 }
 
 .form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  gap: 10px;
 }
 
-
 .name-fields {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 10px;
 }
 
 input[type="text"],
@@ -98,97 +98,95 @@ input[type="email"],
 input[type="password"],
 input[type="date"],
 select {
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100%;
 }
 
-
 .input-with-icon {
-    display: flex;
-    align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
 }
 
 .input-icon {
-    padding: 10px;
-    border-right: 1px solid #ccc;
+  padding: 10px;
+  border-right: 1px solid #ccc;
 }
 
 .input-with-icon input {
-    border: none;
-    padding: 10px;
-    flex-grow: 1;
+  border: none;
+  padding: 10px;
+  flex-grow: 1;
 }
 
 .input-with-icon input:focus {
-    outline: none;
+  outline: none;
 }
 
 .input-icon i {
-    font-size: 15px;
-    color: #333;
+  font-size: 15px;
+  color: #333;
 }
 
 .checkbox-section {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .checkbox-section input[type="checkbox"] {
-    margin: 0;
+  margin: 0;
 }
 
 .checkbox-section label {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .checkbox-section a {
-    color: #800000;
-    text-decoration: underline;
+  color: #800000;
+  text-decoration: underline;
 }
 
 .form-submit button {
-    align-self: flex-end;
-    padding: 10px 20px;
-    background-color: #800000;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-
+  align-self: flex-end;
+  padding: 10px 20px;
+  background-color: #800000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .form-submit button:hover {
-    background-color: #a00000;
+  background-color: #a00000;
 }
 
 /* for mobile screens */
 
 @media (max-width: 768px) {
-    .signup-page .banner-section {
-        /* remove */
-        display: none;
-    }
+  .signup-page .banner-section {
+    /* remove */
+    display: none;
+  }
 
-    .signup-header {
+  .signup-header {
     margin-top: 20px;
-        font-size: 20px;
-        padding: 0px 20px;
-        text-align: center;
-    }
+    font-size: 20px;
+    padding: 0px 20px;
+    text-align: center;
+  }
 
-    .sign-up-glass-container {
-        margin-top: -50px;
-        padding: 0px 0;
-    }
+  .sign-up-glass-container {
+    margin-top: -50px;
+    padding: 0px 0;
+  }
 
-    .signup-description {
-        font-size: 16px;
-        text-align: center;
-    }
+  .signup-description {
+    font-size: 16px;
+    text-align: center;
+  }
 }

@@ -58,6 +58,17 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
+
+  const changeDetails = (first_name, last_name, email, student_number) => {
+    setFormData({
+      ...formData,
+      first_name: first_name,
+      last_name: last_name,
+      email: email,
+      student_number: student_number
+    });
+  }
+
   useEffect(() => {
     scrollToFormContainer();
 
@@ -305,8 +316,8 @@ const Signup = () => {
           </div>
 
           {/* Signup Form Section */}
-          <div className="row justify-content-center mt-5">
-            <form onSubmit={handleSubmit} className="w-100" noValidate>
+          <div className="row justify-content-center mt-5" style={{height: "100%"}}>
+            <form onSubmit={handleSubmit} style={{height: "100%"}} className="w-100" noValidate>
               {/* Form Container */}
               <div className="container d-flex justify-content-center">
                 {/* Form Content based on Current Step */}
@@ -317,6 +328,8 @@ const Signup = () => {
                       prevStep={prevStep}
                       formData={formData}
                       handleChange={handleChange}
+                      changeDetails={changeDetails}
+                      setLoading={setLoading}
                     />
                   )}
                   {currentStep === 2 && (

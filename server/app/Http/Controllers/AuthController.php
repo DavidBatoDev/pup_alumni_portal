@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\Alumni;
-use App\Models\Address; // Import the Address model
+use App\Models\Address;
+use App\Models\Graduate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+
 
 class AuthController extends Controller
 {
@@ -45,6 +47,51 @@ class AuthController extends Controller
         }
     }
 
+
+    // Search for a graduate
+    public function searchGraduate(Request $request)
+    {
+        // Validate the input
+        $request->validate([
+            'email' => 'nullable|email',
+            'student_number' => 'nullable|string|max:50',
+        ]);
+
+        // Ensure at least one field is provided
+        if (!$request->email && !$request->student_number) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Please provide either an email or student number.',
+            ], 400);
+        }
+
+        // Search for the graduate based on email or student number
+        $query = Graduate::query();
+
+        if ($request->email) {
+            $query->where('email_address', $request->email);
+        }
+
+        if ($request->student_number) {
+            $query->orWhere('student_number', $request->student_number);
+        }
+
+        $graduate = $query->first();
+
+        // Check if the graduate exists
+        if (!$graduate) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No graduate found with the provided details.',
+            ], 404);
+        }
+
+        // Return the graduate data
+        return response()->json([
+            'success' => true,
+            'data' => $graduate,
+        ], 200);
+    }
     
 
 

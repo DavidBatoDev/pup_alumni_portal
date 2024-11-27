@@ -7,7 +7,9 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\DiscussionController;
+use App\Http\Controllers\VerificationController;
 use App\Mail\TestEmail;
+
 
 // Authentication routes for alumni
 Route::post('login', [AuthController::class, 'login']);
@@ -38,6 +40,21 @@ Route::get('/send-test-email', function () {
     Mail::to('recipient@example.com')->send(new TestEmail($data));
     return 'Test email sent!';
 });
+
+
+// route for fetching graduates from the db:
+Route::get('/graduates/search', [AuthController::class, 'searchGraduate']);
+
+// Route to send verification email
+Route::post('/send-verification-email', [VerificationController::class, 'sendVerificationEmail']);
+
+// Route to verify email
+Route::get('/verify-email', [VerificationController::class, 'verifyEmail']);
+
+// route to check the verification is successful
+Route::get('/graduates/check-verification', [VerificationController::class, 'checkVerification']);
+
+
 
 // Protected alumni routes (Require JWT Authentication)
 Route::group(['middleware' => ['jwt.verify']], function () {
