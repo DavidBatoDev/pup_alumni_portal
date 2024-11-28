@@ -53,11 +53,12 @@ Route::post('/forgot-password', [AuthController::class, 'sendResetLink']);
 // Route to show the reset password form 
 Route::get('/reset-password/{token}', [AuthController::class, 'verifyResetToken']);
 
+// Route to reset password
+Route::post('/reset-password/{token}', [AuthController::class, 'resetPassword']);
+
 // Route to send verification email
 Route::post('/send-verification-email', [VerificationController::class, 'sendVerificationEmail']);
 
-// Route to reset password
-Route::post('/reset-password/{token}', [AuthController::class, 'resetPassword']);
 
 // Route to verify email
 Route::get('/verify-email', [VerificationController::class, 'verifyEmail']);

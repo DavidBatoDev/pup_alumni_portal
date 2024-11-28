@@ -16,22 +16,7 @@ const SurveyPopupModal = () => {
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [surveys, setSurveys] = useState([
-    {
-      survey_id: "1",
-      title: "TITLE EXAMPLE",
-      description: "DESCRIPTION EXAMPLE",
-      start_date: "",
-      end_date: "",
-    },
-    {
-      survey_id: "2",
-      title: "TITLE EXAMPLE",
-      description: "DESCRIPTION EXAMPLE",
-      start_date: "",
-      end_date: "",
-    },
-  ]);
+  const [surveys, setSurveys] = useState([]);
 
   // Fetch surveys
   useEffect(() => {

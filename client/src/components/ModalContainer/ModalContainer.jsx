@@ -4,7 +4,7 @@ import { IonModal, IonButton, IonContent } from '@ionic/react';
 import { isMobile } from 'react-device-detect';
 import './ModalContainer.css';
 
-const ModalContainer = ({ showModal, closeModal, title, children }) => {
+const ModalContainer = ({ showModal, closeModal, title, children, hideHeader }) => {
   const [animationClass, setAnimationClass] = useState('');
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const ModalContainer = ({ showModal, closeModal, title, children }) => {
     <div className={`desktop-modal ${showModal ? 'show' : ''} ${animationClass}`}>
       <div className={`desktop-modal-overlay ${animationClass}`} onClick={closeModal} />
       <div className={`desktop-modal-content ${animationClass}`}>
-        <div className="desktop-modal-header">
+        <div className={`desktop-modal-header ${hideHeader ? 'd-none' : ''}`}>
           <h2 className="desktop-modal-title">{title}</h2>
           <button className="close-btn" onClick={closeModal}>
             &times;
