@@ -8,7 +8,7 @@
 }
 
 /* Profile Section Text Styling */
-.profile-section > .card-title {
+.profile-section>.card-title {
   font-size: 1.5rem;
   border-bottom: 0.125rem solid #e0e0e0;
   padding-bottom: 0.625rem;
@@ -23,6 +23,16 @@
 
 .profile-section .profile-description {
   font-size: 1rem;
+}
+
+.profile-section .job-summary::-webkit-details-marker {
+  color: #777;
+}
+
+/* Chrome */
+
+.profile-section .job-summary::marker {
+  color: #777;
 }
 
 .profile-section .card-subtitle {
@@ -50,12 +60,10 @@
 }
 
 .profile-overview-header {
-  background: linear-gradient(
-    90deg,
-    rgba(89, 115, 147, 0.04) 0%,
-    rgba(12, 65, 198, 0.51) 44.5%,
-    rgba(69, 81, 132, 0.21) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(89, 115, 147, 0.04) 0%,
+      rgba(12, 65, 198, 0.51) 44.5%,
+      rgba(69, 81, 132, 0.21) 100%);
   position: absolute;
   top: 0;
   left: 0;
@@ -103,7 +111,8 @@
 /* Profile Details Styling */
 .profile-details {
   padding: 1.25rem;
-  flex: 1; /* Take up available space */
+  flex: 1;
+  /* Take up available space */
 
   h2 {
     font-size: 2rem;
@@ -150,14 +159,20 @@
 }
 
 .auto-resize {
-  overflow: hidden; /* Hides the scrollbar */
-  resize: none; /* Prevent manual resizing */
-  min-height: 50px; /* Minimum height for the textarea */
-  max-height: 300px; /* Optional: set a maximum height */
+  overflow: hidden;
+  /* Hides the scrollbar */
+  resize: none;
+  /* Prevent manual resizing */
+  min-height: 50px;
+  /* Minimum height for the textarea */
+  max-height: 300px;
+  /* Optional: set a maximum height */
 }
+
 .auto-resize:focus,
 .auto-resize:active {
-  height: auto; /* Reset height */
+  height: auto;
+  /* Reset height */
 }
 
 .auto-resize {
@@ -240,15 +255,18 @@
     color: #800000;
     transition: all 0.2s ease-in-out;
   }
+
   .btn-outline-danger:hover {
     border: 0.125rem solid #800000;
     color: #ffffff;
   }
+
   .btn-primary {
     background-color: rgb(128, 0, 0);
     color: #ffffff;
     transition: all 0.2s ease-in-out;
   }
+
   .btn-primary:hover {
     background-color: #fff;
     color: #1e1e1e;
@@ -260,6 +278,7 @@
     .profile-details-container {
       flex-direction: column;
     }
+
     .profile-overview-container {
       flex-direction: row;
       padding: 1rem;
@@ -271,12 +290,10 @@
     }
 
     .profile-overview-header {
-      background: linear-gradient(
-        0deg,
-        rgba(89, 115, 147, 0.04) 0%,
-        rgba(12, 65, 198, 0.51) 44.5%,
-        rgba(69, 81, 132, 0.21) 100%
-      );
+      background: linear-gradient(0deg,
+          rgba(89, 115, 147, 0.04) 0%,
+          rgba(12, 65, 198, 0.51) 44.5%,
+          rgba(69, 81, 132, 0.21) 100%);
       position: absolute;
       top: 0;
       left: 0;
@@ -306,6 +323,36 @@
       width: 7.5rem;
       height: 7.5rem;
     }
+
+    table .btn {
+      width: 1rem !important;
+      margin: auto !important;
+    }
+
+    table>tbody>tr>td {
+      display: grid;
+      grid-template-columns: 15ch auto;
+      padding: 0.2rem 1rem;
+      font-size: 0.75rem;
+    }
+
+    table>tbody>tr>td::before {
+      content: attr(data-cell) ": ";
+      font-weight: bold;
+      text-transform: capitalize;
+    }
+
+    table>tbody>tr>td:first-child {
+      padding-top: 1rem;
+    }
+
+    table>tbody>tr>td:last-child {
+      padding-bottom: 1rem;
+    }
+
+    table>thead>tr>th {
+      display: none;
+    }
   }
 }
 
@@ -328,6 +375,7 @@
       font-size: 1.75rem;
       margin: 0;
     }
+
     .profile-details p {
       font-size: 1rem;
     }
@@ -360,12 +408,10 @@
     }
 
     .profile-overview-header {
-      background: linear-gradient(
-        90deg,
-        rgba(89, 115, 147, 0.04) 0%,
-        rgba(12, 65, 198, 0.51) 44.5%,
-        rgba(69, 81, 132, 0.21) 100%
-      );
+      background: linear-gradient(90deg,
+          rgba(89, 115, 147, 0.04) 0%,
+          rgba(12, 65, 198, 0.51) 44.5%,
+          rgba(69, 81, 132, 0.21) 100%);
       position: absolute;
       top: 0;
       left: 0;
@@ -374,14 +420,8 @@
       width: 100%;
       z-index: 0;
     }
-    table > tbody > tr > td {
-      padding: 0.5rem;
-      font-size: 0.75rem;
-    }
-    table > thead > tr > th {
-      padding: 0.5rem;
-      font-size: 0.75rem;
-    }
+
+
   }
 }
 
@@ -405,8 +445,9 @@
   z-index: 100;
 }
 
-.back-button-op > i {
-  margin-right: 8px; /* Spacing between icon and text */
+.back-button-op>i {
+  margin-right: 8px;
+  /* Spacing between icon and text */
 }
 
 .back-button-op:hover {
@@ -414,5 +455,6 @@
 }
 
 .other-profile-container {
-  margin-top: 70px; /* Adjusted to avoid overlap with back button */
+  margin-top: 70px;
+  /* Adjusted to avoid overlap with back button */
 }

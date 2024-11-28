@@ -499,7 +499,7 @@ const ProfileSettings = () => {
                 editableAddress.length > 0 ? (
                   editableAddress.map((address) => (
                     <tr key={address.address_id}>
-                      <td>
+                      <td data-cell="Street">
                         {editingAddressId === address.address_id ? (
                           <input
                             type="text"
@@ -511,7 +511,7 @@ const ProfileSettings = () => {
                           address.street
                         )}
                       </td>
-                      <td>
+                      <td data-cell="City">
                         {editingAddressId === address.address_id ? (
                           <input
                             type="text"
@@ -523,7 +523,7 @@ const ProfileSettings = () => {
                           address.city
                         )}
                       </td>
-                      <td>
+                      <td data-cell="State">
                         {editingAddressId === address.address_id ? (
                           <input
                             type="text"
@@ -535,7 +535,7 @@ const ProfileSettings = () => {
                           address.state
                         )}
                       </td>
-                      <td>
+                      <td data-cell="Postal Code">
                         {editingAddressId === address.address_id ? (
                           <input
                             type="text"
@@ -547,7 +547,7 @@ const ProfileSettings = () => {
                           address.postal_code
                         )}
                       </td>
-                      <td>
+                      <td data-cell="Country">
                         {editingAddressId === address.address_id ? (
                           <input
                             type="text"
@@ -559,7 +559,7 @@ const ProfileSettings = () => {
                           address.country
                         )}
                       </td>
-                      <td>
+                      <td data-cell="Actions">
                         {editingAddressId === address.address_id ? (
                           <div className="btn-group" role='edit-address'>
                             <button className="btn btn-success btn-sm btn-save" onClick={() =>
@@ -584,12 +584,12 @@ const ProfileSettings = () => {
                 ) : (
                   <tr>
                     {/* <td colSpan="5">No address available.</td> Note: Delete when address_id is implemented */}
-                    <td>{address?.street}</td>
-                    <td>{address?.city}</td>
-                    <td>{address?.state}</td>
-                    <td>{address?.postal_code}</td>
-                    <td>{address?.country}</td>
-                    <td>TBD</td>
+                    <td data-cell="Street">{address?.street}</td>
+                    <td data-cell="City">{address?.city}</td>
+                    <td data-cell="State">{address?.state}</td>
+                    <td data-cell="Postal Code">{address?.postal_code}</td>
+                    <td data-cell="Country">{address?.country}</td>
+                    <td data-cell="Actions">TBD</td>
                   </tr>
                 )
               }
@@ -614,9 +614,7 @@ const ProfileSettings = () => {
         {/* Employment History */}
         <h5>Employment History</h5>
         <div className='table-responsive'>
-
-
-          <table className="table table-striped table-hover">
+          <table className="table table-sm table-striped table-hover">
             <thead>
               <tr>
                 <th scope="col">Job Title</th>
@@ -631,7 +629,7 @@ const ProfileSettings = () => {
               {editableEmploymentHistory.length > 0 ? (
                 editableEmploymentHistory.map((job) => (
                   <tr key={job.employment_id}>
-                    <td>
+                    <td data-cell="Job Title">
                       {editingEmploymentId === job.employment_id ? (
                         <input
                           type="text"
@@ -643,7 +641,7 @@ const ProfileSettings = () => {
                         job.job_title
                       )}
                     </td>
-                    <td>
+                    <td data-cell="Description">
                       {editingEmploymentId === job.employment_id ? (
                         <textarea
                           className="form-control auto-resize"
@@ -651,10 +649,14 @@ const ProfileSettings = () => {
                           onChange={(e) => handleEmploymentChange(job.employment_id, 'description', e.target.value)}
                         />
                       ) : (
-                        job.description
+                        <details>
+                          <summary className='job-summary'>{job.description ? job.description.substring(0, 30) + '...' : 'No description'}</summary>
+                          <p>{job.description}</p>
+
+                        </details>
                       )}
                     </td>
-                    <td>
+                    <td data-cell="Company">
                       {editingEmploymentId === job.employment_id ? (
                         <input
                           type="text"
@@ -666,7 +668,7 @@ const ProfileSettings = () => {
                         job.company
                       )}
                     </td>
-                    <td>
+                    <td data-cell="Start Date">
                       {editingEmploymentId === job.employment_id ? (
                         <input
                           type="date"
@@ -678,7 +680,7 @@ const ProfileSettings = () => {
                         new Date(job.start_date).toLocaleDateString()
                       )}
                     </td>
-                    <td>
+                    <td data-cell="End Date">
                       {editingEmploymentId === job.employment_id ? (
                         <input
                           type="date"
@@ -690,7 +692,7 @@ const ProfileSettings = () => {
                         job.end_date ? new Date(job.end_date).toLocaleDateString() : 'Present'
                       )}
                     </td>
-                    <td>
+                    <td data-cell="Actions">
                       {editingEmploymentId === job.employment_id ? (
                         <div className="btn-group" role='edit-employment'>
                           <button className="btn btn-success btn-sm btn-save" onClick={() =>
@@ -714,7 +716,7 @@ const ProfileSettings = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6">No employment history available.</td>
+                  <td data-cell="Job Title" colSpan="6">No employment history available.</td>
                 </tr>
               )
               }
@@ -733,7 +735,7 @@ const ProfileSettings = () => {
         {/* Education History */}
         <h5>Education History</h5>
         <div className='table-responsive'>
-          <table className="table table-striped table-hover">
+          <table className="table table-sm table-striped table-hover">
             <thead>
               <tr>
                 <th scope="col">Degree</th>
@@ -748,7 +750,7 @@ const ProfileSettings = () => {
               {editableEducationHistory.length > 0 ? (
                 editableEducationHistory.map((edu) => (
                   <tr key={edu.education_id}>
-                    <td>
+                    <td data-cell="Degree">
                       {editingEducationId === edu.education_id ? (
                         <input
                           type="text"
@@ -760,7 +762,7 @@ const ProfileSettings = () => {
                         edu.degree
                       )}
                     </td>
-                    <td>
+                    <td data-cell="Field of Study">
                       {editingEducationId === edu.education_id ? (
                         <input
                           type="text"
@@ -772,7 +774,7 @@ const ProfileSettings = () => {
                         edu.field_of_study
                       )}
                     </td>
-                    <td>
+                    <td data-cell="Institution">
                       {editingEducationId === edu.education_id ? (
                         <input
                           type="text"
@@ -784,7 +786,7 @@ const ProfileSettings = () => {
                         edu.institution
                       )}
                     </td>
-                    <td>
+                    <td data-cell="Start Date">
                       {editingEducationId === edu.education_id ? (
                         <input
                           type="date"
@@ -796,7 +798,7 @@ const ProfileSettings = () => {
                         new Date(edu.start_date).toLocaleDateString()
                       )}
                     </td>
-                    <td>
+                    <td data-cell="End Date">
                       {editingEducationId === edu.education_id ? (
                         <input
                           type="date"
@@ -808,7 +810,7 @@ const ProfileSettings = () => {
                         edu.end_date ? new Date(edu.end_date).toLocaleDateString() : 'Present'
                       )}
                     </td>
-                    <td>
+                    <td data-cell="Actions">
                       {editingEducationId === edu.education_id ? (
                         <div className='btn-group' role='edit-education'>
                           <button className="btn btn-success btn-sm btn-save" onClick={() =>
@@ -832,7 +834,7 @@ const ProfileSettings = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6">No education history available.</td>
+                  <td data-cell="Degree" colSpan="6">No education history available.</td>
                 </tr>
               )}
               {/* Add New Education Button */}
