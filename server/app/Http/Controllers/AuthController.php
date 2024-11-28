@@ -48,6 +48,61 @@ class AuthController extends Controller
     }
 
 
+    // route that check if the email or student Number already exist in the Alumni table
+    public function checkAlumni(Request $request)
+    {
+
+        try {
+        // Search for the alumni based on email or student number
+        $query = Alumni::query();
+
+        if ($request->email) {
+            $query->where('email', $request->email);
+        }
+
+        if ($request->student_number) {
+            $query->orWhere('student_number', $request->student_number);
+        }
+
+        $alumni = $query->first();
+
+        // Check if the alumni exists
+        if (!$alumni) {
+            return response()->json([
+                'success' => true,
+                'message' => 'No alumni found with the provided details.',
+            ], 201);
+        }
+
+        // Return the alumni data
+        return response()->json([
+            'success' => false,
+            'data' => $alumni,
+        ], 200);
+
+        } catch (\Exception $e) {
+            // Handle exceptions such as expired token or no token found
+            return response()->json([
+                'success' => false,
+                'message' => 'Unable to check alumni: ' . $e->getMessage(),
+            ], 400);
+        }
+        // Validate the input
+        $request->validate([
+            'email' => 'nullable|email',
+            'student_number' => 'nullable|string|max:50',
+        ]);
+
+        // Ensure at least one field is provided
+        if (!$request->email && !$request->student_number) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Please provide either an email or student number.',
+            ], 400);
+        }
+    }
+
+
     // Search for a graduate
     public function searchGraduate(Request $request)
     {

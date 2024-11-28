@@ -40,13 +40,18 @@ const Signup = () => {
     current_employer: '',
   });
 
+  const [isEmailOrStudentNumberValid, setIsEmailOrStudentNumberValid] = useState(false);
 
+
+  const emailOrStudentNumberIsValid = () => {
+    setIsEmailOrStudentNumberValid(true);
+  }
 
   const educationFormRef = useRef(); // Create a ref for the EducationForm
 
   // Step state to track the current form step
   const [currentStep, setCurrentStep] = useState(1);
-  const formContainerRef = useRef(null);
+  // const formContainerRef = useRef(null);
 
   // Separate states for employment and education history
   const [employmentHistory, setEmploymentHistory] = useState([]);
@@ -70,11 +75,12 @@ const Signup = () => {
   }
 
   useEffect(() => {
-    scrollToFormContainer();
+    // scrollToFormContainer();
 
     return () => {
       // Cleanup function
       setLoading(false);
+      // setIsEmailOrStudentNumberValid(false);
     }
   }, [currentStep]);
 
@@ -86,14 +92,14 @@ const Signup = () => {
     setCurrentStep((prevStep) => prevStep - 1);
   };
 
-  const scrollToFormContainer = () => {
-    if (formContainerRef.current) {
-      formContainerRef.current.scrollIntoView({
-        behavior: 'smooth', // Ensures smooth scrolling
-        block: 'start', // Aligns to the top of the container
-      });
-    }
-  };
+  // const scrollToFormContainer = () => {
+  //   if (formContainerRef.current) {
+  //     formContainerRef.current.scrollIntoView({
+  //       behavior: 'smooth', // Ensures smooth scrolling
+  //       block: 'start', // Aligns to the top of the container
+  //     });
+  //   }
+  // };
 
   // Handle form changes for main form data
   const handleChange = (e) => {
@@ -303,7 +309,8 @@ const Signup = () => {
         />
 
         {/* Signup Form */}
-        <div className="sign-up-glass-container glass" ref={formContainerRef}>
+        {/* <div className="sign-up-glass-container glass" ref={formContainerRef}> */}
+        <div className="sign-up-glass-container glass">
           {/* Header Section */}
           <div className="row justify-content-center">
             <div className="signup-header">
@@ -330,6 +337,9 @@ const Signup = () => {
                       handleChange={handleChange}
                       changeDetails={changeDetails}
                       setLoading={setLoading}
+                      isEmailOrStudentNumberValid={isEmailOrStudentNumberValid}
+                      emailOrStudentNumberIsValid={emailOrStudentNumberIsValid}
+                      currentStep={currentStep}
                     />
                   )}
                   {currentStep === 2 && (

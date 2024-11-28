@@ -1,11 +1,11 @@
 import "./signUpForms.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import CircularLoader from "../CircularLoader/CircularLoader";
 import { useNavigate } from "react-router-dom";
 
-const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, setLoading }) => {
+const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, setLoading, isEmailOrStudentNumberValid, emailOrStudentNumberIsValid, currentStep }) => {
   const navigate = useNavigate();
   const [emailEntered, setEmailEntered] = useState(false);
   const [alumniData, setAlumniData] = useState({});
@@ -16,6 +16,12 @@ const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, s
   const [emailError, setEmailError] = useState("");
   const [verificationCheckInProgress, setVerificationCheckInProgress] =
     useState(false);
+
+  useEffect(() => {
+    if (isEmailOrStudentNumberValid) {
+      setEmailEntered(true);
+    }
+  }, [currentStep]);
 
   const [validation, setValidation] = useState({
     email: true,
@@ -53,15 +59,21 @@ const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, s
   const handleNextClick = async () => {
     if (emailEntered || validateEmailField()) {
       try {
-        setLoading(true);
-        const response = await axios.get(`/api/graduates/search`, {
-          params: { email: formData.email },
-        });
-        const emailExists = response.data.success;
-        setIsEmailVerified(emailExists);
-        setAlumniData(response.data.data);
-        handleChange
-        setShowModal(true);
+        setEmailError("");
+        const checkAlumniResponse = await axios.post(`/api/check-alumni`, {email: formData.email});
+        console.log(checkAlumniResponse.status);
+        if (checkAlumniResponse.status == 201) {
+          setLoading(true);
+          const response = await axios.get(`/api/graduates/search`, {
+            params: { email: formData.email },
+          });
+          const emailExists = response.data.success;
+          setIsEmailVerified(emailExists);
+          setAlumniData(response.data.data);
+          setShowModal(true);
+        } else if (checkAlumniResponse.status == 200) {
+          setEmailError("Account already exists with this email.");
+      }
       } catch (error) {
         console.error(error);
         setIsEmailVerified(false);
@@ -94,7 +106,8 @@ const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, s
         setLoading(false);
       }
     }
-    setEmailEntered(true);
+    // setEmailEntered(true);
+    // emailOrStudentNumberIsValid()
   };
 
   const startVerificationCheck = () => {
@@ -116,6 +129,7 @@ const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, s
           setVerificationCheckInProgress(false);
           setShowVerificationModal(false);
           setEmailEntered(true);
+          emailOrStudentNumberIsValid()
           setEmailVerified(true);
         }
       } catch (error) {
@@ -129,8 +143,14 @@ const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, s
         navigate("/login");
         alert("Verification timeout. Please try again.");
       }
-    }, 2000); // Check every 5 seconds
+    }, 2000); 
     setVerificationCheckInProgress(true);
+  };
+
+  const handleNextStep = () => {
+    if (validateFields()) {
+      nextStep();
+    }
   };
 
   return (
@@ -264,7 +284,7 @@ const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, s
           Already have an account?
         </Link>
         {emailEntered ? (
-          <button className="btn btn-danger" onClick={nextStep}>
+          <button className="btn btn-danger" onClick={handleNextStep}>
             Next
           </button>
         ) : (
