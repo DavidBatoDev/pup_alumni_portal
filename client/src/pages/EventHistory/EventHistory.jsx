@@ -1,65 +1,70 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect, useRef } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import BannerSmall from '../../components/Banner/BannerSmall';
-import bannerImage from '../../assets/images/eventimage1.png';
 import bannerImage2 from '../../assets/images/eventimage2.jpg';
 import './EventHistory.css';
-import HistoryEventSectionAuth from '../../components/HistoryEventSectionAuth/HistoryEventSectionAuth';
 import EventsFilterSection from '../../components/EventsFilterSection/EventsFilterSection';
+import EventAuth from '../../components/EventSectionAuth/EventAuth';
 
 const EventHistory = () => {
-
-    //dummy event history data
+    // Sample past events data
     const eventHistoryData = [
         {
-            "event_name": "Pasdasdasd",
+            "event_name": "Past Event Example 1",
             "event_date": "2024-09-18",
             "location": "PUP Sta. Mesa, Manila Campus",
             "type": "Face-to-face",
             "category": "Social",
             "organization": "PUP Alumni Association",
-            "description": "Join us for an unforgettable evening at the!",
+            "description": "Join us for an unforgettable evening at the event!",
             "updated_at": "2024-10-06T17:47:07.000000Z",
             "created_at": "2024-10-06T17:47:07.000000Z",
             "event_images": ["eventImage1.png", "eventImage2.png"],
             "event_id": 1
         },
-    ]
+        {
+            "event_name": "Past Event Example 2",
+            "event_date": "2023-08-22",
+            "location": "PUP Sta. Mesa, Manila Campus",
+            "type": "Online",
+            "category": "Seminar",
+            "organization": "PUP Computer Science Department",
+            "description": "A great seminar on web development.",
+            "updated_at": "2023-08-23T17:47:07.000000Z",
+            "created_at": "2023-08-20T17:47:07.000000Z",
+            "event_images": ["eventImage3.png", "eventImage4.png"],
+            "event_id": 2
+        }
+    ];
 
     return (
         <div>
-            <Navbar/>
-            <BannerSmall 
-                bannerTitle="Event History" 
-                bannerImage={bannerImage2} 
+            <Navbar />
+            <BannerSmall
+                bannerTitle="Past Events"
+                bannerImage={bannerImage2}
                 breadcrumbs={[
                     { label: "Home", link: "/" },
-                    { label: "Events History", link: "/events" }
-                ]}  
+                    { label: "Event History", link: "/events" } // Updated breadcrumb to reflect Past Events
+                ]}
             />
-
             <div className="history-event-section">
                 <div className="container">
                     <div className="event-header">
-                        <h2>Recollecting Event Memories</h2>
+                        <h2>Recollecting Past Events</h2> {/* Updated header */}
                         <h5>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-                            repellat odio in, dolore voluptates sequi amet animi quaerat ad
-                            sint rerum?
+                            Browse through our past events and relive the memories!
                         </h5>
                     </div>
 
                     <div className="events-container d-flex">
-                        <EventsFilterSection className="d-none"/>
-                        <HistoryEventSectionAuth events={eventHistoryData}/>
+                        <EventsFilterSection />
+                        <EventAuth events={eventHistoryData} /> {/* Pass past events data */}
                     </div>
                 </div>
             </div>
-            
         </div>
-    )
-}
+    );
+};
 
 export default EventHistory;
-
-

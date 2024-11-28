@@ -3,7 +3,6 @@
   max-width: 800px;
   margin: 40px auto;
   padding: 20px;
-  background-color: #ffebee; /* Light red background */
   font-family: 'Roboto', sans-serif;
   color: #333;
   border-radius: 8px;
@@ -24,10 +23,14 @@
   font-size: 16px;
   cursor: pointer;
   transition: color 0.2s;
+  padding: 10px;
+  border-radius: 4px;
 }
 
 .as-back-btn:hover {
-  color: #d32f2f;
+  background-color: #d32f2f;
+  color: #fff;
+  transition: all 0.2s ease;
 }
 
 .as-back-btn i {
@@ -43,12 +46,12 @@
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
   text-align: left;
+  border-top: #b71c1c 4px solid;
 }
 
 .survey-title {
   font-size: 24px;
   font-weight: bold;
-  color: #b71c1c; /* Primary red color for title */
   margin-bottom: 10px;
 }
 
@@ -58,18 +61,26 @@
 }
 
 /* Section title styling */
-.section-title {
+.as-survey-question-card .section-title {
   font-size: 20px;
   font-weight: bold;
-  color: #b71c1c; /* Red color for section title */
-  margin-top: 20px;
   margin-bottom: 10px;
+  text-align: left;
+  background-color: #b71c1c;
+  padding: 20px;
+  color: #ffffff;
+}
+
+.as-survey-question-card:nth-child(1) {
+  padding: 0px 0px ;
+  
 }
 
 .section-description {
   font-size: 16px;
   color: #5f6368;
   margin-bottom: 20px;
+  padding: 20px;
 }
 
 /* Individual question styling */
@@ -80,8 +91,8 @@
   box-shadow: 0px 1px 3px rgba(60, 64, 67, 0.15);
   margin-bottom: 20px;
   position: relative;
-  border-left: 4px solid transparent; /* Default transparent border */
   transition: border-color 0.2s, box-shadow 0.2s ease;
+  border-top: #b71c1c 4px solid;
 }
 
 /* Top border color for each question card */
@@ -96,10 +107,7 @@
 }
 
 /* Focus effect on question card */
-.as-survey-question-card:focus-within {
-  border-left-color: #1a73e8; /* Blue border when focused */
-  box-shadow: 0px 2px 6px rgba(60, 64, 67, 0.3);
-}
+
 
 .as-question-header {
   margin-bottom: 10px;

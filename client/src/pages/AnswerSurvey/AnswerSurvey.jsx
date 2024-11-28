@@ -150,15 +150,15 @@ const AnswerSurvey = () => {
       </div>
 
       <div className="as-survey-section">
-        <h3 className="section-title">{currentSectionData.section_title}</h3>
-        <p className="section-description">{currentSectionData.section_description}</p>
-
+        <div className="as-survey-question-card">
+          <h3 className="section-title">{currentSectionData.section_title}</h3>
+          <p className="section-description">{currentSectionData.section_description}</p>
+        </div>
+        
         {currentSectionData.questions.map((question, index) => (
           <div key={question.question_id} className="as-survey-question-card">
-            <div className="as-question-top-bar" />
             <div className="as-question-header">
-              <span className="as-question-index">{index + 1}.)</span>
-              <div className="as-question-title">{question.question_text} {question.is_required ? <span className='question-required-asterisk'>*</span> : ""}</div>
+              <div className="as-question-title"> <span className="as-question-index">{index + 1}.</span> {question.question_text} {question.is_required ? <span className='question-required-asterisk'>*</span> : ""}</div>
             </div>
             <div className="as-question-content">
               {question.question_type === 'Open-ended' ? (
