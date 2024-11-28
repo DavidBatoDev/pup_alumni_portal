@@ -15,7 +15,6 @@ const tag_colors = [
 const DiscussionTableThread = ({ thread, submitVote }) => {
   const [vote, setVote] = useState(thread?.user_vote || null); // null: no vote, 'upvote': upvoted, 'downvote': downvoted
   const [voteCount, setVoteCount] = useState(thread?.upvotes - thread?.downvotes || 0);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768); // Track if mobile view
   const navigate = useNavigate();
 
   const handleRowClick = () => {
@@ -46,105 +45,12 @@ const DiscussionTableThread = ({ thread, submitVote }) => {
     return tag_colors[index];
   };
 
-  // Update `isMobile` based on window resizing
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  // Mobile Layout
-  if (isMobile) {
-    return (
-      <div className="discussion-table-thread mobile-layout">
-        <div className="image-container">
-          {thread?.images && thread?.images.length > 0 ? (
-            <img src={thread.images[0].image_path} alt={thread.title} className="thread-image" />
-          ) : (
-            <i className="fa-2x fa-regular fa-comments mx-auto"></i>
-          )}
-        </div>
-
-        <div>
-
-          <div className='d-flex justify-content-center'>
-            <h3 className="thread-title">{thread?.title}</h3>        
-          </div>
-
-          <div className='d-flex justify-content-center'>
-            <p className="thread-author">{thread?.author?.name}</p>
-          </div>
-          
-          <div className="tags">
-            <div className="tag-container">
-              {thread?.tags.map((tag) => (
-                <div key={tag.tag_id} className="tag-container">
-                  <i
-                    className="fa-solid fa-circle fa-2xs"
-                    style={{ color: getColorByTagId(tag.tag_id) }}
-                  ></i>
-                  <p className="thread-tag">{tag.name}</p>
-                </div>
-              ))}
-            </div>
-        </div>
-        </div>
-      
-        <div className='d-flex justify-content-center gap-4'>
-          <div className="thread-num">Replies 
-            <p>{thread?.comments_count || 0}</p>
-          </div>
-
-          <div className="thread-num">Views
-            <p>{thread?.views}</p>
-          </div>
-
-          <div className="thread-num">Last Activity
-            <p>{thread?.updated_at}</p>
-          </div>
-         
-        </div>
-
-        <div className='voting-group'>
-          <div className="btn-group">
-            <button
-              className={`btn btn-primary upvote ${vote === 'upvote' ? 'active' : ''}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleVote('upvote');
-              }}
-            >
-              <i className="fas fa-up-long"></i>
-            </button>
-            <button className={`btn vote-count ${vote}`}>{voteCount}</button>
-              <button
-                className={`btn btn-primary downvote ${vote === 'downvote' ? 'active' : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleVote('downvote');
-                }}
-              >
-                <i className="fas fa-down-long"></i>
-            </button>
-            </div>
-          </div>
-        </div>
-       
-    );
-  }
-
-  // Desktop Layout (Table Row)
   return (
     <tr className="discussion-table-thread" onClick={handleRowClick}>
-      <td>
+      <td data-cell="image" className="image-td">
         {thread?.images && thread?.images.length > 0 ? (
           <div className="image-container">
-            <img src={thread?.images[0].image_path} alt={thread?.title} className="thread-image" />
+            <img src={thread?.images[0].image_path} alt={thread?.title} className="img-fluid" />
           </div>
         ) : (
           <div className="w-100 h-100">
@@ -152,13 +58,13 @@ const DiscussionTableThread = ({ thread, submitVote }) => {
           </div>
         )}
       </td>
-      <td className="flex-grow-1">
+      <td data-cell="details" className="flex-grow-1">
         <div className="d-flex flex-column justify-content-between thread-details h-100">
           <h3 className="thread-title">{thread?.title}</h3>
           <p className="thread-author">{thread?.author?.name}</p>
-          <div className="tags">
+          <div className="d-flex flex-wrap gap-2">
             {thread?.tags.map((tag) => (
-              <div key={tag.tag_id} className="tag-container">
+              <div key={tag.tag_id} className="d-flex justify-content-start align-items-center tag-container">
                 <i
                   className="fa-solid fa-circle fa-2xs"
                   style={{ color: getColorByTagId(tag.tag_id) }}
@@ -169,16 +75,16 @@ const DiscussionTableThread = ({ thread, submitVote }) => {
           </div>
         </div>
       </td>
-      <td>
+      <td data-cell="comments">
         <p className="thread-num">{thread?.comments_count || 0}</p>
       </td>
-      <td>
+      <td data-cell="views">
         <p className="thread-num">{thread?.views}</p>
       </td>
-      <td>
+      <td data-cell="updated">
         <p className="thread-num">{thread?.updated_at}</p>
       </td>
-      <td>
+      <td data-cell="votes">
         <div className="btn-group">
           <button
             className={`btn btn-primary upvote ${vote === 'upvote' ? 'active' : ''}`}
