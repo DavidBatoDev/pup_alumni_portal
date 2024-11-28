@@ -41,16 +41,11 @@ function App() {
 
   useEffect(() => {
     const fetchUnansweredSurveys = async () => {
-
-      console.log("isAuthenticated: ", isAuthenticated);
-      console.log("user: ", user);
       try {
         if (!isAuthenticated) return;
         const response = await api.get("/api/survey/unanswered-surveys");
-        console.log("Unanswered Surveys: ", response.data.surveys);
         setShowSurvey(response.data?.surveys.length > 0);
       } catch (error) {
-        console.error("Error fetching surveys:", error);
         setShowSurvey(false);
       }
     };

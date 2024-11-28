@@ -41,6 +41,8 @@ Route::get('/send-test-email', function () {
     return 'Test email sent!';
 });
 
+// route to check if there's an account already registered with the email or student number
+Route::post('/check-alumni', [AuthController::class, 'checkAlumni']);
 
 // route for fetching graduates from the db:
 Route::get('/graduates/search', [AuthController::class, 'searchGraduate']);
