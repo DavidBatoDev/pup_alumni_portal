@@ -1,240 +1,249 @@
 /* ProfileSidebar.css - Sidebar for Profile Page  */
 
 .profile-sidebar {
-    position: relative;
-    border-radius: 15px;
-    background: rgba(255, 255, 255, 0.70);
-    backdrop-filter: blur(10px);
-    width: 100%;
-    height: calc(100vh - 40px);
-    overflow: hidden;
-    position: relative;
-    min-height: fit-content;
+  position: relative;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.70);
+  backdrop-filter: blur(10px);
+  width: 100%;
+  height: calc(100vh - 40px);
+  overflow: hidden;
+  position: relative;
+  min-height: fit-content;
 
 
-    font-family: "Crimson Text", serif;
-    line-height: normal;
+  font-family: "Crimson Text", serif;
+  line-height: normal;
 }
 
 .profile-sidebar-header {
-    background: linear-gradient(90deg, rgba(89, 115, 147, 0.04) 0%, rgba(12, 65, 198, 0.51) 44.5%, rgba(69, 81, 132, 0.21) 100%);
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 75px;
-    flex-shrink: 0;
-    width: 100%;
-    z-index: 0;
+  background: linear-gradient(90deg, rgba(89, 115, 147, 0.04) 0%, rgba(12, 65, 198, 0.51) 44.5%, rgba(69, 81, 132, 0.21) 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 75px;
+  flex-shrink: 0;
+  width: 100%;
+  z-index: 0;
 }
 
 .profile-sidebar-content {
-    display: flex;
-    padding: 30px 15px 15px 15px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    min-height: fit-content;
+  display: flex;
+  padding: 30px 15px 15px 15px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: fit-content;
 }
 
 /* Sidebar Profile Image Styling */
 .profile-sidebar-image-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile-sidebar-image-container .profile-image {
-    width: 5rem;
-    height: 5rem;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 0.125rem solid #ddd;
-    padding: 0.1875rem;
-    background: #fff;
-    margin: 0rem;
+  width: 5rem;
+  height: 5rem;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 0.125rem solid #ddd;
+  padding: 0.1875rem;
+  background: #fff;
+  margin: 0rem;
 }
 
 .profile-sidebar-account {
-    z-index: 1;
-    border-bottom: 2px solid #e0e0e0;
-    padding-bottom: 10px;
+  z-index: 1;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 10px;
 }
 
 .profile-sidebar-name {
-    color: #1E1E1E;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 900;
-    margin: 0;
+  color: #1E1E1E;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 900;
+  margin: 0;
 }
 
 .profile-sidebar-id {
-    color: #6D6D6D;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    margin: 0;
+  color: #6D6D6D;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  margin: 0;
 }
 
 .profile-sidebar-menu {
-    margin: 0;
-    width: 100%;
+  margin: 0;
+  width: 100%;
 }
 
 .profile-sidebar-menu ul {
-    padding-left: 0;
-    flex-direction: column;
+  padding-left: 0;
+  flex-direction: column;
 }
 
 .profile-sidebar-menu li {
-    margin-bottom: 10px;
-    user-select: none;
+  margin-bottom: 10px;
+  user-select: none;
 }
 
 .sidebar-divider {
-    border-bottom: 2px solid #e0e0e0;
-    width: 100%;
+  border-bottom: 2px solid #e0e0e0;
+  width: 100%;
 }
 
 .profile-sidebar-menu a {
-    display: flex;
-    padding: 8px 10px;
-    justify-content: start;
-    align-items: center;
-    text-decoration: none;
-    width: 100%;
+  display: flex;
+  padding: 8px 10px;
+  justify-content: start;
+  align-items: center;
+  text-decoration: none;
+  width: 100%;
 
-    color: #1E1E1E;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
+  color: #1E1E1E;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 
-    border-radius: 100px;
+  border-radius: 100px;
 }
 
 .profile-sidebar-menu a:hover {
-    background: #F5F5F5;
+  background: #F5F5F5;
 }
 
 .profile-sidebar-menu a.active {
-    background: #fff;
-    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(10px);
+  background: #fff;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
 }
 
 button.btn-link {
-    background: #800000;
-    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(10px);
-    border-radius: 100px;
-    border: none;
-    padding: 8px 10px;
-    font-size: 1rem;
-    cursor: pointer;
+  background: #800000;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  border-radius: 100px;
+  border: none;
+  padding: 8px 10px;
+  font-size: 1rem;
+  cursor: pointer;
 
-    text-decoration: none;
-    color: #FFF;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
+  text-decoration: none;
+  color: #FFF;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
 
 .logout-container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
-.scroll-button  {
-    display: none;
+.scroll-button {
+  display: none;
 }
 
 
 
 @media only screen and (max-width: 768px) {
-    .profile-sidebar {
-        height: auto;
-    }
-}
+  .profile-sidebar {
+    position: relative;
+    height: auto;
+  }
 
-@media only screen and (max-width: 425px) {
-    .profile-sidebar {
-        position: relative;
-    }
+  .profile-sidebar-links {
+    display: flex;
+    align-items: center;
+    overflow: visible;
+    position: relative;
+  }
 
-    .profile-sidebar-links {
-        display: flex;
-        align-items: center;
-        position: relative;
-    }
+  .horizontal-scroll {
+    margin: 0rem 2rem 0rem 2rem !important;
+    align-items: center;
+    flex-direction: row !important;
+    overflow-x: auto;
+    overflow-y: visible;
+    white-space: nowrap;
+    /* Prevents items from wrapping to the next line */
+    scroll-snap-type: x mandatory;
+    /* Enable scroll snapping */
+    -webkit-overflow-scrolling: touch;
+    /* Smooth scrolling for iOS */
+  }
 
-    .horizontal-scroll {
-      margin: 0rem 2rem 0rem 2rem !important;
-      align-items: center;
-      flex-direction: row !important;
-      overflow-x: auto;
-      white-space: nowrap; /* Prevents items from wrapping to the next line */
-      scroll-snap-type: x mandatory; /* Enable scroll snapping */
-      -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
-    }
+  .horizontal-scroll li {
+    flex: 0 0 auto;
+    /* Ensure items don't shrink or grow */
+    margin-bottom: 0.1rem;
+    margin-top: 0.1rem;
+    margin-right: 10px;
+    /* Space between items */
+    scroll-snap-align: start;
+    /* Snap each item to the start of the container */
+    position: relative;
+    height: 100%;
+    /* For positioning the like button */
+  }
 
-    .horizontal-scroll li {
-      flex: 0 0 auto; /* Ensure items don't shrink or grow */
-      margin-right: 10px; /* Space between items */
-      scroll-snap-align: start; /* Snap each item to the start of the container */
-      position: relative; /* For positioning the like button */
-    }
+  .horizontal-scroll li:last-child {
+    margin-right: 0;
+  }
 
-    .horizontal-scroll li:last-child {
-      margin-right: 0; /* Remove margin from the last item */
-    }
+  .horizontal-scroll::-webkit-scrollbar {
+    display: none;
+  }
 
-    /* Optional: Hide scrollbar for cleaner look */
-    .horizontal-scroll::-webkit-scrollbar {
-      display: none;
-    }
-    .horizontal-scroll {
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
-    }
+  .horizontal-scroll {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
 
-    .scroll-button {
-        display: flex;
-        border: none;
-        cursor: pointer;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 1;
-        margin: 0;
-        padding: 1rem;
-        align-items: center;
-        justify-content: center;
+  .scroll-button {
+    display: flex;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    margin: 0;
+    padding: 1rem;
+    align-items: center;
+    justify-content: center;
 
-        width: 1.875rem;
-        width: 1.875rem;
-        background-color: #FFF;
-        font-size: 1.5rem;
-        box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
-    }
+    width: 1.875rem;
+    width: 1.875rem;
+    background-color: #FFF;
+    font-size: 1.5rem;
+    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+  }
 
-    .scroll-arrow {
-        color: #1E1E1E;
-    }
+  .scroll-arrow {
+    color: #1E1E1E;
+  }
 
-    .scroll-button.left {
+  .scroll-button.left {
     left: 0;
-    }
+  }
 
-    .scroll-button.right {
+  .scroll-button.right {
     right: 0;
-    }
+  }
 
-    .profile-sidebar-menu {
+  .profile-sidebar-menu {
     position: relative;
     display: flex;
     flex-direction: column-reverse;
     overflow: hidden;
-    }
+  }
 }
