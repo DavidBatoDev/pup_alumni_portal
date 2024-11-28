@@ -8,7 +8,7 @@ import ProfileSidebar from "../../components/ProfileSidebar/ProfileSidebar";
 import CircularLoader from "../../components/CircularLoader/CircularLoader";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { setLoading } from "../../store/UserSlice.js";
+import { setLoading } from "../../store/userSlice.js";
 
 import "./ProfileLayout.css";
 
@@ -18,6 +18,13 @@ const ProfileLayout = () => {
 
   useEffect(() => {
     dispatch(setLoading(true));
+
+
+    return () => {
+      if (userLoading) {
+        dispatch(setLoading(false));
+      }
+    }
   }, [dispatch]);
 
   return (

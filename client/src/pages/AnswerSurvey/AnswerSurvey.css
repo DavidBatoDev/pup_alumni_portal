@@ -3,7 +3,7 @@
   max-width: 800px;
   margin: 40px auto;
   padding: 20px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   color: #333;
   border-radius: 8px;
   height: 100%;
@@ -72,8 +72,7 @@
 }
 
 .as-survey-question-card:nth-child(1) {
-  padding: 0px 0px ;
-  
+  padding: 0px 0px;
 }
 
 .section-description {
@@ -108,7 +107,6 @@
 
 /* Focus effect on question card */
 
-
 .as-question-header {
   margin-bottom: 10px;
 }
@@ -122,7 +120,7 @@
 
 .as-question-title {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: bold;
   color: #333;
 }
 

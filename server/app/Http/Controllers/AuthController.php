@@ -7,9 +7,13 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\Alumni;
 use App\Models\Address;
 use App\Models\Graduate;
+use App\Notifications\CustomResetPasswordEmail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Password as PasswordFacade;
+use Illuminate\Support\Facades\Mail;
 
 
 class AuthController extends Controller
@@ -101,8 +105,139 @@ class AuthController extends Controller
             ], 400);
         }
     }
-    
 
+    public function sendResetLink(Request $request)
+    {
+        try {
+            // Validate the email input
+            $request->validate([
+                'email' => 'required|email|:alumni,email_address',
+            ]);
+
+            $email = $request->email;
+            $alumni = Alumni::where('email', $email)->first();
+
+            if (!$alumni) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Alumni not found.',
+                ], 404);
+            }
+
+            // Generate a reset token
+            $token = Password::broker()->createToken($alumni);
+
+            // Generate the password reset URL
+            $resetUrl = url('/api/reset-password?token=' . $token);
+
+            // Email content
+            $subject = 'Password Reset Request';
+            $body = "
+                Dear {$alumni->firstname} {$alumni->lastname},
+
+                You have requested to reset your password. Please click the link below to reset your password:
+
+                $resetUrl
+
+                If you did not request this, please ignore the email.
+
+                Thank you,
+                " . config('app.name') . "
+            ";
+
+            // Send the email
+            Mail::raw($body, function ($message) use ($email, $subject) {
+                $message->to($email)->subject($subject);
+            });
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Password reset email sent successfully.',
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to send password reset email.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    // Existing method to verify token
+    public function verifyResetToken($token)
+    {
+        try {
+            // Verify the reset token
+            $status = Password::broker()->getRepository()->exists($token);
+
+            if ($status) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Token is valid. You can now reset your password.',
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'The reset token is invalid or expired.',
+                ], 400);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while verifying the token.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    // New method to reset the password
+    public function resetPassword(Request $request, $token)
+    {
+        // Validate the new password
+        $request->validate([
+            'password' => 'required|confirmed|min:8',
+        ]);
+
+        try {
+            // Verify if the token is valid
+            $status = Password::broker()->getRepository()->exists($token);
+            if (!$status) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid or expired token.',
+                ], 400);
+            }
+
+            // Retrieve the user associated with the token
+            $alumni = Password::broker()->getUserByToken($token);
+
+            if (!$alumni) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User not found or token is invalid.',
+                ], 400);
+            }
+
+            // Hash the new password
+            $alumni->password = Hash::make($request->password);
+            $alumni->save();
+
+            // Optionally, delete the reset token (optional depending on your flow)
+            Password::broker()->deleteToken($alumni);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Your password has been successfully changed.',
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while resetting the password.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+    
 
     // Search for a graduate
     public function searchGraduate(Request $request)

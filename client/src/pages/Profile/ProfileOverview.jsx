@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 // import axios from 'axios';
 import api from "../../api";
-import CircularLoader from "../../components/CircularLoader/CircularLoader";
 import "./Profile.css";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -17,9 +16,6 @@ const ProfileOverview = () => {
 
   console.log("User Loading: ", userLoading);
 
-  // const profileImage = profile?.profile_picture
-  // ? `/path/to/images/${profile?.profile_picture}` // Adjust path to actual image directory if needed
-  // : "https://via.placeholder.com/100";
   const linkedin_url = "https://linkedin.com/juandelacruz";
 
   useEffect(() => {
