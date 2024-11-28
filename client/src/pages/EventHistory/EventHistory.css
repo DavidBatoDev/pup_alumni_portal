@@ -1,4 +1,4 @@
-/* Event History Section Styles */
+/* General section for event history */
 .history-event-section {
     background-image: url(../../assets/images/eventbanner.png);
     padding: 50px 0;
@@ -8,7 +8,6 @@
     position: relative;
     font-family: "Crimson Text";
     font-size: 128px;
-    font-style: normal;
     font-weight: 700;
     z-index: 2;
     height: 100%;
@@ -27,10 +26,17 @@
     z-index: 0.1;
 }
 
+/* Custom styles for mobile filter section */
+.history-event-section .filter-section {
+    position: relative;
+    z-index: 1000;
+}
+
 /* Styles for the event header */
 .history-event-section .event-header {
-    z-index: 1000 ;
     padding: 20px 0;
+    z-index: 10;
+    position: relative;
 }
 
 .history-event-section .event-header h2 {
@@ -45,24 +51,27 @@
     font-size: 20px;
 }
 
-/* Container styles within the event section */
-.history-event-section .container:nth-child(1){
-    margin: 0 auto;
-    padding-left: 0;
-}
-
-/* Events container */
+/* Events container and layout */
 .history-event-section .events-container {
     display: flex;
     justify-content: space-between;
+    z-index: 10;
+    padding: 0;
 }
 
-.history-event-section .view-event-history{
+.history-event-section .events-container .event-auth {
+    flex: 1;
+}
+
+.history-event-section .filter-event-wrapper{
     display: none;
 }
 
+.history-event-section .view-event-history {
+    display: none;
+}
 
-/* Responsive Media Queries */
+/* Adjust layout for mobile view */
 @media (max-width: 768px) {
     .history-event-section .events-container {
         flex-direction: column;
@@ -70,27 +79,20 @@
     }
 
     .history-event-section .event-header {
-        z-index: 1000;
         flex-direction: column;
         text-align: center;
-        margin-bottom: 0;
     }
 
     .history-event-section .event-header h2,
     .history-event-section .event-header h5 {
         text-align: center;
     }
-
-    .history-event-section .events-container .event-auth {
-        width: 100%; /* Full width for mobile */
-    }
 }
 
 @media (max-width: 1000px) {
     .history-event-section .event-header {
-        z-index: 1000;
         flex-direction: column;
         margin-bottom: 20px;
-        gap: 20px;
     }
 }
+
