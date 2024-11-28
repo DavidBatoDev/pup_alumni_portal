@@ -111,9 +111,7 @@ const Events = () => {
           <div className="event-header">
             <h2>You're MORE than WELCOME to attend.</h2>
             <h5>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-              repellat odio in, dolore voluptates sequi amet animi quaerat ad
-              sint rerum?
+            Join us for an exciting lineup of events designed to inspire, connect, and empower.
             </h5>
           </div>
           <div className="events-container d-flex">

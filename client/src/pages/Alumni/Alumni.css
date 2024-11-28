@@ -1,6 +1,7 @@
 .alumni-section .container {
     position: relative;
     z-index: 2; /* Ensures content is above the pseudo-element */
+    padding: 0;
 }
 
 .alumni-section .alumni-header {
@@ -55,7 +56,6 @@
 
 .alumni-section .alumni-header {
     margin-bottom: 20px;
-    gap: 20px;
 }
 
 
@@ -64,6 +64,15 @@
     .alumni-section .alumni-container {
         flex-direction: column;
         align-items: center;
+    }
+
+    .alumni-section .alumni-card-container{
+        width: 100%;
+        padding: 0;
+    }
+
+    .alumni-section .alumni-header{
+        padding: 0 20px;
     }
 
     .alumni-section .alumni-header h2, 
