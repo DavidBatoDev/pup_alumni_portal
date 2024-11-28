@@ -2,180 +2,242 @@
 
 /* Page styling */
 .login-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-x: hidden;
 }
 
 .login-background {
-    background-image: url('../../assets/images/pup-login-banner.jpg');
+  background-image: url("../../assets/images/pup-login-banner.jpg");
 }
 
 .login-page .banner-section {
-    background-image: url('../../assets/images/pup-login-banner.jpg');
-    background-size: cover;
-    background-position: center;
-    height: 240px;
-    padding: 40px 128px;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-start;
-    flex-shrink: 0;
-    position:relative;
+  background-image: url("../../assets/images/pup-login-banner.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 240px;
+  padding: 40px 128px;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  flex-shrink: 0;
+  position: relative;
 }
 
 .banner-section::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, #FFF 0%, rgba(0, 0, 0, 0.00) 15%, rgba(0, 0, 0, 0.00) 85%, #FFF 100%);
-    z-index: 0;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    #fff 0%,
+    rgba(0, 0, 0, 0) 15%,
+    rgba(0, 0, 0, 0) 85%,
+    #fff 100%
+  );
+  z-index: 0;
 }
 
 .banner-section p {
-    color: #1E1E1E;
-    text-align: left;
-    font-family: "Crimson Text";
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 1.22;
-    max-width: 90%;
+  color: #1e1e1e;
+  text-align: left;
+  font-family: "Crimson Text";
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.22;
+  max-width: 90%;
 }
 
 .login-title {
-    color: #FFF;
-    font-family: "Crimson Text";
-    font-size: 128px;
-    font-style: normal;
-    font-weight: 700;
+  color: #fff;
+  font-family: "Crimson Text";
+  font-size: 128px;
+  font-style: normal;
+  font-weight: 700;
 }
 
 .sign-in-glass-container {
-    margin-top: 0px;
-    padding: 40px 0;
+  margin-top: 0px;
+  padding: 40px 0;
 }
 
 .login-box {
-    background-color: #ffffff;
-    border: 2px solid #dc3545;
-    /* Red border */
-    border-radius: 10px;
+  background-color: #ffffff;
+  border: 2px solid #dc3545;
+  /* Red border */
+  border-radius: 10px;
 }
 
 .welcome-text {
-    font-size: 24px;
-    font-weight: bold;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .login-description {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 30px;
-    line-height: 1.6;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 30px;
+  line-height: 1.6;
 }
 
 .login-form .form-control {
-    border-radius: 100px;
-    font-size: 14px;
+  border-radius: 100px;
+  font-size: 14px;
 }
 
 .login-form .input-group-text {
-    border-radius: 100px 0 0 100px;
-    border: 1px solid #ced4da;
-    border-right: none;
+  border-radius: 100px 0 0 100px;
+  border: 1px solid #ced4da;
+  border-right: none;
 }
 
 .forgot-password-link {
-    color: #a50000;
-    font-weight: bold;
+  color: #a50000;
+  font-weight: bold;
 }
 
 .forgot-password-link:hover {
-    text-decoration: underline;
-    color: #870000;
+  text-decoration: underline;
+  color: #870000;
 }
 
 .txt-danger {
-    color: #870000;
+  color: #870000;
 }
 
 .btn {
-    font-weight: bold;
-    border-radius: 25px;
-    padding: 10px;
-    font-size: 16px;
+  font-weight: bold;
+  border-radius: 25px;
+  padding: 10px;
+  font-size: 16px;
 }
 
 .btn-danger {
-    background-color: #a50000;
+  background-color: #a50000;
 }
 
 .btn-danger:hover {
-    background-color: #870000;
+  background-color: #870000;
 }
 
 .sign-up-box {
-    border-left: 1px solid #ccc;
-    padding-left: 40px;
-    text-align: center;
+  border-left: 1px solid #ccc;
+  padding-left: 40px;
+  text-align: center;
 }
 
 .sign-up-box h2 {
-    font-size: 22px;
-    font-weight: bold;
+  font-size: 22px;
+  font-weight: bold;
 }
 
 .sign-up-box p {
-    font-size: 14px;
-    margin: 15px 0;
+  font-size: 14px;
+  margin: 15px 0;
 }
 
 .btn-outline-danger {
-    border-color: #a50000;
-    color: #a50000;
-    font-weight: bold;
-    padding: 10px 20px;
+  border-color: #a50000;
+  color: #a50000;
+  font-weight: bold;
+  padding: 10px 20px;
 }
 
 .btn-outline-danger:hover {
-    background-color: #a50000;
-    color: #fff;
+  background-color: #a50000;
+  color: #fff;
 }
 
 .contact-support {
-    font-size: 12px;
-    margin-top: 20px;
+  font-size: 12px;
+  margin-top: 20px;
 }
 
 .contact-support a {
-    color: #a50000;
-    font-weight: bold;
+  color: #a50000;
+  font-weight: bold;
+}
+
+.forgot-password-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.forgot-password-modal--container {
+    /* padding-top: 40px; */
+    width: 100%;
+}
+
+.forgot-password-modal--title {
+  font-size: 34px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.forgot-password-modal--description {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.forgot-password-modal--form {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.forgot-password-modal--form .form-control {
+  border-radius: 100px;
+  font-size: 22px;
+}
+
+.forgot-password-modal--form .form-control:focus {
+  border-color: #a50000;
+}
+
+.forgot-password-modal--form button {
+  font-size: 22px;
+  font-weight: bold;
+  border-radius: 100px;
+  padding: 10px 20px;
+}
+
+
+
+.forgot-password-modal--form .input-group-text {
+  border-radius: 100px 0 0 100px;
+  border: 1px solid #ced4da;
+  border-right: none;
 }
 
 @media screen and (max-width: 768px) {
-    .login-page {
-        background-image: none;
-    }
+  .login-page {
+    background-image: none;
+  }
 
-    .banner-section {
-        display: none;
-    }
+  .banner-section {
+    display: none;
+  }
 
-    .sign-in-glass-container {
-        margin-top: 0;
-        padding: 0;
-    }
+  .sign-in-glass-container {
+    margin-top: 0;
+    padding: 0;
+  }
 
-    .login-box {
-        border: none;
-    }
+  .login-box {
+    border: none;
+  }
 
-    .sign-up-box {
-        border-left: none;
-        padding-left: 0;
-    }
+  .sign-up-box {
+    border-left: none;
+    padding-left: 0;
+  }
 }
