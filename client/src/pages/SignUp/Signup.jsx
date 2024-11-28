@@ -42,7 +42,6 @@ const Signup = () => {
 
   const [isEmailOrStudentNumberValid, setIsEmailOrStudentNumberValid] = useState(false);
 
-
   const emailOrStudentNumberIsValid = () => {
     setIsEmailOrStudentNumberValid(true);
   }
@@ -64,13 +63,15 @@ const Signup = () => {
   const navigate = useNavigate();
 
 
-  const changeDetails = (first_name, last_name, email, student_number) => {
+  const changeDetails = (first_name, last_name, email, student_number, graduation_year, program) => {
     setFormData({
       ...formData,
       first_name: first_name,
       last_name: last_name,
       email: email,
-      student_number: student_number
+      student_number: student_number,
+      graduation_year: graduation_year,
+      major: program
     });
   }
 

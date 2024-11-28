@@ -142,7 +142,7 @@ const EducationForm = forwardRef(({
             {/* Add New Employment Button */}
             <tr>
               <td colSpan="6">
-                <button className="btn btn-outline-primary btn-sm rounded-circle" onClick={addNewEmployment}>
+                <button className="btn btn-outline-primary btn-sm rounded" onClick={addNewEmployment}>
                   <i className="fa-solid fa-plus"></i> Add Employment
                 </button>
               </td>
@@ -225,7 +225,7 @@ const EducationForm = forwardRef(({
             {/* Add New Education Button */}
             <tr>
               <td colSpan="6">
-                <button className="btn btn-outline-primary btn-sm rounded-circle" onClick={addNewEducation}>
+                <button className="btn btn-outline-primary btn-sm rounded" onClick={addNewEducation}>
                   <i className="fa-solid fa-plus"></i> Add Education
                 </button>
               </td>

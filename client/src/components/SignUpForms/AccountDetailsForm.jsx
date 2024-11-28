@@ -5,21 +5,33 @@ import axios from "axios";
 import CircularLoader from "../CircularLoader/CircularLoader";
 import { useNavigate } from "react-router-dom";
 
-const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, setLoading, isEmailOrStudentNumberValid, emailOrStudentNumberIsValid, currentStep }) => {
+const AccountDetailsForm = ({
+  nextStep,
+  formData,
+  handleChange,
+  changeDetails,
+  setLoading,
+  isEmailOrStudentNumberValid,
+  emailOrStudentNumberIsValid,
+  currentStep,
+}) => {
   const navigate = useNavigate();
-  const [emailEntered, setEmailEntered] = useState(false);
+  const [emailOrStudentNumberField, setEmailOrStudentNumberField] =
+    useState("");
+  const [emailOrStudentNumberEntered, setEmailOrStudentNumberEntered] =
+    useState(false);
   const [alumniData, setAlumniData] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [showVerificationModal, setShowVerificationModal] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
-  const [emailVerified, setEmailVerified] = useState(false);
+  const [verifiedAlumni, setVerifiedAlumni] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [verificationCheckInProgress, setVerificationCheckInProgress] =
     useState(false);
 
   useEffect(() => {
     if (isEmailOrStudentNumberValid) {
-      setEmailEntered(true);
+      setEmailOrStudentNumberEntered(true);
     }
   }, [currentStep]);
 
@@ -28,9 +40,19 @@ const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, s
     student_number: true,
     password: true,
     password_confirmation: true,
+    emailOrStudentNumberField: true,
   });
 
   const validateFields = () => {
+    // check if email or student number is the provided value
+    let emailOrStudentNumberValidation = false;
+    if (emailOrStudentNumberField.includes("@")) {
+      emailOrStudentNumberValidation =
+        emailOrStudentNumberField.trim() !== "" &&
+        /\S+@\S+\.\S+/.test(emailOrStudentNumberField);
+    } else {
+      emailOrStudentNumberValidation = emailOrStudentNumberField.trim() !== "";
+    }
     const newValidation = {
       email:
         formData.email.trim() !== "" && /\S+@\S+\.\S+/.test(formData.email),
@@ -39,11 +61,18 @@ const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, s
       password_confirmation:
         formData.password_confirmation.trim() !== "" &&
         formData.password === formData.password_confirmation,
+      emailOrStudentNumberField: emailOrStudentNumberValidation,
     };
 
     setValidation(newValidation);
 
-    return Object.values(newValidation).every((value) => value === true);
+    // all should be true excpet for emailOrStudentNumberField
+    return (
+      newValidation.email &&
+      newValidation.student_number &&
+      newValidation.password &&
+      newValidation.password_confirmation
+    );
   };
 
   const validateEmailField = () => {
@@ -56,24 +85,80 @@ const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, s
     return emailValid;
   };
 
+  const validateEmailOrStudentNumberField = () => {
+    let emailOrStudentNumberValidation = false;
+    if (emailOrStudentNumberField.includes("@")) {
+      emailOrStudentNumberValidation =
+        emailOrStudentNumberField.trim() !== "" &&
+        /\S+@\S+\.\S+/.test(emailOrStudentNumberField);
+    }
+    // if the first two characters are numbers, then it is a student number
+    else if (emailOrStudentNumberField.substring(0, 4).match(/[0-9]/)) {
+      emailOrStudentNumberValidation = emailOrStudentNumberField.trim() !== "";
+    }
+    setValidation((prevValidation) => ({
+      ...prevValidation,
+      emailOrStudentNumberField: emailOrStudentNumberValidation,
+    }));
+
+    console.log(emailOrStudentNumberValidation);
+
+    return emailOrStudentNumberValidation;
+  };
+
+  const checkIfEmailOrStudentNumber = (value) => {
+    if (value.includes("@")) {
+      return "email";
+    } else {
+      return "student_number";
+    }
+  };
+
   const handleNextClick = async () => {
-    if (emailEntered || validateEmailField()) {
+    // if (emailOrStudentNumberEntered || validateEmailField()) {
+    if (emailOrStudentNumberEntered || validateEmailOrStudentNumberField()) {
       try {
         setEmailError("");
-        const checkAlumniResponse = await axios.post(`/api/check-alumni`, {email: formData.email});
+        const requestParamsOrBody = checkIfEmailOrStudentNumber(
+          emailOrStudentNumberField
+        );
+        let checkAlumniResponse;
+        if (requestParamsOrBody === "email") {
+          checkAlumniResponse = await axios.post(`/api/check-alumni`, {
+            email: emailOrStudentNumberField,
+          });
+        } else if (requestParamsOrBody === "student_number") {
+          checkAlumniResponse = await axios.post(`/api/check-alumni`, {
+            student_number: emailOrStudentNumberField,
+          });
+        } else {
+          setEmailError("There was an error checking your email or password.");
+          setTimeout(() => {
+            navigate("/login");
+          }, 2000);
+        }
         console.log(checkAlumniResponse.status);
         if (checkAlumniResponse.status == 201) {
           setLoading(true);
-          const response = await axios.get(`/api/graduates/search`, {
-            params: { email: formData.email },
-          });
+          let response;
+          if (requestParamsOrBody === "email") {
+            console.log('checking graduates with email')
+            response = await axios.get(`/api/graduates/search`, {
+              params: { email: emailOrStudentNumberField },
+            });
+          } else if (requestParamsOrBody === "student_number") {
+            console.log('checking graduates with student number')
+            response = await axios.get(`/api/graduates/search`, {
+              params: { student_number: emailOrStudentNumberField },
+            });
+          }
           const emailExists = response.data.success;
           setIsEmailVerified(emailExists);
           setAlumniData(response.data.data);
           setShowModal(true);
         } else if (checkAlumniResponse.status == 200) {
-          setEmailError("Account already exists with this email.");
-      }
+          setEmailError("Account already exists with this email/student number.");
+        }
       } catch (error) {
         console.error(error);
         setIsEmailVerified(false);
@@ -106,13 +191,13 @@ const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, s
         setLoading(false);
       }
     }
-    // setEmailEntered(true);
+    // setEmailOrStudentNumberEntered(true);
     // emailOrStudentNumberIsValid()
   };
 
   const startVerificationCheck = () => {
     let elapsedTime = 0;
-    setLoading(false)
+    setLoading(false);
     const interval = setInterval(async () => {
       try {
         const response = await axios.get(`/api/graduates/check-verification`, {
@@ -124,13 +209,15 @@ const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, s
             alumniData?.lastname,
             alumniData?.email_address,
             alumniData?.student_number,
-          )
+            alumniData?.graduation_date.split('-')[0],
+            alumniData?.program,
+          );
           clearInterval(interval);
           setVerificationCheckInProgress(false);
           setShowVerificationModal(false);
-          setEmailEntered(true);
-          emailOrStudentNumberIsValid()
-          setEmailVerified(true);
+          setEmailOrStudentNumberEntered(true);
+          emailOrStudentNumberIsValid();
+          setVerifiedAlumni(true);
         }
       } catch (error) {
         console.error("Error checking verification:", error);
@@ -143,7 +230,7 @@ const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, s
         navigate("/login");
         alert("Verification timeout. Please try again.");
       }
-    }, 2000); 
+    }, 2000);
     setVerificationCheckInProgress(true);
   };
 
@@ -153,9 +240,11 @@ const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, s
     }
   };
 
+  console.log(emailOrStudentNumberField);
+
   return (
     <div className="form-section">
-      {emailEntered ? (
+      {emailOrStudentNumberEntered ? (
         <h3 className="section-title">ACCOUNT DETAILS</h3>
       ) : (
         <>
@@ -166,31 +255,63 @@ const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, s
         </>
       )}
 
-      <div className="form-group">
-        <label>
-          Personal Email <span className="important-txt">*</span>
-        </label>
-        <div className="input-group">
-          <span className="input-group-text bg-white">
-            <i className="fas fa-envelope"></i>
-          </span>
-          <input
-            type="email"
-            className={`form-control ${validation.email ? "" : "is-invalid"}`}
-            name="email"
-            placeholder="johndoe@gmail.com"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-          {!validation.email && (
-            <div className="invalid-feedback">Valid email is required</div>
-          )}
-        </div>
-      </div>
+      {!emailOrStudentNumberEntered && (
+          <div className="form-group">
+            <label>
+              Personal Email <span className="important-txt">*</span>
+            </label>
+            <div className="input-group">
+              <span className="input-group-text bg-white">
+                <i className="fas fa-envelope"></i>
+              </span>
+              <input
+                type="email"
+                className={`form-control ${
+                  validation.emailOrStudentNumberField ? "" : "is-invalid"
+                }`}
+                name="email"
+                placeholder="johndoe@gmail.com"
+                value={emailOrStudentNumberField}
+                onChange={(e) => setEmailOrStudentNumberField(e.target.value)}
+                required
+              />
+              {!validation.emailOrStudentNumberField && (
+                <div className="invalid-feedback">
+                  Valid email or student number is required
+                </div>
+              )}
+            </div>
+          </div>
+      )}
 
-      {emailEntered && (
+      {emailOrStudentNumberEntered && (
         <>
+          <div className="form-group">
+            <label>
+              Personal Email <span className="important-txt">*</span>
+            </label>
+            <div className="input-group">
+              <span className="input-group-text bg-white">
+                <i className="fas fa-envelope"></i>
+              </span>
+              <input
+                type="email"
+                className={`form-control ${
+                  validation.email ? "" : "is-invalid"
+                }`}
+                name="email"
+                placeholder="johndoe@gmail.com"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+              {!validation.email && (
+                <div className="invalid-feedback">
+                  Valid email is required
+                </div>
+              )}
+            </div>
+          </div>
           <div className="form-group">
             <label>
               Student Number <span className="important-txt">*</span>
@@ -267,9 +388,9 @@ const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, s
         </>
       )}
 
-      {emailVerified && (
+      {verifiedAlumni && (
         <div className="alert alert-success" role="alert">
-          Welcome back {alumniData?.firstname}! 
+          Welcome back {alumniData?.firstname}!
         </div>
       )}
 
@@ -283,13 +404,13 @@ const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, s
         <Link to="/login" className="sign-in-link">
           Already have an account?
         </Link>
-        {emailEntered ? (
+        {emailOrStudentNumberEntered ? (
           <button className="btn btn-danger" onClick={handleNextStep}>
             Next
           </button>
         ) : (
           <button className="btn btn-danger" onClick={handleNextClick}>
-            Verify Email
+            Send a Verification Email
           </button>
         )}
       </div>
@@ -330,8 +451,8 @@ const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, s
                       <strong>Program:</strong> {alumniData?.program}
                     </p>
                     <p>
-                      <strong>Graduation Year:</strong>{" "}
-                      {alumniData?.graduation_year}
+                      <strong>Graduation Date:</strong>{" "}
+                      {alumniData?.graduation_date}
                     </p>
                     <p className="text-danger">
                       A verification email will be sent to{" "}
@@ -370,7 +491,10 @@ const AccountDetailsForm = ({ nextStep, formData, handleChange, changeDetails, s
 
       {/* Verification Modal */}
       {showVerificationModal && (
-        <div className="modal fade show modal-email-verification" style={{ display: "block" }}>
+        <div
+          className="modal fade show modal-email-verification"
+          style={{ display: "block" }}
+        >
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">

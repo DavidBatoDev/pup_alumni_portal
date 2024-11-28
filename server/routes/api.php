@@ -56,8 +56,6 @@ Route::get('/verify-email', [VerificationController::class, 'verifyEmail']);
 // route to check the verification is successful
 Route::get('/graduates/check-verification', [VerificationController::class, 'checkVerification']);
 
-
-
 // Protected alumni routes (Require JWT Authentication)
 Route::group(['middleware' => ['jwt.verify']], function () {
     // route for refreshin the token 

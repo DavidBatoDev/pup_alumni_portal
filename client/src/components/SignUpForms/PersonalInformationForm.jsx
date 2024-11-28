@@ -20,6 +20,7 @@ const PersonalInformationForm = ({ nextStep, prevStep, formData, handleChange })
   });
 
   const validateGraduationYear = (year) => {
+    console.log(year);
     const trimmedYear = year?.trim();
     // Check if it's a number and a valid year (e.g., between 1900 and current year)
     const currentYear = new Date().getFullYear();

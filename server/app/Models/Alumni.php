@@ -24,7 +24,7 @@ class Alumni extends Authenticatable implements JWTSubject
     protected $fillable = [
         'first_name', 'last_name', 'email', 'password', 'phone', 'date_of_birth',
         'gender', 'graduation_year', 'degree', 'major', 'current_job_title',
-        'current_employer', 'linkedin_profile', 'profile_picture'
+        'current_employer', 'linkedin_profile', 'profile_picture', 'student_number'
     ];
 
     // Define relationship to Address model
