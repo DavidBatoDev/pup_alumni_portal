@@ -110,24 +110,26 @@ const EventAuth = ({ events }) => {
                         </button>
                     </div>
 
-                    {/* Filter Search Section with Categories */}
-                    <div className="filter-search-section">
-                        <div className="filter-search-categories">
-                            {categories.slice(0, maxVisibleCategories).map((category) => (
-                                <div
-                                    key={category}
-                                    className={`filter-search ${filters.categories.includes(category) ? 'active' : ''}`}
-                                    onClick={() => handleCategoryClick(category)}
-                                >
-                                    {category}
-                                </div>
-                            ))}
+                    {/* Filter Search Section with Categories (Visible only on Mobile) */}
+                    {isMobileView && (
+                        <div className="filter-search-section">
+                            <div className="filter-search-categories">
+                                {categories.slice(0, maxVisibleCategories).map((category) => (
+                                    <div
+                                        key={category}
+                                        className={`filter-search ${filters.categories.includes(category) ? 'active' : ''}`}
+                                        onClick={() => handleCategoryClick(category)}
+                                    >
+                                        {category}
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="filter-search-all" onClick={toggleFilterSection}>
+                                <img src={menuIcon} alt="Menu Icon" />
+                                <div className="filter-search">All</div>
+                            </div>
                         </div>
-                        <div className="filter-search-all" onClick={toggleFilterSection}>
-                            <img src={menuIcon} alt="Menu Icon" />
-                            <div className="filter-search">All</div>
-                        </div>
-                    </div>
+                    )}
 
                     {/* Upcoming Events Count */}
                     <div className="filter-event-wrapper">
