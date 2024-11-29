@@ -105,9 +105,6 @@ const EventAuth = ({ events }) => {
                             value={filters.searchTerm}
                             onChange={(e) => handleFilterChange({ ...filters, searchTerm: e.target.value })}
                         />
-                        <button className="btn btn-outline-secondary">
-                            <img className="search-icon" src={searchIcon} alt="Search Icon" />
-                        </button>
                     </div>
 
                     {/* Filter Search Section with Categories (Visible only on Mobile) */}

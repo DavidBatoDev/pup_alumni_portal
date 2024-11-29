@@ -62,9 +62,6 @@ const AlumniContent = () => {
               placeholder="Connect with an alumni"
               aria-label="Connect with an alumni"
             />
-            <button className="btn btn-outline-secondary">
-              <img className="search-icon" src={searchIcon} alt="Search Icon" />
-            </button>
           </div>
 
           {/* Switch View Button */}
