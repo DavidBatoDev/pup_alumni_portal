@@ -87,6 +87,11 @@
     .history-event-section .event-header h5 {
         text-align: center;
     }
+
+    .history-event-section .container{
+        max-width: 100%;
+        padding: 0;
+    }
 }
 
 @media (max-width: 1000px) {

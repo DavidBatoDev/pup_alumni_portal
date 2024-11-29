@@ -16,9 +16,7 @@ const Alumni = () => {
           <div className="alumni-header">
             <h2>Ready to Connect? The alumni network is waiting!</h2>
             <h5>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-              repellat odio in, dolore voluptates sequi amet animi quaerat ad
-              sint rerum?
+            Reconnect with old friends, make new connections, and unlock opportunities with our vibrant alumni network.
             </h5>
           </div>
 
