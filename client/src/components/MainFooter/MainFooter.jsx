@@ -22,21 +22,16 @@ const MainFooter = () => {
           {/* Contact Information */}
           <div className="col-md-4 footer-column">
             <h4 className="footer-heading">Contact Information</h4>
-            <p>Sta. Mesa, Manila, Philippines</p>
-            <p>Email: pupalumni@pup.edu.ph</p>
-            <p>Phone: 09 XXX XXX XXX</p>
+            <p>M.H Del Pilar Campus, Sta. Mesa, Manila, Philippines</p>
+            <p>Email: gs@pup.edu.ph</p>
           </div>
 
           {/* Social Media Icons */}
           <div className="col-md-4 footer-column">
             <h4 className="footer-heading">SOCIAL MEDIA</h4>
             <div className="footer-social-icons">
-              <a href="#" className="social-icon"><i className="fab fa-facebook"></i></a>
-              <a href="#" className="social-icon"><i className="fab fa-x-twitter"></i></a>
-              <a href="#" className="social-icon"><i className="fab fa-youtube"></i></a>
-              <a href="#" className="social-icon"><i className="fab fa-linkedin"></i></a>
-              <a href="#" className="social-icon"><i className="fas fa-rss"></i></a>
-              <a href="#" className="social-icon"><i className="fab fa-spotify"></i></a>
+              <a href="https://www.facebook.com/PUPGSOfficial" target='_blank' className="social-icon"><i className="fab fa-facebook"></i></a>
+              <a href="https://www.pup.edu.ph/PUPGS/" className="social-icon"><i class="fa fa-globe" aria-hidden="true"></i></a>
             </div>
           </div>
         </div>
