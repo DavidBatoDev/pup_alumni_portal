@@ -30,25 +30,7 @@ const Discussions = () => {
   // Modal visibility state
   const [showModal, setShowModal] = useState(false);
 
-  // Track mobile view state
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-
   const navigate = useNavigate();
-
-  // Handle window resizing to update mobile view state
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    // Add event listener for window resizing
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup event listener on component unmount
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
   // Fetch threads
   useEffect(() => {
@@ -188,7 +170,7 @@ const Discussions = () => {
       <div className="container-fluid glass discussion-content">
         <DiscussionNavbar viewMode={viewMode} />
         <div className="row discussion-container">
-          <div className="col-md-12">
+          <div className="col-md-12 table-responsive">
             {/* Pass modal trigger to the action bar */}
             <DiscussionActionBar
               filter={filter}
@@ -198,10 +180,10 @@ const Discussions = () => {
               onCreate={() => setShowModal(true)} // Open modal
             />
             {viewMode === 'compact' ? (
-              <table className="thread-list table table-hover mt-3">
+              <table className="w-100 table table-sm table-hover mt-3">
                 {/* Conditionally render the table header */}
-                {!isMobile && <DiscussionTableHeader />}
-                <tbody className="thread-list">
+                <DiscussionTableHeader />
+                <tbody className="w-100">
                   {threads?.map((thread) => (
                     <DiscussionTableThread
                       key={thread.thread_id}

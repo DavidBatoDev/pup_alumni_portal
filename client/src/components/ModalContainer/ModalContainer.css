@@ -8,7 +8,7 @@
   height: 100vh;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 5000;
   opacity: 0;
   transform: translateY(-30px) scale(0.8); /* Initial transform for smooth animation */
   transition: transform 0.4s ease-out, opacity 0.4s ease-out; /* Smooth transition for transform and opacity */
@@ -40,7 +40,7 @@
   border-radius: 10px; /* Rounded corners */
   overflow: hidden;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Shadow for elevation effect */
-  min-height: 600px;
+  min-height: max-content;
   max-height: 600px;
   overflow-y: scroll;
   scrollbar-width: none;
@@ -70,6 +70,7 @@
   padding: 10px 30px;
   background: #f4f4f4;
   position: relative;
+  max-height: 600px;
 }
 
 .close-btn {

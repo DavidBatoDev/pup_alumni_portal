@@ -1,7 +1,7 @@
 .discussion-table-thread {
   margin: 10px 0 10px 0;
   border-radius: 0.5rem;
-  white-space: nowrap;
+
   font-family: 'Crimson Text', sans-serif;
   font-style: normal;
   line-height: normal;
@@ -88,24 +88,11 @@
 }
 
 .upvote:focus,
-.downvote:focus {  
+.downvote:focus {
   transform: translateY(0rem);
   box-shadow: none;
 }
 
-.discussion-table-thread .tags{
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  gap: 5px;
-}
-
-/** FOR MOBILE LAYOUT **/
-.mobile-layout {
-  padding: 10px 0;
-  border-radius: 8px; /* Rounded edges */
-  transition: transform 0.2s ease, background-color 0.2s ease; /* Smooth transition for transform and background */
-}
 
 .discussion-table-thread .image-container:hover img {
   transform: scale(1.05); /* Slight zoom effect on hover */
@@ -136,24 +123,59 @@
 }
 
 @media (max-width: 768px) {
-  .mobile-layout {
-    margin: 0.5rem 0; /* Adds spacing between cards in mobile view */
-  }
-
-  .mobile-layout:hover {
-    transform: translateY(-4px); /* Adds a slight lift effect on hover */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* More pronounced shadow on hover */
-  }
-
   .discussion-table-thread .image-container {
-    padding-top: 30px;
     display: flex;
     width: 100%;
     justify-content: center;
   }
 
-  .discussion-table-thread .tags{
-    justify-content: center;
+  .discussion-table-thread td {
+    display: block;
+    padding: 0 1rem;
+  }
+
+  .image-container .thread-td {
+    height: auto;
+  }
+
+  .discussion-table-thread td > p {
+    text-align: left;
+  }
+
+  .discussion-table-thread td .image-container {
+    width: 100%;
+    height: auto;
+  }
+
+  .discussion-table-thread td {
+    border: none !important;
+  }
+
+  .discussion-table-thread td:not([data-cell="votes"]):not([data-cell="image"]):not([data-cell="details"]) {
+    display: grid;
+    grid-template-columns: 15ch auto;
+  }
+
+  .discussion-table-thread .thread-num {
+    text-align: left;
+  }
+
+  .discussion-table-thread td:not([data-cell="votes"]):not([data-cell="image"]):not([data-cell="details"]):before {
+    content: attr(data-cell) ": ";
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+
+  .discussion-table-thread td:after {
+    justify-content: start;
+  }
+
+  .discussion-table-thread td:first-child {
+    padding-top: 1rem;
+  }
+
+  .discussion-table-thread td:last-child {
+    padding-bottom: 1rem;
   }
 
   .discussion-table-thread .tag-container {
