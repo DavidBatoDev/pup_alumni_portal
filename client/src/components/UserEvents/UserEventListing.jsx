@@ -31,8 +31,8 @@ const UserEventListing = ({ eventData }) => {
         {/* Event Image */}
         <div className="event-image-container-auth">
           <img
-            // src={eventData?.photos[0]?.photo_path || fallbackImage}
-            src={fallbackImage}
+            src={eventData?.photos[0]?.photo_path || fallbackImage}
+            // src={fallbackImage}
             alt={eventData?.event_name.substring(0, 5) || 'Event Image'}
             className="event-image-auth"
           />

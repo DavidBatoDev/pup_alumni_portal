@@ -54,12 +54,24 @@ const AdminSpecificEvent = () => {
         const eventResponse = await axios.get(`/api/event/${eventId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setEventData(eventResponse.data.event);
-        console.log('Event Information: ', eventResponse.data.event);
+        // set the event data except the registered alumni
 
+        setEventData({
+          event_id: eventResponse.data.event.event_id,
+          event_name: eventResponse.data.event.event_name,
+          event_date: eventResponse.data.event.event_date,
+          location: eventResponse.data.event.location,
+          type: eventResponse.data.event.type,
+          category: eventResponse.data.event.category,
+          description: eventResponse.data.event.description
+        })
+        console.log('Event Information: ', eventResponse.data.event);
+        
         const participantsResponse = await axios.get(`/api/admin/event/${eventId}/registered-alumni`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
+        console.log('Participants Information: ', participantsResponse.data);
+
         setParticipantData(participantsResponse.data.registered_alumni);
 
         setLoading(false);

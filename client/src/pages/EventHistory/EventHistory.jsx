@@ -5,6 +5,7 @@ import bannerImage2 from '../../assets/images/eventimage2.jpg';
 import './EventHistory.css';
 import EventsFilterSection from '../../components/EventsFilterSection/EventsFilterSection';
 import EventAuth from '../../components/EventSectionAuth/EventAuth';
+import api from '../../api';
 
 const EventHistory = () => {
     // Sample past events data
@@ -37,6 +38,39 @@ const EventHistory = () => {
         }
     ];
 
+
+    const [eventsData, setEventsData] = useState([]);
+    const [filteredEvents, setFilteredEvents] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [filters, setFilters] = useState({
+        searchTerm: '',
+        startDate: '',
+        endDate: '',
+        types: [],
+        categories: [],
+        organizations: []
+      });
+    
+      useEffect(() => {
+        const fetchEvents = async () => {
+          try {
+            setLoading(true);
+            const response = await api.get("/api/events/inactive");
+            setEventsData(response.data.events);
+            setFilteredEvents(response.data.events);
+          } catch (error) {
+            console.error("Error fetching events:", error);
+            setError(error.response?.data?.message || "Failed to fetch events. Please try again later."); 
+          } finally {
+            setLoading(false);
+          }
+        };
+    
+        fetchEvents();
+      }, []);
+    
+
     return (
         <div>
             <Navbar />
@@ -59,7 +93,7 @@ const EventHistory = () => {
 
                     <div className="events-container d-flex">
                         <EventsFilterSection />
-                        <EventAuth events={eventHistoryData} /> {/* Pass past events data */}
+                        <EventAuth events={eventsData} /> {/* Pass past events data */}
                     </div>
                 </div>
             </div>

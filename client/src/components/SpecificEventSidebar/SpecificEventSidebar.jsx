@@ -6,17 +6,45 @@ import Location from '../../assets/svgs/location-outline.svg';
 import './SpecificEventSidebar.css';
 
 const SpecificEventSidebar = ({ daysToGo, date, participants, venue, organizers, type }) => {
+  console.log('daysToGo', typeof daysToGo);
+
   return (
     <aside className="specific-event-sidebar">
       <div className="sidebar-card">
         {/* Days to go */}
         <div className="event-date-wrapper">
           <img src={Clock} alt="Clock Icon" />
-          <h2>{daysToGo}</h2>
-          <div className="days-to-go">
-            <div className='event-date-daystogo'>days</div>
-            <div className='event-date-daystogo'>to go</div>
-          </div>
+          {/* if event is done or today */}
+          {
+            typeof daysToGo === 'string' && (
+              <div className='event-date-daystogo'>Ended</div>
+            )
+          }
+
+          {/* if event is upcoming */}
+          {
+            typeof daysToGo === 'number' && (
+              <h2>{daysToGo}</h2>
+            )
+          }
+
+          {/* if event is today */}
+          {
+            daysToGo === "Today" && (
+              <div className='event-date-daystogo'>''</div>
+            )
+          }
+
+          {/* if event is upcoming */}
+          {
+            typeof daysToGo === 'number' && (
+              <div className="days-to-go">
+              <div className='event-date-daystogo'>days</div>
+              <div className='event-date-daystogo'>to go</div>
+            </div>
+            )
+          }
+
         </div>
 
         {/* Event Date */}

@@ -61,6 +61,19 @@ const SpecificEvent = () => {
 
   const backgroundImage = eventData?.photos[0]?.photo_path || bannerImage;
 
+  const calculateDaysToGo = (eventDate) => {
+    const currentDate = new Date();
+    const eventDateObj = new Date(eventDate);
+    const timeDifference = eventDateObj.getTime() - currentDate.getTime();
+    const daysToGo = Math.ceil(timeDifference / (1000 * 3600 * 24));
+
+    if (daysToGo === 0) return "Today";
+
+    if (daysToGo < 0) return "Event has ended at " + eventDateObj.toLocaleTimeString();
+
+    return daysToGo;
+  }
+
   return (
     <div
       className="specific-event-page"
@@ -90,7 +103,7 @@ const SpecificEvent = () => {
       </Swiper>
       <div className="specific-event-section">
         <SpecificEventSidebar
-          daysToGo={Math.floor((new Date(eventData.event_date) - new Date()) / (1000 * 60 * 60 * 24))}
+          daysToGo={calculateDaysToGo(eventData.event_date)}
           date={eventData.event_date}
           participants={eventData.registered_alumni.length}
           venue={eventData.location}

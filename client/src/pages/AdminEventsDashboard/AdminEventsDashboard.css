@@ -257,6 +257,16 @@
   color: #fff;
 }
 
+.end-event-btn {
+  border-color: #353334;
+  color: #353334;
+}
+
+.end-event-btn:hover {
+  background-color: #353334;
+  color: #fff;
+}
+
 
 .photo-previews-container {
   display: grid;

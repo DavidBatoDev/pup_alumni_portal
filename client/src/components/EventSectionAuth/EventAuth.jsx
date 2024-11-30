@@ -59,7 +59,7 @@ const EventAuth = ({ events }) => {
     // Apply filters to the events
     const filteredEvents = events.filter((event) => {
         const matchesSearch = filters.searchTerm
-            ? event.name.toLowerCase().includes(filters.searchTerm.toLowerCase())
+            ? event?.event_name.toLowerCase().includes(filters.searchTerm.toLowerCase())
             : true;
         const matchesType = filters.types.length ? filters.types.includes(event.type) : true;
         const matchesCategory = filters.categories.length
@@ -80,7 +80,7 @@ const EventAuth = ({ events }) => {
     const indexOfLastEvent = currentPage * eventsPerPage;
     const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
     const currentEvents = filteredEvents.slice(indexOfFirstEvent, indexOfLastEvent);
-    const totalPages = Math.ceil(filteredEvents.length / eventsPerPage);
+    const totalPages = Math.ceil(filteredEvents.length / eventsPerPage) || 1;
 
     // Handle page change in pagination
     const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);

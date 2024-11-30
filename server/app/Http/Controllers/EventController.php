@@ -11,6 +11,8 @@ use App\Events\EventCreated;
 use App\Models\Notification;
 use App\Models\Alumni;
 use App\Models\AlumniNotification;
+use App\Models\EventFeedback;
+use App\Models\PostEventPhoto;
 
 class EventController extends Controller
 {
@@ -19,43 +21,7 @@ class EventController extends Controller
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
-     */
-    // public function createEvent(Request $request)
-    // {
-    //     // Validate the input data and the image files
-    //     $validatedData = $request->validate([
-    //         'event_name' => 'required|string|max:255',
-    //         'event_date' => 'required|date',
-    //         'location' => 'required|string|max:255',
-    //         'type' => 'required|string|max:100',
-    //         'category' => 'required|string|max:100',
-    //         'organization' => 'nullable|string|max:100',
-    //         'description' => 'nullable|string',
-    //         'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048', // Validate multiple images
-    //     ]);
-    
-    //     // Create the event
-    //     $event = Event::create($validatedData);
-    
-    //     // Handle file uploads
-    //     if ($request->hasFile('photos')) {
-    //         foreach ($request->file('photos') as $photo) {
-    //             $path = $photo->store('event_photos', 'public'); // Store in the 'public' disk
-    
-    //             // Save the photo path in the event_photos table
-    //             EventPhoto::create([
-    //                 'event_id' => $event->event_id,
-    //                 'photo_path' => $path,
-    //             ]);
-    //         }
-    //     }
-
-    //     // broadcast(new EventCreated($event))->toOthers();
-    //     // event(new EventCreated($event));
-
-    
-    //     return response()->json(['success' => true, 'event' => $event], 201);
-    // }
+    */
     public function createEvent(Request $request)
     {
         // Validate the input data and the image files
@@ -210,6 +176,120 @@ class EventController extends Controller
     
         return response()->json(['success' => true, 'message' => 'Event deleted successfully.'], 200);
     }
+
+        /**
+     * End an event (Admin only).
+     *
+     * @param int $eventId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function endEvent($eventId)
+    {
+        // Find the event by ID
+        $event = Event::find($eventId);
+
+        if (!$event) {
+            return response()->json(['error' => 'Event not found'], 404);
+        }
+
+        // Check if the event is already inactive
+        if (!$event->is_active) {
+            return response()->json(['error' => 'Event has already ended'], 400);
+        }
+
+        // Mark the event as ended (inactive)
+        $event->is_active = false;
+        $event->save();
+
+        // Optionally, notify alumni that the event has ended
+        $notification = Notification::create([
+            'type' => 'eventEnded',
+            'alert' => 'Event Ended',
+            'title' => $event->event_name,
+            'message' => 'The event "' . $event->event_name . '" has ended.',
+            'link' => '/events/' . $event->event_id, // Link to the event details
+        ]);
+
+        // Fetch all alumni IDs
+        $alumniIds = Alumni::pluck('alumni_id');
+
+        // Attach the notification to all alumni
+        foreach ($alumniIds as $alumniId) {
+            AlumniNotification::create([
+                'alumni_id' => $alumniId,
+                'notification_id' => $notification->notification_id,
+                'is_read' => false,
+            ]);
+        }
+
+        return response()->json(['success' => true, 'message' => 'Event ended successfully.'], 200);
+    }
+
+
+
+    /**
+     * Submit feedback and upload photos for an event.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $eventId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function submitFeedback(Request $request, $eventId)
+    {
+        // Validate request data
+        $request->validate([
+            'feedback' => 'required|string|max:1000',
+            'photos' => 'nullable|array',
+            'photos.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        // Find the event
+        $event = Event::find($eventId);
+        if (!$event) {
+            return response()->json(['error' => 'Event not found'], 404);
+        }
+        
+        if ($event->is_active) {
+            return response()->json(['error' => 'Event is still active.'], 403);
+        }
+
+        // Assume alumni_id comes from JWT or session
+        $alumniId = auth()->user()->alumni_id;
+
+        // Check if the alumni is registered for the event
+        $isRegistered = AlumniEvent::where('event_id', $event->event_id)
+            ->where('alumni_id', $alumniId)
+            ->exists();
+
+        if (!$isRegistered) {
+            return response()->json(['error' => 'You are not registered for this event.'], 403);
+        }
+
+
+
+        // Store feedback
+        $feedback = EventFeedback::create([
+            'event_id' => $event->event_id,
+            'alumni_id' => $alumniId,
+            'feedback' => $request->input('feedback'),
+        ]);
+
+        // Handle photo uploads
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $photo) {
+                $photoPath = $photo->store('event_photos', 'public'); // Store in storage/app/public/event_photos
+
+                PostEventPhoto::create([
+                    'event_id' => $event->event_id,
+                    'photo_path' => $photoPath,
+                ]);
+            }
+        }
+
+        return response()->json(['success' => true, 'message' => 'Feedback submitted successfully.']);
+    }
+
+
 
 
     /**
