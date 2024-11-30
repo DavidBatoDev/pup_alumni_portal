@@ -2,9 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import UserEventListing from '../UserEvents/UserEventListing';
 import EventsFilterSection from '../EventsFilterSection/EventsFilterSection';
 import './EventAuth.css';
-import searchIcon from "../../assets/svgs/search-outline.svg";
 import menuIcon from "../../assets/svgs/menu-outline.svg";
 import { Link } from 'react-router-dom';
+import SearchBar from '../SearchBar/SearchBar';
 
 const EventAuth = ({ events }) => {
     const [currentPage, setCurrentPage] = useState(1); // State for managing the current page
@@ -91,24 +91,17 @@ const EventAuth = ({ events }) => {
         setCurrentPage(1);
     };
 
+    // Handle search functionality
+    const handleSearch = (searchTerm) => {
+        handleFilterChange({ ...filters, searchTerm });
+    };
+
     return (
         <div className="event-auth-container">
             <div className="events-card-container card p-4 shadow-sm">
                 <div className="d-flex justify-content-between align-items-center event-header">
                     {/* Search Bar */}
-                    <div className="input-group">
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Search for an event"
-                            aria-label="Search for an event"
-                            value={filters.searchTerm}
-                            onChange={(e) => handleFilterChange({ ...filters, searchTerm: e.target.value })}
-                        />
-                        <button className="btn btn-outline-secondary">
-                            <img className="search-icon" src={searchIcon} alt="Search Icon" />
-                        </button>
-                    </div>
+                    <SearchBar onSearch={handleSearch} placeholder="Search for an event" buttonVisible={true}/>
 
                     {/* Filter Search Section with Categories (Visible only on Mobile) */}
                     {isMobileView && (
