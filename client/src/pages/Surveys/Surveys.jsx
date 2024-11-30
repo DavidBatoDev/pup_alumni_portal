@@ -6,16 +6,17 @@ import "./Surveys.css";
 import axios from "axios";
 import '../../global.css';
 import SurveyCard from "../../components/SurveyCards/SurveyCards";
-import CustomAlert from "../../components/CustomAlert/CustomAlert"; 
+import CustomAlert from "../../components/CustomAlert/CustomAlert";
 import SurveySearchBar from "../../components/SurveySearchBar/SurveySearchBar";
-import echo from "../../echo"; 
+import echo from "../../echo";
 import CircularLoader from "../../components/CircularLoader/CircularLoader";
 
 const Surveys = () => {
   const [unansweredSurveysData, setUnansweredSurveysData] = useState([]);
   const [answerSurveyData, setAnswerSurveyData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); 
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchUnansweredSurveys = async () => {
@@ -72,6 +73,18 @@ const Surveys = () => {
   // Clear the error message
   const handleClearError = () => setError(null);
 
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredUnansweredSurveys = unansweredSurveysData.filter((survey) =>
+    survey.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const filteredAnsweredSurveys = answerSurveyData.filter((survey) =>
+    survey.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div>
       {/* Authenticated Navigation Bar */}
@@ -116,8 +129,8 @@ const Surveys = () => {
               </div>
             ) : (
               <div className="survey-list-container">
-                <SurveySearchBar surveys={unansweredSurveysData} answered={false} />
-                <SurveyCard surveys={unansweredSurveysData} answered={false} />
+                <SurveySearchBar surveys={unansweredSurveysData} answered={false} onSearch={handleSearch} />
+                <SurveyCard surveys={filteredUnansweredSurveys} answered={false} />
               </div>
             )}
           </div>
@@ -142,8 +155,8 @@ const Surveys = () => {
               </div>
             ) : (
               <div className="survey-list-container">
-                <SurveySearchBar surveys={answerSurveyData} answered={true} />
-                <SurveyCard surveys={answerSurveyData} answered={true} />
+                <SurveySearchBar surveys={answerSurveyData} answered={true} onSearch={handleSearch} />
+                <SurveyCard surveys={filteredAnsweredSurveys} answered={true} />
               </div>
             )}
           </div>
