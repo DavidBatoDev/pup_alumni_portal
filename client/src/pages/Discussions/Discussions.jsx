@@ -15,6 +15,7 @@ import DiscussionTableHeader from '../../components/DiscussionTableHeader/Discus
 import DiscussionTableThread from '../../components/DiscussionTableThread/DiscussionTableThread';
 import DiscussionCardThread from '../../components/DiscussionCardThread/DiscussionCardThread';
 import DiscussionThreadModal from '../../components/DiscussionThreadModal/DiscussionThreadModal'; // Import DiscussionThreadModal
+import SearchBar from '../../components/SearchBar/SearchBar';
 
 import "./Discussions.css";
 import axios from 'axios';
@@ -26,6 +27,7 @@ const Discussions = () => {
   const [filter, setFilter] = useState('Best');
   const [viewMode, setViewMode] = useState('compact');
   const [error, setError] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Modal visibility state
   const [showModal, setShowModal] = useState(false);
@@ -144,6 +146,19 @@ const Discussions = () => {
     }
   };
 
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    if (query.trim() === '') {
+      setThreads(threads); // Reset threads to show all
+    }
+  };
+
+  const filteredThreads = threads.filter(thread =>
+    thread?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    thread?.tags?.some(tag => tag.name?.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    thread?.author?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="discussions-page">
       <Navbar />
@@ -178,13 +193,14 @@ const Discussions = () => {
               viewMode={viewMode}
               setViewMode={setViewMode}
               onCreate={() => setShowModal(true)} // Open modal
+              onSearch={handleSearch} // Pass search handler
             />
             {viewMode === 'compact' ? (
               <table className="w-100 table table-sm table-hover mt-3">
                 {/* Conditionally render the table header */}
                 <DiscussionTableHeader />
                 <tbody className="w-100">
-                  {threads?.map((thread) => (
+                  {filteredThreads?.map((thread) => (
                     <DiscussionTableThread
                       key={thread.thread_id}
                       thread={thread}
@@ -195,7 +211,7 @@ const Discussions = () => {
               </table>
             ) : (
               <div className="card-list d-flex flex-column py-4 gap-4">
-                {threads?.map((thread) => (
+                {filteredThreads?.map((thread) => (
                   <>
                     <DiscussionCardThread
                       key={thread.thread_id}

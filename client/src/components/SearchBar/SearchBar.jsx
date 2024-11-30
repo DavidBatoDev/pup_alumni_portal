@@ -7,6 +7,9 @@ const SearchBar = ({ onSearch, placeholder, buttonVisible }) => {
 
   const handleInputChange = (e) => {
     setQuery(e.target.value);
+    if (!buttonVisible) {
+      onSearch(e.target.value);
+    }
   };
 
   const handleSearch = () => {
@@ -22,12 +25,7 @@ const SearchBar = ({ onSearch, placeholder, buttonVisible }) => {
         className="form-control py-0 discussion-search flex-grow-1"
         placeholder={placeholder || 'Search'}
         value={query}
-        onChange={(e) => {
-          handleInputChange(e);
-          if (!buttonVisible) {
-            handleSearch();
-          }
-        }}
+        onChange={(e) => {handleInputChange(e)}}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
             handleSearch();

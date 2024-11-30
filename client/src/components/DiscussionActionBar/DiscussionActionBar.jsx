@@ -1,6 +1,7 @@
 import "./DiscussionActionBar.css";
+import SearchBar from '../SearchBar/SearchBar';
 
-const DiscussionActionBar = ({ filter, setFilter, viewMode, setViewMode, onCreate }) => {
+const DiscussionActionBar = ({ filter, setFilter, viewMode, setViewMode, onCreate, onSearch }) => {
   // Handles filter change
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
@@ -45,11 +46,7 @@ const DiscussionActionBar = ({ filter, setFilter, viewMode, setViewMode, onCreat
 
         {/* Search bar and "Create" button */}
         <div className="search-and-button-container">
-          <input
-            type="text"
-            className="form-control py-0 discussion-search flex-grow-1"
-            placeholder="Search"
-          />
+          <SearchBar onSearch={onSearch} placeholder="Search discussions" buttonVisible={false} />
           <button className="btn btn-primary py-0" onClick={onCreate}>
             Create
           </button>

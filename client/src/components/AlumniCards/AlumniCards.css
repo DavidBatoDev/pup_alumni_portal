@@ -60,6 +60,13 @@
   max-height: 100px;
 }
 
+.no-profiles-found {
+  color: #555555;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  font-weight: 500;
+}
+
 .alumni-profile-section .ac-address-text {
   font-size: 1rem;
   font-weight: 500;
