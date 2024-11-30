@@ -24,6 +24,9 @@
   display: flex;
   height: 100%;
   width: 100%;
+  background-color: white;
+  border-radius: 15px;
+  padding: 20px;
 }
 
 /* Filter search section and categories */
@@ -46,9 +49,12 @@
 .filter-search-categories {
   display: flex;
   gap: 10px;
-  overflow-x: auto; /* Enable horizontal scrolling */
-  scrollbar-width: thin; /* Firefox: thin scrollbar */
-  -ms-overflow-style: none; /* Internet Explorer and Edge */
+  overflow-x: auto;
+  /* Enable horizontal scrolling */
+  scrollbar-width: thin;
+  /* Firefox: thin scrollbar */
+  -ms-overflow-style: none;
+  /* Internet Explorer and Edge */
   flex: 1;
 }
 
@@ -63,7 +69,8 @@
   border-radius: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
-  white-space: nowrap; /* Prevent text from wrapping */
+  white-space: nowrap;
+  /* Prevent text from wrapping */
 }
 
 .filter-search.active {
@@ -98,12 +105,16 @@
 }
 
 .pagination .page-item .page-link {
-  color: #000; /* Default color for page links */
-  background-color: #f8f9fa; /* Default background color */
-  border: 1px solid #dee2e6; /* Default border */
+  color: #000;
+  /* Default color for page links */
+  background-color: #f8f9fa;
+  /* Default background color */
+  border: 1px solid #dee2e6;
+  /* Default border */
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
-  outline: none; /* Remove default focus outline */
+  outline: none;
+  /* Remove default focus outline */
 }
 
 /* Remove blue border when pagination link is focused */
@@ -130,7 +141,8 @@
 .filter-section-overlay {
   position: fixed;
   top: 0;
-  left: -100%; /* Start off-screen */
+  left: -100%;
+  /* Start off-screen */
   height: 100%;
   width: 100%;
   max-width: 320px;
@@ -201,7 +213,8 @@
     margin-right: 5px;
     justify-content: space-between;
     width: 100%;
-    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-x: auto;
+    /* Enable horizontal scrolling */
   }
 
   /* Hide scrollbar for Webkit browsers on mobile */
@@ -249,8 +262,8 @@
     position: absolute;
     top: 145px;
     right: 20px;
-    
-  } 
+
+  }
 
   .container {
     margin-top: 20px;

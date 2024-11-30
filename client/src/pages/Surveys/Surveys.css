@@ -1,6 +1,10 @@
 /* Prefix styles with .survey- to prevent conflicts */
+.surveys-page {
+  position: relative;
+}
+
 .surveys-section {
-  padding-top: 50px;
+  padding: 42px 128px;
   height: max-content;
 }
 
@@ -13,6 +17,12 @@
   font-size: 32px;
   font-weight: bold;
   text-align: left;
+}
+
+.survey-background {
+  background-image: url('../../assets/images/surveyimage.jpg');
+  width: 100%;
+  height: 100%;
 }
 
 
@@ -96,7 +106,7 @@
   .line-seperator {
     margin: 20px 0;
   }
-  
+
 }
 
 @media screen and (min-width: 1200px) {

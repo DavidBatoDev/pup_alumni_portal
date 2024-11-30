@@ -21,7 +21,7 @@
     background-attachment: fixed;
     background-position: center;
     z-index: -1;
-    position: absolute; /* Ensure the banner is behind the content */
+    position: fixed; /* Ensure the banner is behind the content */
     top: 0;
     left: 0;
     width: 100%;
