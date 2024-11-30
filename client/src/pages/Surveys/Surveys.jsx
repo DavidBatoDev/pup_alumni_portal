@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import BannerSmall from "../../components/Banner/BannerSmall";
 import Navbar from "../../components/Navbar/Navbar";
-import bannerImage from "../../assets/images/eventbanner.png";
+import bannerImage from "../../assets/images/surveyimage.jpg";
 import "./Surveys.css";
 import axios from "axios";
 import '../../global.css';
 import SurveyCard from "../../components/SurveyCards/SurveyCards";
 import CustomAlert from "../../components/CustomAlert/CustomAlert";
-import SurveySearchBar from "../../components/SurveySearchBar/SurveySearchBar";
+import SearchBar from "../../components/SearchBar/SearchBar";
 import echo from "../../echo";
 import CircularLoader from "../../components/CircularLoader/CircularLoader";
+import MainFooter from "../../components/MainFooter/MainFooter";
 
 const Surveys = () => {
   const [unansweredSurveysData, setUnansweredSurveysData] = useState([]);
@@ -17,6 +18,8 @@ const Surveys = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [unansweredSearchTerm, setUnansweredSearchTerm] = useState("");
+  const [answeredSearchTerm, setAnsweredSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchUnansweredSurveys = async () => {
@@ -73,25 +76,29 @@ const Surveys = () => {
   // Clear the error message
   const handleClearError = () => setError(null);
 
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
+  const handleUnansweredSearch = (query) => {
+    setUnansweredSearchTerm(query);
+  };
+
+  const handleAnsweredSearch = (query) => {
+    setAnsweredSearchTerm(query);
   };
 
   const filteredUnansweredSurveys = unansweredSurveysData.filter((survey) =>
-    survey.title.toLowerCase().includes(searchTerm.toLowerCase())
+    survey.title.toLowerCase().includes(unansweredSearchTerm.toLowerCase())
   );
 
   const filteredAnsweredSurveys = answerSurveyData.filter((survey) =>
-    survey.title.toLowerCase().includes(searchTerm.toLowerCase())
+    survey.title.toLowerCase().includes(answeredSearchTerm.toLowerCase())
   );
 
   return (
-    <div>
-      {/* Authenticated Navigation Bar */}
+    <div className="position-relative">
+      <div className="background survey-background"></div>
 
+      {/* Authenticated Navigation Bar */}
       {loading && <CircularLoader />}
       <Navbar />
-      <div className="background login-background"></div>
 
       {/* Banner Section */}
       <BannerSmall
@@ -113,10 +120,10 @@ const Surveys = () => {
       )}
 
       {/* Main Survey Section */}
-      <div className="surveys-section glass">
+      <div className="surveys-section glass h-auto">
         <div className="container">
           {/* Unanswered Surveys Section */}
-          <div className="survey-header">
+          <div className="survey-header crimson-text">
             <h2>Participate in Our Surveys</h2>
             <h5>
               Your feedback is valuable to us! Please take a few moments to complete any of the surveys listed below.
@@ -129,7 +136,11 @@ const Surveys = () => {
               </div>
             ) : (
               <div className="survey-list-container">
-                <SurveySearchBar surveys={unansweredSurveysData} answered={false} onSearch={handleSearch} />
+                <SearchBar onSearch={handleUnansweredSearch} placeholder="Search for a survey" buttonVisible={false} />
+                <h3 className="survey-text-muted mt-3 mb-3">
+                  Available Surveys:
+                  <span className="survey-text-danger text-danger">{ " " + unansweredSurveysData?.length}</span>
+                </h3>
                 <SurveyCard surveys={filteredUnansweredSurveys} answered={false} />
               </div>
             )}
@@ -155,13 +166,18 @@ const Surveys = () => {
               </div>
             ) : (
               <div className="survey-list-container">
-                <SurveySearchBar surveys={answerSurveyData} answered={true} onSearch={handleSearch} />
+                <SearchBar onSearch={handleAnsweredSearch} placeholder="Search for a survey" buttonVisible={false} />
+                <h3 className="survey-text-muted mt-3 mb-3">
+                  Surveys Answered:
+                  <span className="survey-text-danger text-danger">{" " +  answerSurveyData?.length}</span>
+                </h3>
                 <SurveyCard surveys={filteredAnsweredSurveys} answered={true} />
               </div>
             )}
           </div>
         </div>
       </div>
+      <MainFooter />
     </div>
   );
 };
