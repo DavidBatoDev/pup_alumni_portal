@@ -30,6 +30,9 @@ const Login = () => {
   const [changePasswordModal, setChangePasswordModal] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -167,6 +170,12 @@ const Login = () => {
     }
   };
 
+  const handleShowPasswordToggle = (setter) => (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setter((prevState) => !prevState);
+  };
+
   return (
     <>
       {error && (
@@ -209,7 +218,7 @@ const Login = () => {
                     className="form-control"
                     value={forgotPasswordEmail}
                     onChange={(e) => setForgotPasswordEmail(e.target.value)}
-                    placeholder="johndoe@exampl.com"
+                    placeholder="johndoe@example.com"
                   />
                 </div>
                 <div>
@@ -275,27 +284,37 @@ const Login = () => {
                   <label htmlFor="newPassword" className="form-label">
                     New Password
                   </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="newPassword"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    placeholder="New Password"
-                  />
+                  <div className="input-group">
+                    <input
+                      type={showNewPassword ? "text" : "password"}
+                      className="form-control"
+                      id="newPassword"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="New Password"
+                    />
+                    <span className="input-group-text bg-white" onMouseDown={handleShowPasswordToggle(setShowNewPassword)}>
+                      <i className={`fas ${showNewPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
+                    </span>
+                  </div>
                 </div>
                 <div className="mb-3">
                   <label htmlFor="confirmPassword" className="form-label">
                     Confirm Password
                   </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="confirmPassword"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Confirm Password"
-                  />
+                  <div className="input-group">
+                    <input
+                      type={showConfirmPassword ? "text" : "password"}
+                      className="form-control"
+                      id="confirmPassword"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="Confirm Password"
+                    />
+                    <span className="input-group-text bg-white" onMouseDown={handleShowPasswordToggle(setShowConfirmPassword)}>
+                      <i className={`fas ${showConfirmPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
+                    </span>
+                  </div>
                 </div>
                 <div>
                   <button type="submit" className="btn btn-danger w-100">
@@ -358,7 +377,7 @@ const Login = () => {
                           <i className="fas fa-lock"></i>
                         </span>
                         <input
-                          type="password"
+                          type={showPassword ? "text" : "password"}
                           className="form-control"
                           id="password"
                           placeholder="Password"
@@ -366,6 +385,9 @@ const Login = () => {
                           onChange={(e) => setPassword(e.target.value)}
                           required
                         />
+                        <span className="input-group-text btn-show-password bg-white" onMouseDown={handleShowPasswordToggle(setShowPassword)}>
+                          <i className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
+                        </span>
                       </div>
                       {validationErrors.password && (
                         <div className="text-danger">

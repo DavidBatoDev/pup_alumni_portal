@@ -72,6 +72,10 @@
   border-radius: 10px;
 }
 
+.btn-show-password {
+  border-radius: 0px 100px 100px 0px !important;
+}
+
 .welcome-text {
   font-size: 24px;
   font-weight: bold;
@@ -239,5 +243,10 @@
   .sign-up-box {
     border-left: none;
     padding-left: 0;
+  }
+
+  .login-page i {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
   }
 }
