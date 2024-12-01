@@ -22,7 +22,7 @@ const SearchBar = ({ onSearch, placeholder, buttonVisible }) => {
     <div className="search-bar-container input-group">
       <input
         type="text"
-        className="form-control py-0 discussion-search flex-grow-1"
+        className="form-control font-size-1rem px-3 py-0 discussion-search flex-grow-1"
         placeholder={placeholder || 'Search'}
         value={query}
         onChange={(e) => {handleInputChange(e)}}
