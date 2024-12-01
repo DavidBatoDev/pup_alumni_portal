@@ -78,9 +78,20 @@
   height: 100vh;
 }
 
+@media screen and (max-width: 1024px) {
+  .surveys-section {
+    padding: 20px 64px;
+  }
+}
+
+
 @media screen and (max-width: 768px) {
 
-  .survey-section .container {
+  .surveys-section {
+    padding: 20px 40px;
+  }
+
+  .surveys-section .container {
     margin: 20px 5px;
   }
 
@@ -112,5 +123,11 @@
 @media screen and (min-width: 1200px) {
   .surveys-section {
     padding-top: 50px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .surveys-section {
+    padding: 20px 0px;
   }
 }

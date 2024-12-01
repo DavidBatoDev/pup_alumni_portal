@@ -120,7 +120,7 @@ const Surveys = () => {
       )}
 
       {/* Main Survey Section */}
-      <div className="surveys-section glass h-auto">
+      <div className="surveys-section glass h-auto d-flex justify-content-center align-items-center">
         <div className="container">
           {/* Unanswered Surveys Section */}
           <div className="survey-header crimson-text">

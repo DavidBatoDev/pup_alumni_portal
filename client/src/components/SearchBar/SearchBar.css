@@ -1,4 +1,9 @@
 .search-bar-container {
   flex-grow: 1;
   width: 100%;
+  min-width: fit-content;
+}
+
+.search-bar-container .form-control {
+  font-size: 1rem;
 }
