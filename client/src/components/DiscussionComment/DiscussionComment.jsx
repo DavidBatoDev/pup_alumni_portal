@@ -19,6 +19,14 @@ const DiscussionComment = ({ comment, replies, submitReply }) => {
     setShowReplyBox(false);
   }
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); // Prevent the default behavior
+      handleReply(e);
+    }
+  };
+
+
   return (
     <div className={`comment-card d-flex p-3 gap-2 w-100 mb-2 ${isRendered ? 'fade-in' : ''}`}>
       <div className='d-flex flex-column align-items-center gap-4'>
@@ -69,6 +77,7 @@ const DiscussionComment = ({ comment, replies, submitReply }) => {
               autoFocus
               value={replyContent}
               onChange={(e) => setReplyContent(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
             <div className='d-flex justify-content-end gap-2 mb-3 mt-1'>
               <button className='btn btn-cancel btn-light btn-primary raleway' onClick={() => setShowReplyBox(false)}>Cancel</button>

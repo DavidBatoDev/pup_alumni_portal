@@ -33,6 +33,7 @@
   font-family: 'Crimson Text', sans-serif;
   font-size: 1rem;
   text-decoration: none;
+  margin-bottom: 0 !important;
 }
 
 .discussion-card-thread .thread-tag {
@@ -43,7 +44,7 @@
   background-color: #800000;
   border-radius: 1rem;
   padding: 0.1875rem 0.625rem;
-  user-select: none;
+  margin-bottom: 0 !important;
 }
 
 .discussion-card-thread .thread-title {
@@ -51,6 +52,7 @@
   font-family: "Crimson Text";
   font-size: 1.5rem;
   font-weight: 700;
+  margin-bottom: 0 !important;
 }
 
 .discussion-card-thread .thread-num {
