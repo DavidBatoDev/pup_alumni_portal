@@ -61,11 +61,11 @@
   align-items: end;
 }
 
-.discussion-card-thread .thread-body {
+/* All React Quill Elements */
+.discussion-card-thread .thread-body * {
   color: #1E1E1E;
-  font-family: 'Crimson Text', sans-serif;
+  font-family: 'Raleway', sans-serif;
   font-size: 1rem;
-  font-weight: 400;
   text-align: justify;
   text-rendering: optimizeSpeed;
   overflow: hidden;
@@ -99,8 +99,8 @@
 .btn-reply {
   background-color: white;
   color: #6D6D6D;
-  height: 3rem;
-  width: 3rem;
+  height: 2.3rem;
+  height: 2.3rem;
 }
 
 .btn-reply:hover {
@@ -118,6 +118,7 @@
   background-color: white;
   color: #6D6D6D;
   transition: ease-in 0.3s;
+  height: 2.3rem;
 }
 
 .btn-read-more:hover {
@@ -127,7 +128,7 @@
 .discussion-card-thread .btn-group>.btn {
   background-color: white;
   border: none;
-  height: 3rem;
+  height: 2.3rem;
   display: flex;
   text-align: center;
   align-items: center;
