@@ -28,7 +28,7 @@ const NotificationItem = ({ notification }) => {
   };
 
   return (
-    <div className={`notification-item pmd-2 d-flex flex-row`}>
+    <div className={`notification-item mb-3 d-flex`}>
       <div className="notification-icon-container mx-2 my-2">
         <i
           className={`notification-icon fa-xl ${getNotificationIcon(
@@ -40,9 +40,13 @@ const NotificationItem = ({ notification }) => {
         <h5 className="notification-alert">{notification?.alert}</h5>
         <small className="notification-time">{notification?.time}</small>
 
-        <div className="notification-content bg-gray d-flex mt-2 flex-column flex-start p-2 w-100">
-          <p className="notification-title">{notification?.title}</p>
-          <p className="notification-message">{notification?.message}</p>
+        <div className="notification-content justify-content-between bg-gray d-flex mt-0 flex-start p-2 w-100">
+
+          <div className="notification-text-content">
+            <p className="notification-title">{notification?.title}</p>
+            <p className="notification-message">{notification?.message}</p>
+          </div>
+         
           <button
             onClick={handleNavigate}
             className="btn btn-danger justify-content-center d-flex align-items-center"

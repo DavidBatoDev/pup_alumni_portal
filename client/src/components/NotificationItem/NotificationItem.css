@@ -1,3 +1,7 @@
+.notification-header{
+  margin: 5px 0;
+}
+
 .notification-item {
   font-family: "Raleway", sans-serif;
   font-size: 0.875rem;
@@ -6,8 +10,12 @@
     background-color 0.3s ease-in-out;
   z-index: 1000 !important;
   background-color: transparent !important;
-  border-top: 1px solid black;
-  padding: 5px 0;
+  padding: 8px 0;
+  border-bottom: 1px solid #a6a6a6;
+}
+
+.notification-item:last-child {
+  margin-bottom: 0 !important;
 }
 
 .notification-item:hover {

@@ -44,7 +44,7 @@ const DiscussionCardThread = ({ thread, handleComment, submitVote }) => {
   };
 
   return (
-    <Link className="text-decoration-none" to={`/discussions/${thread?.thread_id}`}>
+    <Link className="text-decoration-none mb-2" to={`/discussions/${thread?.thread_id}`}>
       <div className="p-3 discussion-card-thread">
         <div className="d-flex flex-column">
           {/* Thread Metadata */}
