@@ -40,29 +40,16 @@
   border-radius: 15px;
 }
 
-/* Alumni header with search bar and view switcher */
-.alumni-header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  /* For responsive wrapping */
-}
-
-/* Input group for the search bar */
-.alumni-header .input-group {
-  position: relative;
-  display: flex;
-  align-items: stretch;
-  width: 50%;
-}
-
 /* Wrapper for the view switch buttons (grid and menu) */
-.alumni-header .switch-view-wrapper {
+.alumni-action-bar .switch-view-wrapper {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   gap: 5px;
+}
+
+.alumni-action-bar .flex-grow-1 {
+  flex-grow: 1;
 }
 
 /* Switch view wrapper containing both icons */
@@ -70,7 +57,6 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 5px;
 }
 
 /* Switch view icons */
@@ -115,32 +101,15 @@
 }
 
 
-/* Media query for mobile screens */
-@media (max-width: 600px) {
-
-  /* Make the alumni header collapse into a grid */
-  .alumni-header {
-    display: grid;
-    grid-template-columns: 1fr;
-    /* Stack items vertically */
-    gap: 10px;
-  }
-
-  /* Make the input group take full width */
-  .alumni-header .input-group {
-    width: 100%;
-  }
-
-  /* Center the view switch buttons */
-  .alumni-header .switch-view-wrapper {
-    justify-content: center;
-  }
-}
-
-
 
 /* Mobile View */
 @media (max-width: 768px) {
+
+  /* Center the view switch buttons */
+  .alumni-action-bar .switch-view-wrapper {
+    justify-content: center;
+  }
+
   .alumni-section {
     padding: 42px 15px;
   }
@@ -152,11 +121,11 @@
 
   .alumni-section .alumni-card-container {
     width: 100%;
-    padding: 0;
+    padding: 0px 20px;
   }
 
   .alumni-section .alumni-header {
-    padding: 0 20px;
+    padding: 0px 20px;
   }
 
   .alumni-section .alumni-header h2,

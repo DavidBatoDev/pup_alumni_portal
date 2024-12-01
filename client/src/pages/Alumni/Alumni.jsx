@@ -73,7 +73,7 @@ const Alumni = () => {
         { label: 'Alumni', link: '/alumni' },
       ]} />
       <div className="background alumni-background"></div>
-      
+
       <div className="alumni-section glass">
         <div className="alumni-header">
           <h2>Ready to Connect? The alumni network is waiting!</h2>
@@ -86,23 +86,18 @@ const Alumni = () => {
 
         {!loading && !error && (
           <div className="alumni-card-container d-flex card shadow-sm">
-            {/* Alumni Header */}
-            <div className="d-flex mb-4 alumni-header justify-content-start align-items-center gap-5">
-              {/* Search Bar */}
-              <SearchBar onSearch={handleSearch} placeholder="Connect with an alumni" buttonVisible={true} />
 
-              {/* Switch View Button */}
-              <div className="switch-view-wrapper">
-                <div
-                  className={`view-img ${viewMode === "list" ? "active" : ""}`}
-                  onClick={() => setViewMode("list")}
-                >
+
+            {/* SearchBar and View Buttons */}
+            <div className="d-flex mb-md-1 py-3 alumni-action-bar flex-wrap justify-content-center align-items-center gap-2 gap-md-3">
+              <div className="flex-grow-1">
+                <SearchBar onSearch={handleSearch} placeholder="Connect with an alumni" buttonVisible={true} />
+              </div>
+              <div className="switch-view-wrapper d-md-flex d-none">
+                <div className={`view-img ${viewMode === "list" ? "active" : ""}`} onClick={() => setViewMode("list")}>
                   <img src={menuIcon} alt="List Icon" />
                 </div>
-                <div
-                  className={`view-img ${viewMode === "grid" ? "active" : ""}`}
-                  onClick={() => setViewMode("grid")}
-                >
+                <div className={`view-img ${viewMode === "grid" ? "active" : ""}`}onClick={() => setViewMode("grid")}>
                   <img src={grid} alt="Grid Icon" />
                 </div>
               </div>

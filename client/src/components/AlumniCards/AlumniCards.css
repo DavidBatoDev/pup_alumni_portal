@@ -13,14 +13,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   background-color: #ffffff;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for modern design */
 }
 
 /* Card Hover Effect */
 .alumni-card:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on hover */
+  box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.5);
   transform: translateY(-5px); /* Lift effect */
 }
 
