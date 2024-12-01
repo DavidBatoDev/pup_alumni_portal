@@ -76,7 +76,7 @@ const DiscussionTableThread = ({ thread, submitVote }) => {
         </div>
       </td>
       <td data-cell="comments">
-        <p className="thread-num">{thread?.comments_count || 0}</p>
+        <p className="thread-num">{thread?.comments?.length ?? 0}</p>
       </td>
       <td data-cell="views">
         <p className="thread-num">{thread?.views}</p>
