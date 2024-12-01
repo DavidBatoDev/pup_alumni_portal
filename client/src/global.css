@@ -1,15 +1,15 @@
 .glass {
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    background-color: rgb(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background-color: rgb(255, 255, 255, 0.7);
 }
 
 .cinzel {
-    font-family: 'Cinzel', serif;
+  font-family: 'Cinzel', serif;
 }
 
 .raleway {
-    font-family: 'Raleway', sans-serif;
+  font-family: 'Raleway', sans-serif;
 }
 
 .crimson-text {
@@ -17,53 +17,81 @@
 }
 
 .background {
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-    z-index: -1;
-    position: fixed; /* Ensure the banner is behind the content */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  z-index: -1;
+  position: fixed;
+  /* Ensure the banner is behind the content */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
-
 @keyframes fadeInUp {
-    from {
-        transform: translate3d(0,40px,0)
-    }
+  from {
+    transform: translate3d(0, 40px, 0)
+  }
 
-    to {
-        transform: translate3d(0,0,0);
-        opacity: 1
-    }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1
+  }
 }
 
 @-webkit-keyframes fadeInUp {
-    from {
-        transform: translate3d(0,40px,0)
-    }
+  from {
+    transform: translate3d(0, 40px, 0)
+  }
 
-    to {
-        transform: translate3d(0,0,0);
-        opacity: 1
-    }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
 }
 
 .animated {
-    animation-duration: 1s;
-    animation-fill-mode: both;
-    -webkit-animation-duration: 1s;
-    -webkit-animation-fill-mode: both;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
 }
 
 .animatedFadeInUp {
-    opacity: 0;
+  opacity: 0;
 }
 
 .fadeInUp {
-    opacity: 0;
-    animation-name: fadeInUp;
-    -webkit-animation-name: fadeInUp;
+  opacity: 0;
+  animation-name: fadeInUp;
+  -webkit-animation-name: fadeInUp;
 }
