@@ -9,11 +9,6 @@
   margin: 0 !important;
 }
 
-/* ensure :hover effect applies to .comment-card and not its child elements (during recursive) */
-.comment-card:not(.comment-card .comment-card):hover {
-  transform: translateY(-0.2rem);
-  box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
-}
 
 /* Reply box */
 .comment-card .comment-card {
@@ -60,20 +55,21 @@
 }
 
 .comment-card .btn {
-  width: 4rem;
+  width: auto;
   height: 2.3rem;
   text-align: center;
   align-items: center;
   justify-content: center;
   display: flex;
   font-weight: 500;
+  padding: 0.3rem 1rem;
 }
 
 .comment-card .btn-reply {
   background-color: inherit;
   border: none;
   box-shadow: none;
-  margin-bottom: 0.3rem;
+  font-size: 14px;
 }
 
 .comment-card .btn-reply:hover {
@@ -81,8 +77,6 @@
   background-color: #f7f5f5;
   transition: ease-out 0.1s;
   box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
-  transform: translateY(-0.2rem);
-  transform: translateY(0.1rem);
 }
 
 .btn-cancel {
@@ -96,8 +90,6 @@
   color: #1E1E1E;
   box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.5);
   transition: ease-out 0.1s;
-  transform: translateY(-0.2rem);
-  transform: translateY(0.1rem);
 }
 
 .btn-submit-reply {
@@ -112,6 +104,42 @@
   color: #fff;
   box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.5);
   transition: ease-out 0.1s;
-  transform: translateY(-0.2rem);
-  transform: translateY(0.1rem);
+}
+
+/* Toggle Replies Button */
+.btn-toggle-replies {
+  background-color: inherit;
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+  color:#6D6D6D ;
+  font-weight: 500;
+  font-size: 14px;
+  color: #800000;
+}
+
+.btn-toggle-replies:hover {
+  color: #1E1E1E;
+  background-color: #f7f5f5;
+  transition: ease-out 0.1s;
+  box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
+  
+}
+
+/* Flex container to align buttons inline */
+.reply-wrapper {
+  display: flex;
+  align-items:center;
+}
+
+.btn-reply,
+.btn-toggle-replies {
+  flex-shrink: 0; /* Prevent it from shrinking */
+  padding: 0.3rem 1rem;  /* Adjust padding for better button sizing */
+}
+
+.reply-list {
+  margin-top: 1rem;
+  padding-left: 1rem;
+  border-left: 4px solid #d9d7d7;
 }

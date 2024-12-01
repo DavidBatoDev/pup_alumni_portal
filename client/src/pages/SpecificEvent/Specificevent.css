@@ -137,6 +137,16 @@
   display: inline;
 }
 
+/* Swiper styles */
+.swiper-button-next::after, .swiper-rtl .swiper-button-prev::after{
+  color: #870000;
+  margin-right: 250px;
+}
+
+.swiper-button-prev::after, .swiper-rtl .swiper-button-next::after{
+  color: #870000;
+  margin-left: 250px;
+}
 
 
 @media (max-width: 768px) {

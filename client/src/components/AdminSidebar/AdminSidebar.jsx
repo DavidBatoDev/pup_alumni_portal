@@ -10,10 +10,12 @@ const AdminSidebar = () => {
   const menuItems = [
     { name: 'Event Management', path: '/admin/events', icon: 'fa-calendar-alt' },
     { name: 'Survey & Feedback', path: '/admin/survey-feedback', icon: 'fa-poll' },
+    {/*
     { name: 'Career Support', path: '/admin/career-support', icon: 'fa-briefcase' },
     { name: 'Chat & Discussions', path: '/admin/chat-discussions', icon: 'fa-comments' },
     { name: 'Volunteer & Donation', path: '/admin/volunteer-donation', icon: 'fa-hand-holding-heart' },
     { name: 'Settings', path: '/admin/settings', icon: 'fa-cog' },
+    */}
   ];
 
   const toggleSidebar = () => setIsOpen(!isOpen);
