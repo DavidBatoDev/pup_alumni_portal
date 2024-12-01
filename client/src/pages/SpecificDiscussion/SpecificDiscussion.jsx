@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import useNode from '../../hooks/useNode';
 import { useNavigate, useParams } from 'react-router-dom';
+import 'bootstrap/dist/js/bootstrap.bundle.min'; // Add this line to import Bootstrap JS
 
 import BannerSmall from '../../components/Banner/BannerSmall';
 import bannerImage from '../../assets/images/discussionimage.jpg';
@@ -13,13 +14,24 @@ import CircularLoader from '../../components/CircularLoader/CircularLoader';
 import DiscussionNavbar from '../../components/DiscussionNavbar/DiscussionNavbar';
 import DiscussionCardThread from '../../components/DiscussionCardThread/DiscussionCardThread';
 import DiscussionComment from '../../components/DiscussionComment/DiscussionComment';
+import ModalContainer from '../../components/ModalContainer/ModalContainer';
+
+import { Navigation, Pagination } from 'swiper/modules';
+import SwiperCore from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css/bundle';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 import "./SpecificDiscussion.css";
 
 const SpecificDiscussion = () => {
+  SwiperCore.use([Navigation, Pagination]);
   const [thread, setThread] = useState({});
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true)
+  const [commentLoading, setCommentLoading] = useState(false);
   const [error, setError] = useState(false);
 
   const { threadId } = useParams();
@@ -28,6 +40,19 @@ const SpecificDiscussion = () => {
 
   const [commentTree, setCommentTree] = useState([]);
   const { insertNode, editNode, deleteNode, buildTree } = useNode();
+
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [currentImages, setCurrentImages] = useState([]);
+
+  const handleOpenImage = (images) => {
+    setCurrentImages(images);
+    setShowImageModal(true);
+  };
+
+  const closeImageModal = () => {
+    setShowImageModal(false);
+    setCurrentImages([]);
+  };
 
   const scrollToCommentSection = () => {
     if (commentSectionRef.current) {
@@ -108,7 +133,7 @@ const SpecificDiscussion = () => {
   // Create new comment or reply
   const createCommentOrReply = async (comment, parent_comment_id = null) => {
     try {
-      setLoading(true);
+      setCommentLoading(true);
       const body = { content: comment };
       if (parent_comment_id !== null) {
         body.parent_comment_id = parent_comment_id;
@@ -137,7 +162,7 @@ const SpecificDiscussion = () => {
       setError(error.message);
       console.error('Error creating comment:', error);
     } finally {
-      setLoading(false);
+      setCommentLoading(false);
     }
   };
 
@@ -202,7 +227,7 @@ const SpecificDiscussion = () => {
         <div className="row specific-discussion-container">
 
           {/* DiscussionCardThread Post */}
-          {!loading && <DiscussionCardThread thread={thread} handleComment={scrollToCommentSection} submitVote={submitVote} />}
+          {!loading && <DiscussionCardThread thread={thread} handleComment={scrollToCommentSection} submitVote={submitVote} handleOpenImage={handleOpenImage} />}
 
           {/* Comments Input */}
           <form onSubmit={handleCommentSubmit} className="w-100 mb-3" ref={commentSectionRef}>
@@ -231,6 +256,26 @@ const SpecificDiscussion = () => {
         </div>
       </div>
 
+      {/* View Images Modal */}
+      <ModalContainer
+        showModal={showImageModal}
+        title={"Showing " + currentImages.length + " pictures"}
+        closeModal={closeImageModal}
+        fullView
+      >
+        <Swiper
+          navigation
+          pagination={{ clickable: true }} // Ensure pagination is enabled and clickable
+          className="h-100 w-100 position-relative swiper-container"
+        >
+          {currentImages.map((image, index) => (
+            <SwiperSlide className="d-flex " key={index}>
+              <div className="swiper-slide-background" style={{ backgroundImage: `url(${image?.image_path})` }}></div>
+              <img src={image.image_path} className="d-block w-100 img-fluid swiper-slide-image" alt={`Slide ${index}`} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </ModalContainer>
 
       <MainFooter />
     </div>

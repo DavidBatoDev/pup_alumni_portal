@@ -20,11 +20,10 @@ const DiscussionActionBar = ({ filter, setFilter, viewMode, setViewMode, onCreat
           <select
             className="form-select py-0 discussion-selection"
             onChange={handleFilterChange}
+            value={filter} // Ensure the selected value is reflected
             style={{ width: `${0.7 * filter.length + 4}rem` }}
           >
-            <option selected value="best">
-              Best
-            </option>
+            <option value="best">Best</option>
             <option value="relevancy">Relevancy</option>
             <option value="latest">Latest</option>
             <option value="mostReplies">Most Replies</option>

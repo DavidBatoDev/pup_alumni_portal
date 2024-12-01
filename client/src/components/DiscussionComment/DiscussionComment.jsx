@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './DiscussionComment.css';
 import { Link } from 'react-router-dom';
 
@@ -6,6 +6,11 @@ const DiscussionComment = ({ comment, replies, submitReply }) => {
   const [replyContent, setReplyContent] = useState('');
   const [showReplyBox, setShowReplyBox] = useState(false);
   const [showReplies, setShowReplies] = useState(false);  // State to toggle replies visibility
+  const [isRendered, setIsRendered] = useState(false);
+
+  useEffect(() => {
+    setIsRendered(true);
+  }, []);
 
   const handleReply = (e) => {
     e.preventDefault();
@@ -14,8 +19,16 @@ const DiscussionComment = ({ comment, replies, submitReply }) => {
     setShowReplyBox(false);
   }
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); // Prevent the default behavior
+      handleReply(e);
+    }
+  };
+
+
   return (
-    <div className='comment-card d-flex p-3 gap-2 w-100'>
+    <div className={`comment-card d-flex p-3 gap-2 w-100 mb-2 ${isRendered ? 'fade-in' : ''}`}>
       <div className='d-flex flex-column align-items-center gap-4'>
         <Link to={`/profile/${comment?.author?.alumni_id}`} >
           <img
@@ -34,9 +47,9 @@ const DiscussionComment = ({ comment, replies, submitReply }) => {
         <p className="comment-num">{comment?.created_at}</p>
         <p className="comment-text crimson-text">{comment?.content}</p>
 
-        <div className="reply-wrapper">
-           {/* Reply Button */}
-           {!showReplyBox && (
+        <div className="d-flex align-items-center">
+          {/* Reply Button */}
+          {!showReplyBox && (
             <button onClick={() => setShowReplyBox(true)} className='btn btn-reply btn-light btn-primary raleway'>
               Reply
             </button>
@@ -44,11 +57,11 @@ const DiscussionComment = ({ comment, replies, submitReply }) => {
 
           {/* Show/Hide Replies Button */}
           {replies?.length > 0 && (
-            <button 
-              className="btn btn-toggle-replies raleway" 
+            <button
+              className="btn btn-toggle-replies raleway"
               onClick={() => setShowReplies(!showReplies)}
             >
-              {showReplies ? 'Hide' : 'Show'}
+              {showReplies ? 'Hide' : `Show (${replies?.length})`}
             </button>
           )}
 
@@ -64,6 +77,7 @@ const DiscussionComment = ({ comment, replies, submitReply }) => {
               autoFocus
               value={replyContent}
               onChange={(e) => setReplyContent(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
             <div className='d-flex justify-content-end gap-2 mb-3 mt-1'>
               <button className='btn btn-cancel btn-light btn-primary raleway' onClick={() => setShowReplyBox(false)}>Cancel</button>
@@ -73,13 +87,13 @@ const DiscussionComment = ({ comment, replies, submitReply }) => {
         )}
 
         {/* Reply Section */}
-        {replies?.length > 0 && showReplies && (
-          <div className="reply-list">
-            {replies.map((reply) => (
-              <DiscussionComment 
-                key={reply.comment_id} 
-                comment={reply} 
-                replies={reply.replies} 
+        {replies?.length > 0 && (
+          <div className={`reply-section ${showReplies ? 'expanded' : ''}`}>
+            {showReplies && replies?.map((reply) => (
+              <DiscussionComment
+                key={reply.comment_id}
+                comment={reply}
+                replies={reply.replies}
                 submitReply={submitReply}
               />
             ))}

@@ -59,6 +59,7 @@ const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
 
   const handleRemoveImage = (index) => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index)); // Remove image at specific index
+    setImageFiles((prevFiles) => prevFiles.filter((_, i) => i !== index)); // Remove file at specific index
   };
 
   // Handle tags

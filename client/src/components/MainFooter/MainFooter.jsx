@@ -31,7 +31,7 @@ const MainFooter = () => {
             <h4 className="footer-heading">SOCIAL MEDIA</h4>
             <div className="footer-social-icons">
               <a href="https://www.facebook.com/PUPGSOfficial" target='_blank' className="social-icon"><i className="fab fa-facebook"></i></a>
-              <a href="https://www.pup.edu.ph/PUPGS/" className="social-icon"><i class="fa fa-globe" aria-hidden="true"></i></a>
+              <a href="https://www.pup.edu.ph/PUPGS/" className="social-icon"><i className="fa fa-globe" aria-hidden="true"></i></a>
             </div>
           </div>
         </div>

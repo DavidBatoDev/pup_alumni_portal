@@ -20,6 +20,7 @@
   width: 3rem;
   height: 3rem;
   object-fit: cover;
+  min-width: 3rem;
 }
 
 .comment-card .comment-author {
@@ -123,13 +124,7 @@
   background-color: #f7f5f5;
   transition: ease-out 0.1s;
   box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
-  
-}
 
-/* Flex container to align buttons inline */
-.reply-wrapper {
-  display: flex;
-  align-items:center;
 }
 
 .btn-reply,
@@ -138,8 +133,14 @@
   padding: 0.3rem 1rem;  /* Adjust padding for better button sizing */
 }
 
-.reply-list {
-  margin-top: 1rem;
-  padding-left: 1rem;
-  border-left: 4px solid #d9d7d7;
+.reply-section {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 5s ease-out;
 }
+
+.reply-section.expanded {
+  max-height: fit-content;
+}
+
+

@@ -47,7 +47,7 @@ const DiscussionTableThread = ({ thread, submitVote }) => {
 
   return (
     <tr className="discussion-table-thread" onClick={handleRowClick}>
-      <td data-cell="image" className="image-td">
+      <td data-cell="image" className="image-td py-md-2">
         {thread?.images && thread?.images.length > 0 ? (
           <div className="image-container">
             <img src={thread?.images[0].image_path} alt={thread?.title} className="img-fluid" />
@@ -58,13 +58,15 @@ const DiscussionTableThread = ({ thread, submitVote }) => {
           </div>
         )}
       </td>
-      <td data-cell="details" className="flex-grow-1">
+      <td data-cell="details" className="flex-grow-1 py-md-2">
         <div className="d-flex flex-column justify-content-between thread-details h-100">
-          <h3 className="thread-title">{thread?.title}</h3>
-          <p className="thread-author">{thread?.author?.name}</p>
+          <div className='d-flex flex-column flex-grow-1'>
+            <h3 className="thread-title">{thread?.title}</h3>
+            <p className="thread-author">{thread?.author?.name}</p>
+          </div>
           <div className="d-flex flex-wrap gap-2">
             {thread?.tags.map((tag) => (
-              <div key={tag.tag_id} className="d-flex justify-content-start align-items-center tag-container">
+              <div key={tag.tag_id} className="d-flex justify-content-start align-items-center mt-0 tag-container">
                 <i
                   className="fa-solid fa-circle fa-2xs"
                   style={{ color: getColorByTagId(tag.tag_id) }}
@@ -75,16 +77,16 @@ const DiscussionTableThread = ({ thread, submitVote }) => {
           </div>
         </div>
       </td>
-      <td data-cell="comments">
-        <p className="thread-num">{thread?.comments_count || 0}</p>
+      <td data-cell="comments" className='py-md-2'>
+        <p className="thread-num">{thread?.comments?.length ?? 0}</p>
       </td>
-      <td data-cell="views">
+      <td data-cell="views" className='py-md-2'>
         <p className="thread-num">{thread?.views}</p>
       </td>
-      <td data-cell="updated">
+      <td data-cell="updated" className='py-md-2'>
         <p className="thread-num">{thread?.updated_at}</p>
       </td>
-      <td data-cell="votes">
+      <td data-cell="votes" className='py-md-2'>
         <div className="btn-group">
           <button
             className={`btn btn-primary upvote ${vote === 'upvote' ? 'active' : ''}`}
