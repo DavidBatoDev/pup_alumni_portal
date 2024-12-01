@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 const DiscussionComment = ({ comment, replies, submitReply }) => {
   const [replyContent, setReplyContent] = useState('');
   const [showReplyBox, setShowReplyBox] = useState(false);
+  const [showReplies, setShowReplies] = useState(false);  // State to toggle replies visibility
 
   const handleReply = (e) => {
     e.preventDefault();
@@ -33,9 +34,12 @@ const DiscussionComment = ({ comment, replies, submitReply }) => {
         <p className="comment-num">{comment?.created_at}</p>
         <p className="comment-text crimson-text">{comment?.content}</p>
 
+        <div className="reply-wrapper">
+          
+        </div>
         {/* Reply Box  */}
         {showReplyBox ? (
-          <form onSubmit={handleReply} className="w-100">
+          <form onSubmit={handleReply} className="w-100 h-50">
             <input
               type="text"
               className="form-control py-0 px-3 reply-input flex-grow-1 raleway"
@@ -51,17 +55,34 @@ const DiscussionComment = ({ comment, replies, submitReply }) => {
           </form>
         ) :
         // Reply Button
-        (<button onClick={() => setShowReplyBox(true)} className='btn btn-reply btn-light btn-primary raleway'>Reply</button>)
+        (
+        <div className="reply-container">
+          <button onClick={() => setShowReplyBox(true)} className='btn btn-reply btn-light btn-primary raleway'>Reply</button>
+        </div>)
         }
-
-        {/* Reply Button */}
 
         {/* Reply Section */}
         {replies?.length > 0 && (
           <div className="replies">
-            {replies?.map((reply) => (
-              <DiscussionComment key={reply.comment_id} comment={reply} replies={reply.replies} submitReply={submitReply}/>
-            ))}
+            <button 
+              className="btn btn-toggle-replies" 
+              onClick={() => setShowReplies(!showReplies)}
+            >
+              {showReplies ? 'Hide  ' : 'Show '}
+            </button>
+            
+            {showReplies && (
+              <div className="reply-list">
+                {replies?.map((reply) => (
+                  <DiscussionComment 
+                    key={reply.comment_id} 
+                    comment={reply} 
+                    replies={reply.replies} 
+                    submitReply={submitReply}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>

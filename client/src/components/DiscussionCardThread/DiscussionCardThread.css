@@ -11,6 +11,7 @@
 .discussion-card-thread:hover {
   transform: translateY(-0.2rem);
   box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
+  background-color: #f1f1f1;
 }
 
 .discussion-card-thread .author-section img {
@@ -98,11 +99,12 @@
 .btn-reply {
   background-color: white;
   color: #6D6D6D;
-  box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
-  height: 2rem;
+  height: 3rem;
+  width: 3rem;
 }
 
 .btn-reply:hover {
+  background-color: white;
   color: #1E1E1E;
   box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.5);
   transition: ease-out 0.1s;
@@ -125,9 +127,7 @@
 .discussion-card-thread .btn-group>.btn {
   background-color: white;
   border: none;
-  box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
-  height: 2rem;
-
+  height: 3rem;
   display: flex;
   text-align: center;
   align-items: center;

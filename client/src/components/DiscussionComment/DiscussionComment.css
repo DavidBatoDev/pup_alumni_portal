@@ -115,3 +115,30 @@
   transform: translateY(-0.2rem);
   transform: translateY(0.1rem);
 }
+
+/* Toggle Replies Button */
+.btn-toggle-replies {
+  background-color: inherit;
+  border: none;
+  box-shadow: none;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  color: #800000;
+  font-weight: 600;
+
+}
+
+
+.btn-toggle-replies:hover {
+  color: #1E1E1E;
+  background-color: #f7f5f5;
+  transition: ease-out 0.1s;
+  box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.25);
+  transform: translateY(-0.2rem);
+}
+
+.reply-list {
+  margin-top: 1rem;
+  padding-left: 1rem;
+  border-left: 4px solid #d9d7d7;
+}
