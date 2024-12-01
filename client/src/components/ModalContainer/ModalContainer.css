@@ -1,14 +1,14 @@
 /* Desktop Modal Styles */
 .desktop-modal {
   display: none;
-  position: fixed;
+  position: fixed; /* Ensure the modal is fixed */
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   justify-content: center;
   align-items: center;
-  z-index: 5000;
+  z-index: 9999; /* High z-index to stay on top */
   opacity: 0;
   transform: translateY(-30px) scale(0.8); /* Initial transform for smooth animation */
   transition: transform 0.4s ease-out, opacity 0.4s ease-out; /* Smooth transition for transform and opacity */
@@ -18,6 +18,14 @@
   display: flex;
   opacity: 1;
   transform: translateY(0) scale(1); /* Scale up and move to position */
+}
+
+.desktop-modal .full-view {
+  height: 100vh;
+  padding: 0px;
+  margin: 0px;
+  max-height: 100vh;
+  overflow: hidden;
 }
 
 .desktop-modal-overlay {
@@ -46,6 +54,12 @@
   scrollbar-width: none;
 }
 
+.desktop-modal-content.full-view {
+  height: 100vh;
+  max-height: 100vh;
+  overflow-y: none;
+}
+
 .desktop-modal-header {
   position: sticky;
   top: 0;
@@ -72,6 +86,11 @@
   position: relative;
   max-height: 600px;
   min-height: 400px;
+}
+
+.desktop-modal-body .full-view {
+  max-height: 100vh;
+  overflow-y: none;
 }
 
 .close-btn {

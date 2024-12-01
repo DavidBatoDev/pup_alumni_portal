@@ -138,12 +138,14 @@
 }
 
 /* Swiper styles */
-.swiper-button-next::after, .swiper-rtl .swiper-button-prev::after{
+.specific-event-page .swiper-button-next::after,
+.specific-event-page .swiper-rtl .swiper-button-prev::after{
   color: #870000;
   margin-right: 250px;
 }
 
-.swiper-button-prev::after, .swiper-rtl .swiper-button-next::after{
+.specific-event-page .swiper-button-prev::after,
+.specific-event-page .swiper-rtl .swiper-button-next::after{
   color: #870000;
   margin-left: 250px;
 }
