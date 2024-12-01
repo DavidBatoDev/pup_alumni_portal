@@ -1,82 +1,166 @@
-.alumni-section .container {
-    position: relative;
-    z-index: 2; /* Ensures content is above the pseudo-element */
-    padding: 0;
-}
-
 .alumni-section .alumni-header {
-    margin-bottom: 32px;
+  margin-bottom: 32px;
 }
 
 .alumni-section .alumni-header h2 {
-    color: #1E1E1E;
-    font-size: 32px;
-    font-weight: bold;
-    text-align: left;
+  color: #1E1E1E;
+  font-size: 32px;
+  font-weight: bold;
+  text-align: left;
 }
 
 .alumni-section .alumni-header h5 {
-    color: #1E1E1E;
-    font-size: 20px;
+  color: #1E1E1E;
+  font-size: 20px;
+}
+
+.alumni-background {
+  background-image: url(../../assets/images/alumnimage.jpg);
 }
 
 /* Alumni section styling */
 .alumni-section {
-    background-image: url(../../assets/images/eventbanner.png);
-    padding: 50px 0;
-    background-size: cover; /* Cover the entire section with the image */
-    background-position: center; /* Center the background image */
-    background-repeat: no-repeat; /* Do not repeat the image */
-    position: relative; /* Establish a positioning context for the pseudo-element */
-    font-family: "Crimson Text";
-    font-size: 128px;
-    font-style: normal;
-    font-weight: 700;
-    z-index: 1;
-    height: 100%;
+  padding: 42px 128px;
+  position: relative;
+  font-family: "Crimson Text";
+  font-size: 128px;
+  font-style: normal;
+  font-weight: 700;
+  z-index: 1;
+  height: 100%;
 }
 
-/* Add a pseudo-element for the greyish blur effect */
-.alumni-section::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.79);
-    backdrop-filter: blur(19.4px);
-    z-index: 1; /* Place it above the background but below the content */
+/* Container for the entire alumni card content */
+.alumni-card-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1296px;
+  padding: 25px;
+  border-radius: 15px;
 }
 
-.alumni-section .alumni-container {
-    display: flex;
-    justify-content: space-between;
+/* Alumni header with search bar and view switcher */
+.alumni-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  /* For responsive wrapping */
 }
 
-.alumni-section .alumni-header {
-    margin-bottom: 20px;
+/* Input group for the search bar */
+.alumni-header .input-group {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: 50%;
 }
+
+/* Wrapper for the view switch buttons (grid and menu) */
+.alumni-header .switch-view-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Switch view wrapper containing both icons */
+.switch-view-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Switch view icons */
+.switch-view-wrapper img {
+  width: 25px;
+  /* Adjust the size of the icon */
+  height: 25px;
+  cursor: pointer;
+}
+
+/* Adjust the padding for the wrapper to fit snugly */
+.view-img {
+  display: inline-flex;
+  /* Only take the width of the content (icon) */
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  /* Minimal padding */
+  transition: background-color 0.3s ease;
+  /* Smooth transition for hover/active */
+  border-radius: 5px;
+  /* Rounded corners */
+}
+
+/* Style for active view mode */
+.view-img.active {
+  background-color: #f0f0f0;
+  /* Light gray background to indicate active state */
+  border-radius: 5px;
+}
+
+/* Optional: Add a hover effect */
+.view-img:hover {
+  background-color: #dddddd;
+  /* Slightly darker on hover */
+}
+
+@media (max-width: 1024px) {
+  .alumni-section {
+    padding: 42px 15px;
+  }
+}
+
+
+/* Media query for mobile screens */
+@media (max-width: 600px) {
+
+  /* Make the alumni header collapse into a grid */
+  .alumni-header {
+    display: grid;
+    grid-template-columns: 1fr;
+    /* Stack items vertically */
+    gap: 10px;
+  }
+
+  /* Make the input group take full width */
+  .alumni-header .input-group {
+    width: 100%;
+  }
+
+  /* Center the view switch buttons */
+  .alumni-header .switch-view-wrapper {
+    justify-content: center;
+  }
+}
+
 
 
 /* Mobile View */
 @media (max-width: 768px) {
-    .alumni-section .alumni-container {
-        flex-direction: column;
-        align-items: center;
-    }
+  .alumni-section {
+    padding: 42px 15px;
+  }
 
-    .alumni-section .alumni-card-container{
-        width: 100%;
-        padding: 0;
-    }
+  .alumni-section .alumni-container {
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .alumni-section .alumni-header{
-        padding: 0 20px;
-    }
+  .alumni-section .alumni-card-container {
+    width: 100%;
+    padding: 0;
+  }
 
-    .alumni-section .alumni-header h2, 
-    .alumni-section .alumni-header h5 {
-        text-align: center;
-    }
+  .alumni-section .alumni-header {
+    padding: 0 20px;
+  }
+
+  .alumni-section .alumni-header h2,
+  .alumni-section .alumni-header h5 {
+    text-align: center;
+  }
 }

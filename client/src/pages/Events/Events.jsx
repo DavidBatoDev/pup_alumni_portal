@@ -7,12 +7,13 @@ import EventsFilterSection from "../../components/EventsFilterSection/EventsFilt
 import EventAuth from "../../components/EventSectionAuth/EventAuth";
 import api from "../../api";
 import echo from "../../echo";
-import CustomAlert from "../../components/CustomAlert/CustomAlert"; 
+import CustomAlert from "../../components/CustomAlert/CustomAlert";
 import CircularLoader from "../../components/CircularLoader/CircularLoader";
+import MainFooter from "../../components/MainFooter/MainFooter";
 
 const Events = () => {
   const [eventsData, setEventsData] = useState([]);
-  const [filteredEvents, setFilteredEvents] = useState([]); 
+  const [filteredEvents, setFilteredEvents] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -86,8 +87,9 @@ const Events = () => {
   const handleClearError = () => setError(null);
 
   return (
-    <div>
+    <div className="events-page">
       {loading && <CircularLoader />}
+      <div className="background events-background"></div>
       <Navbar />
       <BannerSmall
         bannerTitle={"Events Page"}
@@ -106,19 +108,20 @@ const Events = () => {
         />
       )}
 
-      <div className="event-section">
-        <div className="event-section-container">
-          <div className="event-header">
-            <h2>You're MORE than WELCOME to attend.</h2>
-            <h5>
+      <div className="events-content glass">
+        <div className="event-header">
+          <h2>You're MORE than WELCOME to attend.</h2>
+          <h5>
             Join us for an exciting lineup of events designed to inspire, connect, and empower.
-            </h5>
-          </div>
-          <div className="events-container d-flex">
-            <EventsFilterSection filters={filters} onFilterChange={handleFilterChange} />
-            <EventAuth events={filteredEvents} />
-          </div>
+          </h5>
         </div>
+        <div className="events-container container container-fluid d-flex gap-3">
+          <EventsFilterSection filters={filters} onFilterChange={handleFilterChange} />
+          <EventAuth events={filteredEvents} />
+        </div>
+      </div>
+      <div className="main-footer-wrapper">
+        <MainFooter />
       </div>
     </div>
   );

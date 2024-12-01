@@ -71,6 +71,7 @@
   background: #f4f4f4;
   position: relative;
   max-height: 600px;
+  min-height: 400px;
 }
 
 .close-btn {

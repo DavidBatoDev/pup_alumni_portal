@@ -29,18 +29,6 @@ Route::get('/events', [EventController::class, 'getEvents']);
 Route::get('/events/inactive', [EventController::class, 'getInactiveEvents']);
 Route::get('/events/{eventId}', [EventController::class, 'getEventDetails']);
 
-
-// test email
-Route::get('/send-test-email', function () {
-    $data = [
-        'name' => 'John Doe',
-        'message' => 'This is a test email without using a view.',
-    ];
-
-    Mail::to('recipient@example.com')->send(new TestEmail($data));
-    return 'Test email sent!';
-});
-
 // route to check if there's an account already registered with the email or student number
 Route::post('/check-alumni', [AuthController::class, 'checkAlumni']);
 
@@ -98,6 +86,9 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     // Check if the user is registered for an event
     Route::get('/event/{eventId}/details-with-status', [EventController::class, 'getEventDetailsWithStatus']);  
 
+    // Route to submit feedback for an event
+    Route::post('/event/{eventId}/feedback', [EventController::class, 'submitFeedback']);
+
     // Route to fetch all events that the alumni has registered for
     Route::get('/surveys', [SurveyController::class, 'getAllSurveys']);
 
@@ -136,6 +127,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     // Vote on a thread
     Route::post('/threads/{threadId}/vote', [DiscussionController::class, 'voteThread']);
+
 });
 
 // Protected admin routes (Require JWT Authentication for admin)
@@ -156,6 +148,10 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post('/admin/update-event/{eventId}', [EventController::class, 'updateEvent']);
     // Route for deleting an event
     Route::delete('/admin/event/{eventId}', [EventController::class, 'deleteEvent']);
+
+    // Admin-specific route to end an event
+    Route::put('/admin/event/{eventId}/end', [EventController::class, 'endEvent']);
+
 
     // Admin-specific route to get registered alumni for a specific event
     Route::get('/admin/event/{eventId}/registered-alumni', [EventController::class, 'getRegisteredAlumniForEvent']);

@@ -221,6 +221,33 @@ const AdminEventsFormModal = ({
       setUploading(false);
     }
   };
+
+  const handleEndEvent = () => {
+    try {
+
+      const response = axios.put(`/api/admin/event/${currentEventId}/end`, null, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      const updatedEventList = eventsList.map((event) =>
+        event.event_id === currentEventId ? { ...event, is_ended: true } : event
+      );
+      setEventsList(updatedEventList);
+
+      setAlert({ message: 'Event ended successfully!', severity: 'success' });
+      setUpdateSuccess(true);
+
+      // Delay modal close to let the alert display
+      setTimeout(() => {
+        closeModal();
+      }, 2000); // Keep the modal open for 2 seconds
+
+    } catch (error) {
+      console.error('Error ending event:', error);
+      setAlert({ message: 'Error occurred while ending the event. Please try again.', severity: 'error' });
+    }
+  };
   
 
   const handleDeleteEvent = async () => {
@@ -489,6 +516,11 @@ const AdminEventsFormModal = ({
             disabled={loading || uploading}
           >
             {isEditing ? 'Update Event' : 'Save Event'}
+          </button>
+
+          {/* End event */}
+          <button type="button" className="events-form-btn end-event-btn" onClick={handleEndEvent} disabled={loading}>
+            End Event
           </button>
 
           {isEditing && (

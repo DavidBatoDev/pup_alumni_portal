@@ -81,7 +81,7 @@ const AlumniCards = ({ viewMode, profiles, loading }) => {
           ))}
         </>
       ) : (
-        <p>No profiles found.</p>
+        <p className="raleway text-center no-profiles-found">No profiles found.</p>
       )}
     </div>
   );
