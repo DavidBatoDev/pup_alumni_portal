@@ -153,10 +153,33 @@ const Discussions = () => {
     }
   };
 
-  const filteredThreads = threads.filter(thread =>
-    thread?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    thread?.tags?.some(tag => tag.name?.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    thread?.author?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+  // Sort threads based on filter
+  const sortThreads = (threads, filter) => {
+    switch (filter) {
+      case 'best':
+        return threads.sort((a, b) => b.upvotes - a.upvotes);
+      case 'relevancy':
+        return threads.sort((a, b) => (b.upvotes + new Date(b.updated_at)) - (a.upvotes + new Date(a.created_at)));
+      case 'latest':
+        return threads.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      case 'mostReplies':
+        return threads.sort((a, b) => b.comments.length - a.comments.length);
+      case 'unanswered':
+        return threads.sort((a, b) => a.comments.length - b.comments.length);
+      case 'archived':
+        return threads.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      default:
+        return threads;
+    }
+  };
+
+  const filteredThreads = sortThreads(
+    threads.filter(thread =>
+      thread?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      thread?.tags?.some(tag => tag.name?.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      thread?.author?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+    ),
+    filter
   );
 
   return (
