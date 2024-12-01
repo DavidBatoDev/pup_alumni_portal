@@ -57,6 +57,7 @@
     justify-content: space-between;
     z-index: 10;
     padding: 0;
+    gap: 10px;
 }
 
 .history-event-section .events-container .event-auth {
