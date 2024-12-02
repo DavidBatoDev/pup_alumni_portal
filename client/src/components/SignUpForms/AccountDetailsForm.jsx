@@ -258,19 +258,19 @@ const AccountDetailsForm = ({
       {!emailOrStudentNumberEntered && (
           <div className="form-group">
             <label>
-              Personal Email <span className="important-txt">*</span>
+              Personal Email or Student Number <span className="important-txt">*</span>
             </label>
             <div className="input-group">
               <span className="input-group-text bg-white">
                 <i className="fas fa-envelope"></i>
               </span>
               <input
-                type="email"
+                type="text"
                 className={`form-control ${
                   validation.emailOrStudentNumberField ? "" : "is-invalid"
                 }`}
-                name="email"
-                placeholder="johndoe@gmail.com"
+                name="emailOrStudentNumber"
+                placeholder="johndoe@gmail.com or 2000-00000-MN-0"
                 value={emailOrStudentNumberField}
                 onChange={(e) => setEmailOrStudentNumberField(e.target.value)}
                 required
@@ -461,10 +461,7 @@ const AccountDetailsForm = ({
                   </div>
                 </div>
               ) : (
-                <p>
-                  No account associated with this email. Would you like to
-                  continue with the provided email?
-                </p>
+                <p>No account is associated with this email or student number. Would you like to continue with the provided information</p>
               )}
             </div>
             <div className="modal-footer">
@@ -475,14 +472,14 @@ const AccountDetailsForm = ({
               >
                 {isEmailVerified
                   ? "Cancel"
-                  : "Try Another Email or Student Number"}
+                  : "Try Another"}
               </button>
               <button
                 type="button"
                 className="btn btn-danger"
                 onClick={handleModalConfirm}
               >
-                {isEmailVerified ? "Send Verification" : "Continue"}
+                {isEmailVerified ? "Send Verification" : "Still Continue"}
               </button>
             </div>
           </div>
