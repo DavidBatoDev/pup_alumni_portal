@@ -128,7 +128,7 @@ const EducationForm = forwardRef(({
                     />
                   </td>
                   <td>
-                    <button className="btn btn-sm btn-danger" onClick={() => handleDeleteEmployment(index)}>
+                    <button className="btn btn-sm btn-danger" type='button' onClick={() => handleDeleteEmployment(index)}>
                       <i className="fa fa-trash"></i>
                     </button>
                   </td>
@@ -142,7 +142,7 @@ const EducationForm = forwardRef(({
             {/* Add New Employment Button */}
             <tr>
               <td colSpan="6">
-                <button className="btn btn-outline-primary btn-sm rounded" onClick={addNewEmployment}>
+                <button className="btn btn-outline-primary btn-sm rounded" type='button' onClick={addNewEmployment}>
                   <i className="fa-solid fa-plus"></i> Add Employment
                 </button>
               </td>
@@ -211,7 +211,7 @@ const EducationForm = forwardRef(({
                     />
                   </td>
                   <td>
-                    <button className="btn btn-sm btn-danger" onClick={() => handleDeleteEducation(index)}>
+                    <button className="btn btn-sm btn-danger" type='button' onClick={() => handleDeleteEducation(index)}>
                       <i className="fa fa-trash"></i>
                     </button>
                   </td>
@@ -225,7 +225,7 @@ const EducationForm = forwardRef(({
             {/* Add New Education Button */}
             <tr>
               <td colSpan="6">
-                <button className="btn btn-outline-primary btn-sm rounded" onClick={addNewEducation}>
+                <button className="btn btn-outline-primary btn-sm rounded" type='button' onClick={addNewEducation}>
                   <i className="fa-solid fa-plus"></i> Add Education
                 </button>
               </td>
