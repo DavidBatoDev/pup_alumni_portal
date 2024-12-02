@@ -13,6 +13,8 @@ use App\Models\Alumni;
 use App\Models\AlumniNotification;
 use App\Models\EventFeedback;
 use App\Models\PostEventPhoto;
+use App\Mail\EventRegistered;
+use Illuminate\Support\Facades\Mail;
 
 class EventController extends Controller
 {
@@ -381,6 +383,10 @@ class EventController extends Controller
                 $alumniNotification->update(['is_read' => true]);
             }
         }
+    
+        // Send the event registration email to the alumni
+        $alumni = Alumni::find($alumniId);
+        Mail::to($alumni->email)->send(new EventRegistered($event));
     
         return response()->json(['success' => true, 'registration' => $alumniEvent], 201);
     }
