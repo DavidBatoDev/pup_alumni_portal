@@ -326,7 +326,7 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'No graduate found with the provided details.',
-            ], 404);
+            ], 200);
         }
 
         // Return the graduate data

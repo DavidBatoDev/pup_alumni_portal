@@ -5,6 +5,7 @@ import './EventAuth.css';
 import menuIcon from "../../assets/svgs/menu-outline.svg";
 import { Link } from 'react-router-dom';
 import SearchBar from '../SearchBar/SearchBar';
+import noevent from '/noevent.svg'
 
 const EventAuth = ({ events }) => {
     const [currentPage, setCurrentPage] = useState(1); // State for managing the current page
@@ -94,6 +95,7 @@ const EventAuth = ({ events }) => {
     // Handle search functionality
     const handleSearch = (searchTerm) => {
         handleFilterChange({ ...filters, searchTerm });
+        
     };
 
     return (
@@ -143,7 +145,8 @@ const EventAuth = ({ events }) => {
                 <div className="row">
                     {currentEvents.map((event, index) => (
                         <div key={index} className="col-12">
-                            <UserEventListing eventData={event} />
+                            {events.length >= 1 &&  <UserEventListing eventData={event} />}
+                            {events.length == 0 && <h1 src={noevent} alt="No Event" />}
                         </div>
                     ))}
                 </div>

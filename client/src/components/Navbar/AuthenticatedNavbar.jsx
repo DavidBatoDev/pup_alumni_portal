@@ -26,6 +26,8 @@ const AuthenticatedNavbar = () => {
     navigate(`/${sectionId}`);
   };
 
+  console.log(user?.profile_picture)
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light py-0 shadow-sm">
       <div className="container d-flex justify-content-between align-items-center">
@@ -110,7 +112,7 @@ const AuthenticatedNavbar = () => {
               {user ? (
                 <Link to="/profile" className="profile-link">
                   <img
-                    src={`http://localhost:8000/storage/${user?.profile_picture}`}
+                    src={user?.profile_picture ? `http://localhost:8000/storage/${user?.profile_picture}` : '/pfp.jpg'}
                     alt={`${user.first_name}'s profile`}
                     className="img-fluid rounded-circle navbar-profile-image"
                   />

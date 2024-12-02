@@ -107,6 +107,7 @@
   }
 
   .desktop-modal-content {
+    height: 100vh;
     max-height: 100%;
   }
 
@@ -142,7 +143,7 @@
 
   .desktop-modal-header {
     display: flex !important;
-    position: fixed;
+    /* position: fixed; */
     width: 100%;
     border-radius: 0px;
   }

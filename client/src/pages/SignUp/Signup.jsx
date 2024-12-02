@@ -242,11 +242,15 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null); // Reset error before submit
+    console.log('Form Data:', formData);
 
     const isValid = educationFormRef.current.validateFields();
+    console.log('Is Valid:', isValid);
     if (!isValid) {
+      setError('You must agree to the terms and privacy policy.');
       return; // If validation fails, stop the submission
     }
+
 
     if (formData.password !== formData.password_confirmation) {
       setError('Passwords do not match');
@@ -290,16 +294,22 @@ const Signup = () => {
       navigate('/login');
     } catch (error) {
       console.log('Error during submission:', error);
-      setError(error.response?.data?.message || 'Registration failed');
+      setError(error.response?.data?.message || error.response?.data?.details[Object.keys(error.response?.data?.details)[0]] || 'Registration failed. Please try again');
     } finally {
       setLoading(false);
     }
   };
+
+
   return (
     <>
       <Navbar />
-      <CustomAlert severity={"warning"} message={linkedinError} onClose={() => setLinkedinError(null)} />
-      <CustomAlert severity={"error"} message={error} onClose={() => setError(null)} />
+
+      {linkedinError && <CustomAlert severity={"warning"} message={linkedinError} onClose={() => setLinkedinError(null)} />}
+      
+      {error && (
+        <CustomAlert severity={"error"} message={error} onClose={() => setError(null)} />
+      )}
       <div className="signup-page">
         {loading && <CircularLoader />}
         <div className="background login-background"></div>
