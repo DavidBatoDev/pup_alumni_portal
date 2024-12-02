@@ -19,6 +19,7 @@ const Alumni = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [profiles, setProfiles] = useState([]);
+  const [filteredProfiles, setFilteredProfiles] = useState([]); // State for filtered profiles
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
@@ -28,6 +29,7 @@ const Alumni = () => {
 
         const response = await api.get('/api/alumni');
         setProfiles(response.data.data);
+        setFilteredProfiles(response.data.data); // Set filteredProfiles to the fetched data
       } catch (error) {
         setError(error.message);
         console.log(error);
@@ -41,16 +43,19 @@ const Alumni = () => {
 
   const handleSearch = (query) => {
     setSearchQuery(query);
-  };
 
-  const filteredProfiles = profiles.filter(profile =>
-    profile.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    profile.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    profile.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    profile.degree.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    profile.major.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (profile.current_job_title && profile.current_job_title.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+    // Filter the profiles based on the search query
+    const filtered = profiles.filter(profile =>
+      profile.first_name.toLowerCase().includes(query.toLowerCase()) ||
+      profile.last_name.toLowerCase().includes(query.toLowerCase()) ||
+      profile.email.toLowerCase().includes(query.toLowerCase()) ||
+      profile.degree.toLowerCase().includes(query.toLowerCase()) ||
+      profile.major.toLowerCase().includes(query.toLowerCase()) ||
+      (profile.current_job_title && profile.current_job_title.toLowerCase().includes(query.toLowerCase()))
+    );
+
+    setFilteredProfiles(filtered);
+  };
 
   // Pagination logic
   const indexOfLastProfile = currentPage * profilesPerPage;
@@ -61,7 +66,6 @@ const Alumni = () => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
 
   return (
     <div className="position-relative">
@@ -82,12 +86,8 @@ const Alumni = () => {
           </h5>
         </div>
 
-
-
         {!loading && !error && (
           <div className="alumni-card-container d-flex card shadow-sm">
-
-
             {/* SearchBar and View Buttons */}
             <div className="d-flex mb-md-1 py-3 alumni-action-bar flex-wrap justify-content-center align-items-center gap-2 gap-md-3">
               <div className="flex-grow-1">
@@ -97,7 +97,7 @@ const Alumni = () => {
                 <div className={`view-img ${viewMode === "list" ? "active" : ""}`} onClick={() => setViewMode("list")}>
                   <img src={menuIcon} alt="List Icon" />
                 </div>
-                <div className={`view-img ${viewMode === "grid" ? "active" : ""}`}onClick={() => setViewMode("grid")}>
+                <div className={`view-img ${viewMode === "grid" ? "active" : ""}`} onClick={() => setViewMode("grid")}>
                   <img src={grid} alt="Grid Icon" />
                 </div>
               </div>

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate for naviga
 import CustomAlert from '../CustomAlert/CustomAlert';
 import CircularLoader from '../CircularLoader/CircularLoader';
 
-const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_registered }) => {
+const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_registered, is_active }) => {
   const [loading, setLoading] = useState(false); // State for loading
   const [alert, setAlert] = useState({ message: '', severity: '' }); // State for alert messages
   const navigate = useNavigate(); // Hook for navigation
@@ -55,6 +55,8 @@ const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_reg
     }
   };
 
+  console.log(is_active)
+
   return (
     <div className="specific-event-details-container">
       {/* Show loader when loading is true */}
@@ -75,11 +77,13 @@ const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_reg
           <div className="details-header">
             <h1>About {title}</h1>
             {is_registered ? (
-              <div className="rsvp">Registered</div>
+              is_active && <div className="rsvp">Registered</div>
             ) : (
+              is_active && (
               <button className="rsvp-btn d-flex" onClick={handleRSVP}>
                 RSVP NOW
               </button>
+              )
             )}
           </div>
           <p className="specific-event-description" dangerouslySetInnerHTML={{ __html: details }} />

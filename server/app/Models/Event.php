@@ -16,7 +16,7 @@ class Event extends Model
 
     protected $fillable = [
         'event_name', 'event_date', 'location', 'type', 'category', 
-        'organization', 'description'
+        'organization', 'description', 'is_active'
     ];
 
     public $timestamps = true;

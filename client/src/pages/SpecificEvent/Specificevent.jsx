@@ -117,6 +117,7 @@ const SpecificEvent = () => {
           venue={eventData.location}
           details={eventData.description}
           is_registered={isRegistered} // Pass registration status directly
+          is_active={eventData.is_active}
         />
       </div>
     </div>

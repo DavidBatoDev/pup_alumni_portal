@@ -18,6 +18,17 @@ use Illuminate\Support\Facades\DB;
 // Carbon for date/time functions
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use App\Models\Notification;
+use App\Models\AlumniNotification;
+use App\Models\Event;
+use App\Models\Survey;
+use App\Models\SurveyQuestion;
+use App\Models\FeedbackResponse;
+use App\Models\SurveySection;
+use App\Models\AlumniEvent;
+use App\Models\EventPhoto;
+use App\Models\PostEventPhoto;
+
 
 
 
@@ -341,8 +352,6 @@ class AuthController extends Controller
     // Register a new alumni
     public function register(Request $request)
     {
-        Log::info('Register method hit.');
-        Log::info('Request data:', $request->all());
 
         try {
             // Validate the request
@@ -356,7 +365,7 @@ class AuthController extends Controller
                 'degree' => 'required|string|max:255',
                 'major' => 'required|string|max:255',
                 'student_number' => 'required|string|unique:alumni|max:255',
-                
+    
                 // Address fields
                 'street' => 'required|string|max:255',
                 'city' => 'required|string|max:100',
@@ -369,7 +378,7 @@ class AuthController extends Controller
             Log::error('Validation failed:', $e->errors());
             return response()->json(['error' => 'Validation failed', 'details' => $e->errors()], 422);
         }
-
+    
         // Create the alumni record with required fields
         $alumni = Alumni::create([
             'first_name' => $request->first_name,
@@ -387,9 +396,9 @@ class AuthController extends Controller
             'linkedin_profile' => $request->linkedin_profile,
             'student_number' => $request->student_number,
             
-            'profile_picture' => 'default-profile.png', // Default profile picture
+            'profile_picture' => 'profile_pictures/default-profile.png', // Default profile picture
         ]);
-
+    
         // Create the corresponding address record
         Address::create([
             'alumni_id' => $alumni->alumni_id, // Reference to the newly created alumni
@@ -399,16 +408,59 @@ class AuthController extends Controller
             'postal_code' => $request->postal_code,
             'country' => $request->country,
         ]);
-
+    
+        // Fetch active events
+        $activeEvents = Event::where('is_active', true)->get();
+    
+        // Create notifications for active events
+        foreach ($activeEvents as $event) {
+            $notification = Notification::create([
+                'type' => 'eventInvitation',
+                'alert' => 'New Event Invitation',
+                'title' => $event->event_name,
+                'message' => 'You are invited to the event: ' . $event->event_name . ' on ' . $event->event_date . ' at ' . $event->location,
+                'link' => '/events/' . $event->event_id,
+            ]);
+    
+            // Attach the notification to the alumni
+            AlumniNotification::create([
+                'alumni_id' => $alumni->alumni_id,
+                'notification_id' => $notification->notification_id,
+                'is_read' => false,
+            ]);
+        }
+    
+        // Fetch expired surveys
+        $expiredSurveys = Survey::where('end_date', '<', now())->get();
+    
+        // Create notifications for expired surveys
+        foreach ($expiredSurveys as $survey) {
+            $notification = Notification::create([
+                'type' => 'surveyInvitation',
+                'alert' => 'Survey Invitation',
+                'title' => $survey->title,
+                'message' => 'Please participate in the survey: ' . $survey->title . ' before ' . $survey->end_date,
+                'link' => '/survey/' . $survey->survey_id,
+            ]);
+    
+            // Attach the notification to the alumni
+            AlumniNotification::create([
+                'alumni_id' => $alumni->alumni_id,
+                'notification_id' => $notification->notification_id,
+                'is_read' => false,
+            ]);
+        }
+    
         // Generate JWT token for the newly created alumni
         $token = JWTAuth::fromUser($alumni);
-
+    
         return response()->json([
             'message' => 'Alumni successfully registered',
             'alumni' => $alumni,
             'token' => $token
         ], 201);
     }
+    
 
     // Login the alumni
     public function login(Request $request)

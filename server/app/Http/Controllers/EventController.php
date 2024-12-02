@@ -476,6 +476,7 @@ class EventController extends Controller
             'category' => $event->category,
             'organization' => $event->organization,
             'description' => $event->description,
+            'is_active' => $event->is_active,
             'photos' => $event->photos->map(function ($photo) {
                 return [
                     'photo_id' => $photo->photo_id,
@@ -536,6 +537,7 @@ class EventController extends Controller
             'category' => $event->category, 
             'organization' => $event->organization, 
             'description' => $event->description,
+            'is_active' => $event->is_active,
             'registered_alumni' => $event->alumniEvents->map(function ($alumniEvent) {
                 return [
                     'alumni_id' => $alumniEvent->alumni->alumni_id,
