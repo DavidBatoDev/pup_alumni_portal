@@ -4,16 +4,22 @@
   background-color: rgb(255, 255, 255, 0.7);
 }
 
+.glass-more {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background-color: rgb(255, 255, 255, 0.8);
+}
+
 .cinzel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Cinzel', serif !important;
 }
 
 .raleway {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Raleway', sans-serif !important;
 }
 
 .crimson-text {
-  font-family: 'Crimson Text', serif;
+  font-family: 'Crimson Text', serif !important;
 }
 
 .background {
@@ -79,6 +85,15 @@
   }
 }
 
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 .animated {
   animation-duration: 1s;
   animation-fill-mode: both;
@@ -94,4 +109,21 @@
   opacity: 0;
   animation-name: fadeInUp;
   -webkit-animation-name: fadeInUp;
+}
+
+/* Slide-in animation */
+.slide-in {
+  animation: slideIn 0.3s forwards;
+  left: 0 !important;
+}
+
+/* Background overlay */
+.overlay-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import UserEventListing from '../UserEvents/UserEventListing';
 import EventsFilterSection from '../EventsFilterSection/EventsFilterSection';
 import './EventAuth.css';
@@ -6,45 +6,11 @@ import menuIcon from "../../assets/svgs/menu-outline.svg";
 import { Link } from 'react-router-dom';
 import SearchBar from '../SearchBar/SearchBar';
 
-const EventAuth = ({ events }) => {
+const EventAuth = ({ events, isMobileView, maxVisibleCategories, toggleFilterSection, filters, setFilters, handleFilterChange }) => {
     const [currentPage, setCurrentPage] = useState(1); // State for managing the current page
     const eventsPerPage = 3; // Number of events to display per page
 
-    const [isFilterSectionVisible, setIsFilterSectionVisible] = useState(false); // Sidebar visibility state
-    const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768); // Check if screen is mobile size
-    const filterRef = useRef(null); // Reference for the filter section container
-
-    const [filters, setFilters] = useState({
-        searchTerm: '',
-        startDate: '',
-        endDate: '',
-        types: [],
-        categories: [],
-        organizations: []
-    });
-
-    const [maxVisibleCategories, setMaxVisibleCategories] = useState(4); // Max number of visible categories
-    const categories = ['Career', 'Social', 'Science', 'Computer', 'Education', 'Technology']; // Example categories
-
-    // Function to toggle the visibility of the filter sidebar
-    const toggleFilterSection = () => setIsFilterSectionVisible(!isFilterSectionVisible);
-
-    // Function to update the number of visible categories and check for mobile view
-    const updateView = () => {
-        const screenWidth = window.innerWidth;
-        setIsMobileView(screenWidth <= 768); // Update state for mobile view
-        if (screenWidth < 400) setMaxVisibleCategories(1);
-        else if (screenWidth < 600) setMaxVisibleCategories(2);
-        else if (screenWidth < 768) setMaxVisibleCategories(3);
-        else setMaxVisibleCategories(4);
-    };
-
-    // Add event listener for window resize to update view dynamically
-    useEffect(() => {
-        updateView();
-        window.addEventListener('resize', updateView);
-        return () => window.removeEventListener('resize', updateView);
-    }, []);
+    const categories = ['Career', 'Social', 'Faculty', 'Student Engagement', 'Service'];
 
     // Handle click events for category selection
     const handleCategoryClick = (category) => {
@@ -56,40 +22,14 @@ const EventAuth = ({ events }) => {
         }));
     };
 
-    // Apply filters to the events
-    const filteredEvents = events.filter((event) => {
-        const matchesSearch = filters.searchTerm
-            ? event?.event_name.toLowerCase().includes(filters.searchTerm.toLowerCase())
-            : true;
-        const matchesType = filters.types.length ? filters.types.includes(event.type) : true;
-        const matchesCategory = filters.categories.length
-            ? filters.categories.includes(event.category)
-            : true;
-        const matchesOrganization = filters.organizations.length
-            ? filters.organizations.includes(event.organization)
-            : true;
-        const matchesDate = filters.startDate && filters.endDate
-            ? new Date(event.date) >= new Date(filters.startDate) &&
-              new Date(event.date) <= new Date(filters.endDate)
-            : true;
-
-        return matchesSearch && matchesType && matchesCategory && matchesOrganization && matchesDate;
-    });
-
     // Pagination logic
     const indexOfLastEvent = currentPage * eventsPerPage;
     const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
-    const currentEvents = filteredEvents.slice(indexOfFirstEvent, indexOfLastEvent);
-    const totalPages = Math.ceil(filteredEvents.length / eventsPerPage) || 1;
+    const currentEvents = events.slice(indexOfFirstEvent, indexOfLastEvent);
+    const totalPages = Math.ceil(events.length / eventsPerPage) || 1;
 
     // Handle page change in pagination
     const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
-
-    // Update filters with new values
-    const handleFilterChange = (newFilters) => {
-        setFilters(newFilters);
-        setCurrentPage(1);
-    };
 
     // Handle search functionality
     const handleSearch = (searchTerm) => {
@@ -118,7 +58,7 @@ const EventAuth = ({ events }) => {
                                 ))}
                             </div>
                             <div className="filter-search-all" onClick={toggleFilterSection}>
-                                <img src={menuIcon} alt="Menu Icon" />
+                                <i className="fa-regular fa-filter"></i>
                                 <div className="filter-search">All</div>
                             </div>
                         </div>
@@ -127,7 +67,7 @@ const EventAuth = ({ events }) => {
                     {/* Upcoming Events Count */}
                     <div className="filter-event-wrapper">
                         <h3 className="text-muted">
-                            Upcoming Events: <span className="text-danger">{filteredEvents.length}</span>
+                            Upcoming Events: <span className="text-danger">{events.length}</span>
                         </h3>
 
                         {/* Render link inside filter-event-wrapper for mobile */}
@@ -182,18 +122,6 @@ const EventAuth = ({ events }) => {
                     </nav>
                 </div>
             </div>
-
-            {/* Filter Section Overlay - Slides in from the left */}
-            {isFilterSectionVisible && (
-                <div ref={filterRef} className="filter-section-overlay slide-in">
-                    <EventsFilterSection filters={filters} onFilterChange={handleFilterChange} />
-                </div>
-            )}
-
-            {/* Optional Overlay Background */}
-            {isFilterSectionVisible && (
-                <div className="overlay-background" onClick={() => setIsFilterSectionVisible(false)}></div>
-            )}
         </div>
     );
 };

@@ -137,36 +137,7 @@
   border-color: #870000;
 }
 
-/* Filter section overlay styling */
-.filter-section-overlay {
-  position: fixed;
-  top: 0;
-  left: -100%;
-  /* Start off-screen */
-  height: 100%;
-  width: 100%;
-  max-width: 320px;
-  background: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  z-index: 100;
-  transition: left 0.3s ease-in-out;
-}
 
-/* When visible, slide in */
-.slide-in {
-  left: 0 !important;
-}
-
-/* Background overlay */
-.overlay-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1;
-}
 
 /* View event history link */
 .view-event-history {
@@ -181,22 +152,6 @@
 
 /* Responsive styles for screens smaller than 768px */
 @media (max-width: 768px) {
-
-  /* Filter section overlay for mobile */
-  .filter-section-overlay {
-    align-content: center;
-    position: fixed;
-    top: 0;
-    left: -100%;
-    height: 100%;
-    width: 100%;
-    max-width: 320px;
-    background: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    z-index: 100;
-    transition: left 0.3s ease-in-out;
-    overflow-y: scroll;
-  }
 
   /* Active style for filter tags on mobile */
   .filter-search.active {
@@ -229,27 +184,6 @@
     border-radius: 20px;
     text-align: center;
     white-space: nowrap;
-  }
-
-  /* Add sliding effect on mobile */
-  .slide-in {
-    left: 0;
-  }
-
-  /* Ensure filter container is visible within overlay */
-  .filter-section-overlay .filter-container {
-    display: block;
-  }
-
-  /* Overlay background styling */
-  .overlay-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 3;
   }
 
   /* Adjust event header for mobile view */

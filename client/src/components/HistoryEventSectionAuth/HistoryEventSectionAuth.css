@@ -1,7 +1,7 @@
 .bg-light {
     background-color: #f8f9fa !important;
   }
-  
+
 .text-danger {
     color: #d9534f !important;
 }
@@ -68,12 +68,7 @@
     z-index: 100;
     transition: left 0.3s ease-in-out;
   }
-  
-  /* Add the sliding effect */
-  .slide-in {
-    left: 0;
-  }
-  
+
   /* Optional overlay to show behind the filter for aesthetics */
   .overlay-background {
     position: fixed;
@@ -99,7 +94,7 @@
   .view-event-history:hover{
     border-bottom: 1px solid #870000;
   }
-  
+
 
 /* src/components/EventAuth/EventAuth.css */
 
@@ -126,8 +121,8 @@
         border: 1px solid #870000; /* Match the border with background */
 }
 
-    
-    
+
+
       .filter-search-categories {
         display: flex;
         align-items: center;
@@ -143,17 +138,13 @@
         border-radius: 20px;
         width: 100%;
         text-align: center;
-      } 
-      
-      /* Add the sliding effect */
-      .slide-in {
-        left: 0;
       }
-      
+
+
       .filter-section-overlay .filter-container {
         display: block; /* Ensure the filter container is visible */
       }
-      
+
       /* Optional overlay to show behind the filter for aesthetics */
       .overlay-background {
         position: fixed;
@@ -164,7 +155,7 @@
         background: rgba(0, 0, 0, 0.5);
         z-index: 90; /* Lower z-index than the filter */
       }
-      
+
     .event-header{
         z-index: 2000;
         flex-direction: column;
@@ -195,7 +186,7 @@
     .filter-search-section .filter-search.active{
         cursor: pointer;
         border-bottom: 1px solid #870000;
-        
+
     }
 
     .filter-search{
@@ -217,6 +208,5 @@
         width: 20px;
     }
 
-    
+
 }
-  

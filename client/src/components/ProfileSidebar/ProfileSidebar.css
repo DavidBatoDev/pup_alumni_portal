@@ -62,7 +62,7 @@
 
 .profile-sidebar-name {
   color: #1E1E1E;
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 900;
   margin: 0;
@@ -70,7 +70,7 @@
 
 .profile-sidebar-id {
   color: #6D6D6D;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
   margin: 0;
@@ -105,7 +105,7 @@
   width: 100%;
 
   color: #1E1E1E;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;

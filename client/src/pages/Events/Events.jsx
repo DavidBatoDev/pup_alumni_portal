@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import BannerSmall from "../../components/Banner/BannerSmall";
 import Navbar from "../../components/Navbar/Navbar";
 import bannerImage from "../../assets/images/eventbanner.png";
@@ -17,6 +17,25 @@ const Events = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768); // Check if screen is mobile size
+  const [maxVisibleCategories, setMaxVisibleCategories] = useState(4); // Max number of visible categories
+
+  const updateView = () => {
+    const screenWidth = window.innerWidth;
+    setIsMobileView(screenWidth <= 768); // Update state for mobile view
+    if (screenWidth < 400) setMaxVisibleCategories(1);
+    else if (screenWidth < 600) setMaxVisibleCategories(2);
+    else if (screenWidth < 768) setMaxVisibleCategories(3);
+    else setMaxVisibleCategories(4);
+  };
+
+  // Add event listener for window resize to update view dynamically
+  useEffect(() => {
+    updateView();
+    window.addEventListener('resize', updateView);
+    return () => window.removeEventListener('resize', updateView);
+  }, []);
+
   const [filters, setFilters] = useState({
     searchTerm: '',
     startDate: '',
@@ -25,6 +44,12 @@ const Events = () => {
     categories: [],
     organizations: []
   });
+
+  const [isFilterSectionVisible, setIsFilterSectionVisible] = useState(false); // Sidebar visibility state
+  const filterRef = useRef(null); // Reference for the filter section container
+
+  // Function to toggle the visibility of the filter sidebar
+  const toggleFilterSection = () => setIsFilterSectionVisible(!isFilterSectionVisible);
 
   useEffect(() => {
     echo.channel('alumni')
@@ -78,11 +103,11 @@ const Events = () => {
     setFilteredEvents(filtered);
   }, [filters, eventsData]);
 
-  // Handle filter updates from child component
+  // Handle filter updates from event filter section
   const handleFilterChange = (updatedFilters) => {
     setFilters(updatedFilters);
   };
-
+  
   // Clear the error message
   const handleClearError = () => setError(null);
 
@@ -110,19 +135,39 @@ const Events = () => {
 
       <div className="events-content glass">
         <div className="event-header">
-          <h2>You're MORE than WELCOME to attend.</h2>
+          <h2>You&apos;re MORE than WELCOME to attend.</h2>
           <h5>
             Join us for an exciting lineup of events designed to inspire, connect, and empower.
           </h5>
         </div>
-        <div className="events-container container container-fluid d-flex gap-3">
-          <EventsFilterSection filters={filters} onFilterChange={handleFilterChange} />
-          <EventAuth events={filteredEvents} />
+        <div className="events-container container container-fluid d-flex gap-3 px-0">
+          {!isMobileView && <EventsFilterSection filters={filters} onFilterChange={handleFilterChange} />}
+          <EventAuth
+            events={filteredEvents}
+            isMobileView={isMobileView}
+            maxVisibleCategories={maxVisibleCategories}
+            toggleFilterSection={toggleFilterSection}
+            setFilters={setFilters}
+            filters={filters}
+            handleFilterChange={handleFilterChange}
+          />
         </div>
       </div>
       <div className="main-footer-wrapper">
         <MainFooter />
       </div>
+
+      {/* Filter Section Overlay - Slides in from the left */}
+      {isFilterSectionVisible && (
+        <div ref={filterRef} className={`filter-section-overlay glass ${isFilterSectionVisible ? 'slide-in' : ''}`}>
+          <EventsFilterSection filters={filters} onFilterChange={handleFilterChange} />
+        </div>
+      )}
+
+      {/* Optional Overlay Background */}
+      {isFilterSectionVisible && (
+        <div className="overlay-background" onClick={() => setIsFilterSectionVisible(false)}></div>
+      )}
     </div>
   );
 };
