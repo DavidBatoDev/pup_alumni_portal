@@ -84,9 +84,9 @@ const SurveyPopupModal = () => {
               <i className="survey-popup-icon fa-regular fa-2xl fa-bell"></i>
             </div>
             <h4>
-              {surveys.length > 1
+              {surveys.length > 0
                 ? `You have ${surveys.length} surveys to complete!`
-                : "lol"}
+                : "No new surveys available."}
             </h4>
           </div>
           <div className="survey-card-popup">
