@@ -93,6 +93,11 @@
   transition: border-color 0.2s, box-shadow 0.2s ease;
   border-top: #b71c1c 4px solid;
 }
+.required-unanswered {
+  border: 2px solid red;
+  background-color: #f8d7da; /* Light red background */
+  animation: highlightUnanswered 0.3s ease-out;
+}
 
 /* Top border color for each question card */
 .as-question-top-bar {
@@ -240,5 +245,16 @@ textarea.form-control:focus {
   .section-navigation .btn {
     padding: 8px 16px;
     font-size: 14px;
+  }
+}
+
+
+
+@keyframes highlightUnanswered {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

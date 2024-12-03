@@ -36,7 +36,7 @@ const Banner = () => {
               )
               : (
                 <>
-                  <p className="banner-hero-motto">Building a Lifelong Community of PUP Graduate School Alumnis</p>
+                  <p className="banner-hero-motto">Building a Lifelong Community of PUP Graduate School Alumni</p>
                   <br />
                 </>
               )}

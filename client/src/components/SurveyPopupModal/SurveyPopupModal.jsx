@@ -86,7 +86,7 @@ const SurveyPopupModal = () => {
             <h4>
               {surveys.length > 1
                 ? `You have ${surveys.length} surveys to complete!`
-                : "lol"}
+                : "You have Survey to complete!"}
             </h4>
           </div>
           <div className="survey-card-popup">

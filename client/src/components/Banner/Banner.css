@@ -49,7 +49,7 @@
 .banner .banner-content {
   z-index: 1; /* Ensure it appears above the background */
   margin-top: 90px;
-  width: 1296px;
+  /* width: 1296px; */
   margin-left: auto;
   margin-right: auto;
   display: flex;

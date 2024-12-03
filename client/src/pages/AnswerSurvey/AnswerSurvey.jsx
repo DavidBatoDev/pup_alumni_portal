@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import api from '../../api';
 import { useParams, useNavigate } from 'react-router-dom';
 import './AnswerSurvey.css';
@@ -17,21 +17,37 @@ const AnswerSurvey = () => {
   const [otherResponses, setOtherResponses] = useState({}); 
   const [loading, setLoading] = useState(true);
   const [currentSection, setCurrentSection] = useState(0);
+  const [questionRefs, setQuestionRefs] = useState({});
+  const [answered, setAnswered] = useState({});
+
+  const refs = useRef({});
 
   useEffect(() => {
     const fetchSurveyQuestions = async () => {
       try {
         const response = await api.get(`/api/survey/${surveyId}/questions`);
         setSurveyData(response.data);
-  
-        // Restore saved state from localStorage
-        const savedResponses = JSON.parse(localStorage.getItem(`survey_${surveyId}_responses`)) || {};
-        const savedOtherResponses = JSON.parse(localStorage.getItem(`survey_${surveyId}_otherResponses`)) || {};
-        const savedSection = parseInt(localStorage.getItem(`survey_${surveyId}_currentSection`)) || 0;
-  
-        setResponses(savedResponses);
-        setOtherResponses(savedOtherResponses);
-        setCurrentSection(savedSection);
+        setResponses({
+          ...response.data.sections.reduce((acc, section) => {
+            const sectionResponses = section.questions.reduce((acc, question) => {
+              acc[question.question_id] = { question_id: question.question_id, option_id: null, response_text: null };
+              return acc;
+            }, {});
+            return { ...acc, ...sectionResponses };
+          }, {}),
+        })
+        
+        // Initialize refs for each question
+        const newRefs = {};
+        response.data.sections.forEach((section) => {
+          section.questions.forEach((question) => {
+            newRefs[question.question_id] = React.createRef()
+          });
+        });
+        
+        console.log('Initialized refs:', newRefs)
+
+        setQuestionRefs(newRefs);
       } catch (error) {
         console.error('Error fetching survey questions:', error);
       } finally {
@@ -43,12 +59,27 @@ const AnswerSurvey = () => {
   }, [surveyId]);
 
   useEffect(() => {
+    console.log('questionRefs:', questionRefs); // Check if refs are properly set
+  }, [questionRefs]);
+
+  useEffect(() => {
     localStorage.setItem(`survey_${surveyId}_responses`, JSON.stringify(responses));
     localStorage.setItem(`survey_${surveyId}_otherResponses`, JSON.stringify(otherResponses));
     localStorage.setItem(`survey_${surveyId}_currentSection`, currentSection);
   }, [surveyId, responses, otherResponses, currentSection]);
 
-
+  useEffect(() => {
+    if (surveyData) {
+      // Initialize answered state for each question in the survey
+      const initialAnsweredState = {};
+      surveyData.sections.forEach((section) => {
+        section.questions.forEach((question) => {
+          initialAnsweredState[question.question_id] = false; // Initially, all questions are considered "unanswered"
+        });
+      });
+      setAnswered(initialAnsweredState); // Set initial answered state
+    }
+  }, [surveyData]); 
 
   const handleCloseAlert = () => setStatus({ message: '', severity: '' });
 
@@ -57,8 +88,10 @@ const AnswerSurvey = () => {
       ...prevResponses,
       [questionId]: { question_id: questionId, option_id: optionId, response_text: optionText === 'Others' ? '' : null },
     }));
-
-    // Show input for "Others" if selected, otherwise clear it
+    
+    // Mark the question as answered
+    setAnswered((prevAnswered) => ({ ...prevAnswered, [questionId]: true }));
+    
     if (optionText === 'Others') {
       setOtherResponses((prev) => ({ ...prev, [questionId]: '' }));
     } else {
@@ -69,14 +102,17 @@ const AnswerSurvey = () => {
       });
     }
   };
-
+  
   const handleTextChange = (questionId, text) => {
     setResponses((prevResponses) => ({
       ...prevResponses,
       [questionId]: { question_id: questionId, option_id: null, response_text: text },
     }));
+    
+    // Mark the question as answered
+    setAnswered((prevAnswered) => ({ ...prevAnswered, [questionId]: true }));
   };
-
+  
   const handleOtherTextChange = (questionId, text) => {
     setOtherResponses((prev) => ({
       ...prev,
@@ -86,8 +122,12 @@ const AnswerSurvey = () => {
       ...prevResponses,
       [questionId]: { question_id: questionId, option_id: responses[questionId].option_id, response_text: text },
     }));
+    
+    // Mark the question as answered
+    setAnswered((prevAnswered) => ({ ...prevAnswered, [questionId]: true }));
   };
-
+  
+  
   const handleSubmit = async () => {
     const formattedResponses = Object.values(responses);
     try {
@@ -111,17 +151,72 @@ const AnswerSurvey = () => {
   
 
   const handleNextSection = () => {
-    if (currentSection < surveyData.sections.length - 1) {
-      setCurrentSection((prev) => prev + 1);
+    const currentSectionData = surveyData.sections[currentSection];
+    
+    // Check if all required questions are answered
+    const unansweredQuestions = currentSectionData.questions.filter((question) => {
+      if (question.is_required) {
+        const response = responses[question.question_id];
+        if (question.question_type === 'Open-ended') {
+          return !response?.response_text?.trim();
+        } else if (['Dropdown', 'Multiple Choice', 'Rating'].includes(question.question_type)) {
+          return response?.option_id == null || response?.option_id === undefined;
+        }
+      }
+      return false;
+    });
+  
+    if (unansweredQuestions.length > 0) {
+      // Scroll to the first unanswered required question
+      const ref = questionRefs[unansweredQuestions[0].question_id];
+      if (ref && ref.current) {
+        ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+  
+      // Set the status message to alert the user
+      setStatus({ message: 'Please answer all required questions.', severity: 'error' });
+  
+      // Highlight unanswered required questions
+      unansweredQuestions.forEach((question) => {
+        setAnswered((prevAnswered) => ({
+          ...prevAnswered,
+          [question.question_id]: false, // Mark them as not answered
+        }));
+      });
+
     } else {
-      handleSubmit();
+      if (currentSection < surveyData.sections.length - 1) {
+        setCurrentSection((prev) => prev + 1);
+        window.scrollTo(0, 0);  // Scroll to the top of the page
+      } else {
+        handleSubmit();
+      }
     }
   };
-
+  
+  
+  // console.log('responses:', responses);
+  
+  
   const handlePreviousSection = () => {
     if (currentSection > 0) {
       setCurrentSection((prev) => prev - 1);
     }
+  };
+
+
+  function isRequiredUnanswered(question) {
+    const response = responses[question.question_id];
+    
+    // Only check for unanswered if the question has been touched
+    if (answered[question.question_id] && question.is_required) {
+      if (question.question_type === 'Open-ended') {
+        return !response?.response_text?.trim();
+      } else if (['Dropdown', 'Multiple Choice', 'Rating'].includes(question.question_type)) {
+        return response?.option_id == null || response?.option_id === undefined;
+      }
+    }
+    return false;
   };
 
   if (loading) return <CircularLoader />;
@@ -156,7 +251,9 @@ const AnswerSurvey = () => {
         </div>
         
         {currentSectionData.questions.map((question, index) => (
-          <div key={question.question_id} className="as-survey-question-card">
+          <div key={question.question_id} 
+            className={`as-survey-question-card ${isRequiredUnanswered(question) ? 'required-unanswered' : ''}`}  
+            ref={questionRefs[question.question_id]}>
             <div className="as-question-header">
               <div className="as-question-title">{question.question_text} {question.is_required ? <span className='question-required-asterisk'>*</span> : ""}</div>
             </div>

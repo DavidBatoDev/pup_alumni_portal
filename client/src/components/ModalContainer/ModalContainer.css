@@ -136,7 +136,7 @@
   }
 
   .desktop-modal-body {
-    margin-top: 50px;
+    /* margin-top: 50px; */
     height: 100vh;
     border-radius: 0px;
   }

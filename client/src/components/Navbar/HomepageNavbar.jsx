@@ -62,7 +62,7 @@ const HomepageNavbar = () => {
               Polytechnic University of the Philippines
             </span>
             <span className="header-title fw-bold cinzel">
-              Graduate School Alumni Portal .Dev
+              Graduate School Alumni Engagement Portal System
             </span>
           </div>
         </Link>
