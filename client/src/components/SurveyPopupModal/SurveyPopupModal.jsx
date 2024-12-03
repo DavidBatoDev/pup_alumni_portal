@@ -84,9 +84,9 @@ const SurveyPopupModal = () => {
               <i className="survey-popup-icon fa-regular fa-2xl fa-bell"></i>
             </div>
             <h4>
-              {surveys.length > 1
+              {surveys.length > 0
                 ? `You have ${surveys.length} surveys to complete!`
-                : "You have Survey to complete!"}
+                : "No new surveys available."}
             </h4>
           </div>
           <div className="survey-card-popup">
@@ -100,10 +100,8 @@ const SurveyPopupModal = () => {
       )}
 
       {!loading && !error && surveys.length === 0 && (
-        <p>No new surveys available at the moment.</p>
+        <p className="mx-auto">No new surveys available at the moment.</p>
       )}
-
-      {/* Optional: Uncomment and use CustomAlert for better error handling */}
 
       {error && (
         <CustomAlert

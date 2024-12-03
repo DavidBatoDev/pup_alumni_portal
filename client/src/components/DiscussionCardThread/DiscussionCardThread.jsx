@@ -87,7 +87,7 @@ const DiscussionCardThread = ({ thread, handleComment, submitVote, handleOpenIma
           </div>
 
           {/* Thread Body */}
-          <p classame="thread-body" dangerouslySetInnerHTML={{ __html: isExpanded ? thread?.description : getTruncatedText(thread?.description) }} />
+          <p className="thread-body" dangerouslySetInnerHTML={{ __html: isExpanded ? thread?.description : getTruncatedText(thread?.description) }} />
           {thread?.description.length > maxLength && (
             <button onClick={toggleReadMore} className="btn-read-more btn crimson-text mb-2 d-inline-flex align-items-center justify-content-center">
               {isExpanded ? 'Read Less' : 'Read More'}
