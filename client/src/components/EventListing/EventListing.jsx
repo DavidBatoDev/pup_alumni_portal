@@ -56,8 +56,10 @@ const EventListing = ({ eventData, onEdit }) => {
         {/* Right-Aligned Content */}
         <div className="event-interactions">
           <span className="event-type">{eventData.type}</span>
-          <i className="view-icon btn btn-danger fa-regular fa-xl fa-address-book" onClick={handleEventClick}></i>
-          <i className="edit-icon btn btn-light fa-regular fa-xl fa-pen-to-square" onClick={() => onEdit(eventData.event_id)}></i>
+          <div className='d-flex gap-2'>
+            <i className="view-icon btn btn-danger fa-regular fa-xl fa-address-book" onClick={handleEventClick}></i>
+            <i className="edit-icon btn btn-light fa-regular fa-xl fa-pen-to-square" onClick={() => onEdit(eventData.event_id)}></i>
+          </div>
         </div>
       </div>
     </div>
