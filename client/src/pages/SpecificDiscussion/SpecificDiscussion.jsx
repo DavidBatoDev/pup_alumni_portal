@@ -15,6 +15,7 @@ import DiscussionNavbar from '../../components/DiscussionNavbar/DiscussionNavbar
 import DiscussionCardThread from '../../components/DiscussionCardThread/DiscussionCardThread';
 import DiscussionComment from '../../components/DiscussionComment/DiscussionComment';
 import ModalContainer from '../../components/ModalContainer/ModalContainer';
+import DiscussionThreadModal from '../../components/DiscussionThreadModal/DiscussionThreadModal'; // Import the modal
 
 import { Navigation, Pagination } from 'swiper/modules';
 import SwiperCore from 'swiper';
@@ -41,6 +42,9 @@ const SpecificDiscussion = () => {
 
   const [showImageModal, setShowImageModal] = useState(false);
   const [currentImages, setCurrentImages] = useState([]);
+
+  const [showEditModal, setShowEditModal] = useState(false); // State to control the edit modal visibility
+  const [editingThread, setEditingThread] = useState(null); // State to store the thread being edited
 
   const handleOpenImage = (images) => {
     setCurrentImages(images);
@@ -196,9 +200,55 @@ const SpecificDiscussion = () => {
     }
   };
 
-  const handleEdit = (thread)  => {
-    console.log('Edit thread:', thread?.thread_id);
-  }
+  const handleEdit = (thread) => {
+    setEditingThread(thread);
+    setShowEditModal(true);
+  };
+
+  // Function to handle the submission of the edited thread
+  const submitEditThread = async (updatedThreadData) => {
+    // Implement the API call to update the thread
+    try {
+      const response = await api.put(`/api/threads/${thread.thread_id}`, updatedThreadData);
+
+      if (response.status === 200 || response.status === 201) {
+        console.log('Thread updated successfully:', response.data);
+        const updatedThread = response.data.data;
+
+        const formattedUpdatedThread = {
+          ...updatedThread,
+          updated_at: timeAgo(updatedThread.updated_at),
+          created_at: timeAgo(updatedThread.created_at),
+        }
+        setThread(formattedUpdatedThread);
+
+        const formattedComments = thread.comments.map((comment) => ({
+          ...comment,
+          created_at: timeAgo(comment.created_at),
+        }));
+        setComments(formattedComments);
+        console.log('Comments:', commentTree)
+
+        const tree = buildTree(formattedComments);
+        setCommentTree(tree);
+      }
+      else {
+        // Handle HTTP errors
+        const errorData = response.data;
+        const message = errorData.message ?? "An error occurred while updating the thread.";
+        const errorMsg = errorData.error ?? '';
+        console.error(`Error updating thread: ${message} : ${errorMsg}`);
+        setError(`${message} ${errorMsg}`);
+      }
+    } catch (error) {
+      console.error('Network error or no response:', error);
+      setError("An error occurred while updating the thread.");
+      return;
+    } finally {
+      setShowEditModal(false);
+    }
+
+  };
 
   return (
     <div className="specific-discussions-page">
@@ -288,6 +338,14 @@ const SpecificDiscussion = () => {
           ))}
         </Swiper>
       </ModalContainer>
+
+      <DiscussionThreadModal
+        showModal={showEditModal}
+        closeModal={() => setShowEditModal(false)}
+        onSubmitThread={submitEditThread}
+        thread={editingThread} // Pass the thread to be edited
+        isEditing={true} // Indicate that this is an edit operation
+      />
 
       <MainFooter />
     </div>

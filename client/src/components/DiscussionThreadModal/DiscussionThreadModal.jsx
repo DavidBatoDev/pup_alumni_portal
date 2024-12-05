@@ -1,26 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from 'react-redux';
 import ReactQuill from "react-quill"; // Import ReactQuill
 import "react-quill/dist/quill.snow.css"; // Quill's default theme
 import ModalContainer from "../ModalContainer/ModalContainer";
 import "./DiscussionThreadModal.css";
 
-const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
+const DiscussionThreadModal = ({ showModal, closeModal, onSubmitThread, thread = null, isEditing = false }) => {
   const { user } = useSelector((state) => state.user); // Get user data
 
   // Thread Data (Request Body)
   const [threadData, setThreadData] = useState({
-    title: "",
-    description: "",
+    title: thread?.title || "",
+    description: thread?.description || "",
   });
-  const [tags, setTags] = useState([]); // Manage tags
-  const [showImageUpload, setShowImageUpload] = useState(false); // Toggle image upload section visibility
-  const [images, setImages] = useState([]); // Store uploaded images
+  const [tags, setTags] = useState(thread?.tags || []); // Manage tags
+  const [showImageUpload, setShowImageUpload] = useState(
+    thread?.images?.length > 0 || false
+  );
+  const [images, setImages] = useState(thread?.images?.map(image => image.image_url) || []); // Store uploaded images
   const [imageFiles, setImageFiles] = useState([]); // Store actual file objects
   const [validation, setValidation] = useState({
     title: true,
     description: true
   })
+
+  useEffect(() => {
+    if (thread) {
+      setThreadData({
+        title: thread.title || "",
+        description: thread.description || "",
+      });
+      setTags(thread.tags || []);
+      // console.log(thread.images);
+      // setImages(thread.images?.map(image => image.image_path) || []);
+      // setImageFiles(thread.images?.map(image => image.image_url) || []); // Correctly set imageFiles
+    }
+  }, [thread]);
 
   const resetValidation = () => {
     setValidation({
@@ -66,8 +81,8 @@ const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
   const handleAddTag = (e) => {
     if (e.key === "Enter") {
       const newTag = e.target.value.trim();
-      if (newTag && !tags.includes(newTag)) {
-        setTags((prevTags) => [...prevTags, newTag]); // Add new tag if it doesn't exist
+      if (newTag && !tags.some(tag => tag.name === newTag)) {
+        setTags((prevTags) => [...prevTags, { name: newTag }]); // Add new tag if it doesn't exist
       }
       e.target.value = ""; // Clear input
       e.preventDefault(); // Prevent form submission
@@ -75,27 +90,39 @@ const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
   };
 
   const handleRemoveTag = (tagToRemove) => {
-    setTags((prevTags) => prevTags.filter((tag) => tag !== tagToRemove)); // Remove specific tag
+    setTags((prevTags) => prevTags.filter((tag) => tag.name !== tagToRemove)); // Remove specific tag
   };
 
   // Handle submit
   const handleSubmit = () => {
     // Validation
-    validateFields();
+    if (!validateFields()) return;
 
-    // Create FormData object
-    const formData = new FormData();
-    formData.append('title', threadData.title);
-    formData.append('description', threadData.description);
-    tags.forEach((tag, index) => {
-      formData.append(`tags[${index}]`, tag);
-    });
-    imageFiles.forEach((file, index) => {
-      formData.append(`images[${index}]`, file);
-    });
+    if (!isEditing) {
+      // Creating Thread:
+      const formData = new FormData();
+      formData.append('title', threadData.title);
+      formData.append('description', threadData.description);
+      tags.forEach((tag, index) => {
+        formData.append(`tags[${index}]`, tag);
+      });
+      imageFiles.forEach((file, index) => {
+        formData.append(`images[${index}]`, file);
+      });
 
-    // Pass thread data to the parent component for API call and reset form state
-    onCreateThread(formData);
+      // Pass thread data to the parent component for API call and reset form state
+      onSubmitThread(formData);
+    } else {
+      // Editing Thread:
+      const updatedData = {};
+      if (threadData.title !== thread.title) updatedData.title = threadData.title;
+      if (threadData.description !== thread.description) updatedData.description = threadData.description;
+      if (JSON.stringify(tags) !== JSON.stringify(thread.tags)) updatedData.tags = tags;
+      if (imageFiles.length > 0) updatedData.images = imageFiles;
+
+      // Pass updated data to the parent component for API call
+      onSubmitThread(updatedData);
+    }
 
     setTimeout(() => {
       resetFormState();
@@ -112,7 +139,7 @@ const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
   }
 
   const handleUserClose = () => {
-    resetFormState();
+    if (!isEditing) { resetFormState(); }
     closeModal();
   }
 
@@ -120,7 +147,7 @@ const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
     <ModalContainer
       showModal={showModal}
       closeModal={handleUserClose}
-      title="Create Thread"
+      title={isEditing ? "Edit Thread" : "Create Thread"} // Change title based on the operation
     >
       <div className="discussion-thread-modal">
         {/* Header */}
@@ -190,11 +217,11 @@ const DiscussionThreadModal = ({ showModal, closeModal, onCreateThread }) => {
             <div className="tags-container">
               {tags.map((tag, index) => (
                 <div key={index} className="tag">
-                  {tag}
+                  {tag.name}
                   <button
                     type="button"
                     className="remove-tag-btn"
-                    onClick={() => handleRemoveTag(tag)}
+                    onClick={() => handleRemoveTag(tag.name)}
                   >
                     &times;
                   </button>

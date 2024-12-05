@@ -258,7 +258,7 @@ const Discussions = () => {
       <DiscussionThreadModal
         showModal={showModal}
         closeModal={() => setShowModal(false)}
-        onCreateThread={handleCreateThread}
+        onSubmitThread ={handleCreateThread}
       />
 
       <MainFooter />

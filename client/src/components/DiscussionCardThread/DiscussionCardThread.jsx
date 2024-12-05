@@ -50,7 +50,7 @@ const DiscussionCardThread = ({ thread, handleComment, submitVote, handleOpenIma
 
   return (
     <>
-      <Link className="text-decoration-none mb-2 p-3 discussion-card-thread" to={`/discussions/${thread?.thread_id}`}>
+      <Link className="text-decoration-none mb-2 p-4 discussion-card-thread" to={`/discussions/${thread?.thread_id}`}>
 
         <div className="d-flex flex-column height-fit-content">
           {/* Thread Metadata */}
@@ -76,7 +76,7 @@ const DiscussionCardThread = ({ thread, handleComment, submitVote, handleOpenIma
             {/* Edit Button */}
             {
             user?.alumni_id === thread?.author?.alumni_id &&
-            <div className="flex-grow-1 h-100 d-flex flex-row-reverse align-content-start px-2" onClick={handleEdit(thread)}>
+            <div className="flex-grow-1 h-100 d-flex flex-row-reverse align-content-start px-2" onClick={() => handleEdit(thread)}>
               <i className="fa-solid fa-ellipsis"></i>
             </div>
             }
