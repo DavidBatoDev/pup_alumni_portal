@@ -11,6 +11,7 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import echo from "../../echo";
 import CircularLoader from "../../components/CircularLoader/CircularLoader";
 import MainFooter from "../../components/MainFooter/MainFooter";
+import api from "../../api";
 
 const Surveys = () => {
   const [unansweredSurveysData, setUnansweredSurveysData] = useState([]);
@@ -25,14 +26,10 @@ const Surveys = () => {
     const fetchUnansweredSurveys = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("/api/survey/unanswered-surveys", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const response = await api.get("/api/survey/unanswered-surveys");
         setUnansweredSurveysData(response.data.surveys);
       } catch (error) {
-        console.error("Error fetching surveys:", error);
+        console.log("Error fetching surveys:", error);
       } finally {
         setLoading(false);
       }
@@ -40,14 +37,10 @@ const Surveys = () => {
 
     const fetchAnsweredSurveys = async () => {
       try {
-        const response = await axios.get("/api/survey/answered-surveys", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const response = await api.get("/api/survey/answered-surveys");
         setAnswerSurveyData(response.data.surveys);
       } catch (error) {
-        console.error("Error fetching surveys:", error);
+        console.log("Error fetching surveys:", error);
       } finally {
         setLoading(false);
       }

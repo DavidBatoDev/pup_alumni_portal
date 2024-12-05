@@ -15,8 +15,7 @@ use App\Mail\TestEmail;
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('logout', [AuthController::class, 'logout'])->middleware('jwt.verify');
-Route::post('/refresh-token', [AuthController::class, 'refreshToken']);
-
+Route::get('/refresh-token', [AuthController::class, 'refreshToken']);
 
 // Admin authentication routes
 Route::post('admin/login', [AdminAuthController::class, 'login']);
@@ -57,7 +56,6 @@ Route::get('/graduates/check-verification', [VerificationController::class, 'che
 // Protected alumni routes (Require JWT Authentication)
 Route::group(['middleware' => ['jwt.verify']], function () {
     // route for refreshin the token 
-    Route::post('/refresh-token', [AuthController::class, 'refreshToken']);
 
     Route::get('/profile', [AlumniController::class, 'profile']);
     Route::post('/update-profile', [AlumniController::class, 'updateProfile']);
