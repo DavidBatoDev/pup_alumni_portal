@@ -36,10 +36,7 @@
 
 /* Filter event wrapper alignment */
 .filter-event-wrapper {
-  display: flex;
-  text-align: end;
   min-width: fit-content;
-  align-items: center;
 }
 
 /* Filter tags within the filter search section */
@@ -139,12 +136,16 @@
 /* View event history link */
 .view-event-history {
   font-size: 15px;
+  font-style: italic;
+  line-height: 0;
   color: #1e1e1eb9;
   text-decoration: none;
+  transition: color 0.1s ease-in;
 }
 
 .view-event-history:hover {
-  border-bottom: 1px solid #870000;
+  text-decoration: underline;
+  color: #870000;
 }
 
 /* Responsive styles for screens smaller than 768px */
@@ -187,13 +188,6 @@
   .event-header {
     flex-direction: column;
     gap: 20px;
-  }
-
-  .view-event-history {
-    position: absolute;
-    top: 145px;
-    right: 20px;
-
   }
 
   .container {
