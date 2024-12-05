@@ -36,3 +36,17 @@
   grid-template-columns: 1fr auto;
   column-gap: 20px;
 }
+
+/* mobile media */
+
+@media screen and (max-width: 768px) {
+
+  .survey-popup-icon-container {
+    width: 80px;
+    height: 80px;
+    margin-top: 40px;
+  }
+  .survey-card-popup .survey-card-container .survey-card-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

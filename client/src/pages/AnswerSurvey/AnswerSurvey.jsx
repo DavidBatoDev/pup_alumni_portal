@@ -204,6 +204,8 @@ const AnswerSurvey = () => {
     }
   };
 
+  console.log('answered:', answered);
+
 
   function isRequiredUnanswered(question) {
     const response = responses[question.question_id];
