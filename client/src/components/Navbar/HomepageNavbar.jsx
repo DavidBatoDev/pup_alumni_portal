@@ -60,14 +60,14 @@ const HomepageNavbar = () => {
             />
             <img
               src={GraduateLogo}
-              alt="Other Logo"
+              alt="Graduate Logo"
               width="65"
               height="65"
               className="navbar-logo ms-2"
             />
             <img
               src={BagongPilipinasLogo}
-              alt="Other Logo"
+              alt="Bagong Pipipinas Logo"
               width="65"
               height="65"
               className="navbar-logo ms-2"
@@ -100,7 +100,18 @@ const HomepageNavbar = () => {
               <li className="nav-item d-flex">
                 <NotificationMenu />
                 <Link to="/profile" className="nav-link">
-                  <img src={userIcon} alt="User Icon" width="30" />
+                  {user?.profile_picture
+                    ? <img
+                      src={user?.profile_picture ? `http://localhost:8000/storage/${user?.profile_picture}` : '/pfp.jpg'}
+                      alt={`${user.first_name}'s profile`}
+                      className="img-fluid rounded-circle navbar-profile-image"
+                    /> :
+                    <img
+                      src={userIcon}
+                      alt={`${user.first_name}'s profile`}
+                      className="img-fluid rounded-circle navbar-profile-image"
+                    />
+                  }
                 </Link>
               </li>
             ) : (
@@ -126,11 +137,22 @@ const HomepageNavbar = () => {
               </button>
             </li>
           ))}
-          { user ? (
+          {user ? (
             <li className="drawer-item" key={'profile'}>
               <NotificationMenu />
               <Link to="/profile" className="drawer-link">
-                <img src={userIcon} alt="User Icon" width="30" />
+                {user?.profile_picture
+                  ? <img
+                    src={user?.profile_picture ? `http://localhost:8000/storage/${user?.profile_picture}` : '/pfp.jpg'}
+                    alt={`${user.first_name}'s profile`}
+                    className="img-fluid rounded-circle navbar-profile-image"
+                  /> :
+                  <img
+                    src={userIcon}
+                    alt={`${user.first_name}'s profile`}
+                    className="img-fluid rounded-circle navbar-profile-image"
+                  />
+                }
               </Link>
             </li>
           ) : (

@@ -6,7 +6,7 @@
     height: 70px; /* Fixed height to match design */
     padding: 0;
   }
-  
+
   .navbar-brand {
     display: flex;
     align-items: center;
@@ -59,6 +59,13 @@
     color: white;
     font-weight: 600;
     border: none;
+  }
+
+  .nav-item .navbar-profile-image {
+    width: 3rem;
+    height: 3rem;
+    object-fit: cover !important;
+    border-radius: 50%;
   }
 
   .btn-nav-signin:hover {
