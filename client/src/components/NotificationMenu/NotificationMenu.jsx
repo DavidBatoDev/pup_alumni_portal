@@ -71,8 +71,6 @@ const NotificationMenu = () => {
     setIsOpen((prevState) => !prevState);
   };
 
-  console.log(notifications);
-
   return (
     <div className="notification-container" ref={menuRef}>
       <button onClick={toggleMenu} className="btn notification-button">

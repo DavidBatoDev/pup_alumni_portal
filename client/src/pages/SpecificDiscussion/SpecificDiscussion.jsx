@@ -259,7 +259,8 @@ const SpecificDiscussion = () => {
         showModal={showImageModal}
         title={"Showing " + currentImages.length + " pictures"}
         closeModal={closeImageModal}
-        fullView
+        hideHeader={true}
+        hidePadding={true}
       >
         <Swiper
           navigation
