@@ -490,18 +490,18 @@ class DiscussionController extends Controller
             'existing_images' => 'nullable|array', // Images to keep
             'images_to_delete' => 'nullable|array', // Images to delete
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => $validator->errors(),
             ], 422);
         }
-
+    
         try {
             $alumni = Auth::user(); // Get authenticated alumni
             $thread = Thread::findOrFail($id); // Find the thread
-
+    
             // Check if the authenticated user is the author
             if ($thread->author_id !== $alumni->alumni_id) {
                 return response()->json([
@@ -509,31 +509,31 @@ class DiscussionController extends Controller
                     'message' => 'Unauthorized.',
                 ], 403);
             }
-
+    
             // Update thread title and description
             $thread->update($request->only(['title', 'description']));
-
+    
             // Process tags
             if (isset($request->tags)) {
                 $tagIds = []; // Array to store tag IDs
-
+    
                 foreach ($request->tags as $tagName) {
                     // Check if the tag already exists
                     $tag = Tag::where('name', $tagName)->first();
-
+    
                     if (!$tag) {
                         // If the tag doesn't exist, create it
                         $tag = Tag::create(['name' => $tagName]);
                     }
-
+    
                     // Add the tag ID to the array
                     $tagIds[] = $tag->tag_id;
                 }
-
+    
                 // Sync the tags with the thread
                 $thread->tags()->sync($tagIds);
             }
-
+    
             // Handle images to delete
             if ($request->has('images_to_delete')) {
                 $imagesToDelete = $request->input('images_to_delete');
@@ -542,18 +542,18 @@ class DiscussionController extends Controller
                     if ($image) {
                         // Delete the image from storage
                         \Storage::disk('public')->delete($image->image_path);
-
+    
                         // Delete the record from the database
                         $image->delete();
                     }
                 }
             }
-
+    
             // Handle new images if they are uploaded
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
                     $path = $image->store('thread_images', 'public');
-
+    
                     // Save the new image in the database
                     ThreadImage::create([
                         'thread_id' => $thread->thread_id,
@@ -561,11 +561,57 @@ class DiscussionController extends Controller
                     ]);
                 }
             }
-
+    
+            // Fetch the updated thread with all necessary relationships
+            $updatedThread = Thread::with([
+                'tags',
+                'images',
+            ])
+            ->withCount([
+                'votes as upvotes' => function ($query) {
+                    $query->where('vote', 'upvote');
+                },
+                'votes as downvotes' => function ($query) {
+                    $query->where('vote', 'downvote');
+                }
+            ])
+            ->findOrFail($id);
+   
+            $threadDetails = [
+                'thread_id' => $updatedThread->thread_id,
+                'title' => $updatedThread->title,
+                'description' => $updatedThread->description,
+                'views' => $updatedThread->views,
+                'author' => [
+                    'alumni_id' => $updatedThread->author->alumni_id,
+                    'name' => $updatedThread->author->first_name . ' ' . $updatedThread->author->last_name,
+                    'email' => $updatedThread->author->email,
+                    'profile_picture' => $updatedThread->author->profile_picture
+                        ? url('storage/' . $updatedThread->author->profile_picture)
+                        : null,
+                ],
+                'upvotes' => $updatedThread->upvotes,
+                'downvotes' => $updatedThread->downvotes,
+                'tags' => $updatedThread->tags->map(function ($tag) {
+                    return [
+                        'tag_id' => $tag->tag_id,
+                        'name' => $tag->name,
+                    ];
+                }),
+                'images' => $updatedThread->images->map(function ($image) {
+                    return [
+                        'image_id' => $image->thread_image_id,
+                        'image_path' => url('storage/' . $image->image_path),
+                    ];
+                }),
+                'created_at' => $updatedThread->created_at,
+                'updated_at' => $updatedThread->updated_at,
+            ];
+    
             return response()->json([
                 'success' => true,
                 'message' => 'Thread updated successfully.',
-                'data' => $thread->load('tags', 'images'), // Load tags and images relationships for response
+                'data' => $threadDetails,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -574,9 +620,7 @@ class DiscussionController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
-    }
-
-
+    }    
 
     /**
      * Delete a thread.
