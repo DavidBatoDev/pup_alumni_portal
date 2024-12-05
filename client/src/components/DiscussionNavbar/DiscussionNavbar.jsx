@@ -10,9 +10,6 @@ const DiscussionNavbar = () => {
           <NavLink to="/discussions" end className={({ isActive }) => `discussion-navbar-item ${isActive ? 'active' : ''}`}>Discussions</NavLink>
         </li>
         <li>
-          <NavLink to="/discussions/communities" className={({ isActive }) => `discussion-navbar-item ${isActive ? 'active' : ''}`}>Communities</NavLink>
-        </li>
-        <li>
           <NavLink to="/events" className={({ isActive }) => `discussion-navbar-item ${isActive ? 'active' : ''}`}>Events</NavLink>
         </li>
       </ul>

@@ -160,6 +160,14 @@ const AuthenticatedNavbar = () => {
           <li className="drawer-item">
             <button
               className="drawer-link"
+              onClick={() => handleNavLinkClick("alumni")}
+            >
+              Alumni
+            </button>
+          </li>
+          <li className="drawer-item">
+            <button
+              className="drawer-link"
               onClick={() => handleNavLinkClick("discussions")}
             >
               Discussions
