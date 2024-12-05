@@ -1,104 +1,139 @@
-/* General section for event history */
-.history-event-section {
-    background-image: url(../../assets/images/eventbanner.png);
-    padding: 50px 0;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
-    font-family: "Crimson Text";
-    font-size: 128px;
-    font-weight: 700;
-    z-index: 2;
-    height: 100%;
+.history-event-page {
+  font-family: "Crimson Text";
+  z-index: 1;
+  position: relative;
 }
 
-/* Blur effect for the section */
-.history-event-section::before {
-    content: "";
-    position: absolute;
+.history-event-page .events-background {
+  background-image: url(../../assets/images/eventbanner.png);
+}
+
+.history-event-page .history-event-content {
+  padding: 42px 128px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.history-event-page .event-header {
+  margin-bottom: 32px;
+}
+
+.history-event-page .event-header h2 {
+  color: #1E1E1E;
+  font-size: 32px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.history-event-page .event-header h5 {
+  color: #1E1E1E;
+  font-size: 20px;
+}
+
+.history-event-page .event-header h3 {
+  font-size: 20px;
+}
+
+/* Default - Desktop */
+.history-event-page .events-container {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+  .history-event-page .history-event-content {
+    padding: 42px 0px;
+  }
+
+  .history-event-page .events-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 0px 0px;
+  }
+
+  .history-event-page .event-header {
+    flex-direction: column;
+    margin-bottom: 0;
+    padding: 0 10px;
+  }
+
+  .history-event-page .event-header h2 {
+    font-size: 20px;
+  }
+
+  .history-event-page .event-header h5 {
+    font-size: 16px;
+  }
+
+  .history-event-page .event-header h2,
+  .history-event-page .event-header h5 {
+    text-align: center;
+  }
+
+  .filter-section-overlay {
+    align-content: center;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    height: 100%;
+    width: 100%;
+    max-width: 320px;
+    background: transparent;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    transition: left 0.3s ease-in-out;
+    overflow-y: scroll;
+  }
+
+  .overlay-background {
+    position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.79);
-    backdrop-filter: blur(19.4px);
-    z-index: 0.1;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 3;
+  }
 }
 
-/* Custom styles for mobile filter section */
-.history-event-section .filter-section {
-    position: relative;
-    z-index: 1000;
+@media (max-width: 1024px) {
+  .history-event-page .history-event-content {
+    padding: 42px 10px;
+  }
 }
 
-/* Styles for the event header */
-.history-event-section .event-header {
-    padding: 20px 0;
-    z-index: 10;
-    position: relative;
+@media (min-width: 1200px) {
+  .history-event-page .event-header {
+    flex-direction: column;
+    margin-bottom: 20px;
+    gap: 20px;
+  }
 }
 
-.history-event-section .event-header h2 {
-    color: #1E1E1E;
-    font-size: 32px;
-    font-weight: bold;
-    text-align: left;
+.filter-section-overlay {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  height: 100%;
+  width: 100%;
+  max-width: 320px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  transition: left 0.3s ease-in-out;
+  background: rgba(255, 255, 255, 0.80);
 }
 
-.history-event-section .event-header h5 {
-    color: #1E1E1E;
-    font-size: 20px;
-}
-
-/* Events container and layout */
-.history-event-section .events-container {
-    display: flex;
-    justify-content: space-between;
-    z-index: 10;
-    padding: 0;
-    gap: 10px;
-}
-
-.history-event-section .events-container .event-auth {
-    flex: 1;
-}
-
-.history-event-section .filter-event-wrapper{
-    display: none;
-}
-
-.history-event-section .view-event-history {
-    display: none;
-}
-
-/* Adjust layout for mobile view */
-@media (max-width: 768px) {
-    .history-event-section .events-container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .history-event-section .event-header {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .history-event-section .event-header h2,
-    .history-event-section .event-header h5 {
-        text-align: center;
-    }
-
-    .history-event-section .container{
-        max-width: 100%;
-        padding: 0;
-    }
-}
-
-@media (max-width: 1000px) {
-    .history-event-section .event-header {
-        flex-direction: column;
-        margin-bottom: 20px;
-    }
+.overlay-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0,0,0, 0.1);
+  z-index: 1;
 }
 

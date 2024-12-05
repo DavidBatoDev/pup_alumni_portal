@@ -150,6 +150,7 @@ const Events = () => {
             setFilters={setFilters}
             filters={filters}
             handleFilterChange={handleFilterChange}
+            eventHistoryView={false}
           />
         </div>
       </div>
