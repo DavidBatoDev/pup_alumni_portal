@@ -5,6 +5,11 @@
   .navbar {
     height: 70px; /* Fixed height to match design */
     padding: 0;
+    object-fit: contain;
+  }
+
+  .navbar:after {
+    background-color: rgb(255,255,255, 0.8);
   }
 
   .navbar-brand {
@@ -34,10 +39,11 @@
 
   /* Navbar link styling */
   .navbar-nav .nav-link {
-    font-size: 14px;
+    font-family: "Raleway", sans-serif;
+    font-size: 1rem;
     font-style: normal;
     color: #000;
-    font-weight: 500;
+    font-weight: 550;
   }
 
   .navbar-nav .nav-item {

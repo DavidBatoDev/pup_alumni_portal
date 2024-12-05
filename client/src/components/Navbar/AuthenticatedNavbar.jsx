@@ -9,7 +9,7 @@ import BagongPilipinasLogo from "../../assets/images/bagong-pilipinas-logo.png";
 import NotificationMenu from "../NotificationMenu/NotificationMenu";
 import userIcon from "../../assets/images/user.png";
 
-const AuthenticatedNavbar = () => {
+const AuthenticatedNavbar = ({backgroundImage}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useSelector((state) => state.user);
@@ -37,7 +37,7 @@ const AuthenticatedNavbar = () => {
   console.log(user?.profile_picture)
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light py-0 shadow-sm">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light py-0 shadow-sm" style={{backgroundImage: `url(${backgroundImage})`}}>
       <div className="container d-flex justify-content-between align-items-center">
         <Link className="navbar-brand d-flex align-items-center" to="/">
           <div className="d-flex align-items-center">

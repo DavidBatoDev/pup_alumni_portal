@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import NotificationMenu from '../NotificationMenu/NotificationMenu';
 import userIcon from '../../assets/images/user.png';
 
-const HomepageNavbar = () => {
+const HomepageNavbar = ({backgroundImage}) => {
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const location = useLocation();
@@ -47,7 +47,7 @@ const HomepageNavbar = () => {
   ];
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light py-0 shadow-sm">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light py-0 shadow-sm" style={{backgroundImage: `url(${backgroundImage})`}}>
       <div className="container d-flex justify-content-between align-items-center">
         <Link className="navbar-brand d-flex align-items-center" to="/">
           <div className="d-flex align-items-center">
