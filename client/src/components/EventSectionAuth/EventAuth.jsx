@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import SearchBar from '../SearchBar/SearchBar';
 import noevent from '/noevent.svg'
 
-const EventAuth = ({ events, isMobileView, maxVisibleCategories, toggleFilterSection, filters, setFilters, handleFilterChange }) => {
+const EventAuth = ({ events, isTabletView, maxVisibleCategories, toggleFilterSection, filters, setFilters, handleFilterChange }) => {
     const [currentPage, setCurrentPage] = useState(1); // State for managing the current page
     const eventsPerPage = 3; // Number of events to display per page
 
@@ -35,19 +35,19 @@ const EventAuth = ({ events, isMobileView, maxVisibleCategories, toggleFilterSec
     // Handle search functionality
     const handleSearch = (searchTerm) => {
         handleFilterChange({ ...filters, searchTerm });
-        
+
     };
 
     return (
         <div className="event-auth-container">
             <div className="events-card-container card p-4 shadow-sm">
-                <div className="d-flex justify-content-between align-items-center event-header">
+                <div className="event-header flex-md-nowrap flex-wrap d-flex flex-row justify-content-md-between justify-content-center align-items-center gap-2">
                     {/* Search Bar */}
                     <SearchBar onSearch={handleSearch} placeholder="Search for an event" buttonVisible={true}/>
 
                     {/* Filter Search Section with Categories (Visible only on Mobile) */}
-                    {isMobileView && (
-                        <div className="filter-search-section">
+                    {isTabletView && (
+                        <div className="filter-search-section d-flex align-items-center justify-content-between gap-2">
                             <div className="filter-search-categories">
                                 {categories.slice(0, maxVisibleCategories).map((category) => (
                                     <div
@@ -60,7 +60,7 @@ const EventAuth = ({ events, isMobileView, maxVisibleCategories, toggleFilterSec
                                 ))}
                             </div>
                             <div className="filter-search-all" onClick={toggleFilterSection}>
-                                <i className="fa-regular fa-filter"></i>
+                                <i className="fa-solid fa-filter"></i>
                                 <div className="filter-search">All</div>
                             </div>
                         </div>
@@ -73,7 +73,7 @@ const EventAuth = ({ events, isMobileView, maxVisibleCategories, toggleFilterSec
                         </h3>
 
                         {/* Render link inside filter-event-wrapper for mobile */}
-                        {isMobileView && currentPage === totalPages && (
+                        {isTabletView && currentPage === totalPages && (
                             <Link to={`/events/events-history`} className="view-event-history">
                                 View Events History
                             </Link>
@@ -92,7 +92,7 @@ const EventAuth = ({ events, isMobileView, maxVisibleCategories, toggleFilterSec
                 </div>
 
                 {/* Render link outside for non-mobile view */}
-                {!isMobileView && currentPage === totalPages && (
+                {!isTabletView && currentPage === totalPages && (
                     <div className="d-flex justify-content-center mt-4">
                         <Link to={`/events/events-history`} className="view-event-history">
                             View Events History

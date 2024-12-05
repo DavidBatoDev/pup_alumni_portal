@@ -17,15 +17,15 @@ const Events = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768); // Check if screen is mobile size
+  const [isTabletView, setIsTabletView] = useState(window.innerWidth <= 1024); // Check if screen is tablet size
   const [maxVisibleCategories, setMaxVisibleCategories] = useState(4); // Max number of visible categories
 
   const updateView = () => {
     const screenWidth = window.innerWidth;
-    setIsMobileView(screenWidth <= 768); // Update state for mobile view
-    if (screenWidth < 400) setMaxVisibleCategories(1);
-    else if (screenWidth < 600) setMaxVisibleCategories(2);
-    else if (screenWidth < 768) setMaxVisibleCategories(3);
+    setIsTabletView(screenWidth <= 1024); // Update state for tablet view
+    if (screenWidth < 300) setMaxVisibleCategories(1);
+    else if (screenWidth < 400) setMaxVisibleCategories(2);
+    else if (screenWidth < 1024) setMaxVisibleCategories(3);
     else setMaxVisibleCategories(4);
   };
 
@@ -107,7 +107,7 @@ const Events = () => {
   const handleFilterChange = (updatedFilters) => {
     setFilters(updatedFilters);
   };
-  
+
   // Clear the error message
   const handleClearError = () => setError(null);
 
@@ -140,11 +140,11 @@ const Events = () => {
             Join us for an exciting lineup of events designed to inspire, connect, and empower.
           </h5>
         </div>
-        <div className="events-container container container-fluid d-flex gap-3 px-0">
-          {!isMobileView && <EventsFilterSection filters={filters} onFilterChange={handleFilterChange} />}
+        <div className="events-container d-flex gap-3 px-0">
+          {!isTabletView && <EventsFilterSection filters={filters} onFilterChange={handleFilterChange} />}
           <EventAuth
             events={filteredEvents}
-            isMobileView={isMobileView}
+            isTabletView={isTabletView}
             maxVisibleCategories={maxVisibleCategories}
             toggleFilterSection={toggleFilterSection}
             setFilters={setFilters}

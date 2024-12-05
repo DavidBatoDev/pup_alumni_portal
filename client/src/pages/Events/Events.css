@@ -41,6 +41,7 @@
 .events-page .events-container {
   display: flex;
   justify-content: center;
+  margin: 0;
 }
 
 /* Mobile View */
@@ -53,9 +54,7 @@
   /* Stack the Filter and Event sections vertically */
   .events-page .events-container {
     flex-direction: column;
-    /* Switch to column direction */
     align-items: center;
-    /* Center-align the items */
     padding: 0px 0px;
   }
 
