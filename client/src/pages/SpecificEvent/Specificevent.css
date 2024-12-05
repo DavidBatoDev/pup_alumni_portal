@@ -146,6 +146,7 @@
 
 .event-feedback > .event-feedback--container > .event-feedback-card-list {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
@@ -245,7 +246,7 @@
 /* Responsive styles Mobile */
 @media screen and (max-width: 464px) and (min-width: 0) {
   .events-alumni-feedback {
-    max-width: 300px;
+    max-width: 200px;
   }
 
   .events-alumni-feedback-images-carousel .item {

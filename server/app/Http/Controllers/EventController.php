@@ -15,6 +15,7 @@ use App\Models\EventFeedback;
 use App\Models\PostEventPhoto;
 use App\Mail\EventRegistered;
 use Illuminate\Support\Facades\Mail;
+use App\Models\EventFeedbackPhoto;
 
 class EventController extends Controller
 {
@@ -87,6 +88,7 @@ class EventController extends Controller
             ], 500);
         }
     }
+
 
     
     /**
@@ -305,55 +307,86 @@ class EventController extends Controller
     {
         // Validate request data
         $request->validate([
-            'feedback' => 'required|string|max:1000',
+            'feedback_text' => 'required|string|max:1000',
             'photos' => 'nullable|array',
             'photos.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
+    
         // Find the event
         $event = Event::find($eventId);
         if (!$event) {
             return response()->json(['error' => 'Event not found'], 404);
         }
-        
-        if ($event->is_active) {
-            return response()->json(['error' => 'Event is still active.'], 403);
+    
+        // Check if the event is still active
+        if ($event->is_active) {  // Assuming is_active is a boolean or 1/0
+            return response()->json(['error' => 'Event is still active. Feedback cannot be submitted.'], 403);
         }
-
-        // Assume alumni_id comes from JWT or session
+    
+        // Get the alumni_id from the authenticated user (JWT or session)
         $alumniId = auth()->user()->alumni_id;
-
+    
         // Check if the alumni is registered for the event
         $isRegistered = AlumniEvent::where('event_id', $event->event_id)
             ->where('alumni_id', $alumniId)
             ->exists();
-
+    
         if (!$isRegistered) {
             return response()->json(['error' => 'You are not registered for this event.'], 403);
         }
-
-
-
+    
         // Store feedback
         $feedback = EventFeedback::create([
             'event_id' => $event->event_id,
             'alumni_id' => $alumniId,
-            'feedback' => $request->input('feedback'),
+            'feedback_text' => $request->input('feedback_text'),
         ]);
-
-        // Handle photo uploads
+    
+        // Handle photo uploads (if any)
         if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $photo) {
-                $photoPath = $photo->store('event_photos', 'public'); // Store in storage/app/public/event_photos
-
-                PostEventPhoto::create([
-                    'event_id' => $event->event_id,
-                    'photo_path' => $photoPath,
+                // Store the photo in the public storage folder "event_photos"
+                $photoPath = $photo->store('event_photos', 'public');
+    
+                // Create a new photo entry for the feedback
+                EventFeedbackPhoto::create([
+                    'event_feedback_id' => $feedback->event_feedback_id, // Link photo to the feedback
+                    'photo_url' => $photoPath,
                 ]);
             }
         }
-
-        return response()->json(['success' => true, 'message' => 'Feedback submitted successfully.']);
+    
+        // Fetch the feedback with photos and alumni details
+        $feedbackDetails = $feedback->load(['alumni', 'photos']);
+    
+        // Format feedback data, including alumni details and photo URLs
+        $formattedFeedback = [
+            'feedback_id' => $feedbackDetails->event_feedback_id,
+            'feedback_text' => $feedbackDetails->feedback_text,
+            'created_at' => $feedbackDetails->created_at,
+            'alumni' => [
+                'alumni_id' => $feedbackDetails->alumni->alumni_id,
+                'first_name' => $feedbackDetails->alumni->first_name,
+                'last_name' => $feedbackDetails->alumni->last_name,
+                'email' => $feedbackDetails->alumni->email,
+                'profile_picture' => $feedbackDetails->alumni->profile_picture
+                    ? url('storage/' . $feedbackDetails->alumni->profile_picture) // Full URL to profile picture
+                    : null, // If no profile picture, return null
+            ],
+            'photos' => $feedbackDetails->photos->map(function ($photo) {
+                return [
+                    'photo_id' => $photo->photo_id,
+                    'photo_path' => url('storage/' . $photo->photo_url), // Full URL to the image
+                ];
+            }),
+        ];
+    
+        // Return a successful response with the newly created feedback data
+        return response()->json([
+            'success' => true,
+            'message' => 'Feedback submitted successfully.',
+            'feedback' => $formattedFeedback,
+        ]);
     }
 
 
@@ -571,6 +604,64 @@ class EventController extends Controller
         ];
     
         return response()->json(['success' => true, 'event' => $eventDetails], 200);
+    }
+
+    /**
+     * Fetch all feedback for a specific event if the event is inactive.
+     *
+     * @param int $eventId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getEventFeedbacks($eventId)
+    {
+        // Fetch the event to check if it's inactive
+        $event = Event::find($eventId);
+    
+        if (!$event) {
+            return response()->json(['error' => 'Event not found'], 404);
+        }
+    
+        // Check if the event is not active
+        if ($event->is_active) {
+            return response()->json(['error' => 'Event is still active. Feedback cannot be fetched.'], 403);
+        }
+    
+        // Fetch the feedback for the event, including alumni and related photos
+        $feedbacks = EventFeedback::with(['alumni', 'photos'])
+            ->where('event_id', $eventId)
+            ->get();
+    
+        // If there are no feedbacks, return an empty response
+        if ($feedbacks->isEmpty()) {
+            return response()->json(['message' => 'No feedback available for this event.'], 200);
+        }
+    
+        // Format feedback data including alumni and photos
+        $formattedFeedbacks = $feedbacks->map(function ($feedback) {
+            return [
+                'feedback_id' => $feedback->event_feedback_id,
+                'feedback_text' => $feedback->feedback_text,
+                'created_at' => $feedback->created_at,
+                'alumni' => [
+                    'alumni_id' => $feedback->alumni->alumni_id,
+                    'first_name' => $feedback->alumni->first_name,
+                    'last_name' => $feedback->alumni->last_name,
+                    'email' => $feedback->alumni->email,
+                    'profile_picture' => $feedback->alumni->profile_picture
+                        ? url('storage/' . $feedback->alumni->profile_picture) // Full URL to profile picture
+                        : null, // If no profile picture, return null
+                ],
+                'photos' => $feedback->photos->map(function ($photo) {
+                    return [
+                        'photo_id' => $photo->photo_id,
+                        'photo_path' => url('storage/' . $photo->photo_path), // Full URL to the image
+                    ];
+                }),
+            ];
+        });
+    
+        // Return the feedback data
+        return response()->json(['success' => true, 'feedbacks' => $formattedFeedbacks], 200);
     }
     
 

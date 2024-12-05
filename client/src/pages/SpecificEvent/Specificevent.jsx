@@ -12,14 +12,18 @@ import 'swiper/css/bundle';
 import { Navigation } from 'swiper/modules';
 import SwiperCore from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import AddEventFeedbackModal from '../../components/AddEventFeedbackModal/AddEventFeedbackModal';
+import api from '../../api';
 
 const SpecificEvent = () => {
   SwiperCore.use([Navigation]);
   const { eventId } = useParams();
   const [eventData, setEventData] = useState(null);
   const [isRegistered, setIsRegistered] = useState(null); // Separate state for registration status
+  const [eventFeedbackData, setEventFeedbackData] = useState([])
 
-  console.log('Event Data:', eventData);
+  // for sending feedback
+  const [showEventFeedbackModal, setShowEventFeedbackModal] = useState(true);
 
   // Fetch event data only
   useEffect(() => {
@@ -56,6 +60,24 @@ const SpecificEvent = () => {
     fetchRegistrationStatus();
   }, [eventId]);
 
+  useEffect(() => {
+    const fetchEventFeedback = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/event/${eventId}/feedback`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        setEventFeedbackData(response.data.feedbacks); 
+      }
+      catch (error) {
+        console.log("Error fetching event feedback:", error);
+      }
+    }
+
+    fetchEventFeedback()
+  }, [eventId])
+
   if (!eventData || isRegistered === null) return <CircularLoader />;
 
   const backgroundImage = eventData?.photos[0]?.photo_path || bannerImage;
@@ -73,8 +95,28 @@ const SpecificEvent = () => {
     return daysToGo;
   }
 
+  const onCreateEventFeedback = async (formData) => {
+    try {
+      const response = await api.post(`/api/event/${eventId}/feedback`, formData)
+
+      if (response.status === 201) {
+        setEventFeedbackData([...eventFeedbackData, response.data.feedback]);
+      }
+
+    } catch (error) {
+      console.log("Error creating event feedback:", error);
+    }
+  };
+
   return (
     <div className="specific-event-page">
+      <AddEventFeedbackModal 
+        showModal={showEventFeedbackModal} 
+        closeModal={() => setShowEventFeedbackModal(false)}
+        onCreateEventFeedback={onCreateEventFeedback} 
+        />
+
+
       <div className="background" style={{
         backgroundImage: `url(${backgroundImage})`,
       }}>
@@ -112,6 +154,8 @@ const SpecificEvent = () => {
           details={eventData.description}
           is_registered={isRegistered} // Pass registration status directly
           is_active={eventData.is_active}
+          openFeedbackModal={() => setShowEventFeedbackModal(true)}
+          eventFeedbackData={eventFeedbackData}
         />
       </div>
     </div>

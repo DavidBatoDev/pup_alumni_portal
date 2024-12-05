@@ -126,6 +126,10 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     // Vote on a thread
     Route::post('/threads/{threadId}/vote', [DiscussionController::class, 'voteThread']);
 
+    // Get all feedback for a thread
+    Route::get('/event/{eventId}/feedback', [EventController::class, 'getEventFeedbacks']);
+
+    
 });
 
 // Protected admin routes (Require JWT Authentication for admin)

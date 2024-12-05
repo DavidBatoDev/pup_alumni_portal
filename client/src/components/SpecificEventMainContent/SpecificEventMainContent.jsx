@@ -7,7 +7,7 @@ import CustomAlert from '../CustomAlert/CustomAlert';
 import CircularLoader from '../CircularLoader/CircularLoader';
 import 'react-multi-carousel/lib/styles.css';
 
-const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_registered, is_active }) => {
+const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_registered, is_active, openFeedbackModal, eventFeedbackData }) => {
   const [loading, setLoading] = useState(false); // State for loading
   const [alert, setAlert] = useState({ message: '', severity: '' }); // State for alert messages
   const navigate = useNavigate(); // Hook for navigation
@@ -74,6 +74,9 @@ const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_reg
     }
   };
 
+
+  console.log(eventFeedbackData);
+
   return (
     <div className="specific-event-details-container">
       {/* Show loader when loading is true */}
@@ -120,59 +123,46 @@ const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_reg
       {!is_active && (
         <div className='event-feedback'>
           <div className='event-feedback--container'>
-            {(!is_active && is_registered) && <button className="add-alumni-feedback-btn">Add Feedback</button>}
+            {(!is_active && is_registered) && <button 
+              onClick={() => openFeedbackModal()}
+              className="add-alumni-feedback-btn">Add Feedback</button>}
             <h1 className='event-feedback-header mb-5'>
               Feedback from Alumnis
             </h1>
 
             <div className='event-feedback-card-list'>
-              {/* first feedback */}
-              <div className='event-feedback-card'>
-                <div className='events-alumni-pfp-feedback'>
-                  <img src='https://via.placeholder.com/150' alt='profile' />
-                </div>
-
-                <div className='events-alumni-feedback-details-section'>
-                  <div className='events-alumni-info-feedback-container'>
-                    <h2>John Doe</h2>
-                    <div className='events-alumni-feedback-info'>
-                      <span>Sofware Engineer</span>
-                      <span>Class of 2015</span>
+              {eventFeedbackData.map((feedback, index) => (
+                <div className='event-feedback-card'>
+                    <div className='events-alumni-pfp-feedback'>
+                      <img src={feedback?.alumni?.profile_picture} alt='profile' />
                     </div>
-                  </div>
 
-                  <div className='events-alumni-feedback'>
-                    <p className='events-alumni-feedback-text'>
-                      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti iusto officia temporibus blanditiis quos sunt ducimus! Voluptatum praesentium fuga dolorum voluptate? Unde quidem quia totam velit eos et ipsam facilis!
-                    </p>
+                    <div className='events-alumni-feedback-details-section'>
+                      <div className='events-alumni-info-feedback-container'>
+                        <h2>{feedback?.alumni?.first_name} {feedback?.alumni?.last_name}</h2>
+                        <div className='events-alumni-feedback-info'>
+                          <span>{feedback?.alumni?.email}</span>
+                        </div>
+                      </div>
 
-                    {/* images */}
-                    <div className='events-alumni-feedback-images'>
-                      <Carousel responsive={responsive} showDots={true} infinite={false} className="events-alumni-feedback-images-carousel owl-carousel owl-theme" styles={{overflow: "hidden"}} >
-                        <div class='item'>
-                          <img src='https://via.placeholder.com/150' alt='profile' />
+                      <div className='events-alumni-feedback'>
+                        <p className='events-alumni-feedback-text' dangerouslySetInnerHTML={{__html: feedback?.feedback_text}} />
+
+                        {/* images */}
+                        <div className='events-alumni-feedback-images'>
+                          <Carousel responsive={responsive} showDots={true} infinite={false} className="events-alumni-feedback-images-carousel owl-carousel owl-theme" styles={{overflow: "hidden"}} >
+                            {feedback.photos.map((photo, index) => (
+                              <div class='item'>
+                                {photo?.photo_path}
+                                <img src={photo?.photo_path} alt='profile' />
+                              </div>
+                            ))}
+                          </Carousel>
                         </div>
-                        <div class='item'>
-                          <img src='https://via.placeholder.com/150' alt='profile' />
-                        </div>
-                        <div class='item'>
-                          <img src='https://via.placeholder.com/150' alt='profile' />
-                        </div>
-                        <div class='item'>
-                          <img src='https://via.placeholder.com/150' alt='profile' />
-                        </div>
-                        <div class='item'>
-                          <img src='https://via.placeholder.com/150' alt='profile' />
-                        </div>
-                        <div class='item'>
-                          <img src='https://via.placeholder.com/150' alt='profile' />
-                        </div>
-                      </Carousel>
+                      </div>
                     </div>
-                  </div>
                 </div>
-
-              </div>
+              ))}
 
               {/* second feedback */}
               <div className='event-feedback-card'>
