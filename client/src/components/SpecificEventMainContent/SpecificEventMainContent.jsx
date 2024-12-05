@@ -152,9 +152,8 @@ const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_reg
                         <div className='events-alumni-feedback-images'>
                           <Carousel responsive={responsive} showDots={true} infinite={false} className="events-alumni-feedback-images-carousel owl-carousel owl-theme" styles={{overflow: "hidden"}} >
                             {feedback.photos.map((photo, index) => (
-                              <div class='item'>
-                                {photo?.photo_path}
-                                <img src={photo?.photo_path} alt='profile' />
+                              <div class='item' key={photo.feedback_event_photo_id}>
+                                <img src={photo?.photo_url} alt='profile' />
                               </div>
                             ))}
                           </Carousel>
@@ -164,101 +163,6 @@ const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_reg
                 </div>
               ))}
 
-              {/* second feedback */}
-              <div className='event-feedback-card'>
-                <div className='events-alumni-pfp-feedback'>
-                  <img src='https://via.placeholder.com/150' alt='profile' />
-                </div>
-
-                <div className='events-alumni-feedback-details-section'>
-                  <div className='events-alumni-info-feedback-container'>
-                    <h2>John Doe</h2>
-                    <div className='events-alumni-feedback-info'>
-                      <span>Sofware Engineer</span>
-                      <span>Class of 2015</span>
-                    </div>
-                  </div>
-
-                  <div className='events-alumni-feedback'>
-                    <p className='events-alumni-feedback-text'>
-                      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti iusto officia temporibus blanditiis quos sunt ducimus! Voluptatum praesentium fuga dolorum voluptate? Unde quidem quia totam velit eos et ipsam facilis!
-                    </p>
-
-                    {/* images */}
-                    <div className='events-alumni-feedback-images'>
-                      <Carousel responsive={responsive} showDots={true} infinite={false} className="events-alumni-feedback-images-carousel owl-carousel owl-theme" styles={{overflow: "hidden"}} >
-                        <div class='item'>
-                          <img src='https://via.placeholder.com/150' alt='profile' />
-                        </div>
-                        <div class='item'>
-                          <img src='https://via.placeholder.com/150' alt='profile' />
-                        </div>
-                        <div class='item'>
-                          <img src='https://via.placeholder.com/150' alt='profile' />
-                        </div>
-                        <div class='item'>
-                          <img src='https://via.placeholder.com/150' alt='profile' />
-                        </div>
-                        <div class='item'>
-                          <img src='https://via.placeholder.com/150' alt='profile' />
-                        </div>
-                        <div class='item'>
-                          <img src='https://via.placeholder.com/150' alt='profile' />
-                        </div>
-                      </Carousel>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* third feedback */}
-              <div className='event-feedback-card'>
-                <div className='events-alumni-pfp-feedback'>
-                  <img src='https://via.placeholder.com/150' alt='profile' />
-                </div>
-
-                <div className='events-alumni-feedback-details-section'>
-                  <div className='events-alumni-info-feedback-container'>
-                    <h2>John Doe</h2>
-                    <div className='events-alumni-feedback-info'>
-                      <span>Sofware Engineer</span>
-                      <span>Class of 2015</span>
-                    </div>
-                  </div>
-
-                  <div className='events-alumni-feedback'>
-                    <p className='events-alumni-feedback-text'>
-                      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti iusto officia temporibus blanditiis quos sunt ducimus! Voluptatum praesentium fuga dolorum voluptate? Unde quidem quia totam velit eos et ipsam facilis!
-                    </p>
-
-                    {/* images */}
-                    <div className='events-alumni-feedback-images'>
-                      <Carousel responsive={responsive} showDots={true} infinite={false} className="events-alumni-feedback-images-carousel owl-carousel owl-theme" styles={{overflow: "hidden"}} >
-                        <div class='item'>
-                          <img src='https://via.placeholder.com/150' alt='profile' />
-                        </div>
-                        <div class='item'>
-                          <img src='https://via.placeholder.com/150' alt='profile' />
-                        </div>
-                        <div class='item'>
-                          <img src='https://via.placeholder.com/150' alt='profile' />
-                        </div>
-                        <div class='item'>
-                          <img src='https://via.placeholder.com/150' alt='profile' />
-                        </div>
-                        <div class='item'>
-                          <img src='https://via.placeholder.com/150' alt='profile' />
-                        </div>
-                        <div class='item'>
-                          <img src='https://via.placeholder.com/150' alt='profile' />
-                        </div>
-                      </Carousel>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
             </div>
           </div>
         </div>

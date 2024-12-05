@@ -17,13 +17,14 @@ import api from '../../api';
 
 const SpecificEvent = () => {
   SwiperCore.use([Navigation]);
+  const [loading, setLoading] = useState(false);
   const { eventId } = useParams();
   const [eventData, setEventData] = useState(null);
   const [isRegistered, setIsRegistered] = useState(null); // Separate state for registration status
   const [eventFeedbackData, setEventFeedbackData] = useState([])
 
   // for sending feedback
-  const [showEventFeedbackModal, setShowEventFeedbackModal] = useState(true);
+  const [showEventFeedbackModal, setShowEventFeedbackModal] = useState(false);
 
   // Fetch event data only
   useEffect(() => {
@@ -97,9 +98,11 @@ const SpecificEvent = () => {
 
   const onCreateEventFeedback = async (formData) => {
     try {
-      const response = await api.post(`/api/event/${eventId}/feedback`, formData)
 
-      if (response.status === 201) {
+      const response = await api.post(`/api/event/${eventId}/feedback`, formData)
+      console.log("Response from creating event feedback:", response);
+      console.log("Response from creating event feedback:", response.data.feedback);
+      if (response.status === 200) {
         setEventFeedbackData([...eventFeedbackData, response.data.feedback]);
       }
 

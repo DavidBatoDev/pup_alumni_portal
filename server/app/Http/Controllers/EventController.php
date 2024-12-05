@@ -653,8 +653,8 @@ class EventController extends Controller
                 ],
                 'photos' => $feedback->photos->map(function ($photo) {
                     return [
-                        'photo_id' => $photo->photo_id,
-                        'photo_path' => url('storage/' . $photo->photo_path), // Full URL to the image
+                        'feedback_event_photo_id' => $photo->feedback_event_photo_id,
+                        'photo_url' => url('storage/' . $photo->photo_url), // Full URL to the image
                     ];
                 }),
             ];
