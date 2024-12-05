@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { IonModal, IonButton, IonContent } from '@ionic/react';
-import { isMobile } from 'react-device-detect';
 import './ModalContainer.css';
 
-const ModalContainer = ({ showModal, closeModal, title, children, hideHeader, fullView }) => {
+const ModalContainer = ({ showModal, closeModal, title, children, hideHeader, fullView, hidePadding }) => {
   const [animationClass, setAnimationClass] = useState('');
 
   useEffect(() => {
@@ -15,19 +13,7 @@ const ModalContainer = ({ showModal, closeModal, title, children, hideHeader, fu
     }
   }, [showModal]);
 
-  return isMobile ? (
-    <IonModal isOpen={showModal} onDidDismiss={closeModal} cssClass={`mobile-modal ${fullView ? 'full-view' : ''}`}>
-      <IonContent>
-        <div className="mobile-modal-header">
-          <h2 className="mobile-modal-title">{title}</h2>
-          <IonButton onClick={closeModal} color="light" className="mobile-modal-close-btn">
-            &times;
-          </IonButton>
-        </div>
-        <div className="mobile-modal-content">{children}</div>
-      </IonContent>
-    </IonModal>
-  ) : (
+  return (
     <div className={`desktop-modal ${showModal ? 'show' : ''} ${animationClass} ${fullView ? 'full-view' : ''}`}>
       <div className={`desktop-modal-overlay ${animationClass}`} onClick={closeModal} />
       <div className={`desktop-modal-content position-relative ${animationClass} ${fullView ? 'full-view' : ''}`}>
@@ -35,7 +21,7 @@ const ModalContainer = ({ showModal, closeModal, title, children, hideHeader, fu
           <h2 className="desktop-modal-title">{title}</h2>
           <button className="close-btn" onClick={closeModal}>&times;</button>
         </div>
-        <div className={`desktop-modal-body h-100 ${fullView ? 'full-view' : ''}`}>{children}</div>
+        <div className={`desktop-modal-body h-100 ${fullView ? 'full-view' : ''} ${hidePadding ? 'p-0' : ""}`}>{children}</div>
       </div>
     </div>
   );

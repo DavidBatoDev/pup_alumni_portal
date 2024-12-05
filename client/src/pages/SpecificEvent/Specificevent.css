@@ -5,7 +5,6 @@
   margin: 0;
 }
 
-
 /* Adjust the specific-event-section to be transparent so it doesn't cover the background */
 .specific-event-section {
   display: flex;
@@ -16,7 +15,6 @@
   max-width: 1200px;
   margin: 0 auto; /* Center the content */
 }
-
 
 /* Sidebar container styles */
 .specific-event-sidebar {
@@ -41,7 +39,9 @@
 /* Main Content Container */
 .specific-event-details-container {
   flex: 1; /* Main content takes the remaining space */
-  max-width: calc(100% - 320px); /* Calculate max width based on sidebar width and gap */
+  max-width: calc(
+    100% - 320px
+  ); /* Calculate max width based on sidebar width and gap */
   position: relative;
 }
 
@@ -108,21 +108,211 @@
 
 /* Swiper styles */
 .specific-event-page .swiper-button-next::after,
-.specific-event-page .swiper-rtl .swiper-button-prev::after{
+.specific-event-page .swiper-rtl .swiper-button-prev::after {
   color: #870000;
   margin-right: 250px;
 }
 
 .specific-event-page .swiper-button-prev::after,
-.specific-event-page .swiper-rtl .swiper-button-next::after{
+.specific-event-page .swiper-rtl .swiper-button-next::after {
   color: #870000;
   margin-left: 250px;
 }
 
+.event-feedback {
+  background-color: white;
+  margin-top: 10px;
+  border-radius: 10px;
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.event-feedback > .event-feedback--container {
+  width: 100%;
+}
+
+.event-feedback > .event-feedback--container > .event-feedback-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding-top: 30px;
+  padding-left: 30px;
+
+}
+
+.event-feedback > .event-feedback--container > .event-feedback-card-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.event-feedback
+  > .event-feedback--container
+  > .event-feedback-card-list
+  .event-feedback-card {
+  display: flex;
+  gap: 10px;
+}
+
+.events-alumni-pfp-feedback img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.events-alumni-feedback-details-section {
+  /* display: none; */
+  padding: 0 0 50px 0;
+  position: relative;
+  width: 100%;
+}
+
+.events-alumni-info-feedback-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.events-alumni-info-feedback-container h2 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.events-alumni-feedback-info > :first-child {
+  color: #870000;
+  margin-right: 10px;
+}
+
+.events-alumni-feedback {
+  overflow: hidden;
+  position: relative;
+  max-width: 840px;
+  min-width: 200px;
+}
+
+.events-alumni-feedback p {
+  font-size: 1rem;
+  color: #333;
+}
+
+.events-alumni-feedback-images {
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  margin: 0 auto;
+  position: relative;
+  /* background-color: red; */
+}
+
+.events-alumni-feedback-images-carousel {
+  width: 100%;
+  display: flex;
+  /* background-color: red; */
+  gap: 20px;
+}
+
+.events-alumni-feedback-images-carousel .item {
+  margin-right: 200px;
+}
+
+.events-alumni-feedback-images-carousel .item img {
+  width: 100%;
+  margin: 0 auto 15px auto;
+  object-fit: contain;
+}
+
+.add-alumni-feedback-btn {
+  background-color: #870000;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-top: 20px;
+  position: absolute;
+  right: 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-alumni-feedback-btn:hover {
+  background-color: #a92a2a;
+  color: white;
+}
+
+/* Responsive styles Mobile */
+@media screen and (max-width: 464px) and (min-width: 0) {
+  .events-alumni-feedback {
+    max-width: 300px;
+  }
+
+  .events-alumni-feedback-images-carousel .item {
+    margin-right: 10px;
+  }
+
+  .events-alumni-feedback-images-carousel .item img {
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+    margin: 0 auto 15px auto;
+  }
+}
+
+/* Responsive styles Tablet */
+@media screen and (max-width:  768px) and (min-width: 464px) {
+  .events-alumni-feedback {
+    max-width: 410px;
+  }
+
+  .events-alumni-feedback-images-carousel .item img {
+    height: 120px;
+    width: 120px;
+    object-fit: contain;
+    margin-right: 20px;
+  }
+}
+
+/* Responsive styles Desktop */
+@media screen and (max-width: 1024px) and (min-width: 768px) {
+  .events-alumni-feedback {
+    max-width: 700px;
+  }
+
+  .events-alumni-feedback-images-carousel .item {
+    margin-right: 50px;
+  }
+
+  .events-alumni-feedback-images-carousel .item img {
+    height: 150px;
+    width: 150px;
+    object-fit: contain;
+    margin-right: 20px;
+  }
+}
+
+/* Responsive styles Large Desktop */
+@media screen and (max-width: 3000px) and (min-width: 1024px) {
+  .events-alumni-feedback {
+    max-width: 800px;
+  }
+
+  .events-alumni-feedback-images-carousel .item {
+    margin-right: 100px;
+  }
+
+  .events-alumni-feedback-images-carousel .item img {
+    height: 150px;
+    width: 150px;
+    object-fit: contain;
+    margin-right: 20px;
+  }
+}
 
 @media (max-width: 768px) {
   .specific-event-details {
-    width: calc(100vw - 50px); /* Adjust width for smaller screens */
+    width: calc(100vw - 50px);
   }
   .specific-event-details h1 {
     font-size: 1.5rem;

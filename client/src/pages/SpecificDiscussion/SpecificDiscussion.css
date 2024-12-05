@@ -68,7 +68,7 @@
   .swiper-slide-image {
     position: relative;
     z-index: 1;
-    margin: auto;
+    object-fit: contain;
     display: block;
   }
 

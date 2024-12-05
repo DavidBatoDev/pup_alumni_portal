@@ -1,16 +1,35 @@
 import React, { useState } from 'react';
 import './SpecificEventMainContent.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { useNavigate } from 'react-router-dom';
+import Carousel from 'react-multi-carousel';
 import CustomAlert from '../CustomAlert/CustomAlert';
 import CircularLoader from '../CircularLoader/CircularLoader';
+import 'react-multi-carousel/lib/styles.css';
 
 const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_registered, is_active }) => {
   const [loading, setLoading] = useState(false); // State for loading
   const [alert, setAlert] = useState({ message: '', severity: '' }); // State for alert messages
   const navigate = useNavigate(); // Hook for navigation
-  
-  console.log('eventId:', eventId);
+
+  const responsive = {
+    superLargeDesktop: {
+        breakpoint: { max: 3000, min: 1024 },
+        items: 5
+    },
+    desktop: {
+        breakpoint: { max: 1024, min: 768 },
+        items: 4
+    },
+    tablet: {
+        breakpoint: { max: 768, min: 464 },
+        items: 3
+    },
+    mobile: {
+        breakpoint: { max: 464, min: 0 },
+        items: 2
+    }
+};
 
   // Function to handle RSVP click
   const handleRSVP = async () => {
@@ -51,11 +70,9 @@ const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_reg
         setAlert({ message: 'Failed to register for the event. Please try again.', severity: 'error' });
       }
 
-      console.error('RSVP Error:', error);
+      console.log('RSVP Error:', error);
     }
   };
-
-  console.log(is_active)
 
   return (
     <div className="specific-event-details-container">
@@ -70,21 +87,22 @@ const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_reg
           onClose={() => setAlert({ message: '', severity: '' })} // Clear alert on close
         />
       )}
-
+      
       <div className="specific-event-details">
         {/* About Section */}
         <div className="specific-event-details-wrapper">
           <div className="details-header">
             <h1>About {title}</h1>
             {is_registered ? (
-              is_active && <div className="rsvp">Registered</div>
+              <div className="rsvp">{is_active && "Registered"}</div>
             ) : (
-              is_active && (
-              <button className="rsvp-btn d-flex" onClick={handleRSVP}>
+              (
+              <button className={`rsvp-btn ${is_active ? 'd-flex': 'd-none'}`} onClick={handleRSVP}>
                 RSVP NOW
               </button>
               )
             )}
+
           </div>
           <p className="specific-event-description" dangerouslySetInnerHTML={{ __html: details }} />
         </div>
@@ -96,7 +114,165 @@ const SpecificEventMainContent = ({ eventId, title, details, date, venue, is_reg
             <p>Location: {venue}</p>
           </div>
         </div>
+        
       </div>
+
+      {!is_active && (
+        <div className='event-feedback'>
+          <div className='event-feedback--container'>
+            {(!is_active && is_registered) && <button className="add-alumni-feedback-btn">Add Feedback</button>}
+            <h1 className='event-feedback-header mb-5'>
+              Feedback from Alumnis
+            </h1>
+
+            <div className='event-feedback-card-list'>
+              {/* first feedback */}
+              <div className='event-feedback-card'>
+                <div className='events-alumni-pfp-feedback'>
+                  <img src='https://via.placeholder.com/150' alt='profile' />
+                </div>
+
+                <div className='events-alumni-feedback-details-section'>
+                  <div className='events-alumni-info-feedback-container'>
+                    <h2>John Doe</h2>
+                    <div className='events-alumni-feedback-info'>
+                      <span>Sofware Engineer</span>
+                      <span>Class of 2015</span>
+                    </div>
+                  </div>
+
+                  <div className='events-alumni-feedback'>
+                    <p className='events-alumni-feedback-text'>
+                      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti iusto officia temporibus blanditiis quos sunt ducimus! Voluptatum praesentium fuga dolorum voluptate? Unde quidem quia totam velit eos et ipsam facilis!
+                    </p>
+
+                    {/* images */}
+                    <div className='events-alumni-feedback-images'>
+                      <Carousel responsive={responsive} showDots={true} infinite={false} className="events-alumni-feedback-images-carousel owl-carousel owl-theme" styles={{overflow: "hidden"}} >
+                        <div class='item'>
+                          <img src='https://via.placeholder.com/150' alt='profile' />
+                        </div>
+                        <div class='item'>
+                          <img src='https://via.placeholder.com/150' alt='profile' />
+                        </div>
+                        <div class='item'>
+                          <img src='https://via.placeholder.com/150' alt='profile' />
+                        </div>
+                        <div class='item'>
+                          <img src='https://via.placeholder.com/150' alt='profile' />
+                        </div>
+                        <div class='item'>
+                          <img src='https://via.placeholder.com/150' alt='profile' />
+                        </div>
+                        <div class='item'>
+                          <img src='https://via.placeholder.com/150' alt='profile' />
+                        </div>
+                      </Carousel>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* second feedback */}
+              <div className='event-feedback-card'>
+                <div className='events-alumni-pfp-feedback'>
+                  <img src='https://via.placeholder.com/150' alt='profile' />
+                </div>
+
+                <div className='events-alumni-feedback-details-section'>
+                  <div className='events-alumni-info-feedback-container'>
+                    <h2>John Doe</h2>
+                    <div className='events-alumni-feedback-info'>
+                      <span>Sofware Engineer</span>
+                      <span>Class of 2015</span>
+                    </div>
+                  </div>
+
+                  <div className='events-alumni-feedback'>
+                    <p className='events-alumni-feedback-text'>
+                      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti iusto officia temporibus blanditiis quos sunt ducimus! Voluptatum praesentium fuga dolorum voluptate? Unde quidem quia totam velit eos et ipsam facilis!
+                    </p>
+
+                    {/* images */}
+                    <div className='events-alumni-feedback-images'>
+                      <Carousel responsive={responsive} showDots={true} infinite={false} className="events-alumni-feedback-images-carousel owl-carousel owl-theme" styles={{overflow: "hidden"}} >
+                        <div class='item'>
+                          <img src='https://via.placeholder.com/150' alt='profile' />
+                        </div>
+                        <div class='item'>
+                          <img src='https://via.placeholder.com/150' alt='profile' />
+                        </div>
+                        <div class='item'>
+                          <img src='https://via.placeholder.com/150' alt='profile' />
+                        </div>
+                        <div class='item'>
+                          <img src='https://via.placeholder.com/150' alt='profile' />
+                        </div>
+                        <div class='item'>
+                          <img src='https://via.placeholder.com/150' alt='profile' />
+                        </div>
+                        <div class='item'>
+                          <img src='https://via.placeholder.com/150' alt='profile' />
+                        </div>
+                      </Carousel>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* third feedback */}
+              <div className='event-feedback-card'>
+                <div className='events-alumni-pfp-feedback'>
+                  <img src='https://via.placeholder.com/150' alt='profile' />
+                </div>
+
+                <div className='events-alumni-feedback-details-section'>
+                  <div className='events-alumni-info-feedback-container'>
+                    <h2>John Doe</h2>
+                    <div className='events-alumni-feedback-info'>
+                      <span>Sofware Engineer</span>
+                      <span>Class of 2015</span>
+                    </div>
+                  </div>
+
+                  <div className='events-alumni-feedback'>
+                    <p className='events-alumni-feedback-text'>
+                      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti iusto officia temporibus blanditiis quos sunt ducimus! Voluptatum praesentium fuga dolorum voluptate? Unde quidem quia totam velit eos et ipsam facilis!
+                    </p>
+
+                    {/* images */}
+                    <div className='events-alumni-feedback-images'>
+                      <Carousel responsive={responsive} showDots={true} infinite={false} className="events-alumni-feedback-images-carousel owl-carousel owl-theme" styles={{overflow: "hidden"}} >
+                        <div class='item'>
+                          <img src='https://via.placeholder.com/150' alt='profile' />
+                        </div>
+                        <div class='item'>
+                          <img src='https://via.placeholder.com/150' alt='profile' />
+                        </div>
+                        <div class='item'>
+                          <img src='https://via.placeholder.com/150' alt='profile' />
+                        </div>
+                        <div class='item'>
+                          <img src='https://via.placeholder.com/150' alt='profile' />
+                        </div>
+                        <div class='item'>
+                          <img src='https://via.placeholder.com/150' alt='profile' />
+                        </div>
+                        <div class='item'>
+                          <img src='https://via.placeholder.com/150' alt='profile' />
+                        </div>
+                      </Carousel>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

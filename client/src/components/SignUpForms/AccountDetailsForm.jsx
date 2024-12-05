@@ -459,7 +459,7 @@ const AccountDetailsForm = ({
         </div>
       )}
 
-      <div className="d-flex justify-content-between">
+      <div className="d-flex justify-content-between align-items-center">
         <Link to="/login" className="sign-in-link">
           Already have an account?
         </Link>

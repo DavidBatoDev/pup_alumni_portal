@@ -20,7 +20,6 @@ const SpecificEvent = () => {
   const [isRegistered, setIsRegistered] = useState(null); // Separate state for registration status
 
   console.log('Event Data:', eventData);
-  console.log('Registration Status:', isRegistered);
 
   // Fetch event data only
   useEffect(() => {

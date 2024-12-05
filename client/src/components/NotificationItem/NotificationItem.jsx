@@ -18,6 +18,8 @@ const NotificationItem = ({ notification }) => {
         return "text-dark fa-regular fa-envelope";
       case "eventInvitation":
         return "text-dark fa-regular fa-calendar";
+      case "eventEnded":
+        return "text-dark fa-regular fa-calendar";
       default:
         return "text-dark";
     }
