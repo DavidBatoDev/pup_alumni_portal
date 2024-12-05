@@ -241,6 +241,7 @@ const Discussions = () => {
                       thread={thread}
                       handleComment={() => navigate(`/discussions/${thread.thread_id}`)}
                       submitVote={submitVote}
+                      handleEdit={() => console.log('Edit Thread:', thread.thread_id)}
                     />
                     <hr />
                   </>
@@ -257,7 +258,7 @@ const Discussions = () => {
       <DiscussionThreadModal
         showModal={showModal}
         closeModal={() => setShowModal(false)}
-        onCreateThread={handleCreateThread} // Pass handler
+        onCreateThread={handleCreateThread}
       />
 
       <MainFooter />

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 import './DiscussionCardThread.css';
 
-const DiscussionCardThread = ({ thread, handleComment, submitVote, handleOpenImage }) => {
+const DiscussionCardThread = ({ thread, handleComment, submitVote, handleOpenImage, handleEdit }) => {
   const [vote, setVote] = useState(thread?.user_vote || null); // null: no vote, 'upvote': upvoted, 'downvote': downvoted
   const [voteCount, setVoteCount] = useState(thread?.upvotes - thread?.downvotes || 0);
 
@@ -76,7 +76,7 @@ const DiscussionCardThread = ({ thread, handleComment, submitVote, handleOpenIma
             {/* Edit Button */}
             {
             user?.alumni_id === thread?.author?.alumni_id &&
-            <div className="flex-grow-1 h-100 d-flex flex-row-reverse align-content-start px-2" onClick={() => console.log("edit")}>
+            <div className="flex-grow-1 h-100 d-flex flex-row-reverse align-content-start px-2" onClick={handleEdit(thread)}>
               <i className="fa-solid fa-ellipsis"></i>
             </div>
             }
