@@ -15,7 +15,6 @@
 }
 
 .specific-discussion-container {
-  background-color: white;
   border-radius: 15px;
   padding: 20px;
 }
@@ -29,6 +28,11 @@
   box-shadow: none;
   transform: none;
   background-color: white;
+}
+
+.specific-discussions-page .comment-container {
+  background: rgba(255, 255, 255, 0.40);
+  border-radius: 15px;
 }
 
 .specific-discussions-page {

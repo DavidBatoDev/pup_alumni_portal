@@ -219,7 +219,7 @@ const SpecificDiscussion = () => {
         />
       )}
 
-      {/* Content Container */}
+      {/* Main Thread Container */}
       <div className="container-fluid glass specific-discussion-content">
         <DiscussionNavbar viewMode={'card'} />
         <div className="row specific-discussion-container">
@@ -227,28 +227,30 @@ const SpecificDiscussion = () => {
           {/* DiscussionCardThread Post */}
           {!loading && <DiscussionCardThread thread={thread} handleComment={scrollToCommentSection} submitVote={submitVote} handleOpenImage={handleOpenImage} />}
 
-          {/* Comments Input */}
-          <form onSubmit={handleCommentSubmit} className="w-100 mb-3" ref={commentSectionRef}>
-            <input
-              type="text"
-              className="form-control py-0 px-3 raleway specific-discussion-search flex-grow-1"
-              placeholder="Add a Comment"
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-            />
-          </form>
+          <div className="comment-container d-flex flex-column px-3 py-2">
+            {/* Comments Input */}
+            <form onSubmit={handleCommentSubmit} className="w-100 mb-3 mt-2" ref={commentSectionRef}>
+              <input
+                type="text"
+                className="form-control py-0 px-3 raleway specific-discussion-search flex-grow-1"
+                placeholder="Add a Comment"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+              />
+            </form>
 
-          {/* Comments Section */}
-          <div className='d-flex flex-column gap-2'>
-            {commentTree.length > 0 ? (
-              commentTree.map(comment => (
-                <DiscussionComment key={comment.comment_id} comment={comment} replies={comment.replies} submitReply={createCommentOrReply} />
-              ))
-            ) : (
-              <div className="d-flex justify-content-center align-items-center w-100">
-                <p className="text-center">No comments yet. Be the first to comment!</p>
-              </div>
-            )}
+            {/* Comments Section */}
+            <div className='d-flex flex-column gap-2'>
+              {commentTree.length > 0 ? (
+                commentTree.map(comment => (
+                  <DiscussionComment key={comment.comment_id} comment={comment} replies={comment.replies} submitReply={createCommentOrReply} />
+                ))
+              ) : (
+                <div className="d-flex justify-content-center align-items-center w-100">
+                  <p className="tegumaganaxt-center">No comments yet. Be the first to comment!</p>
+                </div>
+              )}
+            </div>
           </div>
 
         </div>
