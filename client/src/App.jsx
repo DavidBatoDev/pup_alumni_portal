@@ -35,14 +35,17 @@ import api from './api';
 import { useSelector } from 'react-redux';
 
 function App() {
-  const {user, isAuthenticated} = useSelector((state) => state.user);
+  const {user, role, isAuthenticated} = useSelector((state) => state.user);
 
   const [showSurvey, setShowSurvey] = useState(true);
 
+  console.log(role != 'alumni');
+
   useEffect(() => {
     const fetchUnansweredSurveys = async () => {
+      setShowSurvey(false);
       try {
-        if (!isAuthenticated) return;
+        if (!isAuthenticated || role != 'alumni') return;
         const response = await api.get("/api/survey/unanswered-surveys");
         setShowSurvey(response.data?.surveys.length > 0);
       } catch (error) {
@@ -51,7 +54,7 @@ function App() {
     };
 
     fetchUnansweredSurveys();
-  }, []);
+  }, [user, role, isAuthenticated]);
 
   return (
     <Router>
