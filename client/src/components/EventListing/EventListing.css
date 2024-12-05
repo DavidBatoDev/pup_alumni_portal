@@ -215,11 +215,6 @@
     margin-top: 15px;
     text-align: center;
   }
-
-  .edit-icon {
-    margin-top: 10px;
-  }
-
 }
 
 @media (max-width: 1024px) {
@@ -289,9 +284,5 @@
     margin-top: 15px;
     text-align: center;
     margin-bottom: 10px;
-  }
-
-  .edit-icon {
-    margin-top: 10px;
   }
 }
