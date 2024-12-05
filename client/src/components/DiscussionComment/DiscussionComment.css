@@ -1,8 +1,9 @@
 .comment-card {
   display: flex;
   background-color: white;
-  border-radius: 15px;
+  border-radius: 10px;
   transition: ease-in 0.3s;
+  box-shadow: 0rem 0.0625rem 0.25rem 0rem rgba(0, 0, 0, 0.15);
 }
 
 .comment-card p {

@@ -11,6 +11,7 @@ const SurveyInformationResponses = () => {
   const [survey, setSurvey] = useState(null);
   const [responses, setResponses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showTable  , setShowTable] = useState(false);
 
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
@@ -106,6 +107,10 @@ const SurveyInformationResponses = () => {
     URL.revokeObjectURL(url);
   };
 
+  const toggleTableVisibility = () => {
+    setShowTable(prev => !prev);
+  }
+
   return (
     <div className={`survey-info-responses-container ${isMobile ? 'mobile' : ''}`}>
       <AdminSidebar />
@@ -143,9 +148,17 @@ const SurveyInformationResponses = () => {
           {/* Survey Responses Table */}
           <div className='d-flex justify-content-between align-items-center'>
             <h2 className='survey-info-subtitle'>Survey Responses</h2>
-            <button className="btn export-as-csv-btn" onClick={exportAsCSV}>Export as CSV</button>
+            <div className="d-flex gap-2">
+             <button className="btn btn-secondary" onClick={toggleTableVisibility}>
+                {showTable ? 'Hide Table' : 'Show Table'}
+              </button>
+              <button className="btn export-as-csv-btn" onClick={exportAsCSV}>Export as CSV</button>
+             
+            </div>
+             
           </div>
 
+          {showTable && (
           <div className="table-responsive">
             <table className="table table-bordered table-hover">
               <thead className="thead-light">
@@ -176,6 +189,7 @@ const SurveyInformationResponses = () => {
               </tbody>
             </table>
           </div>
+          )}
         </div>
       )}
     </div>
