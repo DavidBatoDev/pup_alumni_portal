@@ -1,0 +1,277 @@
+/* General Styles for Form Section */
+.edu-form-section {
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #800000;
+    background: rgba(255, 255, 255, 0.8);
+    width: 100%;
+    /* max-width: 700px; Limit the form width for large screens */
+  }
+
+  .edu-form-input-group {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  
+  .edu-form-modal-email-verification {
+    background-color: white;
+  }
+  
+  .edu-form-section-title {
+    font-size: 24px;
+    font-family: "Crimson Text", "Times New Roman", Times, serif;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #800000;
+    text-align: center; /* Center the section title */
+  }
+  
+  .edu-form-important-txt {
+    color: #800000;
+  }
+  
+  .edu-form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    gap: 20px;
+  }
+  
+  .edu-form-sign-in-link {
+    color: #a50000;
+    font-weight: bold;
+  }
+  .edu-form-sign-in-link:hover {
+    text-decoration: underline;
+    color: #870000;
+  }
+  
+  .edu-form-group label {
+    color: #1e1e1e;
+    font-family: "Raleway";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+  
+  .edu-form-name-fields {
+    display: flex;
+    gap: 10px;
+  }
+  
+  /* Input Field Styles */
+  .edu-form-input[type="text"],
+  .edu-form-input[type="email"],
+  .edu-form-input[type="password"],
+  .edu-form-input[type="date"],
+  .edu-form-select {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%;
+  }
+  
+  .edu-form-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    align-items: flex-start;
+  }
+  
+  .edu-form-input.form-control,
+  .edu-form-select.form-control {
+    height: 45px;
+    padding: 10px 15px;
+    border-radius: 100px;
+    font-size: 14px;
+  }
+  
+  .edu-form-section .input-group > .is-invalid {
+    border-radius: 0 100px 100px 0 !important;
+  }
+  
+  .edu-form-input-group-text {
+    border-radius: 100px 0 0 100px;
+    border: 1px solid #ced4da;
+    border-right: none;
+  }
+  
+  .edu-form-checkbox-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .edu-form-checkbox-section input[type="checkbox"] {
+    margin: 0;
+  }
+  
+  .edu-form-checkbox-section label {
+    font-size: 14px;
+  }
+  
+  .edu-form-checkbox-section a {
+    color: #800000;
+    text-decoration: underline;
+  }
+  
+  /* Submit Button Styles */
+  .edu-form-submit button {
+    align-self: flex-end;
+    padding: 10px 20px;
+    background-color: #800000;
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 200px; /* Set max width for larger screens */
+  }
+  
+  .edu-form-submit button:hover {
+    background-color: #a00000;
+  }
+  
+  .edu-form-submit-box {
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .edu-form-text-muted{
+    margin-bottom: 0;
+  }
+
+
+  /* form gorup employment items */
+  .edu-form-employment-item {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.125);
+    padding: 20px;
+  }
+
+  .edu-form-education-item {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.125);
+    padding: 20px;
+  }
+
+  .edu-form-input-group .btn-danger{
+    width: 100%;
+  }
+  
+  /* Media Queries for Different Screen Sizes */
+  @media (max-width: 768px) {
+    /* Smaller font size for section title on tablets */
+    .edu-form-section-title {
+      font-size: 20px;
+    }
+  
+    /* Reduce padding for form fields */
+    .edu-form-input[type="text"],
+    .edu-form-input[type="email"],
+    .edu-form-input[type="password"],
+    .edu-form-input[type="date"],
+    .edu-form-select {
+      padding: 8px;
+    }
+  
+    /* Adjust button width for smaller screens */
+    .edu-form-submit button {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    /* Adjustments for mobile screens */
+    .edu-form-section {
+      padding: 14px;
+      border-radius: 8px;
+      /* max-width: 440px; */
+    }
+  
+    .edu-form-section-title {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+  
+    /* Smaller padding and font size for form controls */
+    .edu-form-input[type="text"],
+    .edu-form-input[type="email"],
+    .edu-form-input[type="password"],
+    .edu-form-input[type="date"],
+    .edu-form-select {
+      padding: 6px;
+      font-size: 14px;
+    }
+  
+    .edu-form-input-group-text {
+      padding: 8px;
+    }
+  
+    /* Center-align the submit button */
+    .edu-form-submit button {
+      width: 100%;
+      max-width: none;
+      border-radius: 50px;
+      font-size: 16px;
+    }
+  
+    .edu-form-checkbox-section label {
+      font-size: 12px;
+    }
+  }
+  
+  /* for smaller screen */
+  @media (max-width: 480px) {
+    .edu-form-section {
+      padding: 10px;
+      /* max-width: 100%; */
+    }
+  
+    .edu-form-section-title {
+      font-size: 16px;
+    }
+  
+    .edu-form-input[type="text"],
+    .edu-form-input[type="email"],
+    .edu-form-input[type="password"],
+    .edu-form-input[type="date"],
+    .edu-form-select {
+      padding: 5px;
+      font-size: 12px;
+    }
+  
+    .edu-form-input-group-text {
+      padding: 6px;
+    }
+  
+    .edu-form-submit button {
+      padding: 8px 16px;
+      font-size: 12px;
+    }
+  
+    .edu-form-checkbox-section label {
+      font-size: 10px;
+    }
+  }
+  
+  .edu-form-email-popup {
+    position: fixed; /* Fixed position to cover the entire screen */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex; /* Flexbox to center the content */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  
