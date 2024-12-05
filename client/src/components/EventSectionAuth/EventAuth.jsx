@@ -79,7 +79,7 @@ const EventAuth = ({ events, isTabletView, maxVisibleCategories, toggleFilterSec
               </div>
               :
               <div className="d-flex justify-content-center">
-                <Link to={`/events/events`} className="view-event-history">
+                <Link to={`/events`} className="view-event-history">
                   Go Back to Events
                 </Link>
               </div>
