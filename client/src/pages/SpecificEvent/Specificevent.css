@@ -2,24 +2,7 @@
 
 .specific-event-page {
   position: relative;
-  background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), var(--bg-image); /* Use the dynamic background image */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
-/* Create a blur effect using a pseudo-element */
-.specific-event-page::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.5); /* White overlay */
-  backdrop-filter: blur(20px); /* Apply the blur effect */
-  z-index: 0; /* Place it behind the content */
+  margin: 0;
 }
 
 
@@ -32,20 +15,8 @@
   padding: 50px 20px;
   max-width: 1200px;
   margin: 0 auto; /* Center the content */
-  background: transparent; /* Transparent background */
-  z-index: 2; /* Ensure this section is above the background */
 }
 
-/* Transparent and blurred pseudo-element to add more blur effect */
-.specific-event-section::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1; /* Lower than content to place behind */
-}
 
 /* Sidebar container styles */
 .specific-event-sidebar {
@@ -57,7 +28,6 @@
   border: 1px solid #ddd;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* Light shadow */
   position: relative; /* Ensure correct stacking */
-  z-index: 2; /* Higher than the blur */
 }
 
 /* Sidebar card styling */
@@ -73,7 +43,6 @@
   flex: 1; /* Main content takes the remaining space */
   max-width: calc(100% - 320px); /* Calculate max width based on sidebar width and gap */
   position: relative;
-  z-index: 2; /* Higher than blur overlay */
 }
 
 /* Event details container */

@@ -75,16 +75,11 @@ const SpecificEvent = () => {
   }
 
   return (
-    <div
-      className="specific-event-page"
-      style={{
+    <div className="specific-event-page">
+      <div className="background" style={{
         backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
-        backgroundRepeat: 'no-repeat',
-      }}
-    >
+      }}>
+      </div>
       <Navbar />
       <Swiper navigation style={{ height: '100%' }}>
         {eventData.photos.map((photo, index) => (
@@ -101,7 +96,7 @@ const SpecificEvent = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="specific-event-section">
+      <div className="specific-event-section glass">
         <SpecificEventSidebar
           daysToGo={calculateDaysToGo(eventData.event_date)}
           date={eventData.event_date}
