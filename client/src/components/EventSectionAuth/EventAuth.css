@@ -31,9 +31,6 @@
 
 /* Filter search section and categories */
 .filter-search-section {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   cursor: pointer;
 }
 
@@ -41,7 +38,7 @@
 .filter-event-wrapper {
   display: flex;
   text-align: end;
-  width: 100%;
+  min-width: fit-content;
   align-items: center;
 }
 
