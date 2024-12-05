@@ -31,6 +31,7 @@ import echo from './echo';
 import SurveyPopupModal from './components/SurveyPopupModal/SurveyPopupModal';
 import Discussions from './pages/Discussions/Discussions';
 import SpecificDiscussion from './pages/SpecificDiscussion/SpecificDiscussion';
+import SpecificAnsweredSurvey from './pages/SpecificAnsweredSurvey/SpecificAnsweredSurvey';
 import api from './api';
 import { useSelector } from 'react-redux';
 
@@ -102,6 +103,7 @@ function App() {
           <Route path="/admin/survey-feedback" element={<AdminSurveyDashboard />} />
           <Route path="/admin/survey/:surveyId" element={<SurveyInformationResponses />} />
           <Route path="/admin/create-survey" element={<CreateSurvey />} />
+          <Route path="/admin/survey/answered" element={<SpecificAnsweredSurvey/>} />
         </Route>
       </Routes>
     </Router>
