@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import AdminSidebar from '../../components/AdminSidebar/AdminSidebar';
 import './SurveyInformationResponses.css';
@@ -11,11 +11,10 @@ const SurveyInformationResponses = () => {
   const [survey, setSurvey] = useState(null);
   const [responses, setResponses] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showTable  , setShowTable] = useState(false);
+  const [showTable, setShowTable] = useState(true); // Default to table view
 
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
-
-  console.log(survey)
+  const navigate = useNavigate(); // To navigate programmatically
 
   useEffect(() => {
     const fetchSurveyData = async () => {
@@ -31,7 +30,7 @@ const SurveyInformationResponses = () => {
         const responsesResponse = await axios.get(`/api/admin/survey/${surveyId}/responses`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        
+
         // Organize responses by alumni
         const organizedResponses = responsesResponse.data.data.sections.flatMap(section =>
           section.questions.flatMap(question =>
@@ -63,6 +62,7 @@ const SurveyInformationResponses = () => {
 
       if (!grouped[alumniKey]) {
         grouped[alumniKey] = {
+          alumni_id: response.alumni_id, // Adding alumni_id for the link
           alumni_name: `${response.alumni_first_name} ${response.alumni_last_name}`,
           alumni_email: response.alumni_email,
           response_date: new Date().toLocaleDateString(),
@@ -109,7 +109,12 @@ const SurveyInformationResponses = () => {
 
   const toggleTableVisibility = () => {
     setShowTable(prev => !prev);
-  }
+  };
+
+  // Navigate to the specific alumni response page
+  const handleCardClick = (alumniId) => {
+    navigate(`/admin/survey/${surveyId}/response/${alumniId}`);
+  };
 
   return (
     <div className={`survey-info-responses-container ${isMobile ? 'mobile' : ''}`}>
@@ -145,50 +150,73 @@ const SurveyInformationResponses = () => {
             </div>
           ))}
 
-          {/* Survey Responses Table */}
+          {/* Survey Responses Toggle */}
           <div className='d-flex justify-content-between align-items-center'>
             <h2 className='survey-info-subtitle'>Survey Responses</h2>
             <div className="d-flex gap-2">
-             <button className="btn btn-secondary" onClick={toggleTableVisibility}>
-                {showTable ? 'Hide Table' : 'Show Table'}
+              <button className="btn btn-secondary" onClick={toggleTableVisibility}>
+                {showTable ? 'Show Card View' : 'Show Table'}
               </button>
               <button className="btn export-as-csv-btn" onClick={exportAsCSV}>Export as CSV</button>
-             
             </div>
-             
           </div>
 
-          {showTable && (
-          <div className="table-responsive">
-            <table className="table table-bordered table-hover">
-              <thead className="thead-light">
-                <tr>
-                  <th>Alumni Name</th>
-                  <th>Email</th>
-                  <th>Response Date</th>
-                  {survey.sections.flatMap(section =>
-                    section.questions.map(question => (
-                      <th key={question.question_id}>{question.question_text}</th>
-                    ))
-                  )}
-                </tr>
-              </thead>
-              <tbody>
-                {groupResponsesByAlumni().map((alumni, index) => (
-                  <tr key={index}>
-                    <td>{alumni.alumni_name}</td>
-                    <td>{alumni.alumni_email}</td>
-                    <td>{alumni.response_date}</td>
+          {/* Conditional Rendering for Table or Card View */}
+          {showTable ? (
+            <div className="table-responsive">
+              <table className="table table-bordered table-hover">
+                <thead className="thead-light">
+                  <tr>
+                    <th>Alumni Name</th>
+                    <th>Email</th>
+                    <th>Response Date</th>
                     {survey.sections.flatMap(section =>
                       section.questions.map(question => (
-                        <td key={question.question_id}>{alumni.answers[question.question_id] || 'No Response'}</td>
+                        <th key={question.question_id}>{question.question_text}</th>
                       ))
                     )}
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {groupResponsesByAlumni().map((alumni, index) => (
+                    <tr key={index}>
+                      <td>{alumni.alumni_name}</td>
+                      <td>{alumni.alumni_email}</td>
+                      <td>{alumni.response_date}</td>
+                      {survey.sections.flatMap(section =>
+                        section.questions.map(question => (
+                          <td key={question.question_id}>{alumni.answers[question.question_id] || 'No Response'}</td>
+                        ))
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="card-view">
+              {groupResponsesByAlumni().map((alumni, index) => (
+                <div key={index} className="card mb-3" onClick={() => handleCardClick(alumni.alumni_id)}>
+                  <div className="card-body">
+                    <h5 className="card-title">{alumni.alumni_name} - {alumni.alumni_email}</h5>
+                    <p className="card-text"><strong>Response Date:</strong> {alumni.response_date}</p>
+                    <ul>
+                      {survey.sections.map(section => (
+                        <li key={section.section_id}>
+                          <h6>{section.section_title}</h6>
+                          {section.questions.map(question => (
+                            <div key={question.question_id}>
+                              <strong>{question.question_text}:</strong>
+                              <p>{alumni.answers[question.question_id] || 'No Response'}</p>
+                            </div>
+                          ))}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
         </div>
       )}

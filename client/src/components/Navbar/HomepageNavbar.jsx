@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './HomepageNavbar.css';
 import { useNavigate } from 'react-router-dom';
 import { Link, useLocation } from 'react-router-dom';
 import PupLogo from '../../assets/images/pup-logo.png';
-import OtherLogo from '../../assets/images/graduate-logo.png';
+import GraduateLogo from '../../assets/images/graduate-logo.png';
+import BagongPilipinasLogo from '../../assets/images/bagong-pilipinas-logo.png';
 import { useSelector } from 'react-redux';
 import NotificationMenu from '../NotificationMenu/NotificationMenu';
 import userIcon from '../../assets/images/user.png';
 
-const HomepageNavbar = () => {
+const HomepageNavbar = ({backgroundImage}) => {
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,8 +38,16 @@ const HomepageNavbar = () => {
     }, 100); // Small delay to allow the page to navigate to the homepage
   };
 
+  const navLinks = [
+    { name: 'Home', section: 'home' },
+    { name: 'Events', section: 'events' },
+    { name: 'Features', section: 'features' },
+    { name: 'About Us', section: 'about' },
+    { name: 'Contact', section: 'contact' },
+  ];
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light py-0 shadow-sm">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light py-0 shadow-sm" style={{backgroundImage: `url(${backgroundImage})`}}>
       <div className="container d-flex justify-content-between align-items-center">
         <Link className="navbar-brand d-flex align-items-center" to="/">
           <div className="d-flex align-items-center">
@@ -50,8 +59,15 @@ const HomepageNavbar = () => {
               className="navbar-logo"
             />
             <img
-              src={OtherLogo}
-              alt="Other Logo"
+              src={GraduateLogo}
+              alt="Graduate Logo"
+              width="65"
+              height="65"
+              className="navbar-logo ms-2"
+            />
+            <img
+              src={BagongPilipinasLogo}
+              alt="Bagong Pipipinas Logo"
               width="65"
               height="65"
               className="navbar-logo ms-2"
@@ -73,37 +89,37 @@ const HomepageNavbar = () => {
         {/* Desktop menu */}
         <div className="collapse navbar-collapse d-none d-lg-block" id="navbarNav">
           <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-              <button className="nav-link" onClick={() => handleNavLinkClick('home')}>Home</button>
-            </li>
-            <li className="nav-item">
-              <button className="nav-link" onClick={() => handleNavLinkClick('events')}>Events</button>
-            </li>
-            <li className="nav-item">
-              <button className="nav-link" onClick={() => handleNavLinkClick('features')}>Features</button>
-            </li>
-            <li className="nav-item">
-              <button className="nav-link" onClick={() => handleNavLinkClick('about')}>About Us</button>
-            </li>
-            <li className="nav-item">
-              <button className="nav-link" onClick={() => handleNavLinkClick('contact')}>Contact</button>
-            </li>
-          </ul>
-
-
-          {
-            user ? (
-              <>
-              <NotificationMenu />
-              <Link to="/profile" className="nav-link">
-              <img src={userIcon} alt="User" width="30" height="30" />
-              </Link>
-
-              </>
+            {navLinks.map((link) => (
+              <li className="nav-item" key={link.section}>
+                <button className="nav-link" onClick={() => handleNavLinkClick(link.section)}>
+                  {link.name}
+                </button>
+              </li>
+            ))}
+            {user ? (
+              <li className="nav-item d-flex">
+                <NotificationMenu />
+                <Link to="/profile" className="nav-link">
+                  {user?.profile_picture
+                    ? <img
+                      src={user?.profile_picture ? `http://localhost:8000/storage/${user?.profile_picture}` : '/pfp.jpg'}
+                      alt={`${user.first_name}'s profile`}
+                      className="img-fluid rounded-circle navbar-profile-image"
+                    /> :
+                    <img
+                      src={userIcon}
+                      alt={`${user.first_name}'s profile`}
+                      className="img-fluid rounded-circle navbar-profile-image"
+                    />
+                  }
+                </Link>
+              </li>
             ) : (
-              <button onClick={() => navigate('/login')} className="btn btn-nav-signin ms-3">Sign In</button>
-            )
-          }
+              <li className="nav-item">
+                <Link to="/login" className="nav-link">Login</Link>
+              </li>
+            )}
+          </ul>
         </div>
       </div>
 
@@ -114,34 +130,35 @@ const HomepageNavbar = () => {
           &times;
         </button>
         <ul className="drawer-nav">
-          <li className="drawer-item">
-            <button className="drawer-link" onClick={() => handleNavLinkClick('home')}>Home</button>
-          </li>
-          <li className="drawer-item">
-            <button className="drawer-link" onClick={() => handleNavLinkClick('events')}>Events</button>
-          </li>
-          <li className="drawer-item">
-            <button className="drawer-link" onClick={() => handleNavLinkClick('features')}>Features</button>
-          </li>
-          <li className="drawer-item">
-            <button className="drawer-link" onClick={() => handleNavLinkClick('about')}>About Us</button>
-          </li>
-          <li className="drawer-item">
-            <button className="drawer-link" onClick={() => handleNavLinkClick('contact')}>Contact</button>
-          </li>
-          { user ? (
-            <>
+          {navLinks.map((link) => (
+            <li className="drawer-item" key={link.section}>
+              <button className="drawer-link" onClick={() => handleNavLinkClick(link.section)}>
+                {link.name}
+              </button>
+            </li>
+          ))}
+          {user ? (
+            <li className="drawer-item" key={'profile'}>
               <NotificationMenu />
               <Link to="/profile" className="drawer-link">
-                <img src={userIcon}
-                  alt="User"
-                  width="30"
-                  height="30"
+                {user?.profile_picture
+                  ? <img
+                    src={user?.profile_picture ? `http://localhost:8000/storage/${user?.profile_picture}` : '/pfp.jpg'}
+                    alt={`${user.first_name}'s profile`}
+                    className="img-fluid rounded-circle navbar-profile-image"
+                  /> :
+                  <img
+                    src={userIcon}
+                    alt={`${user.first_name}'s profile`}
+                    className="img-fluid rounded-circle navbar-profile-image"
                   />
+                }
               </Link>
-            </>
+            </li>
           ) : (
-            <button onClick={() => { setDrawerOpen(false); navigate('/login'); }} className="btn btn-nav-signin mt-3">Sign In</button>
+            <li className="drawer-item" key={'login'}>
+              <Link to="/login" className="drawer-link">Login</Link>
+            </li>
           )}
         </ul>
       </div>

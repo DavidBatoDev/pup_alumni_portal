@@ -196,6 +196,10 @@ const SpecificDiscussion = () => {
     }
   };
 
+  const handleEdit = (thread)  => {
+    console.log('Edit thread:', thread?.thread_id);
+  }
+
   return (
     <div className="specific-discussions-page">
       <Navbar />
@@ -225,7 +229,14 @@ const SpecificDiscussion = () => {
         <div className="row specific-discussion-container">
 
           {/* DiscussionCardThread Post */}
-          {!loading && <DiscussionCardThread thread={thread} handleComment={scrollToCommentSection} submitVote={submitVote} handleOpenImage={handleOpenImage} />}
+          {!loading &&
+            <DiscussionCardThread
+              thread={thread}
+              handleComment={scrollToCommentSection}
+              submitVote={submitVote}
+              handleOpenImage={handleOpenImage}
+              handleEdit={handleEdit}
+            />}
 
           <div className="comment-container d-flex flex-column px-3 py-2">
             {/* Comments Input */}

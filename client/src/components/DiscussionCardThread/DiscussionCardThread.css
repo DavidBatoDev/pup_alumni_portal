@@ -20,6 +20,14 @@
   object-fit: cover;
 }
 
+.discussion-card-thread i {
+  color: #6D6D6D;
+}
+
+.discussion-card-thread i:hover {
+  color: #1E1E1E;
+}
+
 .discussion-card-thread p {
   color: #6D6D6D;
   font-family: 'Raleway', sans-serif;

@@ -5,6 +5,30 @@
   .navbar {
     height: 70px; /* Fixed height to match design */
     padding: 0;
+    object-fit: contain;
+
+    z-index: 1;
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+
+  }
+
+  .navbar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;;
+    background-color: rgb(255,255,255, 0);
+    transition: background-color 0.2s ease-in-out, backdrop-filter 0.3s ease-in-out;
+  }
+  .navbar:hover::before {
+    background-color: rgb(255,255,255, 0.1);
+    backdrop-filter: blur(5px);
   }
 
   .navbar-brand {
@@ -34,11 +58,18 @@
 
   /* Navbar link styling */
   .navbar-nav .nav-link {
-    font-size: 14px;
+
+    font-size: 1rem;
     font-style: normal;
-    margin-right: 20px;
     color: #000;
-    font-weight: 500;
+    font-weight: 550;
+  }
+
+  .navbar-nav .nav-item {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .navbar-nav .nav-link:hover {
@@ -53,6 +84,13 @@
     color: white;
     font-weight: 600;
     border: none;
+  }
+
+  .nav-item .navbar-profile-image {
+    width: 3rem;
+    height: 3rem;
+    object-fit: cover !important;
+    border-radius: 50%;
   }
 
   .btn-nav-signin:hover {
@@ -144,26 +182,26 @@
     .navbar {
       height: auto; /* Auto height for mobile */
     }
-  
+
     .navbar-logo {
       width: 40px;
       height: 40px;
     }
-  
+
     .header-title {
       display: none;
       font-size: 12px;
     }
-  
+
     .drawer {
       width: 50%;
       display: block;
     }
-  
+
     .drawer-link {
       font-size: 18px;
     }
-  
+
     .drawer-close-btn {
       font-size: 24px;
     }
