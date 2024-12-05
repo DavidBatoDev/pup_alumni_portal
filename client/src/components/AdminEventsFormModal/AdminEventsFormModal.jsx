@@ -14,7 +14,9 @@ const AdminEventsFormModal = ({
   isEditing,
   currentEventId,
   eventsList,
+  inactiveEventsList,
   setEventsList,
+  setInactiveEventsList,
   setUpdateSuccess,
   isMobile,
 }) => {
@@ -92,6 +94,7 @@ const AdminEventsFormModal = ({
       type: '',
       category: '',
       organization: '',
+      is_active: true,
     });
     resetValidation();
     setPhotoPreviews([]);
@@ -120,6 +123,7 @@ const AdminEventsFormModal = ({
             type: eventDetails.type,
             category: eventDetails.category,
             organization: eventDetails.organization,
+            is_active: eventDetails.is_active
           });
 
           setPhotoPreviews(existingPhotoUrls);
@@ -193,13 +197,20 @@ const AdminEventsFormModal = ({
   
       if (response.status === 200 || response.status === 201) {
         const updatedEvent = response.data.event;
-        if (isEditing) {
+        if (isEditing && newEvent.is_active) {
           const updatedEventList = eventsList.map((event) =>
             event.event_id === currentEventId ? { ...event, ...updatedEvent } : event
           );
           setEventsList(updatedEventList);
           setAlert({ message: 'Event updated successfully!', severity: 'success' });
-        } else {
+        } else if (isEditing && !newEvent.is_active) {
+          const updatedEventList = inactiveEventsList.map((event) => 
+            event.event_id === currentEventId ? { ...event, ...updatedEvent } : event
+          );
+          setInactiveEventsList(updatedEventList);
+          setAlert({ message: 'Event updated successfully!', severity: 'success' });
+        }
+        else {
           setEventsList((prevList) => [...prevList, updatedEvent]);
           setAlert({ message: 'Event added successfully!', severity: 'success' });
         }
@@ -222,36 +233,9 @@ const AdminEventsFormModal = ({
     }
   };
 
-  const handleEndEvent = () => {
-    try {
-
-      const response = axios.put(`/api/admin/event/${currentEventId}/end`, null, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-      const updatedEventList = eventsList.map((event) =>
-        event.event_id === currentEventId ? { ...event, is_ended: true } : event
-      );
-      setEventsList(updatedEventList);
-
-      setAlert({ message: 'Event ended successfully!', severity: 'success' });
-      setUpdateSuccess(true);
-
-      // Delay modal close to let the alert display
-      setTimeout(() => {
-        closeModal();
-      }, 2000); // Keep the modal open for 2 seconds
-
-    } catch (error) {
-      console.error('Error ending event:', error);
-      setAlert({ message: 'Error occurred while ending the event. Please try again.', severity: 'error' });
-    }
-  };
-  
-
   const handleDeleteEvent = async () => {
     try {
+      let theEventList = newEvent.is_active ? eventsList : inactiveEventsList;
       setLoading(true);
       const response = await axios.delete(`/api/admin/event/${currentEventId}`, {
         headers: {
@@ -260,8 +244,9 @@ const AdminEventsFormModal = ({
       });
   
       if (response.status === 200) {
-        const updatedEventList = eventsList.filter((event) => event.event_id !== currentEventId);
-        setEventsList(updatedEventList);
+        const updatedEventList = theEventList.filter((event) => event.event_id !== currentEventId);
+        if (newEvent.is_active) setEventsList(updatedEventList);
+        else setInactiveEventsList(updatedEventList);
   
         // Display success alert and delay modal closure
         setAlert({ message: 'Event deleted successfully!', severity: 'success' });
@@ -277,7 +262,7 @@ const AdminEventsFormModal = ({
         setAlert({ message: 'Failed to delete event. Please try again.', severity: 'error' });
       }
     } catch (error) {
-      console.error('Error deleting event:', error);
+      console.log('Error deleting event:', error);
       setAlert({ message: 'Error occurred while deleting the event. Please try again.', severity: 'error' });
     } finally {
       setLoading(false);
@@ -297,7 +282,87 @@ const AdminEventsFormModal = ({
     }
     
   }
+
+  const handleEndEvent = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.put(`/api/admin/event/${currentEventId}/end`, null, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      console.log('response:', response);
+
+      if (response.status == 200) {
+        // find the event in the active event list
+        const theEvent = eventsList.find((event) => event.event_id === currentEventId);
+
+        const updatedEventList = eventsList.filter((event) => event.event_id !== currentEventId);
+        setEventsList(updatedEventList);
   
+        const updatedInActiveEventList = [...inactiveEventsList, theEvent];
+        setInactiveEventsList(updatedInActiveEventList);
+  
+        setAlert({ message: 'Event ended successfully!', severity: 'success' });
+        setUpdateSuccess(true);
+  
+        // Delay modal close to let the alert display
+        setTimeout(() => {
+          closeModal();
+          setAlert({ message: '', severity: '' });
+        }, 2000); // Keep the modal open for 2 seconds
+      }
+    } catch (error) {
+      console.log('Error ending event:', error);
+      setAlert({ message: 'Error occurred while ending the event. Please try again.', severity: 'error' });
+    }
+    finally {
+      setLoading(false);
+    }
+  };
+  
+
+
+  const handleReOpenEvent = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.put(`/api/admin/event/${currentEventId}/unend`, null, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (response.status === 200) {
+        // get the event from the inactive event list 
+        const theEvent = inactiveEventsList.find((event) => event.event_id === currentEventId);
+
+        const updatedInActiveEventList = inactiveEventsList.filter((event) =>
+          event.event_id !== currentEventId
+        );
+        setInactiveEventsList(updatedInActiveEventList);
+
+        // append the event to the active event list
+        const updatedEventList = [...eventsList, theEvent];
+        setEventsList(updatedEventList);
+
+        setAlert({ message: 'Event reopened successfully!', severity: 'success' });
+
+        // Delay modal close to let the alert display
+        setTimeout(() => {
+          closeModal();
+          setAlert({ message: '', severity: '' });
+        }, 2000); // Keep the modal open for 2 seconds
+      }
+    }
+    catch (error) {
+      console.error('Error reopening event:', error);
+      setAlert({ message: 'Error occurred while reopening the event. Please try again.', severity: 'error' });
+    }
+    finally {
+      setLoading(false);
+    }
+  }
   
 
   return (
@@ -480,7 +545,7 @@ const AdminEventsFormModal = ({
                   [{ list: 'ordered' }, { list: 'bullet' }],
                   [{ indent: '-1' }, { indent: '+1' }],
                   [{ align: [] }],
-                  ['link', 'image'],
+                  ['link'],
                   ['clean'],
                 ],
               }}
@@ -519,9 +584,18 @@ const AdminEventsFormModal = ({
           </button>
 
           {/* End event */}
+          {newEvent.is_active == true && isEditing && (
           <button type="button" className="events-form-btn end-event-btn" onClick={handleEndEvent} disabled={loading}>
             End Event
           </button>
+          )}
+
+          {!newEvent.is_active && isEditing && (
+            <button type="button" className="events-form-btn end-event-btn" onClick={handleReOpenEvent} disabled={loading}>
+              Reopen Event
+            </button>
+          )
+          }
 
           {isEditing && (
             <button

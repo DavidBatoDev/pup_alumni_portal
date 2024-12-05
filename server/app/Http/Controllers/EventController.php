@@ -227,6 +227,32 @@ class EventController extends Controller
         return response()->json(['success' => true, 'message' => 'Event ended successfully.'], 200);
     }
 
+            /**
+     * Unend event (Admin only).
+     *
+     * @param int $eventId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function unendEvent($eventId)
+    {
+        // Find the event by ID
+        $event = Event::find($eventId);
+
+        if (!$event) {
+            return response()->json(['error' => 'Event not found'], 404);
+        }
+
+        // Check if the event is already active
+        if ($event->is_active) {
+            return response()->json(['error' => 'Event is already active'], 400);
+        }
+
+        // Mark the event as active
+        $event->is_active = true;
+        $event->save();
+
+        return response()->json(['success' => true, 'message' => 'Event unended successfully.'], 200);
+    }
 
 
     /**

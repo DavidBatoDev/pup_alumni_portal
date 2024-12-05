@@ -150,6 +150,9 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     // Admin-specific route to end an event
     Route::put('/admin/event/{eventId}/end', [EventController::class, 'endEvent']);
 
+    // Admin-specific route to unend an event
+    Route::put('/admin/event/{eventId}/unend', [EventController::class, 'unendEvent']);
+
 
     // Admin-specific route to get registered alumni for a specific event
     Route::get('/admin/event/{eventId}/registered-alumni', [EventController::class, 'getRegisteredAlumniForEvent']);

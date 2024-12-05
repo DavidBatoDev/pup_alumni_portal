@@ -144,7 +144,9 @@ const AdminEventsDashboard = () => {
         isEditing={isEditing}
         currentEventId={currentEventId}
         eventsList={eventsList}
+        inactiveEventsList={inactiveEventsList}
         setEventsList={setEventsList}
+        setInactiveEventsList={setInactiveEventsList}
         setUpdateSuccess={setUpdateSuccess}
         isMobile={isMobile}
       />
