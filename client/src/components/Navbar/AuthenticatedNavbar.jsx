@@ -34,8 +34,6 @@ const AuthenticatedNavbar = ({backgroundImage}) => {
     { id: "discussions", label: "Discussions" },
   ];
 
-  console.log(user?.profile_picture)
-
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light py-0 shadow-sm" style={{backgroundImage: `url(${backgroundImage})`}}>
       <div className="container d-flex justify-content-between align-items-center">
