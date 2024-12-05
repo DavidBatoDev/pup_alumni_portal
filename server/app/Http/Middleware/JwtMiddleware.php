@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -19,35 +20,29 @@ class JwtMiddleware
     public function handle($request, Closure $next)
     {
         try {
-            // Try to authenticate using the token
+            // Authenticate the user using the token
             $user = JWTAuth::parseToken()->authenticate();
         } catch (TokenExpiredException $e) {
-            // Return a 401 response for expired tokens
-            try {
-                // Refresh the token
-                $newToken = JWTAuth::refresh(JWTAuth::getToken());
-    
-                // Return the new token in the response
-                return response()->json([
-                    'success' => true,
-                    'token' => $newToken,
-                ], 200);
-            } catch (\Exception $e) {
-                // Handle exceptions such as expired token or no token found
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Unable to refresh token: ' . $e->getMessage(),
-                ], 400);
-            }
+            // If the token is expired, return a 401 error
+            return response()->json([
+                'success' => false,
+                'message' => 'Token has expired',
+            ], 401);
         } catch (TokenInvalidException $e) {
-            // Return a 401 response for invalid tokens
-            return response()->json(['error' => 'Token is invalid'], 401);
+            // If the token is invalid, return a 401 error
+            return response()->json([
+                'success' => false,
+                'message' => 'Token is invalid',
+            ], 401);
         } catch (Exception $e) {
-            // Return a 401 response for any other token issues
-            return response()->json(['error' => 'Authorization token not found'], 401);
+            // If no token is found or other errors occur, return a 401 error
+            return response()->json([
+                'success' => false,
+                'message' => 'Authorization token not found',
+            ], 401);
         }
 
-        // If token is valid, proceed with the request
+        // If the token is valid, proceed with the request
         return $next($request);
     }
 }

@@ -6,6 +6,7 @@ import axios from 'axios';
 import echo from '../../echo';
 
 import NotificationItem from '../NotificationItem/NotificationItem';
+import api from '../../api';
 
 const NotificationMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,11 +50,7 @@ const NotificationMenu = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get('/api/notifications', {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
-        });
+        const response = await api.get('/api/notifications');
         setNotifications(response.data.data);
       } catch (error) {
         console.log('Error fetching notification:', error);
@@ -73,6 +70,8 @@ const NotificationMenu = () => {
   const toggleMenu = () => {
     setIsOpen((prevState) => !prevState);
   };
+
+  console.log(notifications);
 
   return (
     <div className="notification-container" ref={menuRef}>

@@ -52,20 +52,30 @@ class AuthController extends Controller
         try {
             // Refresh the token
             $newToken = JWTAuth::refresh(JWTAuth::getToken());
-
-            // Return the new token in the response
+    
+            // Return only the new token
             return response()->json([
                 'success' => true,
                 'token' => $newToken,
             ], 200);
-        } catch (\Exception $e) {
-            // Handle exceptions such as expired token or no token found
+        } catch (TokenExpiredException $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Unable to refresh token: ' . $e->getMessage(),
+                'message' => 'Token has expired and cannot be refreshed.',
+            ], 401);
+        } catch (TokenBlacklistedException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unable to refresh token: The token has been blacklisted.',
+            ], 400);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred: ' . $e->getMessage(),
             ], 400);
         }
     }
+    
 
 
     // route that check if the email or student Number already exist in the Alumni table

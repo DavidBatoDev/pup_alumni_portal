@@ -10,7 +10,8 @@ const api = axios.create({
 
 // Function to get the access token from localStorage
 const getToken = () => {
-  return localStorage.getItem("token");
+  const token = localStorage.getItem("token");
+  return token && token.trim() ? token : null; // Ensure token is not empty
 };
 
 // Function to save the new access token
@@ -35,25 +36,24 @@ api.interceptors.request.use(
 // Response Interceptor: Handle token expiration and refreshing
 api.interceptors.response.use(
   (response) => {
-    // Return the response directly if successful
+    // If the response is successful, return it directly
     return response;
   },
   async (error) => {
     const originalRequest = error.config;
 
-    // If the error is due to a 401 Unauthorized response (token expired)
+    // Check if the error is due to token expiration
     if (
       error.response &&
       error.response.status === 401 &&
       !originalRequest._retry
     ) {
-      originalRequest._retry = true; // Prevent infinite retry loop
+      originalRequest._retry = true;
 
       try {
-        // Send a request to refresh the token using the refresh token
-        const refreshTokenResponse = await axios.post(
+        // Call the refresh token endpoint
+        const refreshTokenResponse = await axios.get(
           "http://localhost:8000/api/refresh-token",
-          null,
           {
             headers: { Authorization: `Bearer ${getToken()}` },
           }
@@ -67,17 +67,21 @@ api.interceptors.response.use(
         originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
         return api(originalRequest);
       } catch (refreshError) {
-        // If the refresh token request fails, log out the user
+        // If refreshing the token fails, log the user out
+        console.error(
+          refreshError.response?.data?.message || "Failed to refresh token"
+        );
         store.dispatch(logout());
         localStorage.removeItem("token");
-        window.location.href = "/login"; // Redirect to login page
+        window.location.href = "/login";
         return Promise.reject(refreshError);
       }
     }
 
-    // Reject the error if it's not a 401 or the refresh failed
+    // If the error is not 401 or the retry fails, reject the error
     return Promise.reject(error);
   }
 );
+
 
 export default api;
