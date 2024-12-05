@@ -106,7 +106,7 @@ function App() {
           <Route path="/admin/survey-feedback" element={<AdminSurveyDashboard />} />
           <Route path="/admin/survey/:surveyId" element={<SurveyInformationResponses />} />
           <Route path="/admin/create-survey" element={<CreateSurvey />} />
-          <Route path="/admin/survey/answered" element={<SpecificAnsweredSurvey/>} />
+          <Route path="/admin/survey/:surveyId/response/:alumniId" element={<SpecificAnsweredSurvey />} />
         </Route>
       </Routes>
     </Router>
