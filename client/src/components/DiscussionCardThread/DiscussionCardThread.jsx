@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 import './DiscussionCardThread.css';
 
 const DiscussionCardThread = ({ thread, handleComment, submitVote, handleOpenImage }) => {
   const [vote, setVote] = useState(thread?.user_vote || null); // null: no vote, 'upvote': upvoted, 'downvote': downvoted
   const [voteCount, setVoteCount] = useState(thread?.upvotes - thread?.downvotes || 0);
+
+  const { user } = useSelector((state) => state.user);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const maxLength = 100; // Maximum length of the truncated text
@@ -49,9 +52,9 @@ const DiscussionCardThread = ({ thread, handleComment, submitVote, handleOpenIma
     <>
       <Link className="text-decoration-none mb-2 p-3 discussion-card-thread" to={`/discussions/${thread?.thread_id}`}>
 
-        <div className="d-flex flex-column">
+        <div className="d-flex flex-column height-fit-content">
           {/* Thread Metadata */}
-          <div className="d-flex gap-2 w-100 mb-2 align-bottom align-items-center author-section">
+          <div className=" author-section d-flex gap-2 w-100 mb-2 align-bottom align-items-center">
             <Link to={`/profile/${thread?.author?.alumni_id}`}>
               <img
                 src={thread?.author?.profile_picture || "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"}
@@ -62,13 +65,21 @@ const DiscussionCardThread = ({ thread, handleComment, submitVote, handleOpenIma
             <div className='d-flex flex-column'>
               <Link className="text-decoration-none" to={`/profile/${thread?.author?.alumni_id}`}>
                 <p className="thread-author">{thread?.author?.name}</p>
-              </Link>
+                </Link>
               <div className='d-flex gap-2 align-bottom align-items-center'>
                 <p className="thread-num">Active {thread?.updated_at}</p>
                 <span>&middot;</span>
                 <p className="thread-num">{thread?.views} views</p>
               </div>
             </div>
+
+            {/* Edit Button */}
+            {
+            user?.alumni_id === thread?.author?.alumni_id &&
+            <div className="flex-grow-1 h-100 d-flex flex-row-reverse align-content-start px-2" onClick={() => console.log("edit")}>
+              <i className="fa-solid fa-ellipsis"></i>
+            </div>
+            }
           </div>
         </div>
         {/* Thread Title */}

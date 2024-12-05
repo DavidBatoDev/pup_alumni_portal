@@ -127,3 +127,11 @@
   background: rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
+
+.width-fit-content {
+  width: fit-content !important;
+}
+
+.height-fit-content {
+  height: fit-content !important;
+}
