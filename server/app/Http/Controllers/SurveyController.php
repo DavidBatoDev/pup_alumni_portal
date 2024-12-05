@@ -456,12 +456,17 @@ class SurveyController extends Controller
                 ->where('link', $expectedLink)
                 ->first();
 
+            \Log::info('Notification: ' . $notification);
+
             if ($notification) {
                 $alumniNotification = AlumniNotification::where('alumni_id', $alumniId)
                     ->where('notification_id', $notification->notification_id)
                     ->first();
 
-                $alumniNotification->update(['is_read' => true]);
+                if ($alumniNotification) {
+                    $alumniNotification->update(['is_read' => true]);
+                }
+
             } else {
                 \Log::info("No matching notification found for survey ID: " . $surveyId);
             }

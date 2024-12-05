@@ -189,21 +189,30 @@ class EventController extends Controller
     {
         // Find the event by ID
         $event = Event::find($eventId);
-
+    
         if (!$event) {
             return response()->json(['error' => 'Event not found'], 404);
         }
-
+    
         // Check if the event is already inactive
         if (!$event->is_active) {
             return response()->json(['error' => 'Event has already ended'], 400);
         }
-
+    
         // Mark the event as ended (inactive)
         $event->is_active = false;
         $event->save();
-
-        // Optionally, notify alumni that the event has ended
+    
+        // Remove the notification for the new event created
+        $invitationNotification = Notification::where('type', 'eventInvitation')
+            ->where('link', '/events/' . $event->event_id)
+            ->first();
+    
+        if ($invitationNotification) {
+            $invitationNotification->delete();
+        }
+    
+        // Notify alumni that the event has ended
         $notification = Notification::create([
             'type' => 'eventEnded',
             'alert' => 'Event Ended',
@@ -211,10 +220,10 @@ class EventController extends Controller
             'message' => 'The event "' . $event->event_name . '" has ended.',
             'link' => '/events/' . $event->event_id, // Link to the event details
         ]);
-
+    
         // Fetch all alumni IDs
         $alumniIds = Alumni::pluck('alumni_id');
-
+    
         // Attach the notification to all alumni
         foreach ($alumniIds as $alumniId) {
             AlumniNotification::create([
@@ -223,7 +232,7 @@ class EventController extends Controller
                 'is_read' => false,
             ]);
         }
-
+    
         return response()->json(['success' => true, 'message' => 'Event ended successfully.'], 200);
     }
 
@@ -250,6 +259,36 @@ class EventController extends Controller
         // Mark the event as active
         $event->is_active = true;
         $event->save();
+
+        // remove the notification for the new event created
+        $EndedNotifcation = Notification::where('type', 'eventEnded')
+            ->where('link', '/events/' . $event->event_id)
+            ->first();
+
+        if ($EndedNotifcation) {
+            $EndedNotifcation->delete();
+        }
+
+        // notify alumni that the event has ended
+        $notification = Notification::create([
+            'type' => 'eventInvitation',
+            'alert' => 'Event Started',
+            'title' => $event->event_name,
+            'message' => 'The event "' . $event->event_name . '" has started.',
+            'link' => '/events/' . $event->event_id, // Link to the event details
+        ]);
+
+        // Fetch all alumni IDs
+        $alumniIds = Alumni::pluck('alumni_id');
+
+        // Attach the notification to all alumni
+        foreach ($alumniIds as $alumniId) {
+            AlumniNotification::create([
+                'alumni_id' => $alumniId,
+                'notification_id' => $notification->notification_id,
+                'is_read' => false,
+            ]);
+        }
 
         return response()->json(['success' => true, 'message' => 'Event unended successfully.'], 200);
     }

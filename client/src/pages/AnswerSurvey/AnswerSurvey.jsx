@@ -143,7 +143,7 @@ const AnswerSurvey = () => {
         setTimeout(() => navigate('/surveys'), 2000);
       }
     } catch (error) {
-      console.error('Error submitting survey:', error);
+      console.log('Error submitting survey:', error);
       const errorMessage = error.response?.data?.message || 'Failed to submit survey. Please try again.';
       setStatus({ message: errorMessage, severity: 'error' });
     }
