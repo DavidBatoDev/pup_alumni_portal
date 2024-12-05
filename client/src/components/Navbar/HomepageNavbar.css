@@ -6,7 +6,7 @@
     height: 70px; /* Fixed height to match design */
     padding: 0;
   }
-
+  
   .navbar-brand {
     display: flex;
     align-items: center;
@@ -36,9 +36,15 @@
   .navbar-nav .nav-link {
     font-size: 14px;
     font-style: normal;
-    margin-right: 20px;
     color: #000;
     font-weight: 500;
+  }
+
+  .navbar-nav .nav-item {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .navbar-nav .nav-link:hover {
@@ -144,26 +150,26 @@
     .navbar {
       height: auto; /* Auto height for mobile */
     }
-  
+
     .navbar-logo {
       width: 40px;
       height: 40px;
     }
-  
+
     .header-title {
       display: none;
       font-size: 12px;
     }
-  
+
     .drawer {
       width: 50%;
       display: block;
     }
-  
+
     .drawer-link {
       font-size: 18px;
     }
-  
+
     .drawer-close-btn {
       font-size: 24px;
     }
