@@ -24,6 +24,7 @@ const AdminSpecificEvent = () => {
   const [showModal, setShowModal] = useState(false);
   const [eventsList, setEventsList] = useState([]);
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+  const [showTable, setShowTable] = useState(false);  // Toggle state for the table
 
   // Fetch event details and open modal for editing
   const handleEditEvent = (eventId) => {
@@ -118,6 +119,11 @@ const AdminSpecificEvent = () => {
     URL.revokeObjectURL(url);
   };
 
+   // Toggle table visibility
+   const toggleTableVisibility = () => {
+    setShowTable(prev => !prev);
+  };
+
   return (
     <div className='admin-specific-event'>
       {alert && <CustomAlert type={alert.type} message={alert.message} onClose={() => { setAlert({ type: '', severity: '' }) }} />}
@@ -160,9 +166,16 @@ const AdminSpecificEvent = () => {
           {/* Table and Export Button */}
           <div className='d-flex justify-content-between align-items-center'>
             <h2 className='survey-info-subtitle'>Participants</h2>
-            <button className="btn export-as-csv-btn" onClick={exportAsCSV}>Export as CSV</button>
+            <div className="d-flex gap-2">
+              {/* Show Table Toggle Button */}
+              <button className="btn btn-secondary" onClick={toggleTableVisibility}>
+                {showTable ? 'Hide Table' : 'Show Table'}
+              </button>
+              <button className='btn export-as-csv-btn' onClick={exportAsCSV}>Export as CSV</button>
+            </div>
           </div>
 
+          {showTable && (
           <div className='table-responsive'>
             <table className='table table-striped table-hover'>
               <thead className='thead-light'>
@@ -196,6 +209,7 @@ const AdminSpecificEvent = () => {
               </tbody>
             </table>
           </div>
+          )}
         </div>
       </div>
     </div>
