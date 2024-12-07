@@ -306,7 +306,7 @@ const Signup = () => {
       <Navbar />
 
       {linkedinError && <CustomAlert severity={"warning"} message={linkedinError} onClose={() => setLinkedinError(null)} />}
-      
+
       {error && (
         <CustomAlert severity={"error"} message={error} onClose={() => setError(null)} />
       )}

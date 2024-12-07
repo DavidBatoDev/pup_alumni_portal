@@ -37,7 +37,7 @@ const DiscussionComment = ({ comment, replies, submitReply }) => {
             alt=""
           />
         </Link>
-        {replies?.length > 0 && <div className='reply-line'></div>}
+        {replies?.length > 0 && <div className='reply-line' onClick={() => setShowReplies(!showReplies)}></div>}
       </div>
 
       <div className='d-flex flex-column gap-1 w-100'>
